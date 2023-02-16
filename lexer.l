@@ -108,40 +108,40 @@ record  {yylval.val = strdup(yytext); return(RECORD);}
 transitive  {yylval.val = strdup(yytext); return(TRANSITIVE);}
 yield  {yylval.val = strdup(yytext); return(YIELD);}
 
-
-true|false|null {yylval.val = strdup(yytext); return(LITERAL);}
+true|false {yylval.val = strdup(yytext); return(BOOLEANLITERAL);}
+null {yylval.val = strdup(yytext); return(NULLLITERAL);}
 
 
 {let}{ledig}* {yylval.val = strdup(yytext); return(ID);}
 
 
-("0"|({nzd}({digs}?|("_"+{digs}))))[lL]?   {yylval.val = strdup(yytext); return(LITERAL); /*Decimal*/}
+("0"|({nzd}({digs}?|("_"+{digs}))))[lL]?   {yylval.val = strdup(yytext); return(INTEGERLITERAL); /*Decimal*/}
 
-("0x"{hexdigs}|"0X"{hexdigs})[lL]?         {yylval.val = strdup(yytext); return(LITERAL); /*Hex*/}
+("0x"{hexdigs}|"0X"{hexdigs})[lL]?         {yylval.val = strdup(yytext); return(INTEGERLITERAL); /*Hex*/}
 
-("0"[_]*{octdigs})[lL]?                    {yylval.val = strdup(yytext); return(LITERAL); /*Octal*/}
+("0"[_]*{octdigs})[lL]?                    {yylval.val = strdup(yytext); return(INTEGERLITERAL); /*Octal*/}
 
-("0b"{bindigs}|"0B"{bindigs})[lL]?         {yylval.val = strdup(yytext); return(LITERAL); /*Binary*/}
+("0b"{bindigs}|"0B"{bindigs})[lL]?         {yylval.val = strdup(yytext); return(INTEGERLITERAL); /*Binary*/}
 
-{digs}"."{digs}?([eE][+-]?{digs})?[fFdD]?   {yylval.val = strdup(yytext); return(LITERAL); /*Float*/}
-"."{digs}([eE][+-]?{digs})?[fFdD]?         {yylval.val = strdup(yytext); return(LITERAL); /*float*/}
-{digs}([eE][+-]?{digs})[fFdD]?             {yylval.val = strdup(yytext); return(LITERAL); /*float*/}
-{digs}([eE][+-]?{digs})?[fFdD]             {yylval.val = strdup(yytext); return(LITERAL); /*float*/}
-
-
-(((("0x"{hexdigs}|"0X"{hexdigs}))"."?)|(("0x"|"0X"){hexdigs}?"."{hexdigs}))([pP][+-]?{digs})([fFdD]?) {yylval.val = strdup(yytext); return(LITERAL); /*hex float*/}
+{digs}"."{digs}?([eE][+-]?{digs})?[fFdD]?   {yylval.val = strdup(yytext); return(FLOATINGPOINTLITERAL); /*Float*/}
+"."{digs}([eE][+-]?{digs})?[fFdD]?         {yylval.val = strdup(yytext); return(FLOATINGPOINTLITERAL); /*float*/}
+{digs}([eE][+-]?{digs})[fFdD]?             {yylval.val = strdup(yytext); return(FLOATINGPOINTLITERAL); /*float*/}
+{digs}([eE][+-]?{digs})?[fFdD]             {yylval.val = strdup(yytext); return(FLOATINGPOINTLITERAL); /*float*/}
 
 
+(((("0x"{hexdigs}|"0X"{hexdigs}))"."?)|(("0x"|"0X"){hexdigs}?"."{hexdigs}))([pP][+-]?{digs})([fFdD]?) {yylval.val = strdup(yytext); return(FLOATINGPOINTLITERAL); /*hex float*/}
 
-\"\"\"[ \t\f]*([\n\r]|"\r\n")([^\\\"]|\"[^\\\"]|\"\"[^\\\"])*\"\"\"   {yylval.val = strdup(yytext); return(LITERAL); /*text*/
+
+
+\"\"\"[ \t\f]*([\n\r]|"\r\n")([^\\\"]|\"[^\\\"]|\"\"[^\\\"])*\"\"\"   {yylval.val = strdup(yytext); return(TEXTBLOCK); /*text*/
 // escape to be added
 }
 
-\'[^\r\n\'\\]\'                             {yylval.val = strdup(yytext); return(LITERAL); /*char*/
+\'[^\r\n\'\\]\'                             {yylval.val = strdup(yytext); return(CHARACTERLITERAL); /*char*/
 // escape to be added
 }
 
-\"[^\r\n\"\\]*\"                            {yylval.val = strdup(yytext); return(LITERAL); /*string*/
+\"[^\r\n\"\\]*\"                            {yylval.val = strdup(yytext); return(STRINGLITERAL); /*string*/
 // escape to be added
 }
 
@@ -149,11 +149,45 @@ true|false|null {yylval.val = strdup(yytext); return(LITERAL);}
 \'[^\']*[\r\n]                              {yylval.val = strdup(yytext); return(ERROR);}
 \"[^\""]*[\r\n]                              {yylval.val = strdup(yytext); return(ERROR);}
 
-"("|")"|"{"|"}"|"["|"]"|";"|","|"."|"..."|"@"|"::" {yylval.val = strdup(yytext); return(SEPARATOR);}
-
-"="|">"|"<"|"!"|"~"|"?"|":"|"->"|"=="|">="|"<="|"!="|"&&"|"||"|"++"|"--"|"+"|"-"|"*"|"/"|"&"|"|"|"^"|"%"|"<<"|">>"|">>>"|"+="|"-="|"*="|"/="|"&="|"|="|"^="|"%="|"<<="|">>="|">>>="     {
-
-yylval.val = strdup(yytext); return(OPERATOR);}                            
+","  {yylval.val = strdup(yytext); return(COMMA);}
+"?"  {yylval.val = strdup(yytext); return(QUESTIONMARK);}
+";"  {yylval.val = strdup(yytext); return(SEMICOLON);}
+"{"  {yylval.val = strdup(yytext); return(OPENCURLY);}
+"}"  {yylval.val = strdup(yytext); return(CLOSECURLY);}
+"<"  {yylval.val = strdup(yytext); return(ANGULARLEFT);}
+">"  {yylval.val = strdup(yytext); return(ANGULARRIGHT);}
+"["  {yylval.val = strdup(yytext); return(OPENSQUARE);}
+"]"  {yylval.val = strdup(yytext); return(CLOSESQUARE);}
+"("  {yylval.val = strdup(yytext); return(OPENPARAN);}
+")"  {yylval.val = strdup(yytext); return(CLOSEPARAN);}
+"::"  {yylval.val = strdup(yytext); return(DOUBLECOLON);}
+"="  {yylval.val = strdup(yytext); return(EQUALS);}
+"*="  {yylval.val = strdup(yytext); return(MULTIPLYEQUALS);}
+"/="  {yylval.val = strdup(yytext); return(DIVIDEEQUALS);}
+"%="  {yylval.val = strdup(yytext); return(MODEQUALS);}
+"+="  {yylval.val = strdup(yytext); return(PLUSEQUALS);}
+"-="  {yylval.val = strdup(yytext); return(MINUSEQUALS);}
+"+"  {yylval.val = strdup(yytext); return(PLUS);}
+"-"  {yylval.val = strdup(yytext); return(MINUS);}
+"/"  {yylval.val = strdup(yytext); return(DIVIDE);}
+"*"  {yylval.val = strdup(yytext); return(MULTIPLY);}
+"%"  {yylval.val = strdup(yytext); return(MOD);}
+"|"  {yylval.val = strdup(yytext); return(OR);}
+"^"  {yylval.val = strdup(yytext); return(XOR);}
+":"  {yylval.val = strdup(yytext); return(COLON);}
+"!"  {yylval.val = strdup(yytext); return(NOT);}
+"~"  {yylval.val = strdup(yytext); return(COMPLEMENT);}
+"&"  {yylval.val = strdup(yytext); return(AND);}
+"."  {yylval.val = strdup(yytext); return(DOT);}
+"||"  {yylval.val = strdup(yytext); return(OROR);}
+"&&"  {yylval.val = strdup(yytext); return(ANDAND);}
+"++"  {yylval.val = strdup(yytext); return(PLUSPLUS);}
+"--"  {yylval.val = strdup(yytext); return(MINUSMINUS);}
+"<<"  {yylval.val = strdup(yytext); return(ANGULARLEFTANGULARLEFT);}
+">>"  {yylval.val = strdup(yytext); return(ANGULARRIGHTANGULARRIGHT);}
+">>>"  {yylval.val = strdup(yytext); return(ANGULARRIGHTANGULARRIGHTANGULARRIGHT);}
+"=="  {yylval.val = strdup(yytext); return(EQUALSEQUALS);}
+"!="  {yylval.val = strdup(yytext); return(NOTEQUALS);}
 
 <<EOF>>                                                         {  return once++ ? 0 : (NL) ; /*Return what you want*/}  
 
