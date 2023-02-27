@@ -4,12 +4,8 @@
     extern "C" int yylex();
     extern "C" FILE *yyin;
     extern "C" int yylineno; 
-    // map<string,string> dat;
-    vector<string> dat;
-    map<string,int> cnt;
     void yyerror(char *s);
-    string conv(char *s);
-        char* numtostring( int num){
+    char* numtochar( int num){
         string s="0";
         while(num>0){
             s.push_back(num%10+'0');
@@ -24,7 +20,7 @@
         c[n]='\0';
         return c;
     }
-    int stringtonum(char * c){
+    int chartonum(char * c){
         int i=0;
         int num=0;
         while(c[i]!='\0'){
@@ -45,29 +41,30 @@
     }
     struct label{
         int num;
-        string label;
-    } 
+        string l;
+    } ;
     struct edge{
         int a;
         int b;
-        string label;
-    }
+        string l;
+    };
     
     vector<label> labels;
+    vector<edge> edges;
     char* addlabel(string c){
         int n=labels.size()+1;
         label q;
         q.num=n;
-        q.label=c;
+        q.l=c;
         labels.push_back(q);
-        return numtostring(n);
+        return numtochar(n);
     }
     void addedge(char* a, char* b, string l){
         edge q;
         q.a=chartonum(a);
         q.b=chartonum(b);
-        q.label=l;
-        edge.push_back(q);
+        q.l=l;
+        edges.push_back(q);
         
     }
 %}
@@ -92,12 +89,12 @@ EQUALSEQUALS NOTEQUALS
 /* Keywords */
 %token<val> EXTENDS SUPER CLASS PUBLIC PRIVATE IMPLEMENTS PERMITS PROTECTED STATIC FINAL TRANSIENT VOLATILE INSTANCEOF THIS VOID NEW THROW ASSERT VAR BREAK CONTINUE RETURN YIELD IF ELSE WHILE FOR ABSTRACT SYNCHRONIZED NATIVE STRICTFP
 
-/*  Unused keywords  See throw, throws and throwss*/
-%token<val> SWITCH DEFAULT PACKAGE DO GOTO IMPORT THROWS CASE ENUM CATCH TRY INTERFACE FINALLY CONST UNDERSCORE EXPORTS OPENS REQUIRES USES MODULE SEALED PROVIDES TO WITH OPEN RECORD TRANSITIVE ERROR ONCE NL 
+/*  Unused keywords  See throw, throws and throwss check non_sealed*/
+%token<val> SWITCH DEFAULT PACKAGE DO GOTO IMPORT THROWS CASE ENUM CATCH TRY INTERFACE FINALLY CONST UNDERSCORE EXPORTS OPENS REQUIRES USES MODULE SEALED PROVIDES TO WITH OPEN RECORD TRANSITIVE ERROR ONCE NL NON_SEALED
 
 
 %token<val> TYPEIDENTIFIER IDENTIFIER UNQUALIFIEDMETHODIDENTIFIER 
-
+%token EOFF
 
 
 /* %type<val> CHAPTERTITLE SECTIONTITLE  */
@@ -180,7 +177,7 @@ AMBIGUOUSNAME   :   IDENTIFIER
 
 /* Start Symbol : CompilationUnit */
 
-COMPILATIONUNIT     :    ORDINARYCOMPILATIONUNIT;
+COMPILATIONUNIT     :    ORDINARYCOMPILATIONUNIT EOFF
 
 ORDINARYCOMPILATIONUNIT :   
                         |   TOPLEVELCLASSORINTERFACEDECLARATION;
@@ -900,18 +897,18 @@ METHODMODIFIERS : SUPER3 SYNCHRONIZED
 
 
 void yyerror(char *s){
-    printf("error at line %d ,%s\n",cnt["LINE"],s);
+    
 }
 
 int main(){
     yyparse();
-    cout<<dat[0]<<"\n";
-    for(auto i:cnt){
-        cout<<i.first<<" "<<i.second<<"\n";
+    cout << "digraph ASTVisual {\n";
+    for(auto e: labels){
+        cout<<e.num<<" [ label=\""<<e.l<<"\"]\n";
     }
-    int n=dat.size();
-    for(int i=1;i<n;i++){
-        cout<<dat[i]<<"\n";
+    for(auto e: edges){
+        cout<<e.a<< " -> "<<"e.b" << "[ label=\""<<e.l<<"\"]\n";
     }
+    cout << "  }\n";
 
 }

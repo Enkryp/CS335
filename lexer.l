@@ -1,9 +1,6 @@
 %{
-    #include <map>
-    #include <string>
-    #include <vector>
-    #define ll long long
-    #define pb push_back 
+    #include "parser.tab.h"
+    extern "C" int yylex();
     using namespace std;
     
 
@@ -86,7 +83,7 @@ float  {yylval.val = strdup(yytext); return(FLOAT);}
 native  {yylval.val = strdup(yytext); return(NATIVE);}
 super  {yylval.val = strdup(yytext); return(SUPER);}
 while  {yylval.val = strdup(yytext); return(WHILE);}
-_  {yylval.val = strdup(yytext); return(_);}
+_  {yylval.val = strdup(yytext); return(UNDERSCORE);}
 
 
 
@@ -99,7 +96,7 @@ module  {yylval.val = strdup(yytext); return(MODULE);}
 permits  {yylval.val = strdup(yytext); return(PERMITS);}
 sealed  {yylval.val = strdup(yytext); return(SEALED);}
 var  {yylval.val = strdup(yytext); return(VAR);}
-non-sealed  {yylval.val = strdup(yytext); return(NON-SEALED);}
+non-sealed  {yylval.val = strdup(yytext); return(NON_SEALED);}
 provides  {yylval.val = strdup(yytext); return(PROVIDES);}
 to  {yylval.val = strdup(yytext); return(TO);}
 with  {yylval.val = strdup(yytext); return(WITH);}
@@ -112,7 +109,7 @@ true|false {yylval.val = strdup(yytext); return(BOOLEANLITERAL);}
 null {yylval.val = strdup(yytext); return(NULLLITERAL);}
 
 
-{let}{ledig}* {yylval.val = strdup(yytext); return(ID);}
+{let}{ledig}* {yylval.val = strdup(yytext); return(IDENTIFIER);}
 
 
 ("0"|({nzd}({digs}?|("_"+{digs}))))[lL]?   {yylval.val = strdup(yytext); return(INTEGERLITERAL); /*Decimal*/}
@@ -189,7 +186,7 @@ null {yylval.val = strdup(yytext); return(NULLLITERAL);}
 "=="  {yylval.val = strdup(yytext); return(EQUALSEQUALS);}
 "!="  {yylval.val = strdup(yytext); return(NOTEQUALS);}
 
-<<EOF>>                                                         {  return once++ ? 0 : (NL) ; /*Return what you want*/}  
+<<EOF>>                                                         {  return EOFF;}  
 
 . {yylval.val = strdup(yytext); return(ERROR);}
 
