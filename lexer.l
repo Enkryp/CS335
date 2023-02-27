@@ -26,6 +26,7 @@ bindigs [01]|([01][01_]*[01])
 
 %%
 
+<<EOF>>  {  return EOFF;}  
 
 [ \t\f\r\n]     {/*whitespace*/ yylval.val = strdup(yytext);cout<<yytext;}
 
@@ -34,7 +35,7 @@ bindigs [01]|([01][01_]*[01])
 
 "/*"(("*"+{nsnl})|{ns})*"*"+"/"  {/*traditional comment*/}
 
-
+".class" {yylval.val = strdup(yytext);cout<<yytext; return(DOTCLASS);}
 abstract  {yylval.val = strdup(yytext);cout<<yytext; return(ABSTRACT);}
 continue  {yylval.val = strdup(yytext);cout<<yytext; return(CONTINUE);}
 for  {yylval.val = strdup(yytext);cout<<yytext; return(FOR);}
@@ -188,7 +189,6 @@ null {yylval.val = strdup(yytext);cout<<yytext; return(NULLLITERAL);}
 "=="  {yylval.val = strdup(yytext);cout<<yytext; return(EQUALSEQUALS);}
 "!="  {yylval.val = strdup(yytext);cout<<yytext; return(NOTEQUALS);}
 
-<<EOF>>                                                         {  return EOFF;}  
 
 . {yylval.val = strdup(yytext);cout<<yytext; return(ERROR);}
 
