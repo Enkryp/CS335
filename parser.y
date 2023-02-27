@@ -9,6 +9,67 @@
     map<string,int> cnt;
     void yyerror(char *s);
     string conv(char *s);
+        char* numtostring( int num){
+        string s="0";
+        while(num>0){
+            s.push_back(num%10+'0');
+            num/=10;
+        }
+        reverse(s.begin(),s.end());
+        int n=s.size();
+        char* c= (char*)malloc(sizeof(char)*(n+1));
+        for( int i=0;i<n;i++){  
+            c[i]=s[i];
+        }
+        c[n]='\0';
+        return c;
+    }
+    int stringtonum(char * c){
+        int i=0;
+        int num=0;
+        while(c[i]!='\0'){
+            num*=10;
+            num+=c[i]-'0';
+            i++;
+        }
+        return num;
+    } 
+    string chartostring(char* c){
+        string s;
+        int i=0;
+        while(c[i]!='\0'){
+            s.push_back(c[i]);
+            i++;
+        }
+        return s;
+    }
+    struct label{
+        int num;
+        string label;
+    } 
+    struct edge{
+        int a;
+        int b;
+        string label;
+    }
+    
+    vector<label> labels;
+    char* addlabel(string c){
+        int n=labels.size()+1;
+        label q;
+        q.num=n;
+        q.label=c;
+        labels.push_back(q);
+        return numtostring(n);
+    }
+    void addedge(char* a, char* b, string l){
+        edge q;
+        q.a=chartonum(a);
+        q.b=chartonum(b);
+        q.label=l;
+        edge.push_back(q);
+        
+    }
 %}
 %union{
     char* val;
