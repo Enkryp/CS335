@@ -23,7 +23,7 @@ hexdigs [0-9a-fA-F]|([0-9a-fA-F][0-9a-fA-F_]*[0-9a-fA-F])
 octdig  [0-7]
 octdigs [0-7]|([0-7][0-7_]*[0-7])
 bindigs [01]|([01][01_]*[01])
-
+escape ((\\(b|s|t|n|f|r|\"|'|\\|[0-7]|([0-7][0-7])|([0-3][0-7][0-7])))|(\\u00[0-9a-fA-F][0-9a-fA-F]))
 %%
 
 <<EOF>>  {  return EOFF;}  
@@ -132,16 +132,15 @@ null {yylval.val = strdup(yytext);cerr<<yytext; return(NULLLITERAL);}
 (((("0x"{hexdigs}|"0X"{hexdigs}))"."?)|(("0x"|"0X"){hexdigs}?"."{hexdigs}))([pP][+-]?{digs})([fFdD]?) {yylval.val = strdup(yytext);cerr<<yytext; return(FLOATINGPOINTLITERAL); /*hex float*/}
 
 
-
-\"\"\"[ \t\f]*([\n\r]|"\r\n")([^\\\"]|\"[^\\\"]|\"\"[^\\\"])*\"\"\"   {yylval.val = strdup(yytext);cerr<<yytext; return(TEXTBLOCK); /*text*/
+(\"\"\"[ \t\f]*([\n\r]|"\r\n")(([^\"\\]|(\"\"[^\"\\])|(\"[^\"\\])|{escape})*[^\\])?\"\"\")  {yylval.val = strdup(yytext);cerr<<yytext; return(TEXTBLOCK); /*text*/
 // escape to be added
 }
 
-\'[^\r\n\'\\]\'                             {yylval.val = strdup(yytext);cerr<<yytext; return(CHARACTERLITERAL); /*char*/
+\'([^\r\n\'\\]|{escape})\'                             {yylval.val = strdup(yytext);cerr<<yytext; return(CHARACTERLITERAL); /*char*/
 // escape to be added
 }
 
-\"[^\r\n\"\\]*\"                            {yylval.val = strdup(yytext);cerr<<yytext; return(STRINGLITERAL); /*string*/
+\"([^\r\n\"\\]|{escape})*\"                            {yylval.val = strdup(yytext);cerr<<yytext; return(STRINGLITERAL); /*string*/
 // escape to be added
 }
 
