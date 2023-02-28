@@ -51,16 +51,16 @@
     
     vector<label> labels;
     vector<edge> edges;
-    char* addlabel(string c){
+    char* addlabel(string c){  // takes argument as the label of the node in string form and output a char* which is a unique number to the node
         // string c=chartostring(c1);
         int n=labels.size()+1;
         label q;
-        q.num=n;
+        q.num=n*10;
         q.l=c;
         labels.push_back(q);
         return numtochar(n);
     }
-    void addedge(char* a, char* b, string l){
+    void addedge(char* a, char* b, string l=""){  // takes numbers of node in char* and label in string form
         edge q;
         q.a=chartonum(a);
         q.b=chartonum(b);
@@ -75,7 +75,7 @@
 
 /* data types */
 %start COMPILATIONUNIT
-/* %type<val> COMPILATIONUNIT ORDINARYCOMPILATIONUNIT */
+%type<val>  DIMS
 %token<val> BOOLEAN BYTE SHORT INT LONG CHAR FLOAT DOUBLE 
 
 /* Separators */
@@ -162,9 +162,8 @@ INTERFACETYPE   :   CLASSTYPE
  /* ARRAYTYPE   :   PRIMITIVETYPE   DIMS
              |   CLASSORINTERFACETYPE  DIMS */
 
-DIMS    :   OPENSQUARE CLOSESQUARE
+DIMS    :   OPENSQUARE CLOSESQUARE  {$1=addlabel(chartostring($1)); $2=addlabel(chartostring($2)); $$=addlabel("dimension");addedge($$,$1,"dimension"); addedge($$,$2,"dimension"); }
         |   DIMS OPENSQUARE CLOSESQUARE
-
 
 /* Names */
 
@@ -303,7 +302,7 @@ CLASSPERMITS    :   PERMITS TYPENAMES
 TYPENAMES   :   IDENTIFIER
             |   TYPENAMES COMMA IDENTIFIER
 
-CLASSBODY   :  OPENCURLY CLOSECURLY
+CLASSBODY   :  OPENCURLY CLOSECURLY {}
             |   OPENCURLY CLASSBODYDECLARATIONS CLOSECURLY
 
 CLASSBODYDECLARATIONS   :   CLASSBODYDECLARATION
@@ -916,7 +915,7 @@ int main(){
         cout<<e.num<<" [ label=\""<<e.l<<"\"]\n";
     }
     for(auto e: edges){
-        cout<<e.a<< " -> "<<"e.b" << "[ label=\""<<e.l<<"\"]\n";
+        cout<<e.a<< " -> "<<e.b << "[ label=\""<<e.l<<"\"]\n";
     }
     cout << "  }\n";
 
