@@ -104,7 +104,7 @@ EQUALSEQUALS NOTEQUALS
 
 
 COMPILATIONUNIT : EOFF   {$$=addlabel("COMPILATIONUNIT");$1=addlabel(string("eoff") +  string("(") +  chartostring($1)+string(")"));addedge($$, $1);return 0;}
- | ORDINARYCOMPILATIONUNIT EOFF   {$$=addlabel("COMPILATIONUNIT");addedge($$, $1);$2=addlabel(string("eoff") +  string("(") +  chartostring($2)+string(")"));addedge($$, $2);return 0;}
+ | ORDINARYCOMPILATIONUNIT EOFF   {$$=addlabel("COMPILATIONUNIT");addedge($$, $1);return 0;}
 TYPE : PRIMITIVETYPE  {$$= $1;}
  | REFERENCETYPE   {$$= $1;}
 PRIMITIVETYPE : NUMERICTYPE  {$$= $1;}
