@@ -1,4 +1,6 @@
 digraph ASTVisual {
+ordering = out ;
+
 10 [ label="SUPER1"]
 20 [ label="public(public)"]
 30 [ label="SUPER1"]

@@ -628,7 +628,8 @@ void yyerror(char *s){
 
 int main(){
     yyparse();
-    cout << "digraph ASTVisual {\n";
+    cout << "digraph ASTVisual {\n ordering = out ;\n
+";
     for(auto e: labels){
         string s;
         
