@@ -626,14 +626,28 @@ void yyerror(char *s){
     cout<<"syntax error"<<endl;
 }
 
+string escaped (string s){
+
+    string t="";
+    for (auto x : s){
+
+        if(x=='\"')t+="\\\"";
+
+        else t+= x;
+    }
+
+    return t;
+
+}
+
 int main(){
     yyparse();
     cout << "digraph ASTVisual {\n";
     for(auto e: labels){
-        cout<<e.num<<" [ label=\""<<e.l<<"\"]\n";
+        cout<<e.num<<" [ label=\""<<escaped(e.l)<<"\"]\n";
     }
     for(auto e: edges){
-        cout<<e.a<< " -> "<<e.b << "[ label=\""<<e.l<<"\"]\n";
+        cout<<e.a<< " -> "<<e.b << "[ label=\""<<escaped(e.l)<<"\"]\n";
     }
     cout << "  }\n";
 
