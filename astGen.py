@@ -675,30 +675,154 @@
 #                 | METHODMODIFIERS PROTECTED
 #                 | METHODMODIFIERS STATIC
 #                 | METHODMODIFIERS FINAL
+start = """%{
+    #include<bits/stdc++.h>
+    using namespace std;   
+    extern "C" int yylex();
+    extern "C" FILE *yyin;
+    extern "C" int yylineno; 
+    void yyerror(char *s);
+    char* numtochar( int num){
+        string s="0";
+        while(num>0){
+            s.push_back(num%10+'0');
+            num/=10;
+        }
+        reverse(s.begin(),s.end());
+        int n=s.size();
+        char* c= (char*)malloc(sizeof(char)*(n+1));
+        for( int i=0;i<n;i++){  
+            c[i]=s[i];
+        }
+        c[n]='\0';
+        return c;
+    }
+    int chartonum(char * c){
+        int i=0;
+        int num=0;
+        while(c[i]!='\0'){
+            num*=10;
+            num+=c[i]-'0';
+            i++;
+        }
+        return num;
+    } 
+    string chartostring(char* c){
+        string s;
+        int i=0;
+        while(c[i]!='\0'){
+            s.push_back(c[i]);
+            i++;
+        }
+        return s;
+    }
+    struct label{
+        int num;
+        string l;
+    } ;
+    struct edge{
+        int a;
+        int b;
+        string l;
+    };
+    
+    vector<label> labels;
+    vector<edge> edges;
+    char* addlabel(string c){  // takes argument as the label of the node in string form and output a char* which is a unique number to the node
+        // string c=chartostring(c1);
+        int n=labels.size()+1;
+        label q;
+        q.num=n*10;
+        q.l=c;
+        labels.push_back(q);
+        return numtochar(n);
+    }
+    void addedge(char* a, char* b, string l=""){  // takes numbers of node in char* and label in string form
+        edge q;
+        q.a=chartonum(a);
+        q.b=chartonum(b);
+        q.l=l;
+        edges.push_back(q);
+        
+    }
+%}
+%union{
+    char* val;
+}
+
+/* data types */
+%start COMPILATIONUNIT
+%type<val>  DIMS
+%token<val> BOOLEAN BYTE SHORT INT LONG CHAR FLOAT DOUBLE 
+
+/* Separators */
+%token<val> COMMA QUESTIONMARK SEMICOLON  OPENCURLY CLOSECURLY ANGULARLEFT ANGULARRIGHT OPENSQUARE CLOSESQUARE OPENPARAN CLOSEPARAN DOUBLECOLON TRIPLEDOT WS
+
+/* Operators  AND -> & COMPLEMENT -> ~ */
+%token<val> EQUALS MULTIPLYEQUALS DIVIDEEQUALS MODEQUALS PLUSEQUALS MINUSEQUALS PLUS MINUS DIVIDE MULTIPLY MOD OR XOR COLON NOT COMPLEMENT AND DOT OROR ANDAND PLUSPLUS MINUSMINUS ANGULARLEFTANGULARLEFT ANGULARRIGHTANGULARRIGHT ANGULARRIGHTANGULARRIGHTANGULARRIGHT
+EQUALSEQUALS NOTEQUALS
+/* Literals */
+%token<val> INTEGERLITERAL FLOATINGPOINTLITERAL BOOLEANLITERAL CHARACTERLITERAL STRINGLITERAL TEXTBLOCK NULLLITERAL
+
+/* Keywords */
+%token<val> EXTENDS SUPER CLASS PUBLIC PRIVATE IMPLEMENTS PERMITS PROTECTED STATIC FINAL TRANSIENT VOLATILE INSTANCEOF THIS VOID NEW THROW ASSERT VAR BREAK CONTINUE RETURN YIELD IF ELSE WHILE FOR ABSTRACT SYNCHRONIZED NATIVE STRICTFP
+
+/*  Unused keywords  See throw, throws and throwss check non_sealed*/
+%token<val> SWITCH DEFAULT PACKAGE DO GOTO IMPORT THROWS CASE ENUM CATCH TRY INTERFACE FINALLY CONST UNDERSCORE EXPORTS OPENS REQUIRES USES MODULE SEALED PROVIDES TO WITH OPEN RECORD TRANSITIVE ERROR ONCE NL NON_SEALED
 
 
+%token<val> IDENTIFIER UNQUALIFIEDMETHODIDENTIFIER  DOTCLASS
+%token<val> EOFF
+
+
+/* %type<val> CHAPTERTITLE SECTIONTITLE  */
+
+%%
+
+"""
+end = """
+%%
+
+
+void yyerror(char *s){
+    cout<<"syntax error"<<endl;
+}
+
+int main(){
+    yyparse();
+    cout << "digraph ASTVisual {\n";
+    for(auto e: labels){
+        cout<<e.num<<" [ label=\""<<e.l<<"\"]\n";
+    }
+    for(auto e: edges){
+        cout<<e.a<< " -> "<<e.b << "[ label=\""<<e.l<<"\"]\n";
+    }
+    cout << "  }\n";
+
+}
+"""
 
 a = """
 COMPILATIONUNIT     :   EOFF  
                     |   ORDINARYCOMPILATIONUNIT EOFF 
                     
 TYPE    :   PRIMITIVETYPE
-            |   REFERENCETYPE;
+            |   REFERENCETYPE 
 
 PRIMITIVETYPE   :   NUMERICTYPE
-                |   BOOLEAN;
+                |   BOOLEAN 
 
 NUMERICTYPE     :   INTEGRALTYPE
-                |   FLOATINGTYPE;
+                |   FLOATINGTYPE 
 
 INTEGRALTYPE    : BYTE
                 | SHORT 
                 | INT 
                 | LONG 
-                | CHAR;
+                | CHAR 
 
 FLOATINGTYPE    :   FLOAT
-                |   DOUBLE;
+                |   DOUBLE 
 
 REFERENCETYPE   :   CLASSORINTERFACETYPE
 
@@ -714,13 +838,13 @@ TYPEARGUMENTLIST    :   TYPEARGUMENT
                     |   TYPEARGUMENTLIST COMMA TYPEARGUMENT
 
 TYPEARGUMENT    :   REFERENCETYPE
-                |   WILDCARD;
+                |   WILDCARD 
 
 WILDCARD    :   QUESTIONMARK 
             |   QUESTIONMARK WILDCARDBOUNDS
 
 WILDCARDBOUNDS  :   EXTENDS REFERENCETYPE
-                |   SUPER REFERENCETYPE;
+                |   SUPER REFERENCETYPE 
 
 
 INTERFACETYPE   :   CLASSTYPE
@@ -738,7 +862,7 @@ ORDINARYCOMPILATIONUNIT :   TOPLEVELCLASSORINTERFACEDECLARATION
                         |   ORDINARYCOMPILATIONUNIT TOPLEVELCLASSORINTERFACEDECLARATION
 
 TOPLEVELCLASSORINTERFACEDECLARATION :   CLASSDECLARATION
-                                    |   SEMICOLON;
+                                    |   SEMICOLON 
 
 CLASSDECLARATION    :   NORMALCLASSDECLARATION
                     
@@ -815,7 +939,7 @@ TYPEPARAMETERLIST   :   TYPEPARAMETER
                     |   TYPEPARAMETERLIST COMMA TYPEPARAMETER
 
 TYPEPARAMETER   :   IDENTIFIER TYPEBOUND
-                |   IDENTIFIER;
+                |   IDENTIFIER 
 
 
 TYPEBOUND   :  EXTENDS IDENTIFIER
@@ -845,7 +969,7 @@ CLASSBODYDECLARATIONS   :   CLASSBODYDECLARATION
 CLASSBODYDECLARATION    :   CLASSMEMBERDECLARATION
                         |   INSTANCEINITIALIZER
                         |   STATICINITIALIZER
-                        |   CONSTRUCTORDECLARATION;
+                        |   CONSTRUCTORDECLARATION 
 
 CLASSMEMBERDECLARATION:     FIELDDECLARATION
                             |   METHODDECLARATION
@@ -855,12 +979,12 @@ CLASSMEMBERDECLARATION:     FIELDDECLARATION
 FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON
                     |   SUPER1 TYPE VARIABLEDECLARATORLIST SEMICOLON
                     |   SUPER2 TYPE VARIABLEDECLARATORLIST SEMICOLON
-                    |   TYPE VARIABLEDECLARATORLIST SEMICOLON;
+                    |   TYPE VARIABLEDECLARATORLIST SEMICOLON 
 
 
 
 VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR
-                        |   VARIABLEDECLARATORLIST COMMA VARIABLEDECLARATOR;
+                        |   VARIABLEDECLARATORLIST COMMA VARIABLEDECLARATOR 
 
 VARIABLEDECLARATOR  :   VARIABLEDECLARATORID EQUALS VARIABLEINITIALIZER
                     |   VARIABLEDECLARATORID
@@ -1003,7 +1127,7 @@ ARRAYINITIALIZER1   :  VARIABLEINITIALIZERLIST
 DIMEXPRS: DIMEXPR
         |   DIMEXPRS DIMEXPR
 
-DIMEXPR: OPENSQUARE EXPRESSION CLOSESQUARE;
+DIMEXPR: OPENSQUARE EXPRESSION CLOSESQUARE 
 
 VARIABLEINITIALIZERLIST :   VARIABLEINITIALIZER
                         |   VARIABLEINITIALIZERLIST COMMA VARIABLEINITIALIZER
@@ -1357,7 +1481,7 @@ METHODMODIFIERS : SUPER3 SYNCHRONIZED
                 | METHODMODIFIERS FINAL
 """
 terminals =["BOOLEAN","BYTE","SHORT","INT","LONG","CHAR","FLOAT","DOUBLE","COMMA","QUESTIONMARK","SEMICOLON","OPENCURLY","CLOSECURLY","ANGULARLEFT","ANGULARRIGHT","OPENSQUARE","CLOSESQUARE","OPENPARAN","CLOSEPARAN","DOUBLECOLON","TRIPLEDOT","WS","EQUALS","MULTIPLYEQUALS","DIVIDEEQUALS","MODEQUALS","PLUSEQUALS","MINUSEQUALS","PLUS","MINUS","DIVIDE","MULTIPLY","MOD","OR","XOR","COLON","NOT","COMPLEMENT","AND","DOT","OROR","ANDAND","PLUSPLUS","MINUSMINUS","ANGULARLEFTANGULARLEFT","ANGULARRIGHTANGULARRIGHT","ANGULARRIGHTANGULARRIGHTANGULARRIGHT","EQUALSEQUALS","NOTEQUALS","INTEGERLITERAL","FLOATINGPOINTLITERAL","BOOLEANLITERAL","CHARACTERLITERAL","STRINGLITERAL","TEXTBLOCK","NULLLITERAL","EXTENDS","SUPER","CLASS","PUBLIC","PRIVATE","IMPLEMENTS","PERMITS","PROTECTED","STATIC","FINAL","TRANSIENT","VOLATILE","INSTANCEOF","THIS","VOID","NEW","THROW","ASSERT","VAR","BREAK","CONTINUE","RETURN","YIELD","IF","ELSE","WHILE","FOR","ABSTRACT","SYNCHRONIZED","NATIVE","STRICTFP","SWITCH","DEFAULT","PACKAGE","DO","GOTO","IMPORT","THROWS","CASE","ENUM","CATCH","TRY","INTERFACE","FINALLY","CONST","UNDERSCORE","EXPORTS","OPENS","REQUIRES","USES","MODULE","SEALED","PROVIDES","TO","WITH","OPEN","RECORD","TRANSITIVE","ERROR","ONCE","NL","NON_SEALED","IDENTIFIER","UNQUALIFIEDMETHODIDENTIFIER","DOTCLASS","EOFF"]
-
+print(start)
 #  get lines from a
 a= a.splitlines()
 striped = []
@@ -1401,9 +1525,9 @@ for x in a:
         # else :
         #     assert(0)
 
-    print(x + "{"+ pp + "}")
+    print(x + "  {"+ pp + "}")
     
 
 
-
+print(end)
         
