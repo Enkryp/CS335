@@ -410,7 +410,6 @@ digraph ASTVisual {
 4080 [ label="class(class)"]
 4090 [ label="identifier(Time)"]
 4100 [ label="COMPILATIONUNIT"]
-4110 [ label="eoff(})"]
 10 -> 20[ label=""]
 30 -> 40[ label=""]
 50 -> 60[ label=""]
@@ -820,5 +819,4 @@ digraph ASTVisual {
 4070 -> 4090[ label=""]
 4070 -> 4060[ label=""]
 4100 -> 4070[ label=""]
-4100 -> 4110[ label=""]
   }

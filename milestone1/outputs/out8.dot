@@ -214,7 +214,6 @@ digraph ASTVisual {
 2120 [ label="class(class)"]
 2130 [ label="identifier(PrimeExample2)"]
 2140 [ label="COMPILATIONUNIT"]
-2150 [ label="eoff( )"]
 10 -> 20[ label=""]
 30 -> 40[ label=""]
 50 -> 60[ label=""]
@@ -428,5 +427,4 @@ digraph ASTVisual {
 2110 -> 2130[ label=""]
 2110 -> 2100[ label=""]
 2140 -> 2110[ label=""]
-2140 -> 2150[ label=""]
   }

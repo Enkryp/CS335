@@ -94,7 +94,6 @@ digraph ASTVisual {
 920 [ label="class(class)"]
 930 [ label="identifier(Main)"]
 940 [ label="COMPILATIONUNIT"]
-950 [ label="eoff(})"]
 10 -> 20[ label=""]
 30 -> 10[ label=""]
 30 -> 40[ label=""]
@@ -188,5 +187,4 @@ digraph ASTVisual {
 910 -> 930[ label=""]
 910 -> 900[ label=""]
 940 -> 910[ label=""]
-940 -> 950[ label=""]
   }

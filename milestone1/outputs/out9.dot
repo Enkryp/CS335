@@ -191,7 +191,6 @@ digraph ASTVisual {
 1890 [ label="identifier(FindSquareRootExample1)"]
 1900 [ label="TOPLEVELCLASSORINTERFACEDECLARATION"]
 1910 [ label="COMPILATIONUNIT"]
-1920 [ label="eoff( )"]
 10 -> 20[ label=""]
 10 -> 30[ label=""]
 10 -> 40[ label=""]
@@ -382,5 +381,4 @@ digraph ASTVisual {
 1900 -> 80[ label=""]
 1900 -> 1870[ label=""]
 1910 -> 1900[ label=""]
-1910 -> 1920[ label=""]
   }

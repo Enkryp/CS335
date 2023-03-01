@@ -159,8 +159,6 @@ digraph ASTVisual {
 1570 [ label="class(class)"]
 1580 [ label="identifier(SyntaxCheck)"]
 1590 [ label="COMPILATIONUNIT"]
-1600 [ label="eoff(
-)"]
 10 -> 20[ label=""]
 30 -> 40[ label=""]
 50 -> 30[ label=""]
@@ -319,5 +317,4 @@ digraph ASTVisual {
 1560 -> 1580[ label=""]
 1560 -> 1550[ label=""]
 1590 -> 1560[ label=""]
-1590 -> 1600[ label=""]
   }

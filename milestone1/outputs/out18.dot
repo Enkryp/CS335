@@ -236,7 +236,6 @@ digraph ASTVisual {
 2340 [ label="class(class)"]
 2350 [ label="identifier(Armstrong)"]
 2360 [ label="COMPILATIONUNIT"]
-2370 [ label="eoff(})"]
 10 -> 20[ label=""]
 30 -> 40[ label=""]
 50 -> 30[ label=""]
@@ -472,5 +471,4 @@ digraph ASTVisual {
 2330 -> 2350[ label=""]
 2330 -> 2320[ label=""]
 2360 -> 2330[ label=""]
-2360 -> 2370[ label=""]
   }

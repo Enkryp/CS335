@@ -111,6 +111,8 @@ yield  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(YIELD);}
 true|false {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(BOOLEANLITERAL);}
 null {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(NULLLITERAL);}
 
+"Override"  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(OVERRIDE);}
+
 
 {let}{ledig}* {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(IDENTIFIER);}
 
@@ -148,8 +150,13 @@ null {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(NULLLITERAL);}
 \'[^\']*[\r\n]                              {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(ERROR);}
 \"[^\""]*[\r\n]                              {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(ERROR);}
 
+"@"  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(AT);}
+
+
+
 ","  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(COMMA);}
 "?"  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(QUESTIONMARK);}
+"..."  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(TRIPLEDOT);}
 ";"  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(SEMICOLON);}
 "{"  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(OPENCURLY);}
 "}"  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(CLOSECURLY);}

@@ -255,7 +255,6 @@ digraph ASTVisual {
 2530 [ label="class(class)"]
 2540 [ label="identifier(BinarySearchExample)"]
 2550 [ label="COMPILATIONUNIT"]
-2560 [ label="eoff( )"]
 10 -> 20[ label=""]
 30 -> 10[ label=""]
 30 -> 40[ label=""]
@@ -510,5 +509,4 @@ digraph ASTVisual {
 2520 -> 2540[ label=""]
 2520 -> 2510[ label=""]
 2550 -> 2520[ label=""]
-2550 -> 2560[ label=""]
   }

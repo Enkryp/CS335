@@ -570,7 +570,6 @@ digraph ASTVisual {
 5680 [ label="identifier(Main)"]
 5690 [ label="TOPLEVELCLASSORINTERFACEDECLARATION"]
 5700 [ label="COMPILATIONUNIT"]
-5710 [ label="eoff(})"]
 10 -> 20[ label=""]
 10 -> 30[ label=""]
 10 -> 40[ label=""]
@@ -1140,5 +1139,4 @@ digraph ASTVisual {
 5690 -> 80[ label=""]
 5690 -> 5660[ label=""]
 5700 -> 5690[ label=""]
-5700 -> 5710[ label=""]
   }

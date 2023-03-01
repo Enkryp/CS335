@@ -91,7 +91,6 @@ digraph ASTVisual {
 890 [ label="class(class)"]
 900 [ label="identifier(SumOfNaturalNumber1)"]
 910 [ label="COMPILATIONUNIT"]
-920 [ label="eoff( )"]
 10 -> 20[ label=""]
 30 -> 40[ label=""]
 50 -> 30[ label=""]
@@ -182,5 +181,4 @@ digraph ASTVisual {
 880 -> 900[ label=""]
 880 -> 870[ label=""]
 910 -> 880[ label=""]
-910 -> 920[ label=""]
   }

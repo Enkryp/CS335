@@ -241,8 +241,6 @@ digraph ASTVisual {
 2390 [ label="class(class)"]
 2400 [ label="identifier(BubbleSort)"]
 2410 [ label="COMPILATIONUNIT"]
-2420 [ label="eoff(
-)"]
 10 -> 20[ label=""]
 30 -> 40[ label=""]
 50 -> 30[ label=""]
@@ -483,5 +481,4 @@ digraph ASTVisual {
 2380 -> 2400[ label=""]
 2380 -> 2370[ label=""]
 2410 -> 2380[ label=""]
-2410 -> 2420[ label=""]
   }

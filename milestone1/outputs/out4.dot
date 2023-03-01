@@ -60,8 +60,6 @@ digraph ASTVisual {
 580 [ label="class(class)"]
 590 [ label="identifier(test_25)"]
 600 [ label="COMPILATIONUNIT"]
-610 [ label="eoff(
-)"]
 10 -> 20[ label=""]
 30 -> 10[ label=""]
 30 -> 40[ label=""]
@@ -121,5 +119,4 @@ digraph ASTVisual {
 570 -> 590[ label=""]
 570 -> 560[ label=""]
 600 -> 570[ label=""]
-600 -> 610[ label=""]
   }

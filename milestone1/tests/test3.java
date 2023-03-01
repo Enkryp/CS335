@@ -12,7 +12,6 @@ public class DijkstraAlgorithm {
         };
         int source = 0;
         int distances = dijkstra(graph, source);
-        System.out.println("Shortest distances from source " + source + ": " + Arrays.toString(distances));
     }
     
     public static int dijkstra(int graph[][], int source) {

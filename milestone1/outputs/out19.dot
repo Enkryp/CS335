@@ -269,8 +269,6 @@ digraph ASTVisual {
 2670 [ label="identifier(GFG)"]
 2680 [ label="TOPLEVELCLASSORINTERFACEDECLARATION"]
 2690 [ label="COMPILATIONUNIT"]
-2700 [ label="eoff(
-)"]
 10 -> 20[ label=""]
 10 -> 30[ label=""]
 10 -> 40[ label=""]
@@ -539,5 +537,4 @@ digraph ASTVisual {
 2680 -> 50[ label=""]
 2680 -> 2650[ label=""]
 2690 -> 2680[ label=""]
-2690 -> 2700[ label=""]
   }
