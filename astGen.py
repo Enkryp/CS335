@@ -792,10 +792,10 @@ int main(){
     yyparse();
     cout << "digraph ASTVisual {\\n";
     for(auto e: labels){
-        cout<<e.num<<" [ label=\""<<e.l<<"\"]\\n";
+        cout<<e.num<<" [ label=\\""<<e.l<<"\\"]\\n";
     }
     for(auto e: edges){
-        cout<<e.a<< " -> "<<e.b << "[ label=\""<<e.l<<"\"]\\n";
+        cout<<e.a<< " -> "<<e.b << "[ label=\\""<<e.l<<"\\"]\\n";
     }
     cout << "  }\\n";
 
@@ -1492,6 +1492,10 @@ striped = []
 
 left = 0
 for x in a:
+    # print(x)
+    # continue
+    while(x.find("  ")!=-1):
+        x= x.replace("  ", " ")
     striped.append(x.strip())
     t= x.strip()
     if(t ==''):
