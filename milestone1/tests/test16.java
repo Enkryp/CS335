@@ -74,7 +74,7 @@ class Main {
   public static void main(String args[]) {
 
     // created an unsorted array
-    int[] array = { 6, 5, 12, 10, 9, 1 };
+    int array[] = { 6, 5, 12, 10, 9, 1 };
 
     Main ob = new Main();
 

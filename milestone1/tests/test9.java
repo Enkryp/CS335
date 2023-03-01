@@ -17,12 +17,11 @@ public static double squareRoot(int num)
 //temporary variable  
 double t;  
 double sqrtroot=num/2;  
-do   
-{  
-t=sqrtroot;  
-sqrtroot=(t+(num/t))/2;  
-}   
-while((t-sqrtroot)!= 0);  
+
+while((t-sqrtroot)!= 0){  
+    t=sqrtroot;  
+    sqrtroot=(t+(num/t))/2;  
+    } ;
 return sqrtroot;  
 }  
 }  

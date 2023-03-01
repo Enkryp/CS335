@@ -7,7 +7,7 @@ import java.io.*;
 public class GFG {
 
 	// To calculate Sum of Diagonals
-	static void Sum_of_Diagonals1(int[][] matrix, int N)
+	static void Sum_of_Diagonals1(int matrix[][], int N)
 	{
 		// Declaring and initializing two variables to zero
 		// initially for primary and secondary diagonal
@@ -47,7 +47,7 @@ public class GFG {
 
 		// Input integer array
 		// Custom entries in an array
-		int[][] b = { { 8, 2, 13, 4 },
+		int b[][] = { { 8, 2, 13, 4 },
 					{ 9, 16, 17, 8 },
 					{ 1, 22, 3, 14 },
 					{ 15, 6, 17, 8 } };
