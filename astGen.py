@@ -792,14 +792,32 @@ int main(){
     yyparse();
     cout << "digraph ASTVisual {\\n";
     for(auto e: labels){
-        cout<<e.num<<" [ label=\\""<<escaped(e.l)<<"\\"]\\n";
+        string s;
+        
+        for( auto e1: e.l){
+            if(e1=='\\"'){
+                s.push_back('\\\\');
+            }
+            s.push_back(e1);
+        }
+        cout<<e.num<<" [ label=\\""<<s<<"\\"]\\n";
     }
     for(auto e: edges){
-        cout<<e.a<< " -> "<<e.b << "[ label=\\""<<escaped(e.l)<<"\\"]\\n";
+        string s;
+
+        for( auto e1: e.l){
+            if(e1=='\\"'){
+                s.push_back('\\\\');
+            }
+            s.push_back(e1);
+        }
+        cout<<e.a<< " -> "<<e.b << "[ label=\\""<<s<<"\\"]\\n";
     }
     cout << "  }\\n";
 
 }
+
+
 """
 
 a = """
@@ -1482,7 +1500,8 @@ METHODMODIFIERS : SUPER3 SYNCHRONIZED
                 | METHODMODIFIERS STATIC
                 | METHODMODIFIERS FINAL
 """
-igTerm = ["COMMA","QUESTIONMARK","SEMICOLON","OPENCURLY","CLOSECURLY","ANGULARLEFT","ANGULARRIGHT","OPENSQUARE","CLOSESQUARE","OPENPARAN","CLOSEPARAN","DOUBLECOLON","TRIPLEDOT","WS"]
+igTerm = ["BOOLEAN","BYTE","SHORT","INT","LONG","CHAR","FLOAT","DOUBLE","COMMA","QUESTIONMARK","SEMICOLON","","OPENCURLY","CLOSECURLY","ANGULARLEFT","ANGULARRIGHT","OPENSQUARE","CLOSESQUARE","OPENPARAN","CLOSEPARAN","DOUBLECOLON","TRIPLEDOT","WS","EXTENDS","SUPER","CLASS","PUBLIC","PRIVATE","IMPLEMENTS","PERMITS","PROTECTED","STATIC","FINAL","TRANSIENT","VOLATILE","INSTANCEOF","THIS","VOID","NEW","THROW","ASSERT","VAR","BREAK","CONTINUE","RETURN","YIELD","IF","ELSE","WHILE","FOR","ABSTRACT","SYNCHRONIZED","NATIVE","STRICTFP","SWITCH","DEFAULT","PACKAGE","DO","GOTO","IMPORT","THROWS","CASE","ENUM","CATCH","TRY","INTERFACE","FINALLY","CONST","UNDERSCORE","EXPORTS","OPENS","REQUIRES","USES","MODULE","SEALED","PROVIDES","TO","WITH","OPEN","RECORD","TRANSITIVE","ERROR","ONCE","NL","NON_SEALED","EOFF"]
+# igTerm = []
 
 terminals =["BOOLEAN","BYTE","SHORT","INT","LONG","CHAR","FLOAT","DOUBLE","COMMA","QUESTIONMARK","SEMICOLON","OPENCURLY","CLOSECURLY","ANGULARLEFT","ANGULARRIGHT","OPENSQUARE","CLOSESQUARE","OPENPARAN","CLOSEPARAN","DOUBLECOLON","TRIPLEDOT","WS","EQUALS","MULTIPLYEQUALS","DIVIDEEQUALS","MODEQUALS","PLUSEQUALS","MINUSEQUALS","PLUS","MINUS","DIVIDE","MULTIPLY","MOD","OR","XOR","COLON","NOT","COMPLEMENT","AND","DOT","OROR","ANDAND","PLUSPLUS","MINUSMINUS","ANGULARLEFTANGULARLEFT","ANGULARRIGHTANGULARRIGHT","ANGULARRIGHTANGULARRIGHTANGULARRIGHT","EQUALSEQUALS","NOTEQUALS","INTEGERLITERAL","FLOATINGPOINTLITERAL","BOOLEANLITERAL","CHARACTERLITERAL","STRINGLITERAL","TEXTBLOCK","NULLLITERAL","EXTENDS","SUPER","CLASS","PUBLIC","PRIVATE","IMPLEMENTS","PERMITS","PROTECTED","STATIC","FINAL","TRANSIENT","VOLATILE","INSTANCEOF","THIS","VOID","NEW","THROW","ASSERT","VAR","BREAK","CONTINUE","RETURN","YIELD","IF","ELSE","WHILE","FOR","ABSTRACT","SYNCHRONIZED","NATIVE","STRICTFP","SWITCH","DEFAULT","PACKAGE","DO","GOTO","IMPORT","THROWS","CASE","ENUM","CATCH","TRY","INTERFACE","FINALLY","CONST","UNDERSCORE","EXPORTS","OPENS","REQUIRES","USES","MODULE","SEALED","PROVIDES","TO","WITH","OPEN","RECORD","TRANSITIVE","ERROR","ONCE","NL","NON_SEALED","IDENTIFIER","UNQUALIFIEDMETHODIDENTIFIER","DOTCLASS","EOFF"]
 print(start)
@@ -1492,8 +1511,6 @@ striped = []
 
 left = 0
 for x in a:
-    # print(x)
-    # continue
     while(x.find("  ")!=-1):
         x= x.replace("  ", " ")
     striped.append(x.strip())
@@ -1511,8 +1528,9 @@ for x in a:
     t= t.replace('|','')
     t= t.strip()
     t= t.split(' ')
-
-    pp="$$=addlabel(\"" + str(left)+"\");"
+    pp=""
+    if(len(t)!=1):
+        pp="$$=addlabel(\"" + str(left)+"\");"
 
     for k in range(len(t)):
         y= t[k]
@@ -1524,18 +1542,25 @@ for x in a:
         if (y in terminals and y not in igTerm):
             # $1=addlabel(chartostring($1));
             # addedge($$,$1,"dimension");
+            if(len(t)==1):
+                pp="$$=addlabel(\"" + str(left)+"\");"
             pp += "$"+ str((k+1)) + "=addlabel(string(\"" + y.lower() + "\") +  string(\"(\") + " + " chartostring($"+str((k+1))+")+" +"string(\")\"));"
-            pp +=  "addedge($$, $"+ str((k+1))+");"    
-
-            
+            pp +=  "addedge($$, $"+ str((k+1))+");"
         elif (y not in igTerm):
-            pp +=  "addedge($$, $"+ str((k+1))+");"  
+            if (len(t)!=1):
+                pp +=  "addedge($$, $"+ str((k+1))+");"
+            else :
+                pp+="$$= $"+ str((k+1))+";"   
         else :
-            continue
-
-    print(x + "  {"+ pp + "}")
+            if(len(t)==1):
+                pp="$$=addlabel(\"" + str(left)+"\");"
+                pp += "$"+ str((k+1)) + "=addlabel(string(\"" + y.lower() + "\") +  string(\"(\") + " + " chartostring($"+str((k+1))+")+" +"string(\")\"));"
+                pp +=  "addedge($$, $"+ str((k+1))+");"
+    if(left=="COMPILATIONUNIT"):
+        print(x + "  {"+ pp + "return 0;}")
+    else :
+        print(x + "  {"+ pp + "}")
     
-
 
 print(end)
         

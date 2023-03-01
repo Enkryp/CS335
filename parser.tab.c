@@ -3019,31 +3019,31 @@ yyreduce:
     {
   case 2: /* COMPILATIONUNIT: EOFF  */
 #line 106 "parser.y"
-                         {(yyval.val)=addlabel("COMPILATIONUNIT");(yyvsp[0].val)=addlabel(string("eoff") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val)); return 0;}
+                         {(yyval.val)=addlabel("COMPILATIONUNIT");(yyvsp[0].val)=addlabel(string("eoff") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));return 0;}
 #line 3024 "parser.tab.c"
     break;
 
   case 3: /* COMPILATIONUNIT: ORDINARYCOMPILATIONUNIT EOFF  */
 #line 107 "parser.y"
-                                  {(yyval.val)=addlabel("COMPILATIONUNIT");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("eoff") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val)); return 0;}
+                                  {(yyval.val)=addlabel("COMPILATIONUNIT");addedge((yyval.val), (yyvsp[-1].val));return 0;}
 #line 3030 "parser.tab.c"
     break;
 
   case 4: /* TYPE: PRIMITIVETYPE  */
 #line 108 "parser.y"
-                      {(yyval.val)=addlabel("TYPE");addedge((yyval.val), (yyvsp[0].val));}
+                      {(yyval.val)= (yyvsp[0].val);}
 #line 3036 "parser.tab.c"
     break;
 
   case 5: /* TYPE: REFERENCETYPE  */
 #line 109 "parser.y"
-                   {(yyval.val)=addlabel("TYPE");addedge((yyval.val), (yyvsp[0].val));}
+                   {(yyval.val)= (yyvsp[0].val);}
 #line 3042 "parser.tab.c"
     break;
 
   case 6: /* PRIMITIVETYPE: NUMERICTYPE  */
 #line 110 "parser.y"
-                             {(yyval.val)=addlabel("PRIMITIVETYPE");addedge((yyval.val), (yyvsp[0].val));}
+                             {(yyval.val)= (yyvsp[0].val);}
 #line 3048 "parser.tab.c"
     break;
 
@@ -3055,13 +3055,13 @@ yyreduce:
 
   case 8: /* NUMERICTYPE: INTEGRALTYPE  */
 #line 112 "parser.y"
-                            {(yyval.val)=addlabel("NUMERICTYPE");addedge((yyval.val), (yyvsp[0].val));}
+                            {(yyval.val)= (yyvsp[0].val);}
 #line 3060 "parser.tab.c"
     break;
 
   case 9: /* NUMERICTYPE: FLOATINGTYPE  */
 #line 113 "parser.y"
-                  {(yyval.val)=addlabel("NUMERICTYPE");addedge((yyval.val), (yyvsp[0].val));}
+                  {(yyval.val)= (yyvsp[0].val);}
 #line 3066 "parser.tab.c"
     break;
 
@@ -3109,19 +3109,19 @@ yyreduce:
 
   case 17: /* REFERENCETYPE: CLASSORINTERFACETYPE  */
 #line 121 "parser.y"
-                                      {(yyval.val)=addlabel("REFERENCETYPE");addedge((yyval.val), (yyvsp[0].val));}
+                                      {(yyval.val)= (yyvsp[0].val);}
 #line 3114 "parser.tab.c"
     break;
 
   case 18: /* CLASSORINTERFACETYPE: CLASSTYPE  */
 #line 122 "parser.y"
-                                   {(yyval.val)=addlabel("CLASSORINTERFACETYPE");addedge((yyval.val), (yyvsp[0].val));}
+                                   {(yyval.val)= (yyvsp[0].val);}
 #line 3120 "parser.tab.c"
     break;
 
   case 19: /* CLASSTYPE: CLASSTYPE1  */
 #line 123 "parser.y"
-                        {(yyval.val)=addlabel("CLASSTYPE");addedge((yyval.val), (yyvsp[0].val));}
+                        {(yyval.val)= (yyvsp[0].val);}
 #line 3126 "parser.tab.c"
     break;
 
@@ -3139,7 +3139,7 @@ yyreduce:
 
   case 22: /* TYPEARGUMENTLIST: TYPEARGUMENT  */
 #line 126 "parser.y"
-                                 {(yyval.val)=addlabel("TYPEARGUMENTLIST");addedge((yyval.val), (yyvsp[0].val));}
+                                 {(yyval.val)= (yyvsp[0].val);}
 #line 3144 "parser.tab.c"
     break;
 
@@ -3151,19 +3151,19 @@ yyreduce:
 
   case 24: /* TYPEARGUMENT: REFERENCETYPE  */
 #line 128 "parser.y"
-                              {(yyval.val)=addlabel("TYPEARGUMENT");addedge((yyval.val), (yyvsp[0].val));}
+                              {(yyval.val)= (yyvsp[0].val);}
 #line 3156 "parser.tab.c"
     break;
 
   case 25: /* TYPEARGUMENT: WILDCARD  */
 #line 129 "parser.y"
-              {(yyval.val)=addlabel("TYPEARGUMENT");addedge((yyval.val), (yyvsp[0].val));}
+              {(yyval.val)= (yyvsp[0].val);}
 #line 3162 "parser.tab.c"
     break;
 
   case 26: /* WILDCARD: QUESTIONMARK  */
 #line 130 "parser.y"
-                          {(yyval.val)=addlabel("WILDCARD");}
+                          {(yyval.val)=addlabel("WILDCARD");(yyvsp[0].val)=addlabel(string("questionmark") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 3168 "parser.tab.c"
     break;
 
@@ -3175,19 +3175,19 @@ yyreduce:
 
   case 28: /* WILDCARDBOUNDS: EXTENDS REFERENCETYPE  */
 #line 132 "parser.y"
-                                        {(yyval.val)=addlabel("WILDCARDBOUNDS");(yyvsp[-1].val)=addlabel(string("extends") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                        {(yyval.val)=addlabel("WILDCARDBOUNDS");addedge((yyval.val), (yyvsp[0].val));}
 #line 3180 "parser.tab.c"
     break;
 
   case 29: /* WILDCARDBOUNDS: SUPER REFERENCETYPE  */
 #line 133 "parser.y"
-                         {(yyval.val)=addlabel("WILDCARDBOUNDS");(yyvsp[-1].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                         {(yyval.val)=addlabel("WILDCARDBOUNDS");addedge((yyval.val), (yyvsp[0].val));}
 #line 3186 "parser.tab.c"
     break;
 
   case 30: /* INTERFACETYPE: CLASSTYPE  */
 #line 134 "parser.y"
-                           {(yyval.val)=addlabel("INTERFACETYPE");addedge((yyval.val), (yyvsp[0].val));}
+                           {(yyval.val)= (yyvsp[0].val);}
 #line 3192 "parser.tab.c"
     break;
 
@@ -3223,7 +3223,7 @@ yyreduce:
 
   case 36: /* ORDINARYCOMPILATIONUNIT: TOPLEVELCLASSORINTERFACEDECLARATION  */
 #line 140 "parser.y"
-                                                                {(yyval.val)=addlabel("ORDINARYCOMPILATIONUNIT");addedge((yyval.val), (yyvsp[0].val));}
+                                                                {(yyval.val)= (yyvsp[0].val);}
 #line 3228 "parser.tab.c"
     break;
 
@@ -3235,403 +3235,403 @@ yyreduce:
 
   case 38: /* TOPLEVELCLASSORINTERFACEDECLARATION: CLASSDECLARATION  */
 #line 142 "parser.y"
-                                                        {(yyval.val)=addlabel("TOPLEVELCLASSORINTERFACEDECLARATION");addedge((yyval.val), (yyvsp[0].val));}
+                                                        {(yyval.val)= (yyvsp[0].val);}
 #line 3240 "parser.tab.c"
     break;
 
   case 39: /* TOPLEVELCLASSORINTERFACEDECLARATION: SEMICOLON  */
 #line 143 "parser.y"
-               {(yyval.val)=addlabel("TOPLEVELCLASSORINTERFACEDECLARATION");}
+               {(yyval.val)=addlabel("TOPLEVELCLASSORINTERFACEDECLARATION");(yyvsp[0].val)=addlabel(string("semicolon") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 3246 "parser.tab.c"
     break;
 
   case 40: /* CLASSDECLARATION: NORMALCLASSDECLARATION  */
 #line 144 "parser.y"
-                                           {(yyval.val)=addlabel("CLASSDECLARATION");addedge((yyval.val), (yyvsp[0].val));}
+                                           {(yyval.val)= (yyvsp[0].val);}
 #line 3252 "parser.tab.c"
     break;
 
   case 41: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY  */
 #line 145 "parser.y"
-                                                                                                              {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-6].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                                              {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-5].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3258 "parser.tab.c"
     break;
 
   case 42: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY  */
 #line 146 "parser.y"
-                                                                           {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-5].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                           {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3264 "parser.tab.c"
     break;
 
   case 43: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSPERMITS CLASSBODY  */
 #line 147 "parser.y"
-                                                                        {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-5].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                        {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3270 "parser.tab.c"
     break;
 
   case 44: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSBODY  */
 #line 148 "parser.y"
-                                                           {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                           {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3276 "parser.tab.c"
     break;
 
   case 45: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER TYPEPARAMETERS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY  */
 #line 149 "parser.y"
-                                                                           {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-5].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                           {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3282 "parser.tab.c"
     break;
 
   case 46: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER TYPEPARAMETERS CLASSIMPLEMENTS CLASSBODY  */
 #line 150 "parser.y"
-                                                              {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                              {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3288 "parser.tab.c"
     break;
 
   case 47: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER TYPEPARAMETERS CLASSPERMITS CLASSBODY  */
 #line 151 "parser.y"
-                                                           {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                           {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3294 "parser.tab.c"
     break;
 
   case 48: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER TYPEPARAMETERS CLASSBODY  */
 #line 152 "parser.y"
-                                              {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-3].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                              {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3300 "parser.tab.c"
     break;
 
   case 49: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY  */
 #line 153 "parser.y"
-                                                                         {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-5].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                         {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3306 "parser.tab.c"
     break;
 
   case 50: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY  */
 #line 154 "parser.y"
-                                                            {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                            {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3312 "parser.tab.c"
     break;
 
   case 51: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER CLASSEXTENDS CLASSPERMITS CLASSBODY  */
 #line 155 "parser.y"
-                                                         {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                         {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3318 "parser.tab.c"
     break;
 
   case 52: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER CLASSEXTENDS CLASSBODY  */
 #line 156 "parser.y"
-                                            {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-3].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                            {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3324 "parser.tab.c"
     break;
 
   case 53: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER CLASSIMPLEMENTS CLASSPERMITS CLASSBODY  */
 #line 157 "parser.y"
-                                                            {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                            {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3330 "parser.tab.c"
     break;
 
   case 54: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER CLASSIMPLEMENTS CLASSBODY  */
 #line 158 "parser.y"
-                                               {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-3].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                               {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3336 "parser.tab.c"
     break;
 
   case 55: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER CLASSPERMITS CLASSBODY  */
 #line 159 "parser.y"
-                                            {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-3].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                            {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3342 "parser.tab.c"
     break;
 
   case 56: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER CLASSBODY  */
 #line 160 "parser.y"
-                               {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-2].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[-1].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                               {(yyval.val)=addlabel("NORMALCLASSDECLARATION");(yyvsp[-1].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3348 "parser.tab.c"
     break;
 
   case 57: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY  */
 #line 161 "parser.y"
-                                                                                               {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-6].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                               {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-5].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3354 "parser.tab.c"
     break;
 
   case 58: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY  */
 #line 162 "parser.y"
-                                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3360 "parser.tab.c"
     break;
 
   case 59: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSPERMITS CLASSBODY  */
 #line 163 "parser.y"
-                                                                               {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                               {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3366 "parser.tab.c"
     break;
 
   case 60: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSBODY  */
 #line 164 "parser.y"
-                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3372 "parser.tab.c"
     break;
 
   case 61: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER TYPEPARAMETERS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY  */
 #line 165 "parser.y"
-                                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3378 "parser.tab.c"
     break;
 
   case 62: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER TYPEPARAMETERS CLASSIMPLEMENTS CLASSBODY  */
 #line 166 "parser.y"
-                                                                     {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                     {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3384 "parser.tab.c"
     break;
 
   case 63: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER TYPEPARAMETERS CLASSPERMITS CLASSBODY  */
 #line 167 "parser.y"
-                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3390 "parser.tab.c"
     break;
 
   case 64: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER TYPEPARAMETERS CLASSBODY  */
 #line 168 "parser.y"
-                                                     {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                     {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3396 "parser.tab.c"
     break;
 
   case 65: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY  */
 #line 169 "parser.y"
-                                                                                {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3402 "parser.tab.c"
     break;
 
   case 66: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY  */
 #line 170 "parser.y"
-                                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3408 "parser.tab.c"
     break;
 
   case 67: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER CLASSEXTENDS CLASSPERMITS CLASSBODY  */
 #line 171 "parser.y"
-                                                                {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3414 "parser.tab.c"
     break;
 
   case 68: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER CLASSEXTENDS CLASSBODY  */
 #line 172 "parser.y"
-                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3420 "parser.tab.c"
     break;
 
   case 69: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER CLASSIMPLEMENTS CLASSPERMITS CLASSBODY  */
 #line 173 "parser.y"
-                                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3426 "parser.tab.c"
     break;
 
   case 70: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER CLASSIMPLEMENTS CLASSBODY  */
 #line 174 "parser.y"
-                                                      {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                      {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3432 "parser.tab.c"
     break;
 
   case 71: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER CLASSPERMITS CLASSBODY  */
 #line 175 "parser.y"
-                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3438 "parser.tab.c"
     break;
 
   case 72: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER CLASSBODY  */
 #line 176 "parser.y"
-                                      {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[-1].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                      {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-1].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3444 "parser.tab.c"
     break;
 
   case 73: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY  */
 #line 177 "parser.y"
-                                                                                               {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-6].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                               {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-5].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3450 "parser.tab.c"
     break;
 
   case 74: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY  */
 #line 178 "parser.y"
-                                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3456 "parser.tab.c"
     break;
 
   case 75: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSPERMITS CLASSBODY  */
 #line 179 "parser.y"
-                                                                               {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                               {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3462 "parser.tab.c"
     break;
 
   case 76: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSBODY  */
 #line 180 "parser.y"
-                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3468 "parser.tab.c"
     break;
 
   case 77: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER TYPEPARAMETERS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY  */
 #line 181 "parser.y"
-                                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3474 "parser.tab.c"
     break;
 
   case 78: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER TYPEPARAMETERS CLASSIMPLEMENTS CLASSBODY  */
 #line 182 "parser.y"
-                                                                     {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                     {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3480 "parser.tab.c"
     break;
 
   case 79: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER TYPEPARAMETERS CLASSPERMITS CLASSBODY  */
 #line 183 "parser.y"
-                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3486 "parser.tab.c"
     break;
 
   case 80: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER TYPEPARAMETERS CLASSBODY  */
 #line 184 "parser.y"
-                                                     {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                     {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3492 "parser.tab.c"
     break;
 
   case 81: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY  */
 #line 185 "parser.y"
-                                                                                {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3498 "parser.tab.c"
     break;
 
   case 82: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY  */
 #line 186 "parser.y"
-                                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3504 "parser.tab.c"
     break;
 
   case 83: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER CLASSEXTENDS CLASSPERMITS CLASSBODY  */
 #line 187 "parser.y"
-                                                                {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3510 "parser.tab.c"
     break;
 
   case 84: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER CLASSEXTENDS CLASSBODY  */
 #line 188 "parser.y"
-                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3516 "parser.tab.c"
     break;
 
   case 85: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER CLASSIMPLEMENTS CLASSPERMITS CLASSBODY  */
 #line 189 "parser.y"
-                                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3522 "parser.tab.c"
     break;
 
   case 86: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER CLASSIMPLEMENTS CLASSBODY  */
 #line 190 "parser.y"
-                                                      {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                      {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3528 "parser.tab.c"
     break;
 
   case 87: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER CLASSPERMITS CLASSBODY  */
 #line 191 "parser.y"
-                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3534 "parser.tab.c"
     break;
 
   case 88: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER CLASSBODY  */
 #line 192 "parser.y"
-                                      {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[-1].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                      {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-1].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3540 "parser.tab.c"
     break;
 
   case 89: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY  */
 #line 193 "parser.y"
-                                                                                               {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-6].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                               {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-5].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3546 "parser.tab.c"
     break;
 
   case 90: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY  */
 #line 194 "parser.y"
-                                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3552 "parser.tab.c"
     break;
 
   case 91: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSPERMITS CLASSBODY  */
 #line 195 "parser.y"
-                                                                               {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                               {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3558 "parser.tab.c"
     break;
 
   case 92: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSBODY  */
 #line 196 "parser.y"
-                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3564 "parser.tab.c"
     break;
 
   case 93: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER TYPEPARAMETERS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY  */
 #line 197 "parser.y"
-                                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3570 "parser.tab.c"
     break;
 
   case 94: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER TYPEPARAMETERS CLASSIMPLEMENTS CLASSBODY  */
 #line 198 "parser.y"
-                                                                     {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                     {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3576 "parser.tab.c"
     break;
 
   case 95: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER TYPEPARAMETERS CLASSPERMITS CLASSBODY  */
 #line 199 "parser.y"
-                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                  {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3582 "parser.tab.c"
     break;
 
   case 96: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER TYPEPARAMETERS CLASSBODY  */
 #line 200 "parser.y"
-                                                     {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                     {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3588 "parser.tab.c"
     break;
 
   case 97: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY  */
 #line 201 "parser.y"
-                                                                                {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3594 "parser.tab.c"
     break;
 
   case 98: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY  */
 #line 202 "parser.y"
-                                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3600 "parser.tab.c"
     break;
 
   case 99: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER CLASSEXTENDS CLASSPERMITS CLASSBODY  */
 #line 203 "parser.y"
-                                                                {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3606 "parser.tab.c"
     break;
 
   case 100: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER CLASSEXTENDS CLASSBODY  */
 #line 204 "parser.y"
-                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3612 "parser.tab.c"
     break;
 
   case 101: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER CLASSIMPLEMENTS CLASSPERMITS CLASSBODY  */
 #line 205 "parser.y"
-                                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3618 "parser.tab.c"
     break;
 
   case 102: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER CLASSIMPLEMENTS CLASSBODY  */
 #line 206 "parser.y"
-                                                      {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                      {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3624 "parser.tab.c"
     break;
 
   case 103: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER CLASSPERMITS CLASSBODY  */
 #line 207 "parser.y"
-                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                   {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3630 "parser.tab.c"
     break;
 
   case 104: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER CLASSBODY  */
 #line 208 "parser.y"
-                                      {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("class") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[-1].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                      {(yyval.val)=addlabel("NORMALCLASSDECLARATION");addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-1].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3636 "parser.tab.c"
     break;
 
@@ -3643,7 +3643,7 @@ yyreduce:
 
   case 106: /* TYPEPARAMETERLIST: TYPEPARAMETER  */
 #line 210 "parser.y"
-                                   {(yyval.val)=addlabel("TYPEPARAMETERLIST");addedge((yyval.val), (yyvsp[0].val));}
+                                   {(yyval.val)= (yyvsp[0].val);}
 #line 3648 "parser.tab.c"
     break;
 
@@ -3667,13 +3667,13 @@ yyreduce:
 
   case 110: /* TYPEBOUND: EXTENDS IDENTIFIER  */
 #line 214 "parser.y"
-                                {(yyval.val)=addlabel("TYPEBOUND");(yyvsp[-1].val)=addlabel(string("extends") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                                {(yyval.val)=addlabel("TYPEBOUND");(yyvsp[0].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 3672 "parser.tab.c"
     break;
 
   case 111: /* TYPEBOUND: EXTENDS CLASSORINTERFACETYPE ADDITIONALBOUND  */
 #line 215 "parser.y"
-                                                 {(yyval.val)=addlabel("TYPEBOUND");(yyvsp[-2].val)=addlabel(string("extends") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                 {(yyval.val)=addlabel("TYPEBOUND");addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 3678 "parser.tab.c"
     break;
 
@@ -3691,19 +3691,19 @@ yyreduce:
 
   case 114: /* CLASSEXTENDS: EXTENDS CLASSTYPE  */
 #line 218 "parser.y"
-                                  {(yyval.val)=addlabel("CLASSEXTENDS");(yyvsp[-1].val)=addlabel(string("extends") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                  {(yyval.val)=addlabel("CLASSEXTENDS");addedge((yyval.val), (yyvsp[0].val));}
 #line 3696 "parser.tab.c"
     break;
 
   case 115: /* CLASSIMPLEMENTS: IMPLEMENTS INTERFACETYPELIST  */
 #line 219 "parser.y"
-                                                {(yyval.val)=addlabel("CLASSIMPLEMENTS");(yyvsp[-1].val)=addlabel(string("implements") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                {(yyval.val)=addlabel("CLASSIMPLEMENTS");addedge((yyval.val), (yyvsp[0].val));}
 #line 3702 "parser.tab.c"
     break;
 
   case 116: /* INTERFACETYPELIST: INTERFACETYPE  */
 #line 220 "parser.y"
-                                   {(yyval.val)=addlabel("INTERFACETYPELIST");addedge((yyval.val), (yyvsp[0].val));}
+                                   {(yyval.val)= (yyvsp[0].val);}
 #line 3708 "parser.tab.c"
     break;
 
@@ -3715,7 +3715,7 @@ yyreduce:
 
   case 118: /* CLASSPERMITS: PERMITS TYPENAMES  */
 #line 222 "parser.y"
-                                  {(yyval.val)=addlabel("CLASSPERMITS");(yyvsp[-1].val)=addlabel(string("permits") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                  {(yyval.val)=addlabel("CLASSPERMITS");addedge((yyval.val), (yyvsp[0].val));}
 #line 3720 "parser.tab.c"
     break;
 
@@ -3745,7 +3745,7 @@ yyreduce:
 
   case 123: /* CLASSBODYDECLARATIONS: CLASSBODYDECLARATION  */
 #line 227 "parser.y"
-                                              {(yyval.val)=addlabel("CLASSBODYDECLARATIONS");addedge((yyval.val), (yyvsp[0].val));}
+                                              {(yyval.val)= (yyvsp[0].val);}
 #line 3750 "parser.tab.c"
     break;
 
@@ -3757,49 +3757,49 @@ yyreduce:
 
   case 125: /* CLASSBODYDECLARATION: CLASSMEMBERDECLARATION  */
 #line 229 "parser.y"
-                                               {(yyval.val)=addlabel("CLASSBODYDECLARATION");addedge((yyval.val), (yyvsp[0].val));}
+                                               {(yyval.val)= (yyvsp[0].val);}
 #line 3762 "parser.tab.c"
     break;
 
   case 126: /* CLASSBODYDECLARATION: INSTANCEINITIALIZER  */
 #line 230 "parser.y"
-                        {(yyval.val)=addlabel("CLASSBODYDECLARATION");addedge((yyval.val), (yyvsp[0].val));}
+                        {(yyval.val)= (yyvsp[0].val);}
 #line 3768 "parser.tab.c"
     break;
 
   case 127: /* CLASSBODYDECLARATION: STATICINITIALIZER  */
 #line 231 "parser.y"
-                      {(yyval.val)=addlabel("CLASSBODYDECLARATION");addedge((yyval.val), (yyvsp[0].val));}
+                      {(yyval.val)= (yyvsp[0].val);}
 #line 3774 "parser.tab.c"
     break;
 
   case 128: /* CLASSBODYDECLARATION: CONSTRUCTORDECLARATION  */
 #line 232 "parser.y"
-                            {(yyval.val)=addlabel("CLASSBODYDECLARATION");addedge((yyval.val), (yyvsp[0].val));}
+                            {(yyval.val)= (yyvsp[0].val);}
 #line 3780 "parser.tab.c"
     break;
 
   case 129: /* CLASSMEMBERDECLARATION: FIELDDECLARATION  */
 #line 233 "parser.y"
-                                          {(yyval.val)=addlabel("CLASSMEMBERDECLARATION");addedge((yyval.val), (yyvsp[0].val));}
+                                          {(yyval.val)= (yyvsp[0].val);}
 #line 3786 "parser.tab.c"
     break;
 
   case 130: /* CLASSMEMBERDECLARATION: METHODDECLARATION  */
 #line 234 "parser.y"
-                      {(yyval.val)=addlabel("CLASSMEMBERDECLARATION");addedge((yyval.val), (yyvsp[0].val));}
+                      {(yyval.val)= (yyvsp[0].val);}
 #line 3792 "parser.tab.c"
     break;
 
   case 131: /* CLASSMEMBERDECLARATION: CLASSDECLARATION  */
 #line 235 "parser.y"
-                     {(yyval.val)=addlabel("CLASSMEMBERDECLARATION");addedge((yyval.val), (yyvsp[0].val));}
+                     {(yyval.val)= (yyvsp[0].val);}
 #line 3798 "parser.tab.c"
     break;
 
   case 132: /* CLASSMEMBERDECLARATION: SEMICOLON  */
 #line 236 "parser.y"
-              {(yyval.val)=addlabel("CLASSMEMBERDECLARATION");}
+              {(yyval.val)=addlabel("CLASSMEMBERDECLARATION");(yyvsp[0].val)=addlabel(string("semicolon") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 3804 "parser.tab.c"
     break;
 
@@ -3829,7 +3829,7 @@ yyreduce:
 
   case 137: /* VARIABLEDECLARATORLIST: VARIABLEDECLARATOR  */
 #line 241 "parser.y"
-                                             {(yyval.val)=addlabel("VARIABLEDECLARATORLIST");addedge((yyval.val), (yyvsp[0].val));}
+                                             {(yyval.val)= (yyvsp[0].val);}
 #line 3834 "parser.tab.c"
     break;
 
@@ -3847,7 +3847,7 @@ yyreduce:
 
   case 140: /* VARIABLEDECLARATOR: VARIABLEDECLARATORID  */
 #line 244 "parser.y"
-                         {(yyval.val)=addlabel("VARIABLEDECLARATOR");addedge((yyval.val), (yyvsp[0].val));}
+                         {(yyval.val)= (yyvsp[0].val);}
 #line 3852 "parser.tab.c"
     break;
 
@@ -3865,31 +3865,31 @@ yyreduce:
 
   case 143: /* VARIABLEINITIALIZER: EXPRESSION  */
 #line 247 "parser.y"
-                                  {(yyval.val)=addlabel("VARIABLEINITIALIZER");addedge((yyval.val), (yyvsp[0].val));}
+                                  {(yyval.val)= (yyvsp[0].val);}
 #line 3870 "parser.tab.c"
     break;
 
   case 144: /* VARIABLEINITIALIZER: ARRAYINITIALIZER  */
 #line 248 "parser.y"
-                     {(yyval.val)=addlabel("VARIABLEINITIALIZER");addedge((yyval.val), (yyvsp[0].val));}
+                     {(yyval.val)= (yyvsp[0].val);}
 #line 3876 "parser.tab.c"
     break;
 
   case 145: /* EXPRESSION: ASSIGNMENTEXPRESSION  */
 #line 249 "parser.y"
-                                   {(yyval.val)=addlabel("EXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                   {(yyval.val)= (yyvsp[0].val);}
 #line 3882 "parser.tab.c"
     break;
 
   case 146: /* ASSIGNMENTEXPRESSION: CONDITIONALEXPRESSION  */
 #line 250 "parser.y"
-                                              {(yyval.val)=addlabel("ASSIGNMENTEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                              {(yyval.val)= (yyvsp[0].val);}
 #line 3888 "parser.tab.c"
     break;
 
   case 147: /* ASSIGNMENTEXPRESSION: ASSIGNMENT  */
 #line 251 "parser.y"
-               {(yyval.val)=addlabel("ASSIGNMENTEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+               {(yyval.val)= (yyvsp[0].val);}
 #line 3894 "parser.tab.c"
     break;
 
@@ -3901,7 +3901,7 @@ yyreduce:
 
   case 149: /* LEFTHANDSIDE: EXPRESSIONNAME  */
 #line 253 "parser.y"
-                               {(yyval.val)=addlabel("LEFTHANDSIDE");addedge((yyval.val), (yyvsp[0].val));}
+                               {(yyval.val)= (yyvsp[0].val);}
 #line 3906 "parser.tab.c"
     break;
 
@@ -3913,13 +3913,13 @@ yyreduce:
 
   case 151: /* LEFTHANDSIDE: FIELDACCESS  */
 #line 255 "parser.y"
-                {(yyval.val)=addlabel("LEFTHANDSIDE");addedge((yyval.val), (yyvsp[0].val));}
+                {(yyval.val)= (yyvsp[0].val);}
 #line 3918 "parser.tab.c"
     break;
 
   case 152: /* LEFTHANDSIDE: ARRAYACCESS  */
 #line 256 "parser.y"
-                {(yyval.val)=addlabel("LEFTHANDSIDE");addedge((yyval.val), (yyvsp[0].val));}
+                {(yyval.val)= (yyvsp[0].val);}
 #line 3924 "parser.tab.c"
     break;
 
@@ -3967,37 +3967,37 @@ yyreduce:
 
   case 160: /* FIELDACCESS: SUPER DOT IDENTIFIER  */
 #line 264 "parser.y"
-                              {(yyval.val)=addlabel("FIELDACCESS");(yyvsp[-2].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[-1].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                              {(yyval.val)=addlabel("FIELDACCESS");(yyvsp[-1].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 3972 "parser.tab.c"
     break;
 
   case 161: /* FIELDACCESS: IDENTIFIER DOT SUPER DOT IDENTIFIER  */
 #line 265 "parser.y"
-                                             {(yyval.val)=addlabel("FIELDACCESS");(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[-1].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                                             {(yyval.val)=addlabel("FIELDACCESS");(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-1].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 3978 "parser.tab.c"
     break;
 
   case 162: /* PRIMARY: PRIMARYNONEWARRAY  */
 #line 266 "parser.y"
-                            {(yyval.val)=addlabel("PRIMARY");addedge((yyval.val), (yyvsp[0].val));}
+                            {(yyval.val)= (yyvsp[0].val);}
 #line 3984 "parser.tab.c"
     break;
 
   case 163: /* PRIMARY: ARRAYCREATIONEXPRESSION  */
 #line 267 "parser.y"
-                                 {(yyval.val)=addlabel("PRIMARY");addedge((yyval.val), (yyvsp[0].val));}
+                                 {(yyval.val)= (yyvsp[0].val);}
 #line 3990 "parser.tab.c"
     break;
 
   case 164: /* PRIMARYNONEWARRAY: LITERAL  */
 #line 268 "parser.y"
-                            {(yyval.val)=addlabel("PRIMARYNONEWARRAY");addedge((yyval.val), (yyvsp[0].val));}
+                            {(yyval.val)= (yyvsp[0].val);}
 #line 3996 "parser.tab.c"
     break;
 
   case 165: /* PRIMARYNONEWARRAY: CLASSLITERAL  */
 #line 269 "parser.y"
-                      {(yyval.val)=addlabel("PRIMARYNONEWARRAY");addedge((yyval.val), (yyvsp[0].val));}
+                      {(yyval.val)= (yyvsp[0].val);}
 #line 4002 "parser.tab.c"
     break;
 
@@ -4009,7 +4009,7 @@ yyreduce:
 
   case 167: /* PRIMARYNONEWARRAY: IDENTIFIER DOT THIS  */
 #line 271 "parser.y"
-                             {(yyval.val)=addlabel("PRIMARYNONEWARRAY");(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[-1].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("this") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                             {(yyval.val)=addlabel("PRIMARYNONEWARRAY");(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[-1].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));}
 #line 4014 "parser.tab.c"
     break;
 
@@ -4021,31 +4021,31 @@ yyreduce:
 
   case 169: /* PRIMARYNONEWARRAY: CLASSINSTANCECREATIONEXPRESSION  */
 #line 273 "parser.y"
-                                          {(yyval.val)=addlabel("PRIMARYNONEWARRAY");addedge((yyval.val), (yyvsp[0].val));}
+                                          {(yyval.val)= (yyvsp[0].val);}
 #line 4026 "parser.tab.c"
     break;
 
   case 170: /* PRIMARYNONEWARRAY: FIELDACCESS  */
 #line 274 "parser.y"
-                     {(yyval.val)=addlabel("PRIMARYNONEWARRAY");addedge((yyval.val), (yyvsp[0].val));}
+                     {(yyval.val)= (yyvsp[0].val);}
 #line 4032 "parser.tab.c"
     break;
 
   case 171: /* PRIMARYNONEWARRAY: ARRAYACCESS  */
 #line 275 "parser.y"
-                     {(yyval.val)=addlabel("PRIMARYNONEWARRAY");addedge((yyval.val), (yyvsp[0].val));}
+                     {(yyval.val)= (yyvsp[0].val);}
 #line 4038 "parser.tab.c"
     break;
 
   case 172: /* PRIMARYNONEWARRAY: METHODINVOCATION  */
 #line 276 "parser.y"
-                          {(yyval.val)=addlabel("PRIMARYNONEWARRAY");addedge((yyval.val), (yyvsp[0].val));}
+                          {(yyval.val)= (yyvsp[0].val);}
 #line 4044 "parser.tab.c"
     break;
 
   case 173: /* PRIMARYNONEWARRAY: METHODREFERENCE  */
 #line 277 "parser.y"
-                         {(yyval.val)=addlabel("PRIMARYNONEWARRAY");addedge((yyval.val), (yyvsp[0].val));}
+                         {(yyval.val)= (yyvsp[0].val);}
 #line 4050 "parser.tab.c"
     break;
 
@@ -4105,13 +4105,13 @@ yyreduce:
 
   case 183: /* CLASSLITERAL: BOOLEAN DOTCLASS  */
 #line 287 "parser.y"
-                          {(yyval.val)=addlabel("CLASSLITERAL");(yyvsp[-1].val)=addlabel(string("boolean") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("dotclass") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                          {(yyval.val)=addlabel("CLASSLITERAL");(yyvsp[0].val)=addlabel(string("dotclass") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 4110 "parser.tab.c"
     break;
 
   case 184: /* CLASSLITERAL: VOID DOTCLASS  */
 #line 288 "parser.y"
-                       {(yyval.val)=addlabel("CLASSLITERAL");(yyvsp[-1].val)=addlabel(string("void") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("dotclass") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                       {(yyval.val)=addlabel("CLASSLITERAL");(yyvsp[0].val)=addlabel(string("dotclass") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 4116 "parser.tab.c"
     break;
 
@@ -4129,7 +4129,7 @@ yyreduce:
 
   case 187: /* CLASSLITERAL: BOOLEAN SQUARESTAR DOTCLASS  */
 #line 291 "parser.y"
-                                     {(yyval.val)=addlabel("CLASSLITERAL");(yyvsp[-2].val)=addlabel(string("boolean") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("dotclass") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                                     {(yyval.val)=addlabel("CLASSLITERAL");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("dotclass") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 4134 "parser.tab.c"
     break;
 
@@ -4147,7 +4147,7 @@ yyreduce:
 
   case 190: /* CLASSINSTANCECREATIONEXPRESSION: UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION  */
 #line 294 "parser.y"
-                                                                             {(yyval.val)=addlabel("CLASSINSTANCECREATIONEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                                                             {(yyval.val)= (yyvsp[0].val);}
 #line 4152 "parser.tab.c"
     break;
 
@@ -4171,49 +4171,49 @@ yyreduce:
 
   case 194: /* UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION: NEW CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN CLOSEPARAN  */
 #line 298 "parser.y"
-                                                                                                        {(yyval.val)=addlabel("UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION");(yyvsp[-3].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));}
+                                                                                                        {(yyval.val)=addlabel("UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION");addedge((yyval.val), (yyvsp[-2].val));}
 #line 4176 "parser.tab.c"
     break;
 
   case 195: /* UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION: NEW CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN CLOSEPARAN CLASSBODY  */
 #line 299 "parser.y"
-                                                                         {(yyval.val)=addlabel("UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION");(yyvsp[-4].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                         {(yyval.val)=addlabel("UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION");addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 4182 "parser.tab.c"
     break;
 
   case 196: /* UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION: NEW CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN ARGUMENTLIST CLOSEPARAN  */
 #line 300 "parser.y"
-                                                                            {(yyval.val)=addlabel("UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION");(yyvsp[-4].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));}
+                                                                            {(yyval.val)=addlabel("UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION");addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));}
 #line 4188 "parser.tab.c"
     break;
 
   case 197: /* UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION: NEW CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN ARGUMENTLIST CLOSEPARAN CLASSBODY  */
 #line 301 "parser.y"
-                                                                                       {(yyval.val)=addlabel("UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION");(yyvsp[-5].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                       {(yyval.val)=addlabel("UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION");addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 4194 "parser.tab.c"
     break;
 
   case 198: /* UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION: NEW TYPEARGUMENTS CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN CLOSEPARAN  */
 #line 302 "parser.y"
-                                                                             {(yyval.val)=addlabel("UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION");(yyvsp[-4].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));}
+                                                                             {(yyval.val)=addlabel("UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION");addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));}
 #line 4200 "parser.tab.c"
     break;
 
   case 199: /* UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION: NEW TYPEARGUMENTS CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN CLOSEPARAN CLASSBODY  */
 #line 303 "parser.y"
-                                                                                       {(yyval.val)=addlabel("UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION");(yyvsp[-5].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                       {(yyval.val)=addlabel("UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION");addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 4206 "parser.tab.c"
     break;
 
   case 200: /* UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION: NEW TYPEARGUMENTS CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN ARGUMENTLIST CLOSEPARAN  */
 #line 304 "parser.y"
-                                                                                          {(yyval.val)=addlabel("UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION");(yyvsp[-5].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));}
+                                                                                          {(yyval.val)=addlabel("UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION");addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));}
 #line 4212 "parser.tab.c"
     break;
 
   case 201: /* UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION: NEW TYPEARGUMENTS CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN ARGUMENTLIST CLOSEPARAN CLASSBODY  */
 #line 305 "parser.y"
-                                                                                                    {(yyval.val)=addlabel("UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION");(yyvsp[-6].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                                    {(yyval.val)=addlabel("UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION");addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 4218 "parser.tab.c"
     break;
 
@@ -4225,7 +4225,7 @@ yyreduce:
 
   case 203: /* ARGUMENTLIST: EXPRESSION  */
 #line 307 "parser.y"
-                          {(yyval.val)=addlabel("ARGUMENTLIST");addedge((yyval.val), (yyvsp[0].val));}
+                          {(yyval.val)= (yyvsp[0].val);}
 #line 4230 "parser.tab.c"
     break;
 
@@ -4321,49 +4321,49 @@ yyreduce:
 
   case 219: /* METHODINVOCATION: SUPER DOT IDENTIFIER OPENPARAN CLOSEPARAN  */
 #line 323 "parser.y"
-                                                   {(yyval.val)=addlabel("METHODINVOCATION");(yyvsp[-4].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));}
+                                                   {(yyval.val)=addlabel("METHODINVOCATION");(yyvsp[-3].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));}
 #line 4326 "parser.tab.c"
     break;
 
   case 220: /* METHODINVOCATION: SUPER DOT IDENTIFIER OPENPARAN ARGUMENTLIST CLOSEPARAN  */
 #line 324 "parser.y"
-                                                                {(yyval.val)=addlabel("METHODINVOCATION");(yyvsp[-5].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));}
+                                                                {(yyval.val)=addlabel("METHODINVOCATION");(yyvsp[-4].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));}
 #line 4332 "parser.tab.c"
     break;
 
   case 221: /* METHODINVOCATION: SUPER DOT TYPEARGUMENTS IDENTIFIER OPENPARAN CLOSEPARAN  */
 #line 325 "parser.y"
-                                                                 {(yyval.val)=addlabel("METHODINVOCATION");(yyvsp[-5].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));}
+                                                                 {(yyval.val)=addlabel("METHODINVOCATION");(yyvsp[-4].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));}
 #line 4338 "parser.tab.c"
     break;
 
   case 222: /* METHODINVOCATION: SUPER DOT TYPEARGUMENTS IDENTIFIER OPENPARAN ARGUMENTLIST CLOSEPARAN  */
 #line 326 "parser.y"
-                                                                              {(yyval.val)=addlabel("METHODINVOCATION");(yyvsp[-6].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));}
+                                                                              {(yyval.val)=addlabel("METHODINVOCATION");(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));}
 #line 4344 "parser.tab.c"
     break;
 
   case 223: /* METHODINVOCATION: IDENTIFIER DOT SUPER DOT IDENTIFIER OPENPARAN CLOSEPARAN  */
 #line 327 "parser.y"
-                                                                  {(yyval.val)=addlabel("METHODINVOCATION");(yyvsp[-6].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));}
+                                                                  {(yyval.val)=addlabel("METHODINVOCATION");(yyvsp[-6].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-3].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));}
 #line 4350 "parser.tab.c"
     break;
 
   case 224: /* METHODINVOCATION: IDENTIFIER DOT SUPER DOT IDENTIFIER OPENPARAN ARGUMENTLIST CLOSEPARAN  */
 #line 328 "parser.y"
-                                                                               {(yyval.val)=addlabel("METHODINVOCATION");(yyvsp[-7].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-7].val))+string(")"));addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-6].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));}
+                                                                               {(yyval.val)=addlabel("METHODINVOCATION");(yyvsp[-7].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-7].val))+string(")"));addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-6].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-4].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));}
 #line 4356 "parser.tab.c"
     break;
 
   case 225: /* METHODINVOCATION: IDENTIFIER DOT SUPER DOT TYPEARGUMENTS IDENTIFIER OPENPARAN CLOSEPARAN  */
 #line 329 "parser.y"
-                                                                                {(yyval.val)=addlabel("METHODINVOCATION");(yyvsp[-7].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-7].val))+string(")"));addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-6].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));}
+                                                                                {(yyval.val)=addlabel("METHODINVOCATION");(yyvsp[-7].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-7].val))+string(")"));addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-6].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-4].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));}
 #line 4362 "parser.tab.c"
     break;
 
   case 226: /* METHODINVOCATION: IDENTIFIER DOT SUPER DOT TYPEARGUMENTS IDENTIFIER OPENPARAN ARGUMENTLIST CLOSEPARAN  */
 #line 330 "parser.y"
-                                                                                             {(yyval.val)=addlabel("METHODINVOCATION");(yyvsp[-8].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-8].val))+string(")"));addedge((yyval.val), (yyvsp[-8].val));(yyvsp[-7].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-7].val))+string(")"));addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-6].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));}
+                                                                                             {(yyval.val)=addlabel("METHODINVOCATION");(yyvsp[-8].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-8].val))+string(")"));addedge((yyval.val), (yyvsp[-8].val));(yyvsp[-7].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-7].val))+string(")"));addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));}
 #line 4368 "parser.tab.c"
     break;
 
@@ -4381,19 +4381,19 @@ yyreduce:
 
   case 229: /* METHODREFERENCE: SUPER DOUBLECOLON TYPEARGUMENTS IDENTIFIER  */
 #line 333 "parser.y"
-                                                    {(yyval.val)=addlabel("METHODREFERENCE");(yyvsp[-3].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                                                    {(yyval.val)=addlabel("METHODREFERENCE");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 4386 "parser.tab.c"
     break;
 
   case 230: /* METHODREFERENCE: IDENTIFIER DOT SUPER DOUBLECOLON TYPEARGUMENTS IDENTIFIER  */
 #line 334 "parser.y"
-                                                                   {(yyval.val)=addlabel("METHODREFERENCE");(yyvsp[-5].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                                                                   {(yyval.val)=addlabel("METHODREFERENCE");(yyvsp[-5].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 4392 "parser.tab.c"
     break;
 
   case 231: /* METHODREFERENCE: CLASSTYPE DOUBLECOLON TYPEARGUMENTS NEW  */
 #line 335 "parser.y"
-                                                 {(yyval.val)=addlabel("METHODREFERENCE");addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                                                 {(yyval.val)=addlabel("METHODREFERENCE");addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));}
 #line 4398 "parser.tab.c"
     break;
 
@@ -4411,79 +4411,79 @@ yyreduce:
 
   case 234: /* METHODREFERENCE: SUPER DOUBLECOLON IDENTIFIER  */
 #line 338 "parser.y"
-                                      {(yyval.val)=addlabel("METHODREFERENCE");(yyvsp[-2].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[0].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                                      {(yyval.val)=addlabel("METHODREFERENCE");(yyvsp[0].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 4416 "parser.tab.c"
     break;
 
   case 235: /* METHODREFERENCE: IDENTIFIER DOT SUPER DOUBLECOLON IDENTIFIER  */
 #line 339 "parser.y"
-                                                     {(yyval.val)=addlabel("METHODREFERENCE");(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[0].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                                                     {(yyval.val)=addlabel("METHODREFERENCE");(yyvsp[-4].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[0].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 4422 "parser.tab.c"
     break;
 
   case 236: /* METHODREFERENCE: CLASSTYPE DOUBLECOLON NEW  */
 #line 340 "parser.y"
-                                   {(yyval.val)=addlabel("METHODREFERENCE");addedge((yyval.val), (yyvsp[-2].val));(yyvsp[0].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                                   {(yyval.val)=addlabel("METHODREFERENCE");addedge((yyval.val), (yyvsp[-2].val));}
 #line 4428 "parser.tab.c"
     break;
 
   case 237: /* ARRAYCREATIONEXPRESSION: NEW PRIMITIVETYPE DIMEXPRS DIMS  */
 #line 341 "parser.y"
-                                                          {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");(yyvsp[-3].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                          {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 4434 "parser.tab.c"
     break;
 
   case 238: /* ARRAYCREATIONEXPRESSION: NEW CLASSORINTERFACETYPE DIMEXPRS DIMS  */
 #line 342 "parser.y"
-                                                {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");(yyvsp[-3].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 4440 "parser.tab.c"
     break;
 
   case 239: /* ARRAYCREATIONEXPRESSION: NEW PRIMITIVETYPE DIMS ARRAYINITIALIZER  */
 #line 343 "parser.y"
-                                                 {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");(yyvsp[-3].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                 {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 4446 "parser.tab.c"
     break;
 
   case 240: /* ARRAYCREATIONEXPRESSION: NEW CLASSORINTERFACETYPE DIMS ARRAYINITIALIZER  */
 #line 344 "parser.y"
-                                                        {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");(yyvsp[-3].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                        {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 4452 "parser.tab.c"
     break;
 
   case 241: /* ARRAYCREATIONEXPRESSION: NEW PRIMITIVETYPE DIMEXPRS  */
 #line 345 "parser.y"
-                                {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");(yyvsp[-2].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 4458 "parser.tab.c"
     break;
 
   case 242: /* ARRAYCREATIONEXPRESSION: NEW CLASSORINTERFACETYPE DIMEXPRS  */
 #line 346 "parser.y"
-                                            {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");(yyvsp[-2].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                            {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 4464 "parser.tab.c"
     break;
 
   case 243: /* ARRAYCREATIONEXPRESSION: NEW PRIMITIVETYPE DIMS  */
 #line 347 "parser.y"
-                           {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");(yyvsp[-2].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                           {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 4470 "parser.tab.c"
     break;
 
   case 244: /* ARRAYCREATIONEXPRESSION: NEW CLASSORINTERFACETYPE DIMS  */
 #line 348 "parser.y"
-                                       {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");(yyvsp[-2].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                       {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 4476 "parser.tab.c"
     break;
 
   case 245: /* ARRAYCREATIONEXPRESSION: NEW PRIMITIVETYPE  */
 #line 349 "parser.y"
-                       {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");(yyvsp[-1].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                       {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
 #line 4482 "parser.tab.c"
     break;
 
   case 246: /* ARRAYCREATIONEXPRESSION: NEW CLASSORINTERFACETYPE  */
 #line 350 "parser.y"
-                                   {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");(yyvsp[-1].val)=addlabel(string("new") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                   {(yyval.val)=addlabel("ARRAYCREATIONEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
 #line 4488 "parser.tab.c"
     break;
 
@@ -4501,13 +4501,13 @@ yyreduce:
 
   case 249: /* ARRAYINITIALIZER1: VARIABLEINITIALIZERLIST  */
 #line 353 "parser.y"
-                                              {(yyval.val)=addlabel("ARRAYINITIALIZER1");addedge((yyval.val), (yyvsp[0].val));}
+                                              {(yyval.val)= (yyvsp[0].val);}
 #line 4506 "parser.tab.c"
     break;
 
   case 250: /* ARRAYINITIALIZER1: COMMA  */
 #line 354 "parser.y"
-          {(yyval.val)=addlabel("ARRAYINITIALIZER1");}
+          {(yyval.val)=addlabel("ARRAYINITIALIZER1");(yyvsp[0].val)=addlabel(string("comma") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 4512 "parser.tab.c"
     break;
 
@@ -4519,7 +4519,7 @@ yyreduce:
 
   case 252: /* DIMEXPRS: DIMEXPR  */
 #line 356 "parser.y"
-                   {(yyval.val)=addlabel("DIMEXPRS");addedge((yyval.val), (yyvsp[0].val));}
+                   {(yyval.val)= (yyvsp[0].val);}
 #line 4524 "parser.tab.c"
     break;
 
@@ -4537,7 +4537,7 @@ yyreduce:
 
   case 255: /* VARIABLEINITIALIZERLIST: VARIABLEINITIALIZER  */
 #line 359 "parser.y"
-                                               {(yyval.val)=addlabel("VARIABLEINITIALIZERLIST");addedge((yyval.val), (yyvsp[0].val));}
+                                               {(yyval.val)= (yyvsp[0].val);}
 #line 4542 "parser.tab.c"
     break;
 
@@ -4567,7 +4567,7 @@ yyreduce:
 
   case 260: /* CONDITIONALEXPRESSION: CONDITIONALOREXPRESSION  */
 #line 364 "parser.y"
-                                                {(yyval.val)=addlabel("CONDITIONALEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                                {(yyval.val)= (yyvsp[0].val);}
 #line 4572 "parser.tab.c"
     break;
 
@@ -4579,7 +4579,7 @@ yyreduce:
 
   case 262: /* CONDITIONALOREXPRESSION: CONDITIONALANDEXPRESSION  */
 #line 366 "parser.y"
-                                                   {(yyval.val)=addlabel("CONDITIONALOREXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                                   {(yyval.val)= (yyvsp[0].val);}
 #line 4584 "parser.tab.c"
     break;
 
@@ -4591,7 +4591,7 @@ yyreduce:
 
   case 264: /* CONDITIONALANDEXPRESSION: INCLUSIVEOREXPRESSION  */
 #line 368 "parser.y"
-                                                 {(yyval.val)=addlabel("CONDITIONALANDEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                                 {(yyval.val)= (yyvsp[0].val);}
 #line 4596 "parser.tab.c"
     break;
 
@@ -4603,7 +4603,7 @@ yyreduce:
 
   case 266: /* INCLUSIVEOREXPRESSION: EXCLUSIVEOREXPRESSION  */
 #line 370 "parser.y"
-                                              {(yyval.val)=addlabel("INCLUSIVEOREXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                              {(yyval.val)= (yyvsp[0].val);}
 #line 4608 "parser.tab.c"
     break;
 
@@ -4615,7 +4615,7 @@ yyreduce:
 
   case 268: /* EXCLUSIVEOREXPRESSION: ANDEXPRESSION  */
 #line 372 "parser.y"
-                                      {(yyval.val)=addlabel("EXCLUSIVEOREXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                      {(yyval.val)= (yyvsp[0].val);}
 #line 4620 "parser.tab.c"
     break;
 
@@ -4627,7 +4627,7 @@ yyreduce:
 
   case 270: /* ANDEXPRESSION: EQUALITYEXPRESSION  */
 #line 374 "parser.y"
-                                   {(yyval.val)=addlabel("ANDEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                   {(yyval.val)= (yyvsp[0].val);}
 #line 4632 "parser.tab.c"
     break;
 
@@ -4639,7 +4639,7 @@ yyreduce:
 
   case 272: /* EQUALITYEXPRESSION: RELATIONALEXPRESSION  */
 #line 376 "parser.y"
-                                          {(yyval.val)=addlabel("EQUALITYEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                          {(yyval.val)= (yyvsp[0].val);}
 #line 4644 "parser.tab.c"
     break;
 
@@ -4657,7 +4657,7 @@ yyreduce:
 
   case 275: /* RELATIONALEXPRESSION: SHIFTEXPRESSION  */
 #line 379 "parser.y"
-                                       {(yyval.val)=addlabel("RELATIONALEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                       {(yyval.val)= (yyvsp[0].val);}
 #line 4662 "parser.tab.c"
     break;
 
@@ -4687,13 +4687,13 @@ yyreduce:
 
   case 280: /* RELATIONALEXPRESSION: INSTANCEOFEXPRESSION  */
 #line 384 "parser.y"
-                              {(yyval.val)=addlabel("RELATIONALEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                              {(yyval.val)= (yyvsp[0].val);}
 #line 4692 "parser.tab.c"
     break;
 
   case 281: /* SHIFTEXPRESSION: ADDITIVEEXPRESSION  */
 #line 385 "parser.y"
-                                     {(yyval.val)=addlabel("SHIFTEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                     {(yyval.val)= (yyvsp[0].val);}
 #line 4698 "parser.tab.c"
     break;
 
@@ -4717,7 +4717,7 @@ yyreduce:
 
   case 285: /* ADDITIVEEXPRESSION: MULTIPLICATIVEEXPRESSION  */
 #line 389 "parser.y"
-                                              {(yyval.val)=addlabel("ADDITIVEEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                              {(yyval.val)= (yyvsp[0].val);}
 #line 4722 "parser.tab.c"
     break;
 
@@ -4735,7 +4735,7 @@ yyreduce:
 
   case 288: /* MULTIPLICATIVEEXPRESSION: UNARYEXPRESSION  */
 #line 392 "parser.y"
-                                           {(yyval.val)=addlabel("MULTIPLICATIVEEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                           {(yyval.val)= (yyvsp[0].val);}
 #line 4740 "parser.tab.c"
     break;
 
@@ -4759,13 +4759,13 @@ yyreduce:
 
   case 292: /* UNARYEXPRESSION: PREINCREMENTEXPRESSION  */
 #line 396 "parser.y"
-                                         {(yyval.val)=addlabel("UNARYEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                         {(yyval.val)= (yyvsp[0].val);}
 #line 4764 "parser.tab.c"
     break;
 
   case 293: /* UNARYEXPRESSION: PREDECREMENTEXPRESSION  */
 #line 397 "parser.y"
-                                {(yyval.val)=addlabel("UNARYEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                {(yyval.val)= (yyvsp[0].val);}
 #line 4770 "parser.tab.c"
     break;
 
@@ -4783,7 +4783,7 @@ yyreduce:
 
   case 296: /* UNARYEXPRESSION: UNARYEXPRESSIONNOTPLUSMINUS  */
 #line 400 "parser.y"
-                                     {(yyval.val)=addlabel("UNARYEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                     {(yyval.val)= (yyvsp[0].val);}
 #line 4788 "parser.tab.c"
     break;
 
@@ -4801,7 +4801,7 @@ yyreduce:
 
   case 299: /* UNARYEXPRESSIONNOTPLUSMINUS: POSTFIXEXPRESSION  */
 #line 403 "parser.y"
-                                                {(yyval.val)=addlabel("UNARYEXPRESSIONNOTPLUSMINUS");addedge((yyval.val), (yyvsp[0].val));}
+                                                {(yyval.val)= (yyvsp[0].val);}
 #line 4806 "parser.tab.c"
     break;
 
@@ -4819,13 +4819,13 @@ yyreduce:
 
   case 302: /* POSTFIXEXPRESSION: PRIMARY  */
 #line 406 "parser.y"
-                            {(yyval.val)=addlabel("POSTFIXEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                            {(yyval.val)= (yyvsp[0].val);}
 #line 4824 "parser.tab.c"
     break;
 
   case 303: /* POSTFIXEXPRESSION: EXPRESSIONNAME  */
 #line 407 "parser.y"
-                        {(yyval.val)=addlabel("POSTFIXEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                        {(yyval.val)= (yyvsp[0].val);}
 #line 4830 "parser.tab.c"
     break;
 
@@ -4837,13 +4837,13 @@ yyreduce:
 
   case 305: /* POSTFIXEXPRESSION: POSTINCREMENTEXPRESSION  */
 #line 409 "parser.y"
-                                 {(yyval.val)=addlabel("POSTFIXEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                 {(yyval.val)= (yyvsp[0].val);}
 #line 4842 "parser.tab.c"
     break;
 
   case 306: /* POSTFIXEXPRESSION: POSTDECREMENTEXPRESSION  */
 #line 410 "parser.y"
-                                 {(yyval.val)=addlabel("POSTFIXEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                 {(yyval.val)= (yyvsp[0].val);}
 #line 4848 "parser.tab.c"
     break;
 
@@ -4861,7 +4861,7 @@ yyreduce:
 
   case 309: /* INSTANCEOFEXPRESSION: RELATIONALEXPRESSION INSTANCEOF REFERENCETYPE  */
 #line 413 "parser.y"
-                                                                     {(yyval.val)=addlabel("INSTANCEOFEXPRESSION");addedge((yyval.val), (yyvsp[-2].val));(yyvsp[-1].val)=addlabel(string("instanceof") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                     {(yyval.val)=addlabel("INSTANCEOFEXPRESSION");addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 4866 "parser.tab.c"
     break;
 
@@ -4921,37 +4921,37 @@ yyreduce:
 
   case 319: /* METHODHEADER: VOID METHODDECLARATOR THROWS2  */
 #line 423 "parser.y"
-                                  {(yyval.val)=addlabel("METHODHEADER");(yyvsp[-2].val)=addlabel(string("void") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                  {(yyval.val)=addlabel("METHODHEADER");addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 4926 "parser.tab.c"
     break;
 
   case 320: /* METHODHEADER: VOID METHODDECLARATOR  */
 #line 424 "parser.y"
-                           {(yyval.val)=addlabel("METHODHEADER");(yyvsp[-1].val)=addlabel(string("void") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                           {(yyval.val)=addlabel("METHODHEADER");addedge((yyval.val), (yyvsp[0].val));}
 #line 4932 "parser.tab.c"
     break;
 
   case 321: /* METHODHEADER: TYPEPARAMETERS VOID METHODDECLARATOR THROWS2  */
 #line 425 "parser.y"
-                                                      {(yyval.val)=addlabel("METHODHEADER");addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("void") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                      {(yyval.val)=addlabel("METHODHEADER");addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 4938 "parser.tab.c"
     break;
 
   case 322: /* METHODHEADER: TYPEPARAMETERS VOID METHODDECLARATOR  */
 #line 426 "parser.y"
-                                          {(yyval.val)=addlabel("METHODHEADER");addedge((yyval.val), (yyvsp[-2].val));(yyvsp[-1].val)=addlabel(string("void") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                          {(yyval.val)=addlabel("METHODHEADER");addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 4944 "parser.tab.c"
     break;
 
   case 323: /* THROWS2: THROWS EXCEPTIONTYPELIST  */
 #line 427 "parser.y"
-                                   {(yyval.val)=addlabel("THROWS2");(yyvsp[-1].val)=addlabel(string("throws") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                   {(yyval.val)=addlabel("THROWS2");addedge((yyval.val), (yyvsp[0].val));}
 #line 4950 "parser.tab.c"
     break;
 
   case 324: /* EXCEPTIONTYPELIST: EXCEPTIONTYPE  */
 #line 428 "parser.y"
-                                   {(yyval.val)=addlabel("EXCEPTIONTYPELIST");addedge((yyval.val), (yyvsp[0].val));}
+                                   {(yyval.val)= (yyvsp[0].val);}
 #line 4956 "parser.tab.c"
     break;
 
@@ -4963,7 +4963,7 @@ yyreduce:
 
   case 326: /* EXCEPTIONTYPE: CLASSTYPE  */
 #line 430 "parser.y"
-                          {(yyval.val)=addlabel("EXCEPTIONTYPE");addedge((yyval.val), (yyvsp[0].val));}
+                          {(yyval.val)= (yyvsp[0].val);}
 #line 4968 "parser.tab.c"
     break;
 
@@ -5017,19 +5017,19 @@ yyreduce:
 
   case 335: /* RECEIVERPARAMETER: TYPE THIS  */
 #line 439 "parser.y"
-                              {(yyval.val)=addlabel("RECEIVERPARAMETER");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("this") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                              {(yyval.val)=addlabel("RECEIVERPARAMETER");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5022 "parser.tab.c"
     break;
 
   case 336: /* RECEIVERPARAMETER: TYPE IDENTIFIER DOT THIS  */
 #line 440 "parser.y"
-                             {(yyval.val)=addlabel("RECEIVERPARAMETER");addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[-1].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("this") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                             {(yyval.val)=addlabel("RECEIVERPARAMETER");addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[-1].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));}
 #line 5028 "parser.tab.c"
     break;
 
   case 337: /* FORMALPARAMETERLIST: FORMALPARAMETER  */
 #line 441 "parser.y"
-                                       {(yyval.val)=addlabel("FORMALPARAMETERLIST");addedge((yyval.val), (yyvsp[0].val));}
+                                       {(yyval.val)= (yyvsp[0].val);}
 #line 5034 "parser.tab.c"
     break;
 
@@ -5047,13 +5047,13 @@ yyreduce:
 
   case 340: /* FORMALPARAMETER: VARIABLEARITYPARAMETER  */
 #line 444 "parser.y"
-                                {(yyval.val)=addlabel("FORMALPARAMETER");addedge((yyval.val), (yyvsp[0].val));}
+                                {(yyval.val)= (yyvsp[0].val);}
 #line 5052 "parser.tab.c"
     break;
 
   case 341: /* FORMALPARAMETER: FINAL TYPE VARIABLEDECLARATORID  */
 #line 445 "parser.y"
-                                    {(yyval.val)=addlabel("FORMALPARAMETER");(yyvsp[-2].val)=addlabel(string("final") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                    {(yyval.val)=addlabel("FORMALPARAMETER");addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5058 "parser.tab.c"
     break;
 
@@ -5065,31 +5065,31 @@ yyreduce:
 
   case 343: /* VARIABLEARITYPARAMETER: FINAL TYPE TRIPLEDOT IDENTIFIER  */
 #line 447 "parser.y"
-                                    {(yyval.val)=addlabel("VARIABLEARITYPARAMETER");(yyvsp[-3].val)=addlabel(string("final") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[0].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                                    {(yyval.val)=addlabel("VARIABLEARITYPARAMETER");addedge((yyval.val), (yyvsp[-2].val));(yyvsp[0].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 5070 "parser.tab.c"
     break;
 
   case 344: /* METHODBODY: BLOCK  */
 #line 448 "parser.y"
-                   {(yyval.val)=addlabel("METHODBODY");addedge((yyval.val), (yyvsp[0].val));}
+                   {(yyval.val)= (yyvsp[0].val);}
 #line 5076 "parser.tab.c"
     break;
 
   case 345: /* METHODBODY: SEMICOLON  */
 #line 449 "parser.y"
-                   {(yyval.val)=addlabel("METHODBODY");}
+                   {(yyval.val)=addlabel("METHODBODY");(yyvsp[0].val)=addlabel(string("semicolon") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 5082 "parser.tab.c"
     break;
 
   case 346: /* INSTANCEINITIALIZER: BLOCK  */
 #line 450 "parser.y"
-                            {(yyval.val)=addlabel("INSTANCEINITIALIZER");addedge((yyval.val), (yyvsp[0].val));}
+                            {(yyval.val)= (yyvsp[0].val);}
 #line 5088 "parser.tab.c"
     break;
 
   case 347: /* STATICINITIALIZER: STATIC BLOCK  */
 #line 451 "parser.y"
-                                 {(yyval.val)=addlabel("STATICINITIALIZER");(yyvsp[-1].val)=addlabel(string("static") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                 {(yyval.val)=addlabel("STATICINITIALIZER");addedge((yyval.val), (yyvsp[0].val));}
 #line 5094 "parser.tab.c"
     break;
 
@@ -5107,7 +5107,7 @@ yyreduce:
 
   case 350: /* BLOCKSTATEMENTS: BLOCKSTATEMENT  */
 #line 454 "parser.y"
-                                  {(yyval.val)=addlabel("BLOCKSTATEMENTS");addedge((yyval.val), (yyvsp[0].val));}
+                                  {(yyval.val)= (yyvsp[0].val);}
 #line 5112 "parser.tab.c"
     break;
 
@@ -5119,25 +5119,25 @@ yyreduce:
 
   case 352: /* BLOCKSTATEMENT: LOCALCLASSORINTERFACEDECLARATION  */
 #line 456 "parser.y"
-                                                  {(yyval.val)=addlabel("BLOCKSTATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                                                  {(yyval.val)= (yyvsp[0].val);}
 #line 5124 "parser.tab.c"
     break;
 
   case 353: /* BLOCKSTATEMENT: LOCALVARIABLEDECLARATIONSTATEMENT  */
 #line 457 "parser.y"
-                                           {(yyval.val)=addlabel("BLOCKSTATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                                           {(yyval.val)= (yyvsp[0].val);}
 #line 5130 "parser.tab.c"
     break;
 
   case 354: /* BLOCKSTATEMENT: STATEMENT  */
 #line 458 "parser.y"
-                   {(yyval.val)=addlabel("BLOCKSTATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                   {(yyval.val)= (yyvsp[0].val);}
 #line 5136 "parser.tab.c"
     break;
 
   case 355: /* LOCALCLASSORINTERFACEDECLARATION: CLASSDECLARATION  */
 #line 459 "parser.y"
-                                                    {(yyval.val)=addlabel("LOCALCLASSORINTERFACEDECLARATION");addedge((yyval.val), (yyvsp[0].val));}
+                                                    {(yyval.val)= (yyvsp[0].val);}
 #line 5142 "parser.tab.c"
     break;
 
@@ -5149,7 +5149,7 @@ yyreduce:
 
   case 357: /* LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST  */
 #line 461 "parser.y"
-                                                                          {(yyval.val)=addlabel("LOCALVARIABLEDECLARATION");(yyvsp[-2].val)=addlabel(string("final") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                          {(yyval.val)=addlabel("LOCALVARIABLEDECLARATION");addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5154 "parser.tab.c"
     break;
 
@@ -5161,7 +5161,7 @@ yyreduce:
 
   case 359: /* LOCALVARIABLETYPE: TYPE  */
 #line 463 "parser.y"
-                         {(yyval.val)=addlabel("LOCALVARIABLETYPE");addedge((yyval.val), (yyvsp[0].val));}
+                         {(yyval.val)= (yyvsp[0].val);}
 #line 5166 "parser.tab.c"
     break;
 
@@ -5173,97 +5173,97 @@ yyreduce:
 
   case 361: /* STATEMENT: STATEMENTWITHOUTTRAILINGSUBSTATEMENT  */
 #line 465 "parser.y"
-                                                 {(yyval.val)=addlabel("STATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                                                 {(yyval.val)= (yyvsp[0].val);}
 #line 5178 "parser.tab.c"
     break;
 
   case 362: /* STATEMENT: LABELEDSTATEMENT  */
 #line 466 "parser.y"
-                          {(yyval.val)=addlabel("STATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                          {(yyval.val)= (yyvsp[0].val);}
 #line 5184 "parser.tab.c"
     break;
 
   case 363: /* STATEMENT: IFTHENSTATEMENT  */
 #line 467 "parser.y"
-                         {(yyval.val)=addlabel("STATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                         {(yyval.val)= (yyvsp[0].val);}
 #line 5190 "parser.tab.c"
     break;
 
   case 364: /* STATEMENT: IFTHENELSESTATEMENT  */
 #line 468 "parser.y"
-                             {(yyval.val)=addlabel("STATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                             {(yyval.val)= (yyvsp[0].val);}
 #line 5196 "parser.tab.c"
     break;
 
   case 365: /* STATEMENT: WHILESTATEMENT  */
 #line 469 "parser.y"
-                        {(yyval.val)=addlabel("STATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                        {(yyval.val)= (yyvsp[0].val);}
 #line 5202 "parser.tab.c"
     break;
 
   case 366: /* STATEMENT: FORSTATEMENT  */
 #line 470 "parser.y"
-                      {(yyval.val)=addlabel("STATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                      {(yyval.val)= (yyvsp[0].val);}
 #line 5208 "parser.tab.c"
     break;
 
   case 367: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: BLOCK  */
 #line 471 "parser.y"
-                                             {(yyval.val)=addlabel("STATEMENTWITHOUTTRAILINGSUBSTATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                                             {(yyval.val)= (yyvsp[0].val);}
 #line 5214 "parser.tab.c"
     break;
 
   case 368: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: EMPTYSTATEMENT  */
 #line 472 "parser.y"
-                        {(yyval.val)=addlabel("STATEMENTWITHOUTTRAILINGSUBSTATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                        {(yyval.val)= (yyvsp[0].val);}
 #line 5220 "parser.tab.c"
     break;
 
   case 369: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: EXPRESSIONSTATEMENT  */
 #line 473 "parser.y"
-                             {(yyval.val)=addlabel("STATEMENTWITHOUTTRAILINGSUBSTATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                             {(yyval.val)= (yyvsp[0].val);}
 #line 5226 "parser.tab.c"
     break;
 
   case 370: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: ASSERTSTATEMENT  */
 #line 474 "parser.y"
-                         {(yyval.val)=addlabel("STATEMENTWITHOUTTRAILINGSUBSTATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                         {(yyval.val)= (yyvsp[0].val);}
 #line 5232 "parser.tab.c"
     break;
 
   case 371: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: BREAKSTATEMENT  */
 #line 475 "parser.y"
-                        {(yyval.val)=addlabel("STATEMENTWITHOUTTRAILINGSUBSTATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                        {(yyval.val)= (yyvsp[0].val);}
 #line 5238 "parser.tab.c"
     break;
 
   case 372: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: CONTINUESTATEMENT  */
 #line 476 "parser.y"
-                           {(yyval.val)=addlabel("STATEMENTWITHOUTTRAILINGSUBSTATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                           {(yyval.val)= (yyvsp[0].val);}
 #line 5244 "parser.tab.c"
     break;
 
   case 373: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: RETURNSTATEMENT  */
 #line 477 "parser.y"
-                         {(yyval.val)=addlabel("STATEMENTWITHOUTTRAILINGSUBSTATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                         {(yyval.val)= (yyvsp[0].val);}
 #line 5250 "parser.tab.c"
     break;
 
   case 374: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: THROWSTATEMENT  */
 #line 478 "parser.y"
-                        {(yyval.val)=addlabel("STATEMENTWITHOUTTRAILINGSUBSTATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                        {(yyval.val)= (yyvsp[0].val);}
 #line 5256 "parser.tab.c"
     break;
 
   case 375: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: YIELDSTATEMENT  */
 #line 479 "parser.y"
-                        {(yyval.val)=addlabel("STATEMENTWITHOUTTRAILINGSUBSTATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                        {(yyval.val)= (yyvsp[0].val);}
 #line 5262 "parser.tab.c"
     break;
 
   case 376: /* EMPTYSTATEMENT: SEMICOLON  */
 #line 480 "parser.y"
-                           {(yyval.val)=addlabel("EMPTYSTATEMENT");}
+                           {(yyval.val)=addlabel("EMPTYSTATEMENT");(yyvsp[0].val)=addlabel(string("semicolon") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
 #line 5268 "parser.tab.c"
     break;
 
@@ -5275,103 +5275,103 @@ yyreduce:
 
   case 378: /* STATEMENTEXPRESSION: ASSIGNMENT  */
 #line 482 "parser.y"
-                                 {(yyval.val)=addlabel("STATEMENTEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                 {(yyval.val)= (yyvsp[0].val);}
 #line 5280 "parser.tab.c"
     break;
 
   case 379: /* STATEMENTEXPRESSION: PREINCREMENTEXPRESSION  */
 #line 483 "parser.y"
-                                {(yyval.val)=addlabel("STATEMENTEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                {(yyval.val)= (yyvsp[0].val);}
 #line 5286 "parser.tab.c"
     break;
 
   case 380: /* STATEMENTEXPRESSION: PREDECREMENTEXPRESSION  */
 #line 484 "parser.y"
-                                {(yyval.val)=addlabel("STATEMENTEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                {(yyval.val)= (yyvsp[0].val);}
 #line 5292 "parser.tab.c"
     break;
 
   case 381: /* STATEMENTEXPRESSION: POSTINCREMENTEXPRESSION  */
 #line 485 "parser.y"
-                                 {(yyval.val)=addlabel("STATEMENTEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                 {(yyval.val)= (yyvsp[0].val);}
 #line 5298 "parser.tab.c"
     break;
 
   case 382: /* STATEMENTEXPRESSION: POSTDECREMENTEXPRESSION  */
 #line 486 "parser.y"
-                                 {(yyval.val)=addlabel("STATEMENTEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                 {(yyval.val)= (yyvsp[0].val);}
 #line 5304 "parser.tab.c"
     break;
 
   case 383: /* STATEMENTEXPRESSION: METHODINVOCATION  */
 #line 487 "parser.y"
-                          {(yyval.val)=addlabel("STATEMENTEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                          {(yyval.val)= (yyvsp[0].val);}
 #line 5310 "parser.tab.c"
     break;
 
   case 384: /* STATEMENTEXPRESSION: CLASSINSTANCECREATIONEXPRESSION  */
 #line 488 "parser.y"
-                                         {(yyval.val)=addlabel("STATEMENTEXPRESSION");addedge((yyval.val), (yyvsp[0].val));}
+                                         {(yyval.val)= (yyvsp[0].val);}
 #line 5316 "parser.tab.c"
     break;
 
   case 385: /* ASSERTSTATEMENT: ASSERT EXPRESSION SEMICOLON  */
 #line 489 "parser.y"
-                                              {(yyval.val)=addlabel("ASSERTSTATEMENT");(yyvsp[-2].val)=addlabel(string("assert") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));}
+                                              {(yyval.val)=addlabel("ASSERTSTATEMENT");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5322 "parser.tab.c"
     break;
 
   case 386: /* ASSERTSTATEMENT: ASSERT EXPRESSION COLON EXPRESSION SEMICOLON  */
 #line 490 "parser.y"
-                                                      {(yyval.val)=addlabel("ASSERTSTATEMENT");(yyvsp[-4].val)=addlabel(string("assert") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("colon") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));}
+                                                      {(yyval.val)=addlabel("ASSERTSTATEMENT");addedge((yyval.val), (yyvsp[-3].val));(yyvsp[-2].val)=addlabel(string("colon") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));}
 #line 5328 "parser.tab.c"
     break;
 
   case 387: /* BREAKSTATEMENT: BREAK SEMICOLON  */
 #line 491 "parser.y"
-                                 {(yyval.val)=addlabel("BREAKSTATEMENT");(yyvsp[-1].val)=addlabel(string("break") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));}
+                                 {(yyval.val)=addlabel("BREAKSTATEMENT");}
 #line 5334 "parser.tab.c"
     break;
 
   case 388: /* BREAKSTATEMENT: BREAK IDENTIFIER SEMICOLON  */
 #line 492 "parser.y"
-                               {(yyval.val)=addlabel("BREAKSTATEMENT");(yyvsp[-2].val)=addlabel(string("break") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[-1].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));}
+                               {(yyval.val)=addlabel("BREAKSTATEMENT");(yyvsp[-1].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));}
 #line 5340 "parser.tab.c"
     break;
 
   case 389: /* CONTINUESTATEMENT: CONTINUE SEMICOLON  */
 #line 493 "parser.y"
-                                       {(yyval.val)=addlabel("CONTINUESTATEMENT");(yyvsp[-1].val)=addlabel(string("continue") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));}
+                                       {(yyval.val)=addlabel("CONTINUESTATEMENT");}
 #line 5346 "parser.tab.c"
     break;
 
   case 390: /* CONTINUESTATEMENT: CONTINUE IDENTIFIER SEMICOLON  */
 #line 494 "parser.y"
-                                  {(yyval.val)=addlabel("CONTINUESTATEMENT");(yyvsp[-2].val)=addlabel(string("continue") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[-1].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));}
+                                  {(yyval.val)=addlabel("CONTINUESTATEMENT");(yyvsp[-1].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));}
 #line 5352 "parser.tab.c"
     break;
 
   case 391: /* RETURNSTATEMENT: RETURN EXPRESSION SEMICOLON  */
 #line 495 "parser.y"
-                                              {(yyval.val)=addlabel("RETURNSTATEMENT");(yyvsp[-2].val)=addlabel(string("return") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));}
+                                              {(yyval.val)=addlabel("RETURNSTATEMENT");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5358 "parser.tab.c"
     break;
 
   case 392: /* RETURNSTATEMENT: RETURN SEMICOLON  */
 #line 496 "parser.y"
-                     {(yyval.val)=addlabel("RETURNSTATEMENT");(yyvsp[-1].val)=addlabel(string("return") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));}
+                     {(yyval.val)=addlabel("RETURNSTATEMENT");}
 #line 5364 "parser.tab.c"
     break;
 
   case 393: /* THROWSTATEMENT: THROW EXPRESSION SEMICOLON  */
 #line 497 "parser.y"
-                                            {(yyval.val)=addlabel("THROWSTATEMENT");(yyvsp[-2].val)=addlabel(string("throw") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));}
+                                            {(yyval.val)=addlabel("THROWSTATEMENT");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5370 "parser.tab.c"
     break;
 
   case 394: /* YIELDSTATEMENT: YIELD EXPRESSION SEMICOLON  */
 #line 498 "parser.y"
-                                            {(yyval.val)=addlabel("YIELDSTATEMENT");(yyvsp[-2].val)=addlabel(string("yield") +  string("(") +  chartostring((yyvsp[-2].val))+string(")"));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[-1].val));}
+                                            {(yyval.val)=addlabel("YIELDSTATEMENT");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5376 "parser.tab.c"
     break;
 
@@ -5383,49 +5383,49 @@ yyreduce:
 
   case 396: /* IFTHENSTATEMENT: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENT  */
 #line 500 "parser.y"
-                                                               {(yyval.val)=addlabel("IFTHENSTATEMENT");(yyvsp[-4].val)=addlabel(string("if") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                               {(yyval.val)=addlabel("IFTHENSTATEMENT");addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5388 "parser.tab.c"
     break;
 
   case 397: /* IFTHENELSESTATEMENT: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENTNOSHORTIF ELSE STATEMENT  */
 #line 501 "parser.y"
-                                                                                           {(yyval.val)=addlabel("IFTHENELSESTATEMENT");(yyvsp[-6].val)=addlabel(string("if") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[-1].val)=addlabel(string("else") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                           {(yyval.val)=addlabel("IFTHENELSESTATEMENT");addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5394 "parser.tab.c"
     break;
 
   case 398: /* IFTHENELSESTATEMENTNOSHORTIF: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENTNOSHORTIF ELSE STATEMENTNOSHORTIF  */
 #line 502 "parser.y"
-                                                                                                             {(yyval.val)=addlabel("IFTHENELSESTATEMENTNOSHORTIF");(yyvsp[-6].val)=addlabel(string("if") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));(yyvsp[-1].val)=addlabel(string("else") +  string("(") +  chartostring((yyvsp[-1].val))+string(")"));addedge((yyval.val), (yyvsp[-1].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                                             {(yyval.val)=addlabel("IFTHENELSESTATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5400 "parser.tab.c"
     break;
 
   case 399: /* STATEMENTNOSHORTIF: STATEMENTWITHOUTTRAILINGSUBSTATEMENT  */
 #line 503 "parser.y"
-                                                          {(yyval.val)=addlabel("STATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[0].val));}
+                                                          {(yyval.val)= (yyvsp[0].val);}
 #line 5406 "parser.tab.c"
     break;
 
   case 400: /* STATEMENTNOSHORTIF: LABELEDSTATEMENTNOSHORTIF  */
 #line 504 "parser.y"
-                                   {(yyval.val)=addlabel("STATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[0].val));}
+                                   {(yyval.val)= (yyvsp[0].val);}
 #line 5412 "parser.tab.c"
     break;
 
   case 401: /* STATEMENTNOSHORTIF: IFTHENELSESTATEMENTNOSHORTIF  */
 #line 505 "parser.y"
-                                      {(yyval.val)=addlabel("STATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[0].val));}
+                                      {(yyval.val)= (yyvsp[0].val);}
 #line 5418 "parser.tab.c"
     break;
 
   case 402: /* STATEMENTNOSHORTIF: WHILESTATEMENTNOSHORTIF  */
 #line 506 "parser.y"
-                                 {(yyval.val)=addlabel("STATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[0].val));}
+                                 {(yyval.val)= (yyvsp[0].val);}
 #line 5424 "parser.tab.c"
     break;
 
   case 403: /* STATEMENTNOSHORTIF: FORSTATEMENTNOSHORTIF  */
 #line 507 "parser.y"
-                               {(yyval.val)=addlabel("STATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[0].val));}
+                               {(yyval.val)= (yyvsp[0].val);}
 #line 5430 "parser.tab.c"
     break;
 
@@ -5437,169 +5437,169 @@ yyreduce:
 
   case 405: /* WHILESTATEMENTNOSHORTIF: WHILE OPENPARAN EXPRESSION CLOSEPARAN STATEMENTNOSHORTIF  */
 #line 509 "parser.y"
-                                                                                   {(yyval.val)=addlabel("WHILESTATEMENTNOSHORTIF");(yyvsp[-4].val)=addlabel(string("while") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                   {(yyval.val)=addlabel("WHILESTATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5442 "parser.tab.c"
     break;
 
   case 406: /* FORSTATEMENTNOSHORTIF: BASICFORSTATEMENTNOSHORTIF  */
 #line 510 "parser.y"
-                                                   {(yyval.val)=addlabel("FORSTATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[0].val));}
+                                                   {(yyval.val)= (yyvsp[0].val);}
 #line 5448 "parser.tab.c"
     break;
 
   case 407: /* FORSTATEMENTNOSHORTIF: ENHANCEDFORSTATEMENTNOSHORTIF  */
 #line 511 "parser.y"
-                                       {(yyval.val)=addlabel("FORSTATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[0].val));}
+                                       {(yyval.val)= (yyvsp[0].val);}
 #line 5454 "parser.tab.c"
     break;
 
   case 408: /* WHILESTATEMENT: WHILE OPENPARAN EXPRESSION CLOSEPARAN STATEMENT  */
 #line 512 "parser.y"
-                                                                 {(yyval.val)=addlabel("WHILESTATEMENT");(yyvsp[-4].val)=addlabel(string("while") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                 {(yyval.val)=addlabel("WHILESTATEMENT");addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5460 "parser.tab.c"
     break;
 
   case 409: /* FORSTATEMENT: BASICFORSTATEMENT  */
 #line 513 "parser.y"
-                                 {(yyval.val)=addlabel("FORSTATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                                 {(yyval.val)= (yyvsp[0].val);}
 #line 5466 "parser.tab.c"
     break;
 
   case 410: /* FORSTATEMENT: ENHANCEDFORSTATEMENT  */
 #line 514 "parser.y"
-                              {(yyval.val)=addlabel("FORSTATEMENT");addedge((yyval.val), (yyvsp[0].val));}
+                              {(yyval.val)= (yyvsp[0].val);}
 #line 5472 "parser.tab.c"
     break;
 
   case 411: /* BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT  */
 #line 515 "parser.y"
-                                                                           {(yyval.val)=addlabel("BASICFORSTATEMENT");(yyvsp[-5].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                           {(yyval.val)=addlabel("BASICFORSTATEMENT");addedge((yyval.val), (yyvsp[0].val));}
 #line 5478 "parser.tab.c"
     break;
 
   case 412: /* BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON FORUPDATE CLOSEPARAN STATEMENT  */
 #line 516 "parser.y"
-                                                                          {(yyval.val)=addlabel("BASICFORSTATEMENT");(yyvsp[-6].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                          {(yyval.val)=addlabel("BASICFORSTATEMENT");addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5484 "parser.tab.c"
     break;
 
   case 413: /* BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENT  */
 #line 517 "parser.y"
-                                                                           {(yyval.val)=addlabel("BASICFORSTATEMENT");(yyvsp[-6].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                           {(yyval.val)=addlabel("BASICFORSTATEMENT");addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5490 "parser.tab.c"
     break;
 
   case 414: /* BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENT  */
 #line 518 "parser.y"
-                                                                                     {(yyval.val)=addlabel("BASICFORSTATEMENT");(yyvsp[-7].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-7].val))+string(")"));addedge((yyval.val), (yyvsp[-7].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                     {(yyval.val)=addlabel("BASICFORSTATEMENT");addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5496 "parser.tab.c"
     break;
 
   case 415: /* BASICFORSTATEMENT: FOR OPENPARAN FORINIT SEMICOLON SEMICOLON CLOSEPARAN STATEMENT  */
 #line 519 "parser.y"
-                                                                        {(yyval.val)=addlabel("BASICFORSTATEMENT");(yyvsp[-6].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                        {(yyval.val)=addlabel("BASICFORSTATEMENT");addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5502 "parser.tab.c"
     break;
 
   case 416: /* BASICFORSTATEMENT: FOR OPENPARAN FORINIT SEMICOLON SEMICOLON FORUPDATE CLOSEPARAN STATEMENT  */
 #line 520 "parser.y"
-                                                                                  {(yyval.val)=addlabel("BASICFORSTATEMENT");(yyvsp[-7].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-7].val))+string(")"));addedge((yyval.val), (yyvsp[-7].val));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                  {(yyval.val)=addlabel("BASICFORSTATEMENT");addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5508 "parser.tab.c"
     break;
 
   case 417: /* BASICFORSTATEMENT: FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENT  */
 #line 521 "parser.y"
-                                                                                   {(yyval.val)=addlabel("BASICFORSTATEMENT");(yyvsp[-7].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-7].val))+string(")"));addedge((yyval.val), (yyvsp[-7].val));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                   {(yyval.val)=addlabel("BASICFORSTATEMENT");addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5514 "parser.tab.c"
     break;
 
   case 418: /* BASICFORSTATEMENT: FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENT  */
 #line 522 "parser.y"
-                                                                                             {(yyval.val)=addlabel("BASICFORSTATEMENT");(yyvsp[-8].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-8].val))+string(")"));addedge((yyval.val), (yyvsp[-8].val));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                             {(yyval.val)=addlabel("BASICFORSTATEMENT");addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5520 "parser.tab.c"
     break;
 
   case 419: /* BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF  */
 #line 523 "parser.y"
-                                                                                             {(yyval.val)=addlabel("BASICFORSTATEMENTNOSHORTIF");(yyvsp[-5].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                             {(yyval.val)=addlabel("BASICFORSTATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[0].val));}
 #line 5526 "parser.tab.c"
     break;
 
   case 420: /* BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF  */
 #line 524 "parser.y"
-                                                                                   {(yyval.val)=addlabel("BASICFORSTATEMENTNOSHORTIF");(yyvsp[-6].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                   {(yyval.val)=addlabel("BASICFORSTATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5532 "parser.tab.c"
     break;
 
   case 421: /* BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF  */
 #line 525 "parser.y"
-                                                                                    {(yyval.val)=addlabel("BASICFORSTATEMENTNOSHORTIF");(yyvsp[-6].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                    {(yyval.val)=addlabel("BASICFORSTATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5538 "parser.tab.c"
     break;
 
   case 422: /* BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF  */
 #line 526 "parser.y"
-                                                                                              {(yyval.val)=addlabel("BASICFORSTATEMENTNOSHORTIF");(yyvsp[-7].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-7].val))+string(")"));addedge((yyval.val), (yyvsp[-7].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                              {(yyval.val)=addlabel("BASICFORSTATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5544 "parser.tab.c"
     break;
 
   case 423: /* BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN FORINIT SEMICOLON SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF  */
 #line 527 "parser.y"
-                                                                                 {(yyval.val)=addlabel("BASICFORSTATEMENTNOSHORTIF");(yyvsp[-6].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                 {(yyval.val)=addlabel("BASICFORSTATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5550 "parser.tab.c"
     break;
 
   case 424: /* BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN FORINIT SEMICOLON SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF  */
 #line 528 "parser.y"
-                                                                                           {(yyval.val)=addlabel("BASICFORSTATEMENTNOSHORTIF");(yyvsp[-7].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-7].val))+string(")"));addedge((yyval.val), (yyvsp[-7].val));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                           {(yyval.val)=addlabel("BASICFORSTATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5556 "parser.tab.c"
     break;
 
   case 425: /* BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF  */
 #line 529 "parser.y"
-                                                                                            {(yyval.val)=addlabel("BASICFORSTATEMENTNOSHORTIF");(yyvsp[-7].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-7].val))+string(")"));addedge((yyval.val), (yyvsp[-7].val));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                            {(yyval.val)=addlabel("BASICFORSTATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5562 "parser.tab.c"
     break;
 
   case 426: /* BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF  */
 #line 530 "parser.y"
-                                                                                                      {(yyval.val)=addlabel("BASICFORSTATEMENTNOSHORTIF");(yyvsp[-8].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-8].val))+string(")"));addedge((yyval.val), (yyvsp[-8].val));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                                      {(yyval.val)=addlabel("BASICFORSTATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5568 "parser.tab.c"
     break;
 
   case 427: /* ENHANCEDFORSTATEMENT: FOR OPENPARAN LOCALVARIABLEDECLARATION COLON EXPRESSION CLOSEPARAN STATEMENT  */
 #line 531 "parser.y"
-                                                                                                    {(yyval.val)=addlabel("ENHANCEDFORSTATEMENT");(yyvsp[-6].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("colon") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                                    {(yyval.val)=addlabel("ENHANCEDFORSTATEMENT");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("colon") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5574 "parser.tab.c"
     break;
 
   case 428: /* ENHANCEDFORSTATEMENTNOSHORTIF: FOR OPENPARAN LOCALVARIABLEDECLARATION COLON EXPRESSION CLOSEPARAN STATEMENTNOSHORTIF  */
 #line 532 "parser.y"
-                                                                                                                      {(yyval.val)=addlabel("ENHANCEDFORSTATEMENTNOSHORTIF");(yyvsp[-6].val)=addlabel(string("for") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("colon") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
+                                                                                                                      {(yyval.val)=addlabel("ENHANCEDFORSTATEMENTNOSHORTIF");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("colon") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));addedge((yyval.val), (yyvsp[-2].val));addedge((yyval.val), (yyvsp[0].val));}
 #line 5580 "parser.tab.c"
     break;
 
   case 429: /* FORINIT: STATEMENTEXPRESSIONLIST  */
 #line 533 "parser.y"
-                                  {(yyval.val)=addlabel("FORINIT");addedge((yyval.val), (yyvsp[0].val));}
+                                  {(yyval.val)= (yyvsp[0].val);}
 #line 5586 "parser.tab.c"
     break;
 
   case 430: /* FORINIT: LOCALVARIABLEDECLARATION  */
 #line 534 "parser.y"
-                                  {(yyval.val)=addlabel("FORINIT");addedge((yyval.val), (yyvsp[0].val));}
+                                  {(yyval.val)= (yyvsp[0].val);}
 #line 5592 "parser.tab.c"
     break;
 
   case 431: /* FORUPDATE: STATEMENTEXPRESSIONLIST  */
 #line 535 "parser.y"
-                                    {(yyval.val)=addlabel("FORUPDATE");addedge((yyval.val), (yyvsp[0].val));}
+                                    {(yyval.val)= (yyvsp[0].val);}
 #line 5598 "parser.tab.c"
     break;
 
   case 432: /* STATEMENTEXPRESSIONLIST: STATEMENTEXPRESSION  */
 #line 536 "parser.y"
-                                               {(yyval.val)=addlabel("STATEMENTEXPRESSIONLIST");addedge((yyval.val), (yyvsp[0].val));}
+                                               {(yyval.val)= (yyvsp[0].val);}
 #line 5604 "parser.tab.c"
     break;
 
@@ -5713,121 +5713,121 @@ yyreduce:
 
   case 451: /* EXPLICITCONSTRUCTORINVOCATION: THIS OPENPARAN CLOSEPARAN SEMICOLON  */
 #line 555 "parser.y"
-                                                                    {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");(yyvsp[-3].val)=addlabel(string("this") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));}
+                                                                    {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");}
 #line 5718 "parser.tab.c"
     break;
 
   case 452: /* EXPLICITCONSTRUCTORINVOCATION: THIS OPENPARAN ARGUMENTLIST CLOSEPARAN SEMICOLON  */
 #line 556 "parser.y"
-                                                     {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");(yyvsp[-4].val)=addlabel(string("this") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));}
+                                                     {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-2].val));}
 #line 5724 "parser.tab.c"
     break;
 
   case 453: /* EXPLICITCONSTRUCTORINVOCATION: TYPEARGUMENTS THIS OPENPARAN CLOSEPARAN SEMICOLON  */
 #line 557 "parser.y"
-                                                      {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("this") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));}
+                                                      {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-4].val));}
 #line 5730 "parser.tab.c"
     break;
 
   case 454: /* EXPLICITCONSTRUCTORINVOCATION: TYPEARGUMENTS THIS OPENPARAN ARGUMENTLIST CLOSEPARAN SEMICOLON  */
 #line 558 "parser.y"
-                                                                   {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("this") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));}
+                                                                   {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-2].val));}
 #line 5736 "parser.tab.c"
     break;
 
   case 455: /* EXPLICITCONSTRUCTORINVOCATION: SUPER OPENPARAN CLOSEPARAN SEMICOLON  */
 #line 559 "parser.y"
-                                         {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");(yyvsp[-3].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));}
+                                         {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");}
 #line 5742 "parser.tab.c"
     break;
 
   case 456: /* EXPLICITCONSTRUCTORINVOCATION: SUPER OPENPARAN ARGUMENTLIST CLOSEPARAN SEMICOLON  */
 #line 560 "parser.y"
-                                                      {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");(yyvsp[-4].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));}
+                                                      {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-2].val));}
 #line 5748 "parser.tab.c"
     break;
 
   case 457: /* EXPLICITCONSTRUCTORINVOCATION: TYPEARGUMENTS SUPER OPENPARAN CLOSEPARAN SEMICOLON  */
 #line 561 "parser.y"
-                                                       {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));}
+                                                       {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-4].val));}
 #line 5754 "parser.tab.c"
     break;
 
   case 458: /* EXPLICITCONSTRUCTORINVOCATION: TYPEARGUMENTS SUPER OPENPARAN ARGUMENTLIST CLOSEPARAN SEMICOLON  */
 #line 562 "parser.y"
-                                                                    {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));}
+                                                                    {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-2].val));}
 #line 5760 "parser.tab.c"
     break;
 
   case 459: /* EXPLICITCONSTRUCTORINVOCATION: EXPRESSIONNAME DOT SUPER OPENPARAN CLOSEPARAN SEMICOLON  */
 #line 563 "parser.y"
-                                                            {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));}
+                                                            {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));}
 #line 5766 "parser.tab.c"
     break;
 
   case 460: /* EXPLICITCONSTRUCTORINVOCATION: EXPRESSIONNAME DOT SUPER OPENPARAN ARGUMENTLIST CLOSEPARAN SEMICOLON  */
 #line 564 "parser.y"
-                                                                         {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));}
+                                                                         {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-2].val));}
 #line 5772 "parser.tab.c"
     break;
 
   case 461: /* EXPLICITCONSTRUCTORINVOCATION: EXPRESSIONNAME DOT TYPEARGUMENTS SUPER OPENPARAN CLOSEPARAN SEMICOLON  */
 #line 565 "parser.y"
-                                                                          {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));}
+                                                                          {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));}
 #line 5778 "parser.tab.c"
     break;
 
   case 462: /* EXPLICITCONSTRUCTORINVOCATION: EXPRESSIONNAME DOT TYPEARGUMENTS SUPER OPENPARAN ARGUMENTLIST CLOSEPARAN SEMICOLON  */
 #line 566 "parser.y"
-                                                                                       {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-6].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));}
+                                                                                       {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-6].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-2].val));}
 #line 5784 "parser.tab.c"
     break;
 
   case 463: /* EXPLICITCONSTRUCTORINVOCATION: IDENTIFIER DOT SUPER OPENPARAN CLOSEPARAN SEMICOLON  */
 #line 567 "parser.y"
-                                                        {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");(yyvsp[-5].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));}
+                                                        {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");(yyvsp[-5].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));}
 #line 5790 "parser.tab.c"
     break;
 
   case 464: /* EXPLICITCONSTRUCTORINVOCATION: IDENTIFIER DOT SUPER OPENPARAN ARGUMENTLIST CLOSEPARAN SEMICOLON  */
 #line 568 "parser.y"
-                                                                     {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");(yyvsp[-6].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));}
+                                                                     {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");(yyvsp[-6].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-2].val));}
 #line 5796 "parser.tab.c"
     break;
 
   case 465: /* EXPLICITCONSTRUCTORINVOCATION: IDENTIFIER DOT TYPEARGUMENTS SUPER OPENPARAN CLOSEPARAN SEMICOLON  */
 #line 569 "parser.y"
-                                                                      {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");(yyvsp[-6].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));}
+                                                                      {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");(yyvsp[-6].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));}
 #line 5802 "parser.tab.c"
     break;
 
   case 466: /* EXPLICITCONSTRUCTORINVOCATION: IDENTIFIER DOT TYPEARGUMENTS SUPER OPENPARAN ARGUMENTLIST CLOSEPARAN SEMICOLON  */
 #line 570 "parser.y"
-                                                                                   {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");(yyvsp[-7].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-7].val))+string(")"));addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-6].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));}
+                                                                                   {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");(yyvsp[-7].val)=addlabel(string("identifier") +  string("(") +  chartostring((yyvsp[-7].val))+string(")"));addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-6].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-2].val));}
 #line 5808 "parser.tab.c"
     break;
 
   case 467: /* EXPLICITCONSTRUCTORINVOCATION: PRIMARY DOT SUPER OPENPARAN CLOSEPARAN SEMICOLON  */
 #line 571 "parser.y"
-                                                     {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));}
+                                                     {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));}
 #line 5814 "parser.tab.c"
     break;
 
   case 468: /* EXPLICITCONSTRUCTORINVOCATION: PRIMARY DOT SUPER OPENPARAN ARGUMENTLIST CLOSEPARAN SEMICOLON  */
 #line 572 "parser.y"
-                                                                  {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));}
+                                                                  {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-2].val));}
 #line 5820 "parser.tab.c"
     break;
 
   case 469: /* EXPLICITCONSTRUCTORINVOCATION: PRIMARY DOT TYPEARGUMENTS SUPER OPENPARAN CLOSEPARAN SEMICOLON  */
 #line 573 "parser.y"
-                                                                   {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));(yyvsp[-3].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-3].val))+string(")"));addedge((yyval.val), (yyvsp[-3].val));}
+                                                                   {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-6].val));(yyvsp[-5].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-5].val))+string(")"));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-4].val));}
 #line 5826 "parser.tab.c"
     break;
 
   case 470: /* EXPLICITCONSTRUCTORINVOCATION: PRIMARY DOT TYPEARGUMENTS SUPER OPENPARAN ARGUMENTLIST CLOSEPARAN SEMICOLON  */
 #line 574 "parser.y"
-                                                                                {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-6].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-5].val));(yyvsp[-4].val)=addlabel(string("super") +  string("(") +  chartostring((yyvsp[-4].val))+string(")"));addedge((yyval.val), (yyvsp[-4].val));addedge((yyval.val), (yyvsp[-2].val));}
+                                                                                {(yyval.val)=addlabel("EXPLICITCONSTRUCTORINVOCATION");addedge((yyval.val), (yyvsp[-7].val));(yyvsp[-6].val)=addlabel(string("dot") +  string("(") +  chartostring((yyvsp[-6].val))+string(")"));addedge((yyval.val), (yyvsp[-6].val));addedge((yyval.val), (yyvsp[-5].val));addedge((yyval.val), (yyvsp[-2].val));}
 #line 5832 "parser.tab.c"
     break;
 
@@ -5851,19 +5851,19 @@ yyreduce:
 
   case 474: /* SUPER1: SUPER1 PUBLIC  */
 #line 578 "parser.y"
-                   {(yyval.val)=addlabel("SUPER1");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("public") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                   {(yyval.val)=addlabel("SUPER1");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5856 "parser.tab.c"
     break;
 
   case 475: /* SUPER1: SUPER1 PRIVATE  */
 #line 579 "parser.y"
-                    {(yyval.val)=addlabel("SUPER1");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("private") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                    {(yyval.val)=addlabel("SUPER1");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5862 "parser.tab.c"
     break;
 
   case 476: /* SUPER1: SUPER1 PROTECTED  */
 #line 580 "parser.y"
-                     {(yyval.val)=addlabel("SUPER1");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("protected") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                     {(yyval.val)=addlabel("SUPER1");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5868 "parser.tab.c"
     break;
 
@@ -5881,43 +5881,43 @@ yyreduce:
 
   case 479: /* SUPER2: SUPER1 STATIC  */
 #line 583 "parser.y"
-                  {(yyval.val)=addlabel("SUPER2");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("static") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                  {(yyval.val)=addlabel("SUPER2");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5886 "parser.tab.c"
     break;
 
   case 480: /* SUPER2: SUPER1 FINAL  */
 #line 584 "parser.y"
-                 {(yyval.val)=addlabel("SUPER2");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("final") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                 {(yyval.val)=addlabel("SUPER2");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5892 "parser.tab.c"
     break;
 
   case 481: /* SUPER2: SUPER2 STATIC  */
 #line 585 "parser.y"
-                  {(yyval.val)=addlabel("SUPER2");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("static") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                  {(yyval.val)=addlabel("SUPER2");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5898 "parser.tab.c"
     break;
 
   case 482: /* SUPER2: SUPER2 FINAL  */
 #line 586 "parser.y"
-                 {(yyval.val)=addlabel("SUPER2");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("final") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                 {(yyval.val)=addlabel("SUPER2");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5904 "parser.tab.c"
     break;
 
   case 483: /* SUPER2: SUPER2 PUBLIC  */
 #line 587 "parser.y"
-                  {(yyval.val)=addlabel("SUPER2");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("public") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                  {(yyval.val)=addlabel("SUPER2");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5910 "parser.tab.c"
     break;
 
   case 484: /* SUPER2: SUPER2 PRIVATE  */
 #line 588 "parser.y"
-                   {(yyval.val)=addlabel("SUPER2");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("private") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                   {(yyval.val)=addlabel("SUPER2");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5916 "parser.tab.c"
     break;
 
   case 485: /* SUPER2: SUPER2 PROTECTED  */
 #line 589 "parser.y"
-                     {(yyval.val)=addlabel("SUPER2");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("protected") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                     {(yyval.val)=addlabel("SUPER2");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5922 "parser.tab.c"
     break;
 
@@ -5935,175 +5935,175 @@ yyreduce:
 
   case 488: /* SUPER3: SUPER2 ABSTRACT  */
 #line 592 "parser.y"
-                    {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("abstract") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                    {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5940 "parser.tab.c"
     break;
 
   case 489: /* SUPER3: SUPER2 STRICTFP  */
 #line 593 "parser.y"
-                    {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("strictfp") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                    {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5946 "parser.tab.c"
     break;
 
   case 490: /* SUPER3: SUPER3 ABSTRACT  */
 #line 594 "parser.y"
-                    {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("abstract") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                    {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5952 "parser.tab.c"
     break;
 
   case 491: /* SUPER3: SUPER3 STRICTFP  */
 #line 595 "parser.y"
-                    {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("strictfp") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                    {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5958 "parser.tab.c"
     break;
 
   case 492: /* SUPER3: SUPER3 PUBLIC  */
 #line 596 "parser.y"
-                  {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("public") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                  {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5964 "parser.tab.c"
     break;
 
   case 493: /* SUPER3: SUPER3 PRIVATE  */
 #line 597 "parser.y"
-                   {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("private") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                   {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5970 "parser.tab.c"
     break;
 
   case 494: /* SUPER3: SUPER3 PROTECTED  */
 #line 598 "parser.y"
-                     {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("protected") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                     {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5976 "parser.tab.c"
     break;
 
   case 495: /* SUPER3: SUPER3 STATIC  */
 #line 599 "parser.y"
-                  {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("static") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                  {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5982 "parser.tab.c"
     break;
 
   case 496: /* SUPER3: SUPER3 FINAL  */
 #line 600 "parser.y"
-                 {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("final") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                 {(yyval.val)=addlabel("SUPER3");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5988 "parser.tab.c"
     break;
 
   case 497: /* FIELDMODIFIERS: SUPER3 TRANSIENT  */
 #line 601 "parser.y"
-                                  {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("transient") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                                  {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 5994 "parser.tab.c"
     break;
 
   case 498: /* FIELDMODIFIERS: SUPER3 VOLATILE  */
 #line 602 "parser.y"
-                    {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("volatile") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                    {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6000 "parser.tab.c"
     break;
 
   case 499: /* FIELDMODIFIERS: FIELDMODIFIERS TRANSIENT  */
 #line 603 "parser.y"
-                             {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("transient") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                             {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6006 "parser.tab.c"
     break;
 
   case 500: /* FIELDMODIFIERS: FIELDMODIFIERS VOLATILE  */
 #line 604 "parser.y"
-                            {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("volatile") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                            {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6012 "parser.tab.c"
     break;
 
   case 501: /* FIELDMODIFIERS: FIELDMODIFIERS PUBLIC  */
 #line 605 "parser.y"
-                          {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("public") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                          {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6018 "parser.tab.c"
     break;
 
   case 502: /* FIELDMODIFIERS: FIELDMODIFIERS PRIVATE  */
 #line 606 "parser.y"
-                           {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("private") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                           {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6024 "parser.tab.c"
     break;
 
   case 503: /* FIELDMODIFIERS: FIELDMODIFIERS PROTECTED  */
 #line 607 "parser.y"
-                             {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("protected") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                             {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6030 "parser.tab.c"
     break;
 
   case 504: /* FIELDMODIFIERS: FIELDMODIFIERS STATIC  */
 #line 608 "parser.y"
-                          {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("static") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                          {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6036 "parser.tab.c"
     break;
 
   case 505: /* FIELDMODIFIERS: FIELDMODIFIERS FINAL  */
 #line 609 "parser.y"
-                         {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("final") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                         {(yyval.val)=addlabel("FIELDMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6042 "parser.tab.c"
     break;
 
   case 506: /* METHODMODIFIERS: SUPER3 SYNCHRONIZED  */
 #line 610 "parser.y"
-                                       {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("synchronized") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                                       {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6048 "parser.tab.c"
     break;
 
   case 507: /* METHODMODIFIERS: SUPER3 NATIVE  */
 #line 611 "parser.y"
-                  {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("native") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                  {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6054 "parser.tab.c"
     break;
 
   case 508: /* METHODMODIFIERS: METHODMODIFIERS SYNCHRONIZED  */
 #line 612 "parser.y"
-                                 {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("synchronized") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                                 {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6060 "parser.tab.c"
     break;
 
   case 509: /* METHODMODIFIERS: METHODMODIFIERS NATIVE  */
 #line 613 "parser.y"
-                           {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("native") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                           {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6066 "parser.tab.c"
     break;
 
   case 510: /* METHODMODIFIERS: METHODMODIFIERS ABSTRACT  */
 #line 614 "parser.y"
-                             {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("abstract") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                             {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6072 "parser.tab.c"
     break;
 
   case 511: /* METHODMODIFIERS: METHODMODIFIERS STRICTFP  */
 #line 615 "parser.y"
-                             {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("strictfp") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                             {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6078 "parser.tab.c"
     break;
 
   case 512: /* METHODMODIFIERS: METHODMODIFIERS PUBLIC  */
 #line 616 "parser.y"
-                           {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("public") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                           {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6084 "parser.tab.c"
     break;
 
   case 513: /* METHODMODIFIERS: METHODMODIFIERS PRIVATE  */
 #line 617 "parser.y"
-                            {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("private") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                            {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6090 "parser.tab.c"
     break;
 
   case 514: /* METHODMODIFIERS: METHODMODIFIERS PROTECTED  */
 #line 618 "parser.y"
-                              {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("protected") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                              {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6096 "parser.tab.c"
     break;
 
   case 515: /* METHODMODIFIERS: METHODMODIFIERS STATIC  */
 #line 619 "parser.y"
-                           {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("static") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                           {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6102 "parser.tab.c"
     break;
 
   case 516: /* METHODMODIFIERS: METHODMODIFIERS FINAL  */
 #line 620 "parser.y"
-                          {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));(yyvsp[0].val)=addlabel(string("final") +  string("(") +  chartostring((yyvsp[0].val))+string(")"));addedge((yyval.val), (yyvsp[0].val));}
+                          {(yyval.val)=addlabel("METHODMODIFIERS");addedge((yyval.val), (yyvsp[-1].val));}
 #line 6108 "parser.tab.c"
     break;
 
@@ -6309,30 +6309,34 @@ void yyerror(char *s){
     cout<<"syntax error"<<endl;
 }
 
-string escaped (string s){
-
-    string t="";
-    for (auto x : s){
-
-        if(x=='\"')t+="\\\"";
-
-        else t+= x;
-    }
-
-    return t;
-
-}
-
 int main(){
     yyparse();
     cout << "digraph ASTVisual {\n";
     for(auto e: labels){
-        cout<<e.num<<" [ label=\""<<escaped(e.l)<<"\"]\n";
+        string s;
+        
+        for( auto e1: e.l){
+            if(e1=='\"'){
+                s.push_back('\\');
+            }
+            s.push_back(e1);
+        }
+        cout<<e.num<<" [ label=\""<<s<<"\"]\n";
     }
     for(auto e: edges){
-        cout<<e.a<< " -> "<<e.b << "[ label=\""<<escaped(e.l)<<"\"]\n";
+        string s;
+
+        for( auto e1: e.l){
+            if(e1=='\"'){
+                s.push_back('\\');
+            }
+            s.push_back(e1);
+        }
+        cout<<e.a<< " -> "<<e.b << "[ label=\""<<s<<"\"]\n";
     }
     cout << "  }\n";
 
 }
+
+
 
