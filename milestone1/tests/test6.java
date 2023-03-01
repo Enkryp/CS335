@@ -1,5 +1,5 @@
 public class BubbleSort {
-    public static void main(final String[] args) {
+    public static void main(final String args[]) {
         int n = 10, c, d, swap;
 
         final int array[] = new int[] { 23, 1, 78, 45, 46, 90, 2, 12, 75, 0 };
