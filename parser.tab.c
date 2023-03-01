@@ -6306,17 +6306,49 @@ yyreturnlab:
 
 
 void yyerror(char *s){
-    cout<<"syntax error"<<endl;
+    cout<<"syntax error in line number "<<yylineno<<endl;
 }
 
-int main(){
+int main(int argc, char** argv){
+    bool inset = false, outset = false;
+    for (int i=0; i< argc; i++){
+        // handle input arguments 
+        //  arguments can be space separated 
+        // arguments are help, input, output, verbose
+
+        if (strcmp(argv[i], "help") == 0){
+            cout<<"Usage: ./myASTgen [help] [input <filename>] [output <filename>] [verbose]\n";
+            cout<< "Example: ./myASTgen input input.txt output output.txt\n";
+            
+        }
+        else if (strcmp(argv[i], "input") == 0){
+            yyin = fopen(argv[i+1], "r");
+            inset = true;
+        }
+        else if (strcmp(argv[i], "output") == 0){
+            freopen(argv[i+1], "w", stdout);
+            outset = true;
+        }
+        else if (strcmp(argv[i], "verbose") == 0){
+            cout<<"Verbose Output directed to parser.output\n";
+        }
+    }
+
+    if (!inset){
+        cout<< "Input not set, see help";
+        return 0;
+    }
+    if (!outset){
+        cout<< "Output not set, see help";
+        return 0;
+    }
     yyparse();
-    cout << "digraph ASTVisual {\n";
+    cout << "digraph ASTVisual {\n ordering = out ;\n";
     for(auto e: labels){
         string s;
         
-        for( auto e1: e.l){
-            if(e1=='\"'){
+         for( auto e1: e.l){
+            if(e1=='\"' || e1=='\\'  ){
                 s.push_back('\\');
             }
             s.push_back(e1);
@@ -6327,7 +6359,7 @@ int main(){
         string s;
 
         for( auto e1: e.l){
-            if(e1=='\"'){
+            if(e1=='\"' || e1=='\\'){
                 s.push_back('\\');
             }
             s.push_back(e1);
