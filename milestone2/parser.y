@@ -1,11 +1,24 @@
-
-start = """%{
+%{
     #include<bits/stdc++.h>
     using namespace std;   
     extern "C" int yylex();
     extern "C" FILE *yyin;
     extern "C" int yylineno; 
+    void yyerror(char *s){
+        cerr<<s<<" at: "<<yylineno<<endl;
+        exit(0);
+    }
+
     void yyerror(char *s);
+    char * stringtochar(string s){
+        int n=s.size();
+        char* c= (char*)malloc(sizeof(char)*(n+1));
+        for( int i=0;i<n;i++){  
+            c[i]=s[i];
+        }
+        c[n]='\0';
+        return c;
+    }
     char* numtochar( int num){
         string s="0";
         while(num>0){
@@ -13,18 +26,22 @@ start = """%{
             num/=10;
         }
         reverse(s.begin(),s.end());
-        int n=s.size();
-        char* c= (char*)malloc(sizeof(char)*(n+1));
-        for( int i=0;i<n;i++){  
-            c[i]=s[i];
+        return stringtochar(s);
+    }
+    int stringtonum( string s){
+        int i=0;
+        int num=0;
+        while(i!=s.size()){
+            num*=10;
+            num+=s[i]-'0';
+            i++;
         }
-        c[n]='\\0';
-        return c;
+        return num;
     }
     int chartonum(char * c){
         int i=0;
         int num=0;
-        while(c[i]!='\\0'){
+        while(c[i]!='\0'){
             num*=10;
             num+=c[i]-'0';
             i++;
@@ -34,41 +51,51 @@ start = """%{
     string chartostring(char* c){
         string s;
         int i=0;
-        while(c[i]!='\\0'){
+        while(c[i]!='\0'){
             s.push_back(c[i]);
             i++;
         }
         return s;
     }
-    struct label{
-        int num;
-        string l;
-    } ;
-    struct edge{
-        int a;
-        int b;
-        string l;
+    string numtostring(int num){
+        return chartostring(numtochar(num));
+    }
+    struct scope{
+        scope* parent;
+        vector<scope*> child;
+        string type;
+        bool is_static=0;
+        map<string,map<string,string>> entry;
+        map<string,map<string,string>> declared_methods;
+        map<string,map<string,string>> declared_static_variables;
+        map<string,map<string,string>> declared_nonstatic_variables;
+        map<string,map<string,string>> used_methods;
+        map<string,map<string,string>> used_static_variables;
+        map<string,map<string,string>> used_variables;  
     };
-    
-    vector<label> labels;
-    vector<edge> edges;
-    char* addlabel(string c){  // takes argument as the label of the node in string form and output a char* which is a unique number to the node
+    scope* root=new scope;
+    void addentry(scope* s,string id,string type,bool is_static=0){  // takes argument as the label of the node in string form and output a char* which is a unique number to the node
         // string c=chartostring(c1);
-        int n=labels.size()+1;
-        label q;
-        q.num=n*10;
-        q.l=c;
-        labels.push_back(q);
-        return numtochar(n);
+        if(s->entry.find(id)!=s->entry.end()){
+
+            yyerror(stringtochar("Previously declared at "+ s->entry[id]["dec_line"]+" redeclared "));
+        }
+        if(is_static){
+            if(type!="class")yyerror("cannot declare static int ");
+        }
+        s->entry[id];
+        s->entry[id]["type"]=type;
+        s->entry[id]["dec_line"]=chartostring(numtochar(yylineno));
+        s->entry[id]["is_static"]=is_static;
     }
-    void addedge(char* a, char* b, string l=""){  // takes numbers of node in char* and label in string form
-        edge q;
-        q.a=chartonum(a);
-        q.b=chartonum(b);
-        q.l=l;
-        edges.push_back(q);
-        
+    map<char*, map<string,string>> label;
+
+    scope * curr=root;
+    
+    char* new_label(){
+        return numtochar(label.size()+1);
     }
+    
 %}
 %union{
     char* val;
@@ -76,11 +103,11 @@ start = """%{
 
 /* data types */
 %start COMPILATIONUNIT
-%type<val>  ADDITIONALBOUND ADDITIVEEXPRESSION ANDEXPRESSION ARGUMENTLIST ARRAYACCESS ARRAYCREATIONEXPRESSION ARRAYINITIALIZER ARRAYINITIALIZER1 ASSERTSTATEMENT ASSIGNMENT ASSIGNMENTEXPRESSION ASSIGNMENTOPERATOR BASICFORSTATEMENT BASICFORSTATEMENTNOSHORTIF BLOCK BLOCKSTATEMENT BLOCKSTATEMENTS BREAKSTATEMENT CLASSBODY CLASSBODYDECLARATION CLASSBODYDECLARATIONS CLASSDECLARATION CLASSEXTENDS CLASSIMPLEMENTS CLASSINSTANCECREATIONEXPRESSION CLASSLITERAL CLASSMEMBERDECLARATION CLASSORINTERFACETYPE CLASSORINTERFACETYPETOINSTANTIATE CLASSPERMITS CLASSTYPE CLASSTYPE1 COMPILATIONUNIT CONDITIONALANDEXPRESSION CONDITIONALEXPRESSION CONDITIONALOREXPRESSION CONSTRUCTORBODY CONSTRUCTORDECLARATION CONSTRUCTORDECLARATOR CONTINUESTATEMENT DIMEXPR DIMEXPRS DIMS EMPTYSTATEMENT ENHANCEDFORSTATEMENT ENHANCEDFORSTATEMENTNOSHORTIF EQUALITYEXPRESSION EXCEPTIONTYPE EXCEPTIONTYPELIST EXCLUSIVEOREXPRESSION EXPLICITCONSTRUCTORINVOCATION EXPRESSION EXPRESSIONNAME EXPRESSIONSTATEMENT FIELDACCESS FIELDDECLARATION FIELDMODIFIERS FLOATINGTYPE FORINIT FORMALPARAMETER FORMALPARAMETERLIST FORSTATEMENT FORSTATEMENTNOSHORTIF FORUPDATE IFTHENELSESTATEMENT IFTHENELSESTATEMENTNOSHORTIF IFTHENSTATEMENT INCLUSIVEOREXPRESSION INSTANCEINITIALIZER INSTANCEOFEXPRESSION INTEGRALTYPE INTERFACETYPE INTERFACETYPELIST LABELEDSTATEMENT LABELEDSTATEMENTNOSHORTIF LEFTHANDSIDE LITERAL LOCALCLASSORINTERFACEDECLARATION LOCALVARIABLEDECLARATION LOCALVARIABLEDECLARATIONSTATEMENT LOCALVARIABLETYPE METHODBODY METHODDECLARATION METHODDECLARATOR METHODHEADER METHODINVOCATION METHODMODIFIERS METHODNAME METHODREFERENCE MULTIPLICATIVEEXPRESSION NORMALCLASSDECLARATION NUMERICTYPE ORDINARYCOMPILATIONUNIT POSTDECREMENTEXPRESSION POSTFIXEXPRESSION POSTINCREMENTEXPRESSION PREDECREMENTEXPRESSION PREINCREMENTEXPRESSION PRIMARY PRIMARYNONEWARRAY PRIMITIVETYPE RECEIVERPARAMETER REFERENCETYPE RELATIONALEXPRESSION RETURNSTATEMENT SHIFTEXPRESSION SIMPLETYPENAME SQUARESTAR STATEMENT STATEMENTEXPRESSION STATEMENTEXPRESSIONLIST STATEMENTNOSHORTIF STATEMENTWITHOUTTRAILINGSUBSTATEMENT STATICINITIALIZER SUPER1 SUPER2 SUPER3 THROWS2 THROWSTATEMENT TOPLEVELCLASSORINTERFACEDECLARATION TYPE TYPEARGUMENT TYPEARGUMENTLIST TYPEARGUMENTS TYPEBOUND TYPENAMES TYPEPARAMETER TYPEPARAMETERLIST TYPEPARAMETERS UNARYEXPRESSION UNARYEXPRESSIONNOTPLUSMINUS UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION VARIABLEARITYPARAMETER VARIABLEDECLARATOR VARIABLEDECLARATORID VARIABLEDECLARATORLIST VARIABLEINITIALIZER VARIABLEINITIALIZERLIST WHILESTATEMENT WHILESTATEMENTNOSHORTIF WILDCARD WILDCARDBOUNDS YIELDSTATEMENT IMPORTDECLARATION NORMALINTERFACEDECLARATION INTERFACEBODY INTERFACEMEMBERDECLARATION INTERFACEDECLARATION INTERFACEMEMBERDECLARATIONS
+%type<val>  ADDITIONALBOUND ADDITIVEEXPRESSION ANDEXPRESSION ARGUMENTLIST ARRAYACCESS ARRAYCREATIONEXPRESSION ARRAYINITIALIZER ARRAYINITIALIZER1 ASSERTSTATEMENT ASSIGNMENT ASSIGNMENTEXPRESSION ASSIGNMENTOPERATOR BASICFORSTATEMENT BASICFORSTATEMENTNOSHORTIF BLOCK BLOCKSTATEMENT BLOCKSTATEMENTS BREAKSTATEMENT CLASSBODY CLASSBODYDECLARATION CLASSBODYDECLARATIONS CLASSDECLARATION CLASSEXTENDS CLASSIMPLEMENTS CLASSINSTANCECREATIONEXPRESSION CLASSLITERAL CLASSMEMBERDECLARATION CLASSORINTERFACETYPE CLASSORINTERFACETYPETOINSTANTIATE CLASSPERMITS CLASSTYPE CLASSTYPE1 COMPILATIONUNIT CONDITIONALANDEXPRESSION CONDITIONALEXPRESSION CONDITIONALOREXPRESSION CONSTRUCTORBODY CONSTRUCTORDECLARATION CONSTRUCTORDECLARATOR CONTINUESTATEMENT DIMEXPR DIMEXPRS DIMS EMPTYSTATEMENT ENHANCEDFORSTATEMENT ENHANCEDFORSTATEMENTNOSHORTIF EQUALITYEXPRESSION EXCEPTIONTYPE EXCEPTIONTYPELIST EXCLUSIVEOREXPRESSION EXPLICITCONSTRUCTORINVOCATION EXPRESSION EXPRESSIONNAME EXPRESSIONSTATEMENT FIELDACCESS FIELDDECLARATION FIELDMODIFIERS FLOATINGTYPE FORINIT FORMALPARAMETER FORMALPARAMETERLIST FORSTATEMENT FORSTATEMENTNOSHORTIF FORUPDATE IFTHENELSESTATEMENT IFTHENELSESTATEMENTNOSHORTIF IFTHENSTATEMENT INCLUSIVEOREXPRESSION INSTANCEINITIALIZER INSTANCEOFEXPRESSION INTEGRALTYPE INTERFACETYPE INTERFACETYPELIST LABELEDSTATEMENT LABELEDSTATEMENTNOSHORTIF LEFTHANDSIDE LITERAL LOCALCLASSORINTERFACEDECLARATION LOCALVARIABLEDECLARATION LOCALVARIABLEDECLARATIONSTATEMENT LOCALVARIABLETYPE METHODBODY METHODDECLARATION METHODDECLARATOR METHODHEADER METHODINVOCATION METHODMODIFIERS METHODNAME METHODREFERENCE MULTIPLICATIVEEXPRESSION NORMALCLASSDECLARATION NUMERICTYPE ORDINARYCOMPILATIONUNIT POSTDECREMENTEXPRESSION POSTFIXEXPRESSION POSTINCREMENTEXPRESSION PREDECREMENTEXPRESSION PREINCREMENTEXPRESSION PRIMARY PRIMARYNONEWARRAY PRIMITIVETYPE RECEIVERPARAMETER REFERENCETYPE RELATIONALEXPRESSION RETURNSTATEMENT SHIFTEXPRESSION SIMPLETYPENAME SQUARESTAR STATEMENT STATEMENTEXPRESSION STATEMENTEXPRESSIONLIST STATEMENTNOSHORTIF STATEMENTWITHOUTTRAILINGSUBSTATEMENT STATICINITIALIZER SUPER1 SUPER2 SUPER3 THROWS2 THROWSTATEMENT TOPLEVELCLASSORINTERFACEDECLARATION TYPE TYPEARGUMENT TYPEARGUMENTLIST TYPEARGUMENTS TYPEBOUND TYPENAMES TYPEPARAMETER TYPEPARAMETERLIST TYPEPARAMETERS UNARYEXPRESSION UNARYEXPRESSIONNOTPLUSMINUS UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION VARIABLEARITYPARAMETER VARIABLEDECLARATOR VARIABLEDECLARATORID VARIABLEDECLARATORLIST VARIABLEINITIALIZER VARIABLEINITIALIZERLIST WHILESTATEMENT WHILESTATEMENTNOSHORTIF WILDCARD WILDCARDBOUNDS YIELDSTATEMENT IMPORTDECLARATION NORMALINTERFACEDECLARATION INTERFACEBODY INTERFACEMEMBERDECLARATION INTERFACEDECLARATION INTERFACEMEMBERDECLARATIONS OPENCURLY CLOSECURLY
 %token<val> BOOLEAN BYTE SHORT INT LONG CHAR FLOAT DOUBLE 
 
 /* Separators */
-%token<val> COMMA QUESTIONMARK SEMICOLON  OPENCURLY CLOSECURLY ANGULARLEFT ANGULARRIGHT OPENSQUARE CLOSESQUARE OPENPARAN CLOSEPARAN DOUBLECOLON TRIPLEDOT WS AT OVERRIDE
+%token<val> COMMA QUESTIONMARK SEMICOLON  OPENCURLY1 CLOSECURLY1 ANGULARLEFT ANGULARRIGHT OPENSQUARE CLOSESQUARE OPENPARAN CLOSEPARAN DOUBLECOLON TRIPLEDOT WS AT OVERRIDE
 
 /* Operators  AND -> & COMPLEMENT -> ~ */
 %token<val> EQUALS MULTIPLYEQUALS DIVIDEEQUALS MODEQUALS PLUSEQUALS MINUSEQUALS PLUS MINUS DIVIDE MULTIPLY MOD OR XOR COLON NOT COMPLEMENT AND DOT OROR ANDAND PLUSPLUS MINUSMINUS ANGULARLEFTANGULARLEFT ANGULARRIGHTANGULARRIGHT ANGULARRIGHTANGULARRIGHTANGULARRIGHT
@@ -97,138 +124,62 @@ EQUALSEQUALS NOTEQUALS
 
 %token<val> IDENTIFIER UNQUALIFIEDMETHODIDENTIFIER  DOTCLASS
 %token<val> EOFF
-
-
-/* %type<val> CHAPTERTITLE SECTIONTITLE  */
-
-%%
-
-"""
-end = """
 %%
 
 
-void yyerror(char *s){
-    cerr<<"syntax error in line number "<<yylineno<<endl;
-}
 
-int main(int argc, char** argv){
-    bool inset = false, outset = false;
-    for (int i=0; i< argc; i++){
-        // handle input arguments 
-        //  arguments can be space separated 
-        // arguments are help, input, output, verbose
-
-        if (strcmp(argv[i], "--help") == 0){
-            cerr<<"Usage: ./myASTGenerator [--help] [--input <filename>] [--output <filename>] [--verbose]\\n";
-            cerr<< "Example: ./myASTGenerator --input input.txt --output output.txt\\n";
-            
-        }
-        else if (strcmp(argv[i], "--input") == 0){
-            yyin = fopen(argv[i+1], "r");
-            inset = true;
-        }
-        else if (strcmp(argv[i], "--output") == 0){
-            freopen(argv[i+1], "w", stdout);
-            outset = true;
-        }
-        else if (strcmp(argv[i], "--verbose") == 0){
-            cerr<<"Verbose Output directed to parser.output\\n";
-        }
-    }
-
-    if (!inset){
-        cerr<< "Input not set, see help\\n";
-        return 0;
-    }
-    if (!outset){
-        cerr<< "Output not set, see help\\n";
-        return 0;
-    }
-    yyparse();
-    cout << "digraph ASTVisual {\\n ordering = out ;\\n";
-    for(auto e: labels){
-        string s;
-        
-         for( auto e1: e.l){
-            if(e1=='\\"' || e1=='\\\\'  ){
-                s.push_back('\\\\');
-            }
-            s.push_back(e1);
-        }
-        cout<<e.num<<" [ label=\\""<<s<<"\\"]\\n";
-    }
-    for(auto e: edges){
-        string s;
-
-        for( auto e1: e.l){
-            if(e1=='\\"' || e1=='\\\\'){
-                s.push_back('\\\\');
-            }
-            s.push_back(e1);
-        }
-        cout<<e.a<< " -> "<<e.b << "[ label=\\""<<s<<"\\"]\\n";
-    }
-    cout << "  }\\n";
-
-}
-
-
-"""
-
-a = """
-COMPILATIONUNIT     :   EOFF  
-                    |   ORDINARYCOMPILATIONUNIT EOFF 
+COMPILATIONUNIT     :   EOFF  {return 0;}
+                    |   ORDINARYCOMPILATIONUNIT EOFF {return 0;}
                     
-TYPE    :   PRIMITIVETYPE
-            |   REFERENCETYPE 
+TYPE    :   PRIMITIVETYPE {$$=$1;}
+            |   REFERENCETYPE {$$=$1;}
 
-PRIMITIVETYPE   :   NUMERICTYPE
-                |   BOOLEAN 
+PRIMITIVETYPE   :   NUMERICTYPE {$$=$1;}
+                |   BOOLEAN {$$=new_label(); label[$$]["type"]="bool";}
 
-NUMERICTYPE     :   INTEGRALTYPE
-                |   FLOATINGTYPE 
+NUMERICTYPE     :   INTEGRALTYPE {$$=$1;}
+                |   FLOATINGTYPE {$$=$1;}
 
-INTEGRALTYPE    : BYTE
-                | SHORT 
-                | INT 
-                | LONG 
-                | CHAR 
+INTEGRALTYPE    : BYTE {$$=new_label(); label[$$]["type"]="byte";}
+                | SHORT  {$$=new_label(); label[$$]["type"]="short";}
+                | INT {$$=new_label(); label[$$]["type"]="int";}
+                | LONG {$$=new_label(); label[$$]["type"]="long";}
+                | CHAR {$$=new_label(); label[$$]["type"]="char";}
 
-FLOATINGTYPE    :   FLOAT
-                |   DOUBLE 
+FLOATINGTYPE    :   FLOAT {$$=new_label(); label[$$]["type"]="float";}
+                |   DOUBLE {$$=new_label(); label[$$]["type"]="double";}
 
-REFERENCETYPE   :   CLASSORINTERFACETYPE
+REFERENCETYPE   :   CLASSORINTERFACETYPE {$$=$1;}
 
-CLASSORINTERFACETYPE    :   CLASSTYPE 
+CLASSORINTERFACETYPE    :   CLASSTYPE {$$=$1;}
 
-CLASSTYPE   :   CLASSTYPE1
+CLASSTYPE   :   CLASSTYPE1 {$$=$1;}
 
-CLASSTYPE1  :   IDENTIFIER
+CLASSTYPE1  :   IDENTIFIER {$$=new_label(); label[$$]["id"]=chartostring($1);}
 
-TYPEARGUMENTS   :   ANGULARLEFT TYPEARGUMENTLIST  ANGULARRIGHT
+TYPEARGUMENTS   :   ANGULARLEFT TYPEARGUMENTLIST  ANGULARRIGHT 
 
-TYPEARGUMENTLIST    :   TYPEARGUMENT
-                    |   TYPEARGUMENTLIST COMMA TYPEARGUMENT
+TYPEARGUMENTLIST    :   TYPEARGUMENT {$$=new_label(); label[$$][chartostring($1)]=chartostring($1);}
+                    |   TYPEARGUMENTLIST COMMA TYPEARGUMENT {$$=$1; label[$$][chartostring($3)]=chartostring($3);}
 
-TYPEARGUMENT    :   REFERENCETYPE
-                |   WILDCARD 
+TYPEARGUMENT    :   REFERENCETYPE {$$=$1;}
+                |   WILDCARD {$$=$1;}
 
 WILDCARD    :   QUESTIONMARK 
-            |   QUESTIONMARK WILDCARDBOUNDS
+            |   QUESTIONMARK WILDCARDBOUNDS 
 
 WILDCARDBOUNDS  :   EXTENDS REFERENCETYPE
                 |   SUPER REFERENCETYPE 
 
 
-INTERFACETYPE   :   CLASSTYPE
+INTERFACETYPE   :   CLASSTYPE {$$=$1;}
 
-DIMS    :   OPENSQUARE CLOSESQUARE 
-        |   DIMS OPENSQUARE CLOSESQUARE
+DIMS    :   OPENSQUARE CLOSESQUARE {$$=new_label(); label[$$]["dims"]=1;}
+        |   DIMS OPENSQUARE CLOSESQUARE {$$=$1;label[$$]["dims"]++;}
 
-METHODNAME  :   IDENTIFIER 
+METHODNAME  :   IDENTIFIER {$$=new_label(); label[$$]["id"]=chartostring($1);}
 
-EXPRESSIONNAME   :   IDENTIFIER DOT IDENTIFIER
+EXPRESSIONNAME   :   IDENTIFIER DOT IDENTIFIER 
                 |   EXPRESSIONNAME DOT IDENTIFIER
 
 
@@ -314,7 +265,7 @@ NORMALCLASSDECLARATION  :    CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSI
                             | SUPER3 CLASS IDENTIFIER CLASSBODY
 
 
-NORMALINTERFACEDECLARATION  :    INTERFACE IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS INTERFACEBODY
+NORMALINTERFACEDECLARATION  : INTERFACE IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS INTERFACEBODY
                             | INTERFACE IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS INTERFACEBODY
                             | INTERFACE IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSPERMITS INTERFACEBODY
                             | INTERFACE IDENTIFIER TYPEPARAMETERS CLASSEXTENDS INTERFACEBODY
@@ -380,7 +331,14 @@ NORMALINTERFACEDECLARATION  :    INTERFACE IDENTIFIER TYPEPARAMETERS CLASSEXTEND
                             | SUPER3 INTERFACE IDENTIFIER INTERFACEBODY
 
 
-                            
+OPENCURLY : OPENCURLY1   {
+    scope* temp=new scope();
+    curr->child.push_back(temp);
+    temp->parent=curr;
+    curr=temp;
+
+}              
+CLOSECURLY : CLOSECURLY1  {curr=curr->parent;}            
 
 INTERFACEBODY   :  OPENCURLY CLOSECURLY 
             |   OPENCURLY INTERFACEMEMBERDECLARATIONS CLOSECURLY
@@ -388,7 +346,7 @@ INTERFACEBODY   :  OPENCURLY CLOSECURLY
 INTERFACEMEMBERDECLARATIONS   :   INTERFACEMEMBERDECLARATION
                         |   INTERFACEMEMBERDECLARATIONS INTERFACEMEMBERDECLARATION
 
-INTERFACEMEMBERDECLARATION  :   METHODDECLARATION
+INTERFACEMEMBERDECLARATION  :   METHODDECLARATION 
                             |   DEFAULT METHODHEADER METHODBODY 
                             |   SUPER1 TYPE VARIABLEDECLARATORLIST SEMICOLON
                             |   CLASSDECLARATION
@@ -399,14 +357,14 @@ INTERFACEDECLARATION    :   NORMALINTERFACEDECLARATION
 
 TYPEPARAMETERS  :   ANGULARLEFT TYPEPARAMETERLIST ANGULARRIGHT
 
-TYPEPARAMETERLIST   :   TYPEPARAMETER
-                    |   TYPEPARAMETERLIST COMMA TYPEPARAMETER
+TYPEPARAMETERLIST   :   TYPEPARAMETER {$$=new_label(); label[$$][chartostring($1)]=chartostring($1);}
+                    |   TYPEPARAMETERLIST COMMA TYPEPARAMETER {$$=$1; label[$$][chartostring($3)]=chartostring($3);}
 
 TYPEPARAMETER   :   IDENTIFIER TYPEBOUND
-                |   IDENTIFIER 
+                |   IDENTIFIER {$$=new_label();label[$$]["id"]=$1;}
 
 
-TYPEBOUND   :  EXTENDS IDENTIFIER
+TYPEBOUND   :  EXTENDS IDENTIFIER 
             |   EXTENDS CLASSORINTERFACETYPE ADDITIONALBOUND
 
 ADDITIONALBOUND :   AND INTERFACETYPE
@@ -421,8 +379,8 @@ INTERFACETYPELIST   :   INTERFACETYPE
 
 CLASSPERMITS    :   PERMITS TYPENAMES
 
-TYPENAMES   :   IDENTIFIER
-            |   TYPENAMES COMMA IDENTIFIER
+TYPENAMES   :   IDENTIFIER {$$=new_label(); label[$$][chartostring($1)]=chartostring($1);}
+            |   TYPENAMES COMMA IDENTIFIER {$$=$1; label[$$][chartostring($3)]=chartostring($3);}
 
 CLASSBODY   :  OPENCURLY CLOSECURLY 
             |   OPENCURLY CLASSBODYDECLARATIONS CLOSECURLY
@@ -951,68 +909,34 @@ METHODMODIFIERS : SUPER3 SYNCHRONIZED
                 | METHODMODIFIERS PROTECTED
                 | METHODMODIFIERS STATIC
                 | METHODMODIFIERS FINAL
-"""
-igTerm = ["EOFF", "COMMA","QUESTIONMARK","SEMICOLON","OPENCURLY","CLOSECURLY","ANGULARLEFT","ANGULARRIGHT","OPENSQUARE","CLOSESQUARE","OPENPARAN","CLOSEPARAN","DOUBLECOLON","TRIPLEDOT","WS"]
+%%
 
 
-terminals =["BOOLEAN","BYTE","SHORT","INT","LONG","CHAR","FLOAT","DOUBLE","COMMA","QUESTIONMARK","SEMICOLON","OPENCURLY","CLOSECURLY","ANGULARLEFT","ANGULARRIGHT","OPENSQUARE","CLOSESQUARE","OPENPARAN","CLOSEPARAN","DOUBLECOLON","TRIPLEDOT","WS","EQUALS","MULTIPLYEQUALS","DIVIDEEQUALS","MODEQUALS","PLUSEQUALS","MINUSEQUALS","PLUS","MINUS","DIVIDE","MULTIPLY","MOD","OR","XOR","COLON","NOT","COMPLEMENT","AND","DOT","OROR","ANDAND","PLUSPLUS","MINUSMINUS","ANGULARLEFTANGULARLEFT","ANGULARRIGHTANGULARRIGHT","ANGULARRIGHTANGULARRIGHTANGULARRIGHT","EQUALSEQUALS","NOTEQUALS","INTEGERLITERAL","FLOATINGPOINTLITERAL","BOOLEANLITERAL","CHARACTERLITERAL","STRINGLITERAL","TEXTBLOCK","NULLLITERAL","EXTENDS","SUPER","CLASS","PUBLIC","PRIVATE","IMPLEMENTS","PERMITS","PROTECTED","STATIC","FINAL","TRANSIENT","VOLATILE","INSTANCEOF","THIS","VOID","NEW","THROW","ASSERT","VAR","BREAK","CONTINUE","RETURN","YIELD","IF","ELSE","WHILE","FOR","ABSTRACT","SYNCHRONIZED","NATIVE","STRICTFP","SWITCH","DEFAULT","PACKAGE","DO","GOTO","IMPORT","THROWS","CASE","ENUM","CATCH","TRY","INTERFACE","FINALLY","CONST","UNDERSCORE","EXPORTS","OPENS","REQUIRES","USES","MODULE","SEALED","PROVIDES","TO","WITH","OPEN","RECORD","TRANSITIVE","ERROR","ONCE","NL","NON_SEALED","IDENTIFIER","UNQUALIFIEDMETHODIDENTIFIER","DOTCLASS","EOFF"]
-print(start)
-#  get lines from a
-a= a.splitlines()
-striped = []
-
-left = 0
-for x in a:
-    while(x.find("  ")!=-1):
-        x= x.replace("  ", " ")
-    striped.append(x.strip())
-    t= x.strip()
-    if(t ==''):
-        continue
-    if (t.find(':')!=-1):
-
-        stcolon = t.split(':')[0]
-        left =  stcolon.strip()
-        # left = left.lower()
-        t= t.split(':')[1]
-        # print(t)
-    
-    t= t.replace('|','')
-    t= t.strip()
-    t= t.split(' ')
-    pp=""
-    if(len(t)!=1):
-        pp="$$=addlabel(\"" + str(left)+"\");"
-
-    for k in range(len(t)):
-        y= t[k]
+int main(int argc, char** argv){
+    yyparse();
+    /* cout << "digraph ASTVisual {\n ordering = out ;\n"; */
+    /* for(auto e: labels){
+        string s;
         
-        y= y.strip()
-        if (y==''):
-            continue
-        # print(y)
-        if (y in terminals and y not in igTerm):
-            # $1=addlabel(chartostring($1));
-            # addedge($$,$1,"dimension");
-            if(len(t)==1):
-                pp="$$=addlabel(\"" + str(left)+"\");"
-            pp += "$"+ str((k+1)) + "=addlabel(string(\"" + y.lower() + "\") +  string(\"(\") + " + " chartostring($"+str((k+1))+")+" +"string(\")\"));"
-            pp +=  "addedge($$, $"+ str((k+1))+");"
-        elif (y not in igTerm):
-            if (len(t)!=1):
-                pp +=  "addedge($$, $"+ str((k+1))+");"
-            else :
-                pp+="$$= $"+ str((k+1))+";"   
-        else :
-            if(len(t)==1):
-                pp="$$=addlabel(\"" + str(left)+"\");"
-                pp += "$"+ str((k+1)) + "=addlabel(string(\"" + y.lower() + "\") +  string(\"(\") + " + " chartostring($"+str((k+1))+")+" +"string(\")\"));"
-                pp +=  "addedge($$, $"+ str((k+1))+");"
-    if(left=="COMPILATIONUNIT"):
-        print(x + "  {"+ pp + "return 0;}")
-    else :
-        print(x + "  {"+ pp + "}")
-    
+         for( auto e1: e.l){
+            if(e1=='\"' || e1=='\\'  ){
+                s.push_back('\\');
+            }
+            s.push_back(e1);
+        }
+        cout<<e.num<<" [ label=\""<<s<<"\"]\n";
+    }
+    for(auto e: edges){
+        string s;
 
-print(end)
-        
+        for( auto e1: e.l){
+            if(e1=='\"' || e1=='\\'){
+                s.push_back('\\');
+            }
+            s.push_back(e1);
+        }
+        cout<<e.a<< " -> "<<e.b << "[ label=\""<<s<<"\"]\n";
+    }
+    cout << "  }\n"; */
+
+}
