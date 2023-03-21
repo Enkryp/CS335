@@ -1,101 +1,35 @@
 %{
     #include<bits/stdc++.h>
-    using namespace std;   
     extern "C" int yylex();
     extern "C" FILE *yyin;
     extern "C" int yylineno; 
+    using namespace std;   
     void yyerror(char *s){
         cerr<<s<<" at: "<<yylineno<<endl;
         exit(0);
     }
-
-    void yyerror(char *s);
-    char * stringtochar(string s){
-        int n=s.size();
-        char* c= (char*)malloc(sizeof(char)*(n+1));
-        for( int i=0;i<n;i++){  
-            c[i]=s[i];
-        }
-        c[n]='\0';
+    
+    #include"conversion.h"
+    #include"metadata.h"
+    #include"scope.h"    
+    char* new_scope(){
+        char* c= numtochar(scopes.size()+1);
+        scopes[c]=new scope;
         return c;
     }
-    char* numtochar( int num){
-        string s="0";
-        while(num>0){
-            s.push_back(num%10+'0');
-            num/=10;
-        }
-        reverse(s.begin(),s.end());
-        return stringtochar(s);
+    scope* root;
+    map<char*,map<string,string>> temp;
+    map<char*,map<string,vector<string>>> temp_list;
+    char* new_temp(){
+        char* c= numtochar(temp.size()+1);
+        temp[c];
+        return c;
     }
-    int stringtonum( string s){
-        int i=0;
-        int num=0;
-        while(i!=s.size()){
-            num*=10;
-            num+=s[i]-'0';
-            i++;
-        }
-        return num;
+    char* new_temp_list(){
+        char* c= numtochar(temp_list.size()+1);
+        temp_list[c];
+        return c;
     }
-    int chartonum(char * c){
-        int i=0;
-        int num=0;
-        while(c[i]!='\0'){
-            num*=10;
-            num+=c[i]-'0';
-            i++;
-        }
-        return num;
-    } 
-    string chartostring(char* c){
-        string s;
-        int i=0;
-        while(c[i]!='\0'){
-            s.push_back(c[i]);
-            i++;
-        }
-        return s;
-    }
-    string numtostring(int num){
-        return chartostring(numtochar(num));
-    }
-    struct scope{
-        scope* parent;
-        vector<scope*> child;
-        string type;
-        bool is_static=0;
-        map<string,map<string,string>> entry;
-        map<string,map<string,string>> declared_methods;
-        map<string,map<string,string>> declared_static_variables;
-        map<string,map<string,string>> declared_nonstatic_variables;
-        map<string,map<string,string>> used_methods;
-        map<string,map<string,string>> used_static_variables;
-        map<string,map<string,string>> used_variables;  
-    };
-    scope* root=new scope;
-    void addentry(scope* s,string id,string type,bool is_static=0){  // takes argument as the label of the node in string form and output a char* which is a unique number to the node
-        // string c=chartostring(c1);
-        if(s->entry.find(id)!=s->entry.end()){
-
-            yyerror(stringtochar("Previously declared at "+ s->entry[id]["dec_line"]+" redeclared "));
-        }
-        if(is_static){
-            if(type!="class")yyerror("cannot declare static int ");
-        }
-        s->entry[id];
-        s->entry[id]["type"]=type;
-        s->entry[id]["dec_line"]=chartostring(numtochar(yylineno));
-        s->entry[id]["is_static"]=is_static;
-    }
-    map<char*, map<string,string>> label;
-
-    scope * curr=root;
-    
-    char* new_label(){
-        return numtochar(label.size()+1);
-    }
-    
 %}
 %union{
     char* val;
@@ -129,25 +63,33 @@ EQUALSEQUALS NOTEQUALS
 
 
 COMPILATIONUNIT     :   EOFF  {return 0;}
-                    |   ORDINARYCOMPILATIONUNIT EOFF {return 0;}
+                    |   ORDINARYCOMPILATIONUNIT EOFF {root=scopes[$1]; return 0;}
                     
 TYPE    :   PRIMITIVETYPE {$$=$1;}
             |   REFERENCETYPE {$$=$1;}
 
 PRIMITIVETYPE   :   NUMERICTYPE {$$=$1;}
-                |   BOOLEAN {$$=new_label(); label[$$]["type"]="bool";}
+                |   BOOLEAN {}
 
 NUMERICTYPE     :   INTEGRALTYPE {$$=$1;}
                 |   FLOATINGTYPE {$$=$1;}
 
-INTEGRALTYPE    : BYTE {$$=new_label(); label[$$]["type"]="byte";}
-                | SHORT  {$$=new_label(); label[$$]["type"]="short";}
-                | INT {$$=new_label(); label[$$]["type"]="int";}
-                | LONG {$$=new_label(); label[$$]["type"]="long";}
-                | CHAR {$$=new_label(); label[$$]["type"]="char";}
+INTEGRALTYPE    : BYTE 
+                | SHORT  
+                | INT 
+                | LONG 
+                | CHAR 
 
-FLOATINGTYPE    :   FLOAT {$$=new_label(); label[$$]["type"]="float";}
-                |   DOUBLE {$$=new_label(); label[$$]["type"]="double";}
+FLOATINGTYPE    :   FLOAT 
+                |   DOUBLE 
+/* INTEGRALTYPE    : BYTE {$$=new_scope(); scopes[$$]["type"]="byte";}
+                | SHORT  {$$=new_scope(); scopes[$$]["type"]="short";}
+                | INT {$$=new_scope(); scopes[$$]["type"]="int";}
+                | LONG {$$=new_scope(); scopes[$$]["type"]="long";}
+                | CHAR {$$=new_scope(); scopes[$$]["type"]="char";}
+
+FLOATINGTYPE    :   FLOAT {$$=new_scope(); scopes[$$]["type"]="float";}
+                |   DOUBLE {$$=new_scope(); scopes[$$]["type"]="double";} */
 
 REFERENCETYPE   :   CLASSORINTERFACETYPE {$$=$1;}
 
@@ -155,12 +97,12 @@ CLASSORINTERFACETYPE    :   CLASSTYPE {$$=$1;}
 
 CLASSTYPE   :   CLASSTYPE1 {$$=$1;}
 
-CLASSTYPE1  :   IDENTIFIER {$$=new_label(); label[$$]["id"]=chartostring($1);}
+CLASSTYPE1  :   IDENTIFIER {$$=$1;}
 
 TYPEARGUMENTS   :   ANGULARLEFT TYPEARGUMENTLIST  ANGULARRIGHT 
 
-TYPEARGUMENTLIST    :   TYPEARGUMENT {$$=new_label(); label[$$][chartostring($1)]=chartostring($1);}
-                    |   TYPEARGUMENTLIST COMMA TYPEARGUMENT {$$=$1; label[$$][chartostring($3)]=chartostring($3);}
+TYPEARGUMENTLIST    :   TYPEARGUMENT {}
+                    |   TYPEARGUMENTLIST COMMA TYPEARGUMENT {}
 
 TYPEARGUMENT    :   REFERENCETYPE {$$=$1;}
                 |   WILDCARD {$$=$1;}
@@ -174,21 +116,21 @@ WILDCARDBOUNDS  :   EXTENDS REFERENCETYPE
 
 INTERFACETYPE   :   CLASSTYPE {$$=$1;}
 
-DIMS    :   OPENSQUARE CLOSESQUARE {$$=new_label(); label[$$]["dims"]=1;}
-        |   DIMS OPENSQUARE CLOSESQUARE {$$=$1;label[$$]["dims"]++;}
+DIMS    :   OPENSQUARE CLOSESQUARE {}
+        |   DIMS OPENSQUARE CLOSESQUARE {}
 
-METHODNAME  :   IDENTIFIER {$$=new_label(); label[$$]["id"]=chartostring($1);}
+METHODNAME  :   IDENTIFIER {}
 
 EXPRESSIONNAME   :   IDENTIFIER DOT IDENTIFIER 
                 |   EXPRESSIONNAME DOT IDENTIFIER
 
 
-ORDINARYCOMPILATIONUNIT :   TOPLEVELCLASSORINTERFACEDECLARATION 
-                        |   ORDINARYCOMPILATIONUNIT TOPLEVELCLASSORINTERFACEDECLARATION
+ORDINARYCOMPILATIONUNIT :   TOPLEVELCLASSORINTERFACEDECLARATION  {$$=new_scope();add_child($$,$1);}
+                        |   ORDINARYCOMPILATIONUNIT TOPLEVELCLASSORINTERFACEDECLARATION {$$=$1;add_child($$,$1);}
 
-TOPLEVELCLASSORINTERFACEDECLARATION :   CLASSDECLARATION
-                                    |   INTERFACEDECLARATION
-                                    |   SEMICOLON 
+TOPLEVELCLASSORINTERFACEDECLARATION :   CLASSDECLARATION {$$=$1;}
+                                    |   INTERFACEDECLARATION {$$=$1;}
+                                    |   SEMICOLON  {$$=$1;}
                                     |   IMPORTDECLARATION TOPLEVELCLASSORINTERFACEDECLARATION
 
 IMPORTDECLARATION   :   IMPORT EXPRESSIONNAME SEMICOLON
@@ -196,10 +138,10 @@ IMPORTDECLARATION   :   IMPORT EXPRESSIONNAME SEMICOLON
                     |   IMPORT STATIC EXPRESSIONNAME SEMICOLON
                     |   IMPORT STATIC EXPRESSIONNAME DOT MULTIPLY SEMICOLON
 
-CLASSDECLARATION    :   NORMALCLASSDECLARATION
+CLASSDECLARATION    :   NORMALCLASSDECLARATION {$$=$1;}
                     
 
-NORMALCLASSDECLARATION  :    CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY
+NORMALCLASSDECLARATION  :    CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY 
                             | CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY
                             | CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSPERMITS CLASSBODY
                             | CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSBODY
@@ -210,11 +152,20 @@ NORMALCLASSDECLARATION  :    CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSI
                             | CLASS IDENTIFIER CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY
                             | CLASS IDENTIFIER CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY
                             | CLASS IDENTIFIER CLASSEXTENDS CLASSPERMITS CLASSBODY
-                            | CLASS IDENTIFIER CLASSEXTENDS CLASSBODY
+                            | CLASS IDENTIFIER CLASSEXTENDS CLASSBODY  {
+                                $$=$4;
+                                scopes[$$]->type="class";
+                                scopes[$$]->class_meta.name=chartostring($2);
+                                scopes[$$]->class_meta.inherited_from=temp[$3]["extend"];    
+                            }
                             | CLASS IDENTIFIER CLASSIMPLEMENTS CLASSPERMITS CLASSBODY
                             | CLASS IDENTIFIER CLASSIMPLEMENTS CLASSBODY
                             | CLASS IDENTIFIER CLASSPERMITS CLASSBODY
-                            | CLASS IDENTIFIER CLASSBODY
+                            | CLASS IDENTIFIER CLASSBODY{
+                                $$=$3;
+                                scopes[$$]->type="class";
+                                scopes[$$]->class_meta.name=chartostring($2);
+                            }
                             | SUPER1 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY
                             | SUPER1 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY
                             | SUPER1 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSPERMITS CLASSBODY
@@ -226,11 +177,38 @@ NORMALCLASSDECLARATION  :    CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSI
                             | SUPER1 CLASS IDENTIFIER CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY
                             | SUPER1 CLASS IDENTIFIER CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY
                             | SUPER1 CLASS IDENTIFIER CLASSEXTENDS CLASSPERMITS CLASSBODY
-                            | SUPER1 CLASS IDENTIFIER CLASSEXTENDS CLASSBODY
+                            | SUPER1 CLASS IDENTIFIER CLASSEXTENDS CLASSBODY//
+                            {
+                                $$=$5;
+                                scopes[$$]->type="class";
+                                scopes[$$]->class_meta.name=chartostring($3);
+                                scopes[$$]->class_meta.inherited_from=temp[$4]["extend"];
+                                auto& e=temp_list[$1]["modifiers"];
+                                for(auto e1:e ){
+                                    scopes[$$]->class_meta.modifiers[e1]++;
+                                    if(scopes[$$]->class_meta.modifiers[e1]>1){
+                                        yyerror("multiple same type access modifier ");
+                                    }
+                                }
+                                
+                            }
                             | SUPER1 CLASS IDENTIFIER CLASSIMPLEMENTS CLASSPERMITS CLASSBODY
                             | SUPER1 CLASS IDENTIFIER CLASSIMPLEMENTS CLASSBODY
                             | SUPER1 CLASS IDENTIFIER CLASSPERMITS CLASSBODY
-                            | SUPER1 CLASS IDENTIFIER CLASSBODY
+                            | SUPER1 CLASS IDENTIFIER CLASSBODY//
+                            {
+                                $$=$4;
+                                scopes[$$]->type="class";
+                                scopes[$$]->class_meta.name=chartostring($3);
+                                auto& e=temp_list[$1]["modifiers"];
+                                for(auto e1:e ){
+                                    scopes[$$]->class_meta.modifiers[e1]++;
+                                    if(scopes[$$]->class_meta.modifiers[e1]>1){
+                                        yyerror("multiple same type access modifier ");
+                                    }
+                                }
+                                
+                            }
                             | SUPER2 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY
                             | SUPER2 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY
                             | SUPER2 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSPERMITS CLASSBODY
@@ -242,11 +220,36 @@ NORMALCLASSDECLARATION  :    CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSI
                             | SUPER2 CLASS IDENTIFIER CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY
                             | SUPER2 CLASS IDENTIFIER CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY
                             | SUPER2 CLASS IDENTIFIER CLASSEXTENDS CLASSPERMITS CLASSBODY
-                            | SUPER2 CLASS IDENTIFIER CLASSEXTENDS CLASSBODY
+                            | SUPER2 CLASS IDENTIFIER CLASSEXTENDS CLASSBODY {
+                                $$=$5;
+                                scopes[$$]->type="class";
+                                scopes[$$]->class_meta.name=chartostring($3);
+                                scopes[$$]->class_meta.inherited_from=temp[$4]["extend"];
+                                auto& e=temp_list[$1]["modifiers"];
+                                for(auto e1:e ){
+                                    scopes[$$]->class_meta.modifiers[e1]++;
+                                    if(scopes[$$]->class_meta.modifiers[e1]>1){
+                                        yyerror("multiple same type access modifier ");
+                                    }
+                                }
+                                
+                            }
                             | SUPER2 CLASS IDENTIFIER CLASSIMPLEMENTS CLASSPERMITS CLASSBODY
                             | SUPER2 CLASS IDENTIFIER CLASSIMPLEMENTS CLASSBODY
                             | SUPER2 CLASS IDENTIFIER CLASSPERMITS CLASSBODY
-                            | SUPER2 CLASS IDENTIFIER CLASSBODY
+                            | SUPER2 CLASS IDENTIFIER CLASSBODY {
+                                $$=$4;
+                                scopes[$$]->type="class";
+                                scopes[$$]->class_meta.name=chartostring($3);
+                                auto& e=temp_list[$1]["modifiers"];
+                                for(auto e1:e ){
+                                    scopes[$$]->class_meta.modifiers[e1]++;
+                                    if(scopes[$$]->class_meta.modifiers[e1]>1){
+                                        yyerror("multiple same type access modifier ");
+                                    }
+                                }
+                                
+                            }
                             | SUPER3 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY
                             | SUPER3 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY
                             | SUPER3 CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSPERMITS CLASSBODY
@@ -259,10 +262,36 @@ NORMALCLASSDECLARATION  :    CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSI
                             | SUPER3 CLASS IDENTIFIER CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY
                             | SUPER3 CLASS IDENTIFIER CLASSEXTENDS CLASSPERMITS CLASSBODY
                             | SUPER3 CLASS IDENTIFIER CLASSEXTENDS CLASSBODY
+                            {
+                                $$=$5;
+                                scopes[$$]->type="class";
+                                scopes[$$]->class_meta.name=chartostring($3);
+                                scopes[$$]->class_meta.inherited_from=temp[$4]["extend"];
+                                auto& e=temp_list[$1]["modifiers"];
+                                for(auto e1:e ){
+                                    scopes[$$]->class_meta.modifiers[e1]++;
+                                    if(scopes[$$]->class_meta.modifiers[e1]>1){
+                                        yyerror("multiple same type access modifier ");
+                                    }
+                                }
+                                
+                            }
                             | SUPER3 CLASS IDENTIFIER CLASSIMPLEMENTS CLASSPERMITS CLASSBODY
                             | SUPER3 CLASS IDENTIFIER CLASSIMPLEMENTS CLASSBODY
                             | SUPER3 CLASS IDENTIFIER CLASSPERMITS CLASSBODY
-                            | SUPER3 CLASS IDENTIFIER CLASSBODY
+                            | SUPER3 CLASS IDENTIFIER CLASSBODY {
+                                $$=$4;
+                                scopes[$$]->type="class";
+                                scopes[$$]->class_meta.name=chartostring($3);
+                                auto& e=temp_list[$1]["modifiers"];
+                                for(auto e1:e ){
+                                    scopes[$$]->class_meta.modifiers[e1]++;
+                                    if(scopes[$$]->class_meta.modifiers[e1]>1){
+                                        yyerror("multiple same type access modifier ");
+                                    }
+                                }
+                                
+                            }
 
 
 NORMALINTERFACEDECLARATION  : INTERFACE IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS INTERFACEBODY
@@ -331,14 +360,8 @@ NORMALINTERFACEDECLARATION  : INTERFACE IDENTIFIER TYPEPARAMETERS CLASSEXTENDS C
                             | SUPER3 INTERFACE IDENTIFIER INTERFACEBODY
 
 
-OPENCURLY : OPENCURLY1   {
-    scope* temp=new scope();
-    curr->child.push_back(temp);
-    temp->parent=curr;
-    curr=temp;
-
-}              
-CLOSECURLY : CLOSECURLY1  {curr=curr->parent;}            
+OPENCURLY : OPENCURLY1   {}              
+CLOSECURLY : CLOSECURLY1  {}            
 
 INTERFACEBODY   :  OPENCURLY CLOSECURLY 
             |   OPENCURLY INTERFACEMEMBERDECLARATIONS CLOSECURLY
@@ -357,11 +380,11 @@ INTERFACEDECLARATION    :   NORMALINTERFACEDECLARATION
 
 TYPEPARAMETERS  :   ANGULARLEFT TYPEPARAMETERLIST ANGULARRIGHT
 
-TYPEPARAMETERLIST   :   TYPEPARAMETER {$$=new_label(); label[$$][chartostring($1)]=chartostring($1);}
-                    |   TYPEPARAMETERLIST COMMA TYPEPARAMETER {$$=$1; label[$$][chartostring($3)]=chartostring($3);}
+TYPEPARAMETERLIST   :   TYPEPARAMETER 
+                    |   TYPEPARAMETERLIST COMMA TYPEPARAMETER 
 
 TYPEPARAMETER   :   IDENTIFIER TYPEBOUND
-                |   IDENTIFIER {$$=new_label();label[$$]["id"]=$1;}
+                |   IDENTIFIER 
 
 
 TYPEBOUND   :  EXTENDS IDENTIFIER 
@@ -370,7 +393,7 @@ TYPEBOUND   :  EXTENDS IDENTIFIER
 ADDITIONALBOUND :   AND INTERFACETYPE
                 |   ADDITIONALBOUND AND INTERFACETYPE
 
-CLASSEXTENDS    :   EXTENDS CLASSTYPE
+CLASSEXTENDS    :   EXTENDS CLASSTYPE {$$=new_temp();temp[$$]["extend"]=chartostring($2);}
 
 CLASSIMPLEMENTS :    IMPLEMENTS INTERFACETYPELIST
 
@@ -379,32 +402,52 @@ INTERFACETYPELIST   :   INTERFACETYPE
 
 CLASSPERMITS    :   PERMITS TYPENAMES
 
-TYPENAMES   :   IDENTIFIER {$$=new_label(); label[$$][chartostring($1)]=chartostring($1);}
-            |   TYPENAMES COMMA IDENTIFIER {$$=$1; label[$$][chartostring($3)]=chartostring($3);}
+TYPENAMES   :   IDENTIFIER {}
+            |   TYPENAMES COMMA IDENTIFIER {}
 
-CLASSBODY   :  OPENCURLY CLOSECURLY 
-            |   OPENCURLY CLASSBODYDECLARATIONS CLOSECURLY
+CLASSBODY   :  OPENCURLY CLOSECURLY {$$=new_scope();}
+            |   OPENCURLY CLASSBODYDECLARATIONS CLOSECURLY {$$=$2;} 
 
-CLASSBODYDECLARATIONS   :   CLASSBODYDECLARATION
+CLASSBODYDECLARATIONS   :   CLASSBODYDECLARATION 
+                            {
+                                $$=new_scope();
+                                add_child($$,$1);
+                                if(scopes[$1]->type=="field"){
+                                    scopes[$$]->class_meta.fields.push_back(scopes[$1]->field_meta);
+                                }
+                                else if(scopes[$1]->type=="method")
+                                {
+                                    scopes[$$]->class_meta.methods.push_back(scopes[$1]->method_meta);
+                                }
+                            }
                         |   CLASSBODYDECLARATIONS CLASSBODYDECLARATION
+                            {
+                                $$=$1;
+                                add_child($$,$2);
+                                if(scopes[$2]->type=="field"){
+                                    scopes[$$]->class_meta.fields.push_back(scopes[$2]->field_meta);
+                                }
+                                else if(scopes[$2]->type=="method")
+                                {
+                                    scopes[$$]->class_meta.methods.push_back(scopes[$2]->method_meta);
+                                }
+                            }
 
-CLASSBODYDECLARATION    :   CLASSMEMBERDECLARATION
-                        |   INSTANCEINITIALIZER
-                        |   STATICINITIALIZER
-                        |   CONSTRUCTORDECLARATION 
+CLASSBODYDECLARATION    :   CLASSMEMBERDECLARATION {$$=$1;}
+                        |   INSTANCEINITIALIZER {$$=$1;}
+                        |   STATICINITIALIZER {$$=$1;}
+                        |   CONSTRUCTORDECLARATION {$$=$1;}
 
-CLASSMEMBERDECLARATION:     FIELDDECLARATION
-                            |   METHODDECLARATION
-                            |   CLASSDECLARATION
-                            |   SEMICOLON
-                            |   INTERFACEDECLARATION
+CLASSMEMBERDECLARATION:     FIELDDECLARATION {$$=$1;}
+                            |   METHODDECLARATION {$$=$1;}
+                            |   CLASSDECLARATION {$$=$1;}
+                            |   SEMICOLON {$$==new_scope();}
+                            |   INTERFACEDECLARATION {$$=$1;}
 
 FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON
                     |   SUPER1 TYPE VARIABLEDECLARATORLIST SEMICOLON
                     |   SUPER2 TYPE VARIABLEDECLARATORLIST SEMICOLON
                     |   TYPE VARIABLEDECLARATORLIST SEMICOLON 
-
-
 
 VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR
                         |   VARIABLEDECLARATORLIST COMMA VARIABLEDECLARATOR 
@@ -688,9 +731,9 @@ VARIABLEARITYPARAMETER  :  TYPE TRIPLEDOT IDENTIFIER
 METHODBODY: BLOCK
            |	SEMICOLON
 
-INSTANCEINITIALIZER: BLOCK
+INSTANCEINITIALIZER: BLOCK {$$=$1;}
 
-STATICINITIALIZER: STATIC BLOCK
+STATICINITIALIZER: STATIC BLOCK {$$=$1;scopes[$$]->is_static=1;}
 
 BLOCK: OPENCURLY BLOCKSTATEMENTS CLOSECURLY
     |   OPENCURLY  CLOSECURLY
@@ -815,27 +858,89 @@ FORUPDATE: STATEMENTEXPRESSIONLIST
 STATEMENTEXPRESSIONLIST: STATEMENTEXPRESSION 
                         |   STATEMENTEXPRESSIONLIST COMMA STATEMENTEXPRESSION 
 
-CONSTRUCTORDECLARATION:     CONSTRUCTORDECLARATOR THROWS2 CONSTRUCTORBODY
+CONSTRUCTORDECLARATION:     CONSTRUCTORDECLARATOR THROWS2 CONSTRUCTORBODY{
+                            $$=$3;
+                            scopes[$$]->type="method";
+                            scopes[$$]->method_meta.is_constructor=1;
+                            scopes[$$]->method_meta.name=temp[$1]["name"];
+                            scopes[$$]->method_meta.args=scopes[stringtochar(temp[$1]["formalparameterlist"])]->method_meta.args;
+
+                        }
                         |   CONSTRUCTORDECLARATOR CONSTRUCTORBODY
+                        {
+                            $$=$2;
+                            scopes[$$]->type="method";
+                            scopes[$$]->method_meta.is_constructor=1;
+                            scopes[$$]->method_meta.name=temp[$1]["name"];
+                            scopes[$$]->method_meta.args=scopes[stringtochar(temp[$1]["formalparameterlist"])]->method_meta.args;
+
+                        }
                         |   SUPER1 CONSTRUCTORDECLARATOR THROWS2 CONSTRUCTORBODY  
+                        {
+                            $$=$4;
+                            scopes[$$]->type="method";
+                            scopes[$$]->method_meta.is_constructor=1;
+                            scopes[$$]->method_meta.name=temp[$2]["name"];
+                            scopes[$$]->method_meta.args=scopes[stringtochar(temp[$2]["formalparameterlist"])]->method_meta.args;
+                            for(auto e1: temp_list[$1]["modifiers"]){
+                                scopes[$$]->method_meta.modifiers[e1]++;
+                                if(scopes[$$]->method_meta.modifiers[e1]>1){
+                                    yyerror("multiple same type modifier");
+                                }
+                            }
+
+                        }
                         |   SUPER1 CONSTRUCTORDECLARATOR CONSTRUCTORBODY 
+                        {
+                            $$=$3;
+                            scopes[$$]->type="method";
+                            scopes[$$]->method_meta.is_constructor=1;
+                            scopes[$$]->method_meta.name=temp[$2]["name"];
+                            scopes[$$]->method_meta.args=scopes[stringtochar(temp[$2]["formalparameterlist"])]->method_meta.args;
+                            for(auto e1: temp_list[$1]["modifiers"]){
+                                scopes[$$]->method_meta.modifiers[e1]++;
+                                if(scopes[$$]->method_meta.modifiers[e1]>1){
+                                    yyerror("multiple same type modifier");
+                                }
+                            }
+                        }
 
 
-CONSTRUCTORDECLARATOR: SIMPLETYPENAME OPENPARAN  CLOSEPARAN
-                    |   SIMPLETYPENAME OPENPARAN FORMALPARAMETERLIST CLOSEPARAN
-                    |   SIMPLETYPENAME OPENPARAN RECEIVERPARAMETER COMMA CLOSEPARAN
-                    |   SIMPLETYPENAME OPENPARAN RECEIVERPARAMETER COMMA FORMALPARAMETERLIST CLOSEPARAN
+CONSTRUCTORDECLARATOR: SIMPLETYPENAME OPENPARAN  CLOSEPARAN {
+                        $$=new_temp(); 
+                        temp[$$]["constructor"]="1"; 
+                        temp[$$]["name"]=chartostring($1);
+                        }
+                    |   SIMPLETYPENAME OPENPARAN FORMALPARAMETERLIST CLOSEPARAN {
+                        $$=new_temp(); 
+                        temp[$$]["constructor"]="1"; 
+                        temp[$$]["name"]=chartostring($1);
+                        temp[$$]["formalparameterlist"]=chartostring($3);
+                        }
+                    |   SIMPLETYPENAME OPENPARAN RECEIVERPARAMETER COMMA CLOSEPARAN {
+                        $$=new_temp(); 
+                        temp[$$]["constructor"]="1"; 
+                        temp[$$]["name"]=chartostring($1);
+                        temp[$$]["receiverparameter"]=chartostring($3);
+                        }
+                    |   SIMPLETYPENAME OPENPARAN RECEIVERPARAMETER COMMA FORMALPARAMETERLIST CLOSEPARAN {
+                        $$=new_temp(); 
+                        temp[$$]["constructor"]="1"; 
+                        temp[$$]["name"]=chartostring($1);
+                        temp[$$]["formalparameterlist"]=chartostring($5);
+                        temp[$$]["receiverparameter"]=chartostring($3);
+                        }
                     |   TYPEPARAMETERS SIMPLETYPENAME OPENPARAN  CLOSEPARAN
                     |   TYPEPARAMETERS SIMPLETYPENAME OPENPARAN FORMALPARAMETERLIST CLOSEPARAN
                     |   TYPEPARAMETERS SIMPLETYPENAME OPENPARAN RECEIVERPARAMETER COMMA CLOSEPARAN
                     |   TYPEPARAMETERS SIMPLETYPENAME OPENPARAN RECEIVERPARAMETER COMMA FORMALPARAMETERLIST CLOSEPARAN
 
-SIMPLETYPENAME: IDENTIFIER
+SIMPLETYPENAME: IDENTIFIER {$$=$1;}
 
-CONSTRUCTORBODY: OPENCURLY EXPLICITCONSTRUCTORINVOCATION BLOCKSTATEMENTS CLOSECURLY
-                |   OPENCURLY EXPLICITCONSTRUCTORINVOCATION CLOSECURLY
-                |   OPENCURLY BLOCKSTATEMENTS CLOSECURLY
-                |   OPENCURLY  CLOSECURLY
+CONSTRUCTORBODY: OPENCURLY EXPLICITCONSTRUCTORINVOCATION BLOCKSTATEMENTS CLOSECURLY {$$=$3;}
+                |   OPENCURLY EXPLICITCONSTRUCTORINVOCATION CLOSECURLY {$$=new_scope();}
+                |   OPENCURLY BLOCKSTATEMENTS CLOSECURLY {$$=new_scope();}
+                |   OPENCURLY  CLOSECURLY {$$=new_scope();}
 
 EXPLICITCONSTRUCTORINVOCATION: THIS OPENPARAN CLOSEPARAN SEMICOLON
                             |    THIS OPENPARAN ARGUMENTLIST CLOSEPARAN SEMICOLON
@@ -853,49 +958,49 @@ EXPLICITCONSTRUCTORINVOCATION: THIS OPENPARAN CLOSEPARAN SEMICOLON
                             |   IDENTIFIER DOT SUPER OPENPARAN ARGUMENTLIST CLOSEPARAN SEMICOLON
                             |   IDENTIFIER DOT TYPEARGUMENTS SUPER OPENPARAN  CLOSEPARAN SEMICOLON
                             |   IDENTIFIER DOT TYPEARGUMENTS SUPER OPENPARAN ARGUMENTLIST CLOSEPARAN SEMICOLON
-                            |  PRIMARY DOT SUPER OPENPARAN CLOSEPARAN SEMICOLON
+                            |   PRIMARY DOT SUPER OPENPARAN CLOSEPARAN SEMICOLON
                             |   PRIMARY DOT SUPER OPENPARAN ARGUMENTLIST CLOSEPARAN SEMICOLON
                             |   PRIMARY DOT TYPEARGUMENTS SUPER OPENPARAN  CLOSEPARAN SEMICOLON
                             |   PRIMARY DOT TYPEARGUMENTS SUPER OPENPARAN ARGUMENTLIST CLOSEPARAN SEMICOLON
 
-SUPER1 : PUBLIC 
-        | PRIVATE 
-        | PROTECTED
-        | SUPER1 PUBLIC 
-        | SUPER1 PRIVATE 
-        | SUPER1 PROTECTED
+SUPER1 : PUBLIC {$$=new_temp_list(); temp_list[$$]["modifiers"].push_back(chartostring($1));}
+        | PRIVATE {$$=new_temp_list(); temp_list[$$]["modifiers"].push_back(chartostring($1));}
+        | PROTECTED {$$=new_temp_list(); temp_list[$$]["modifiers"].push_back(chartostring($1));}
+        | SUPER1 PUBLIC {$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+        | SUPER1 PRIVATE {$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+        | SUPER1 PROTECTED {$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
     
-SUPER2 : STATIC
-        | FINAL 
-        | SUPER1 STATIC
-        | SUPER1 FINAL
-        | SUPER2 STATIC
-        | SUPER2 FINAL
-        | SUPER2 PUBLIC
-        | SUPER2 PRIVATE
-        | SUPER2 PROTECTED
+SUPER2 : STATIC {$$=new_temp_list(); temp_list[$$]["modifiers"].push_back(chartostring($1));}
+        | FINAL {$$=new_temp_list(); temp_list[$$]["modifiers"].push_back(chartostring($1));}
+        | SUPER1 STATIC {$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+        | SUPER1 FINAL {$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+        | SUPER2 STATIC {$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+        | SUPER2 FINAL {$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+        | SUPER2 PUBLIC {$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+        | SUPER2 PRIVATE {$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+        | SUPER2 PROTECTED {$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
 
-SUPER3 : ABSTRACT
-        | STRICTFP
-        | SUPER2 ABSTRACT
-        | SUPER2 STRICTFP
-        | SUPER3 ABSTRACT
-        | SUPER3 STRICTFP
-        | SUPER3 PUBLIC
-        | SUPER3 PRIVATE
-        | SUPER3 PROTECTED
-        | SUPER3 STATIC
-        | SUPER3 FINAL
+SUPER3 : ABSTRACT {$$=new_temp_list(); temp_list[$$]["modifiers"].push_back(chartostring($1));}
+        | STRICTFP {$$=new_temp_list(); temp_list[$$]["modifiers"].push_back(chartostring($1));}
+        | SUPER2 ABSTRACT {$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+        | SUPER2 STRICTFP{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+        | SUPER3 ABSTRACT{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+        | SUPER3 STRICTFP{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+        | SUPER3 PUBLIC{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+        | SUPER3 PRIVATE{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+        | SUPER3 PROTECTED{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+        | SUPER3 STATIC{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+        | SUPER3 FINAL{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
 
-FIELDMODIFIERS: SUPER3 TRANSIENT
-            |   SUPER3 VOLATILE
-            |  FIELDMODIFIERS TRANSIENT
-            |  FIELDMODIFIERS VOLATILE
-            | FIELDMODIFIERS PUBLIC
-            | FIELDMODIFIERS PRIVATE
-            | FIELDMODIFIERS PROTECTED
-            | FIELDMODIFIERS STATIC
-            | FIELDMODIFIERS FINAL
+FIELDMODIFIERS: SUPER3 TRANSIENT{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+            |   SUPER3 VOLATILE{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+            |  FIELDMODIFIERS TRANSIENT{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+            |  FIELDMODIFIERS VOLATILE{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+            | FIELDMODIFIERS PUBLIC{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+            | FIELDMODIFIERS PRIVATE{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+            | FIELDMODIFIERS PROTECTED{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+            | FIELDMODIFIERS STATIC{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
+            | FIELDMODIFIERS FINAL{$$=$1;temp_list[$$]["modifiers"].push_back(chartostring($2)); }
 
 
 METHODMODIFIERS : SUPER3 SYNCHRONIZED
@@ -915,7 +1020,7 @@ METHODMODIFIERS : SUPER3 SYNCHRONIZED
 int main(int argc, char** argv){
     yyparse();
     /* cout << "digraph ASTVisual {\n ordering = out ;\n"; */
-    /* for(auto e: labels){
+    /* for(auto e: scopess){
         string s;
         
          for( auto e1: e.l){
@@ -924,7 +1029,7 @@ int main(int argc, char** argv){
             }
             s.push_back(e1);
         }
-        cout<<e.num<<" [ label=\""<<s<<"\"]\n";
+        cout<<e.num<<" [ scopes=\""<<s<<"\"]\n";
     }
     for(auto e: edges){
         string s;
@@ -935,7 +1040,7 @@ int main(int argc, char** argv){
             }
             s.push_back(e1);
         }
-        cout<<e.a<< " -> "<<e.b << "[ label=\""<<s<<"\"]\n";
+        cout<<e.a<< " -> "<<e.b << "[ scopes=\""<<s<<"\"]\n";
     }
     cout << "  }\n"; */
 

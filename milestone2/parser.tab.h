@@ -65,8 +65,8 @@ extern int yydebug;
     COMMA = 266,                   /* COMMA  */
     QUESTIONMARK = 267,            /* QUESTIONMARK  */
     SEMICOLON = 268,               /* SEMICOLON  */
-    OPENCURLY = 269,               /* OPENCURLY  */
-    CLOSECURLY = 270,              /* CLOSECURLY  */
+    OPENCURLY1 = 269,              /* OPENCURLY1  */
+    CLOSECURLY1 = 270,             /* CLOSECURLY1  */
     ANGULARLEFT = 271,             /* ANGULARLEFT  */
     ANGULARRIGHT = 272,            /* ANGULARRIGHT  */
     OPENSQUARE = 273,              /* OPENSQUARE  */
@@ -186,7 +186,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 98 "parser.y"
+#line 34 "parser.y"
 
     char* val;
 

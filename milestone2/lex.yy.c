@@ -1712,12 +1712,12 @@ YY_RULE_SETUP
 case 96:
 YY_RULE_SETUP
 #line 161 "lexer.l"
-{yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(OPENCURLY);}
+{yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(OPENCURLY1);}
 	YY_BREAK
 case 97:
 YY_RULE_SETUP
 #line 162 "lexer.l"
-{yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(CLOSECURLY);}
+{yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(CLOSECURLY1);}
 	YY_BREAK
 case 98:
 YY_RULE_SETUP
