@@ -30,6 +30,18 @@
         temp_list[c];
         return c;
     }
+    map<char*,Type*> type;
+    map<char*,vector<Type*>> type_list;
+    char * new_type(){
+        char* c= numtochar(type.size()+1);
+        type[c]=new Type;
+        return c;
+    }
+    char * new_type_list(){
+        char* c= numtochar(type_list.size()+1);
+        type_list[c];
+        return c;
+    }
 %}
 %union{
     char* val;
@@ -116,7 +128,7 @@ WILDCARDBOUNDS  :   EXTENDS REFERENCETYPE
 
 INTERFACETYPE   :   CLASSTYPE {$$=$1;}
 
-DIMS    :   OPENSQUARE CLOSESQUARE {}
+DIMS    :   OPENSQUARE CLOSESQUARE 
         |   DIMS OPENSQUARE CLOSESQUARE {}
 
 METHODNAME  :   IDENTIFIER {}
@@ -413,7 +425,9 @@ CLASSBODYDECLARATIONS   :   CLASSBODYDECLARATION
                                 $$=new_scope();
                                 add_child($$,$1);
                                 if(scopes[$1]->type=="field"){
-                                    scopes[$$]->class_meta.fields.push_back(scopes[$1]->field_meta);
+                                    for(auto e:scopes[$1]->field_meta ){
+                                        scopes[$$]->class_meta.fields.push_back(e);
+                                    }
                                 }
                                 else if(scopes[$1]->type=="method")
                                 {
@@ -425,7 +439,9 @@ CLASSBODYDECLARATIONS   :   CLASSBODYDECLARATION
                                 $$=$1;
                                 add_child($$,$2);
                                 if(scopes[$2]->type=="field"){
-                                    scopes[$$]->class_meta.fields.push_back(scopes[$2]->field_meta);
+                                    for(auto e:scopes[$1]->field_meta ){
+                                        scopes[$$]->class_meta.fields.push_back(e);
+                                    }
                                 }
                                 else if(scopes[$2]->type=="method")
                                 {
@@ -440,23 +456,105 @@ CLASSBODYDECLARATION    :   CLASSMEMBERDECLARATION {$$=$1;}
 
 CLASSMEMBERDECLARATION:     FIELDDECLARATION {$$=$1;}
                             |   METHODDECLARATION {$$=$1;}
-                            |   CLASSDECLARATION {$$=$1;}
+                            |   CLASSDECLARATION 
                             |   SEMICOLON {$$==new_scope();}
-                            |   INTERFACEDECLARATION {$$=$1;}
+                            |   INTERFACEDECLARATION 
 
-FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON
-                    |   SUPER1 TYPE VARIABLEDECLARATORLIST SEMICOLON
-                    |   SUPER2 TYPE VARIABLEDECLARATORLIST SEMICOLON
-                    |   TYPE VARIABLEDECLARATORLIST SEMICOLON 
+FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
+                            $$=new_scope();
+                            scopes[$$]->type="field";
+                            for(auto e: type_list[$3]){
+                                field_metadata c; 
+                                auto e1=e;
+                                while(e1->is_array!=0){
+                                    e1=e1->next;
+                                }
+                                e1->type= temp[$2]["type"];
+                                c.name=e->name;
+                                c.type=*e;
+                                for(auto e1: temp_list[$1]["modifiers"]){
+                                    c.modifiers[e1]++;
+                                    if(c.modifiers[e1]>1){
+                                        yyerror("multiple same type modifier");
+                                    }
+                                }
 
-VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR
-                        |   VARIABLEDECLARATORLIST COMMA VARIABLEDECLARATOR 
+                                scopes[$$]->field_meta.push_back(c);
+                            }
+                            
+                        }
+                    |   SUPER1 TYPE VARIABLEDECLARATORLIST SEMICOLON {
+                            $$=new_scope();
+                            scopes[$$]->type="field";
+                            for(auto e: type_list[$3]){
+                                field_metadata c; 
+                                auto e1=e;
+                                while(e1->is_array!=0){
+                                    e1=e1->next;
+                                }
+                                e1->type= temp[$2]["type"];
+                                c.name=e->name;
+                                c.type=*e;
+                                for(auto e1: temp_list[$1]["modifiers"]){
+                                    c.modifiers[e1]++;
+                                    if(c.modifiers[e1]>1){
+                                        yyerror("multiple same type modifier");
+                                    }
+                                }
 
-VARIABLEDECLARATOR  :   VARIABLEDECLARATORID EQUALS VARIABLEINITIALIZER
-                    |   VARIABLEDECLARATORID
+                                scopes[$$]->field_meta.push_back(c);
+                            }
+                            
+                        }
+                    |   SUPER2 TYPE VARIABLEDECLARATORLIST SEMICOLON {
+                            $$=new_scope();
+                            scopes[$$]->type="field";
+                            for(auto e: type_list[$3]){
+                                field_metadata c; 
+                                auto e1=e;
+                                while(e1->is_array!=0){
+                                    e1=e1->next;
+                                }
+                                e1->type= temp[$2]["type"];
+                                c.name=e->name;
+                                c.type=*e;
+                                for(auto e1: temp_list[$1]["modifiers"]){
+                                    c.modifiers[e1]++;
+                                    if(c.modifiers[e1]>1){
+                                        yyerror("multiple same type modifier");
+                                    }
+                                }
 
-VARIABLEDECLARATORID    :   IDENTIFIER 
-                        |   IDENTIFIER DIMS
+                                scopes[$$]->field_meta.push_back(c);
+                            }
+                            
+                        }
+                    |   TYPE VARIABLEDECLARATORLIST SEMICOLON {
+                            $$=new_scope();
+                            scopes[$$]->type="field";
+                            for(auto e: type_list[$2]){
+                                field_metadata c; 
+                                auto e1=e;
+                                while(e1->is_array!=0){
+                                    e1=e1->next;
+                                }
+                                e1->type= temp[$1]["type"];
+                                c.name=e->name;
+                                c.type=*e;
+                               
+
+                                scopes[$$]->field_meta.push_back(c);
+                            }
+                        }
+
+VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR {$$ = new_type_list(); type_list[$$].push_back(type[$1]);}
+                        |   VARIABLEDECLARATORLIST COMMA VARIABLEDECLARATOR {$$ = $1; type_list[$$].push_back(type[$3]);}
+
+VARIABLEDECLARATOR  :   VARIABLEDECLARATORID EQUALS VARIABLEINITIALIZER {$$=$1;}
+                    |   VARIABLEDECLARATORID {$$=$1;}
+
+VARIABLEDECLARATORID    :   IDENTIFIER {$$=new_type(); type[$$]->name=chartostring($1);}
+                        |   IDENTIFIER DIMS {$$=$2; type[$$]->name=chartostring($1);}
 
 VARIABLEINITIALIZER :    EXPRESSION
                     |   ARRAYINITIALIZER
@@ -728,8 +826,8 @@ VARIABLEARITYPARAMETER  :  TYPE TRIPLEDOT IDENTIFIER
                         |   FINAL TYPE TRIPLEDOT IDENTIFIER
 
 
-METHODBODY: BLOCK
-           |	SEMICOLON
+METHODBODY: BLOCK {$$=$1;}
+           |	SEMICOLON {$$=new_scope();}
 
 INSTANCEINITIALIZER: BLOCK {$$=$1;}
 
@@ -939,7 +1037,7 @@ SIMPLETYPENAME: IDENTIFIER {$$=$1;}
 
 CONSTRUCTORBODY: OPENCURLY EXPLICITCONSTRUCTORINVOCATION BLOCKSTATEMENTS CLOSECURLY {$$=$3;}
                 |   OPENCURLY EXPLICITCONSTRUCTORINVOCATION CLOSECURLY {$$=new_scope();}
-                |   OPENCURLY BLOCKSTATEMENTS CLOSECURLY {$$=new_scope();}
+                |   OPENCURLY BLOCKSTATEMENTS CLOSECURLY {$$=$2;}
                 |   OPENCURLY  CLOSECURLY {$$=new_scope();}
 
 EXPLICITCONSTRUCTORINVOCATION: THIS OPENPARAN CLOSEPARAN SEMICOLON

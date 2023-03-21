@@ -1,7 +1,15 @@
+struct Type{
+    string name;
+    bool is_array=0;
+    string type;
+    int size;
+    int line_number;
+    int offset;
+    Type* next=NULL; 
+};
 struct field_metadata{
     string name;
-    bool is_static=0;
-    string type;
+    Type type;
     map<string,int> modifiers;
     bool is_initialized=0;
 };
