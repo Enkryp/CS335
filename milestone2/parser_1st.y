@@ -10,6 +10,7 @@
     }
     
     #include"conversion.h"
+    #include"type.h"
     #include"metadata.h"
     #include"scope.h"    
     char* new_scope(){
@@ -77,23 +78,23 @@ EQUALSEQUALS NOTEQUALS
 COMPILATIONUNIT     :   EOFF  {return 0;}
                     |   ORDINARYCOMPILATIONUNIT EOFF {root=scopes[$1]; return 0;}
                     
-TYPE    :   PRIMITIVETYPE {$$=$1;}
-            |   REFERENCETYPE {$$=$1;}
+TYPE    :   PRIMITIVETYPE {$$=new_temp();temp[$$]["type"]=chartostring($1);}
+            |   REFERENCETYPE {$$=new_temp();temp[$$]["type"]=chartostring($1);}
 
 PRIMITIVETYPE   :   NUMERICTYPE {$$=$1;}
-                |   BOOLEAN {}
+                |   BOOLEAN {$$=$1;}
 
 NUMERICTYPE     :   INTEGRALTYPE {$$=$1;}
                 |   FLOATINGTYPE {$$=$1;}
 
-INTEGRALTYPE    : BYTE 
-                | SHORT  
-                | INT 
-                | LONG 
-                | CHAR 
+INTEGRALTYPE    : BYTE {$$=$1;}
+                | SHORT  {$$=$1;}
+                | INT {$$=$1;}
+                | LONG {$$=$1;}
+                | CHAR {$$=$1;}
 
-FLOATINGTYPE    :   FLOAT 
-                |   DOUBLE 
+FLOATINGTYPE    :   FLOAT {$$=$1;}
+                |   DOUBLE {$$=$1;}
 /* INTEGRALTYPE    : BYTE {$$=new_scope(); scopes[$$]["type"]="byte";}
                 | SHORT  {$$=new_scope(); scopes[$$]["type"]="short";}
                 | INT {$$=new_scope(); scopes[$$]["type"]="int";}
@@ -128,8 +129,8 @@ WILDCARDBOUNDS  :   EXTENDS REFERENCETYPE
 
 INTERFACETYPE   :   CLASSTYPE {$$=$1;}
 
-DIMS    :   OPENSQUARE CLOSESQUARE 
-        |   DIMS OPENSQUARE CLOSESQUARE {}
+DIMS    :   OPENSQUARE CLOSESQUARE {$$=new_type(); type[$$]->is_array=1;}
+        |   DIMS OPENSQUARE CLOSESQUARE {$$=new_type(); type[$$]->is_array=1;type[$$]->next=type[$1];type[$1]->prev=type[$$];}
 
 METHODNAME  :   IDENTIFIER {}
 
@@ -541,8 +542,6 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                                 e1->type= temp[$1]["type"];
                                 c.name=e->name;
                                 c.type=*e;
-                               
-
                                 scopes[$$]->field_meta.push_back(c);
                             }
                         }
@@ -554,19 +553,26 @@ VARIABLEDECLARATOR  :   VARIABLEDECLARATORID EQUALS VARIABLEINITIALIZER {$$=$1;}
                     |   VARIABLEDECLARATORID {$$=$1;}
 
 VARIABLEDECLARATORID    :   IDENTIFIER {$$=new_type(); type[$$]->name=chartostring($1);}
-                        |   IDENTIFIER DIMS {$$=$2; type[$$]->name=chartostring($1);}
+                        |   IDENTIFIER DIMS {
+                            $$=$2;
+                            type[$$]->name=chartostring($1);
+                        }
 
 VARIABLEINITIALIZER :    EXPRESSION
                     |   ARRAYINITIALIZER
 
-EXPRESSION  :  ASSIGNMENTEXPRESSION
+EXPRESSION  :  ASSIGNMENTEXPRESSION {$$=$1;}
 
-ASSIGNMENTEXPRESSION    :   CONDITIONALEXPRESSION
-                        |   ASSIGNMENT
+ASSIGNMENTEXPRESSION    :   CONDITIONALEXPRESSION {$$=$1;}
+                        |   ASSIGNMENT {$$=$1;}
 
-ASSIGNMENT  :   LEFTHANDSIDE ASSIGNMENTOPERATOR EXPRESSION
+ASSIGNMENT  :   LEFTHANDSIDE ASSIGNMENTOPERATOR EXPRESSION  {$$=$3;
+                }
 
 LEFTHANDSIDE    :   EXPRESSIONNAME
+                    {
+
+                    }
                 |   IDENTIFIER
                 |   FIELDACCESS
                 |   ARRAYACCESS
@@ -773,11 +779,66 @@ POSTDECREMENTEXPRESSION: POSTFIXEXPRESSION MINUSMINUS
 INSTANCEOFEXPRESSION: RELATIONALEXPRESSION INSTANCEOF REFERENCETYPE
 
 
-METHODDECLARATION:  METHODHEADER METHODBODY
-                    |   SUPER1 METHODHEADER METHODBODY
-                    |   SUPER2 METHODHEADER METHODBODY
-                    |   SUPER3 METHODHEADER METHODBODY
+METHODDECLARATION:  METHODHEADER METHODBODY {
+                            $$=$2;
+                            scopes[$$]->type="method";
+                            scopes[$$]->method_meta.name=temp[$1]["name"];
+                            scopes[$$]->method_meta.return_type=*type[stringtochar(temp[$1]["type"])];
+                            scopes[$$]->method_meta.args=scopes[stringtochar(temp[$1]["formalparameterlist"])]->method_meta.args;
+                        }
+                    |   SUPER1 METHODHEADER METHODBODY {
+                            $$=$3;
+                            scopes[$$]->type="method";
+                            scopes[$$]->method_meta.name=temp[$2]["name"];
+                            scopes[$$]->method_meta.return_type=*type[stringtochar(temp[$2]["type"])];
+                            scopes[$$]->method_meta.args=scopes[stringtochar(temp[$2]["formalparameterlist"])]->method_meta.args;
+                            for(auto e1: temp_list[$1]["modifiers"]){
+                                scopes[$$]->method_meta.modifiers[e1]++;
+                                if(scopes[$$]->method_meta.modifiers[e1]>1){
+                                    yyerror("multiple same type modifier");
+                                }
+                            }
+                        }
+                    |   SUPER2 METHODHEADER METHODBODY {
+                            $$=$3;
+                            scopes[$$]->type="method";
+                            scopes[$$]->method_meta.name=temp[$2]["name"];
+                            scopes[$$]->method_meta.return_type=*type[stringtochar(temp[$2]["type"])];
+                            scopes[$$]->method_meta.args=scopes[stringtochar(temp[$2]["formalparameterlist"])]->method_meta.args;
+                            for(auto e1: temp_list[$1]["modifiers"]){
+                                scopes[$$]->method_meta.modifiers[e1]++;
+                                if(scopes[$$]->method_meta.modifiers[e1]>1){
+                                    yyerror("multiple same type modifier");
+                                }
+                            }
+                        }
+                    |   SUPER3 METHODHEADER METHODBODY {
+                            $$=$3;
+                            scopes[$$]->type="method";
+                            scopes[$$]->method_meta.name=temp[$2]["name"];
+                            scopes[$$]->method_meta.return_type=*type[stringtochar(temp[$2]["type"])];
+                            scopes[$$]->method_meta.args=scopes[stringtochar(temp[$2]["formalparameterlist"])]->method_meta.args;
+                            for(auto e1: temp_list[$1]["modifiers"]){
+                                scopes[$$]->method_meta.modifiers[e1]++;
+                                if(scopes[$$]->method_meta.modifiers[e1]>1){
+                                    yyerror("multiple same type modifier");
+                                }
+                            }
+                        }
                     |   METHODMODIFIERS METHODHEADER METHODBODY
+                    {
+                            $$=$3;
+                            scopes[$$]->type="method";
+                            scopes[$$]->method_meta.name=temp[$2]["name"];
+                            scopes[$$]->method_meta.return_type=*type[stringtochar(temp[$2]["type"])];
+                            scopes[$$]->method_meta.args=scopes[stringtochar(temp[$2]["formalparameterlist"])]->method_meta.args;
+                            for(auto e1: temp_list[$1]["modifiers"]){
+                                scopes[$$]->method_meta.modifiers[e1]++;
+                                if(scopes[$$]->method_meta.modifiers[e1]>1){
+                                    yyerror("multiple same type modifier");
+                                }
+                            }
+                        }
                     | AT OVERRIDE METHODHEADER METHODBODY  
                     | AT OVERRIDE SUPER1 METHODHEADER METHODBODY  
                     | AT OVERRIDE SUPER2 METHODHEADER METHODBODY  
@@ -785,14 +846,31 @@ METHODDECLARATION:  METHODHEADER METHODBODY
                     | AT OVERRIDE METHODMODIFIERS METHODHEADER METHODBODY  
 
 
-METHODHEADER: TYPE METHODDECLARATOR THROWS2
-            |   TYPE METHODDECLARATOR 
-             |	TYPEPARAMETERS TYPE METHODDECLARATOR THROWS2
-             |  TYPEPARAMETERS TYPE METHODDECLARATOR 
-             |  VOID METHODDECLARATOR THROWS2
+METHODHEADER: TYPE METHODDECLARATOR 
+                {
+                    auto p=new_type();
+                    type[p]->type=temp[$1]["type"];
+                    $$=new_temp();
+                    temp[$$]["type"]=chartostring($1);
+                    temp[$$]["formalparameterlist"]=chartostring($2);
+                    temp[$$]["name"]=scopes[$2]->method_meta.name;
+
+                }
             |   VOID METHODDECLARATOR 
-             |	TYPEPARAMETERS VOID METHODDECLARATOR THROWS2
+            {
+                auto p=new_type();
+                type[p]->type="void";
+                $$=new_temp();
+                temp[$$]["type"]=chartostring($1);
+                temp[$$]["formalparameterlist"]=chartostring($2);
+                temp[$$]["name"]=scopes[$2]->method_meta.name;
+            }
              |  TYPEPARAMETERS VOID METHODDECLARATOR 
+             |  VOID METHODDECLARATOR THROWS2 
+             |	TYPEPARAMETERS VOID METHODDECLARATOR THROWS2 
+             |  TYPEPARAMETERS TYPE METHODDECLARATOR 
+             |	TYPEPARAMETERS TYPE METHODDECLARATOR THROWS2 
+            |   TYPE METHODDECLARATOR THROWS2 
 
 
 THROWS2: THROWS EXCEPTIONTYPELIST
@@ -802,10 +880,17 @@ EXCEPTIONTYPELIST: EXCEPTIONTYPE
 
 EXCEPTIONTYPE: CLASSTYPE
 
-METHODDECLARATOR: IDENTIFIER OPENPARAN CLOSEPARAN 
+METHODDECLARATOR: IDENTIFIER OPENPARAN CLOSEPARAN {
+                        $$=new_scope();
+                        scopes[$$]->method_meta.name=chartostring($1);
+                    }
+                |   IDENTIFIER OPENPARAN FORMALPARAMETERLIST CLOSEPARAN 
+                {
+                    $$=$2;
+                    scopes[$$]->method_meta.name=chartostring($1);
+                }
                 |   IDENTIFIER OPENPARAN CLOSEPARAN DIMS
                 |   IDENTIFIER OPENPARAN FORMALPARAMETERLIST CLOSEPARAN DIMS
-                |   IDENTIFIER OPENPARAN FORMALPARAMETERLIST CLOSEPARAN 
                 |   IDENTIFIER RECEIVERPARAMETER COMMA OPENPARAN CLOSEPARAN 
                 |   IDENTIFIER RECEIVERPARAMETER COMMA OPENPARAN CLOSEPARAN DIMS
                 |   IDENTIFIER RECEIVERPARAMETER COMMA OPENPARAN FORMALPARAMETERLIST CLOSEPARAN DIMS
@@ -814,10 +899,28 @@ METHODDECLARATOR: IDENTIFIER OPENPARAN CLOSEPARAN
 RECEIVERPARAMETER:  TYPE THIS
                 |   TYPE IDENTIFIER DOT THIS
 
-FORMALPARAMETERLIST: FORMALPARAMETER 
-                    |   FORMALPARAMETERLIST COMMA FORMALPARAMETER
+FORMALPARAMETERLIST: FORMALPARAMETER {$$=new_scope(); 
+                        method_argument p;
+                        p.type=*type[$1];
+                        p.name=type[$1]->name;
+                        scopes[$$]->method_meta.args.push_back(p);
+                        }
+                    |   FORMALPARAMETERLIST COMMA FORMALPARAMETER {
+                        $$=$1;
+                        method_argument p;
+                        p.type=*type[$3];
+                        p.name=type[$3]->name;
+                        scopes[$$]->method_meta.args.push_back(p);
+                    }
 
-FORMALPARAMETER:  TYPE VARIABLEDECLARATORID
+FORMALPARAMETER:  TYPE VARIABLEDECLARATORID {$$=$2; 
+                    auto p=type[$2];
+                    while(p->is_array){
+                        p=p->next;
+                    }
+                    p->type=temp[$1]["type"];
+
+                }
                 |	VARIABLEARITYPARAMETER
                 |   FINAL TYPE VARIABLEDECLARATORID
 
@@ -833,55 +936,86 @@ INSTANCEINITIALIZER: BLOCK {$$=$1;}
 
 STATICINITIALIZER: STATIC BLOCK {$$=$1;scopes[$$]->is_static=1;}
 
-BLOCK: OPENCURLY BLOCKSTATEMENTS CLOSECURLY
-    |   OPENCURLY  CLOSECURLY
+BLOCK: OPENCURLY BLOCKSTATEMENTS CLOSECURLY {$$=$2;}
+    |   OPENCURLY  CLOSECURLY {$$=new_scope();}
 
-BLOCKSTATEMENTS: BLOCKSTATEMENT 
-                |  BLOCKSTATEMENTS BLOCKSTATEMENT 
+BLOCKSTATEMENTS: BLOCKSTATEMENT {$$=$1; }
+                |  BLOCKSTATEMENTS BLOCKSTATEMENT  {
+                    $$=$1;
+                    merge($1,$2);
+                }
 
-BLOCKSTATEMENT: LOCALCLASSORINTERFACEDECLARATION
-               |	LOCALVARIABLEDECLARATIONSTATEMENT
-               |	STATEMENT
+BLOCKSTATEMENT: LOCALCLASSORINTERFACEDECLARATION {$$=$1;}
+               |	LOCALVARIABLEDECLARATIONSTATEMENT {$$=$1;}
+               |	STATEMENT {$$=$1;}
  
-LOCALCLASSORINTERFACEDECLARATION: CLASSDECLARATION
+LOCALCLASSORINTERFACEDECLARATION: CLASSDECLARATION {$$=$1;}
 
-LOCALVARIABLEDECLARATIONSTATEMENT: LOCALVARIABLEDECLARATION SEMICOLON
+LOCALVARIABLEDECLARATIONSTATEMENT: LOCALVARIABLEDECLARATION SEMICOLON {$$=$1;}
 
-LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST
+LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST 
+                        {
+                            string t=temp[$2]["type"];
+                            $$=new_scope();
+                            for(auto e: type_list[$3]){
+                                auto e1=e;
+                                while(e1->is_array){
+                                    e1=e1->next;
+                                    
+                                }
+                                e1->type=t;
+                                e->line_number=yylineno;
+                                scopes[$$]->entries[e->name]=*e;
+                            }
+                        }
                         |   LOCALVARIABLETYPE VARIABLEDECLARATORLIST
+                        {
+                            string t=temp[$1]["type"];
+                            $$=new_scope();
+                            for(auto e: type_list[$2]){
+                                auto e1=e;
+                                while(e1->is_array){
+                                    e1=e1->next;
+                                    
+                                }
+                                e1->type=t;
+                                e->line_number=yylineno;
+                                scopes[$$]->entries[e->name]=*e;
+                            }
+                        }
 
-LOCALVARIABLETYPE: TYPE
-                  |	VAR
+LOCALVARIABLETYPE: TYPE {$$=$1;}
+                  |	VAR {$$=new_temp();temp[$$]["type"]="var";}
 
 
-STATEMENT: STATEMENTWITHOUTTRAILINGSUBSTATEMENT
-          |	LABELEDSTATEMENT
-          |	IFTHENSTATEMENT
-          |	IFTHENELSESTATEMENT
-          |	WHILESTATEMENT
-          |	FORSTATEMENT
+STATEMENT: STATEMENTWITHOUTTRAILINGSUBSTATEMENT {$$=$1;}
+          |	LABELEDSTATEMENT {$$=$1;}
+          |	IFTHENSTATEMENT {$$=$1;}
+          |	IFTHENELSESTATEMENT {$$=$1;}
+          |	WHILESTATEMENT {$$=$1;}
+          |	FORSTATEMENT {$$=$1;}
 
-STATEMENTWITHOUTTRAILINGSUBSTATEMENT: BLOCK
-                                     |	EMPTYSTATEMENT
-                                     |	EXPRESSIONSTATEMENT
-                                     |	ASSERTSTATEMENT
-                                     |	BREAKSTATEMENT
-                                     |	CONTINUESTATEMENT
-                                     |	RETURNSTATEMENT
-                                     |	THROWSTATEMENT
-                                     |	YIELDSTATEMENT
+STATEMENTWITHOUTTRAILINGSUBSTATEMENT: BLOCK {$$=new_scope(); add_child($$,$1);}
+                                     |	EMPTYSTATEMENT {}
+                                     |	EXPRESSIONSTATEMENT {}
+                                     |	ASSERTSTATEMENT {$$=new_scope();}
+                                     |	BREAKSTATEMENT {$$=new_scope();}
+                                     |	CONTINUESTATEMENT {$$=new_scope();}
+                                     |	RETURNSTATEMENT {$$=new_scope();}
+                                     |	THROWSTATEMENT {$$=new_scope();}
+                                     |	YIELDSTATEMENT {$$=new_scope();}
 
 EMPTYSTATEMENT: SEMICOLON
 
-EXPRESSIONSTATEMENT: STATEMENTEXPRESSION SEMICOLON
+EXPRESSIONSTATEMENT: STATEMENTEXPRESSION SEMICOLON {$$=$1;}
 
-STATEMENTEXPRESSION: ASSIGNMENT
-                    |	PREINCREMENTEXPRESSION
-                    |	PREDECREMENTEXPRESSION
-                    |	POSTINCREMENTEXPRESSION
-                    |	POSTDECREMENTEXPRESSION
-                    |	METHODINVOCATION
-                    |	CLASSINSTANCECREATIONEXPRESSION
+STATEMENTEXPRESSION: ASSIGNMENT {$$=$1;}
+                    |	PREINCREMENTEXPRESSION {$$=$1;}
+                    |	PREDECREMENTEXPRESSION {$$=$1;}
+                    |	POSTINCREMENTEXPRESSION {$$=$1;}
+                    |	POSTDECREMENTEXPRESSION {$$=$1;}
+                    |	METHODINVOCATION {$$=$1;}
+                    |	CLASSINSTANCECREATIONEXPRESSION {$$=$1;}
 
 ASSERTSTATEMENT: ASSERT EXPRESSION SEMICOLON
                 |	ASSERT EXPRESSION COLON EXPRESSION SEMICOLON
@@ -901,35 +1035,45 @@ YIELDSTATEMENT: YIELD EXPRESSION SEMICOLON
 
 LABELEDSTATEMENT: IDENTIFIER COLON STATEMENT
 
-IFTHENSTATEMENT: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENT
+IFTHENSTATEMENT: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENT {$$=new_scope();add_child($$,$5);}
 
-IFTHENELSESTATEMENT: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENTNOSHORTIF ELSE STATEMENT
+IFTHENELSESTATEMENT: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENTNOSHORTIF ELSE STATEMENT {
+    $$=$5;
+    add_child($$,$7);
+}
 
-IFTHENELSESTATEMENTNOSHORTIF: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENTNOSHORTIF ELSE STATEMENTNOSHORTIF
+IFTHENELSESTATEMENTNOSHORTIF: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENTNOSHORTIF ELSE STATEMENTNOSHORTIF {$$=$5;merge($5,$7);}
 
-STATEMENTNOSHORTIF: STATEMENTWITHOUTTRAILINGSUBSTATEMENT
-                   |	LABELEDSTATEMENTNOSHORTIF
-                   |	IFTHENELSESTATEMENTNOSHORTIF
-                   |	WHILESTATEMENTNOSHORTIF
-                   |	FORSTATEMENTNOSHORTIF
+STATEMENTNOSHORTIF: STATEMENTWITHOUTTRAILINGSUBSTATEMENT {$$=new_scope();add_child($$,$1);}
+                   |	LABELEDSTATEMENTNOSHORTIF {$$=new_scope();add_child($$,$1);}
+                   |	IFTHENELSESTATEMENTNOSHORTIF {$$=new_scope();add_child($$,$1);}
+                   |	WHILESTATEMENTNOSHORTIF {$$=new_scope();add_child($$,$1);}
+                   |	FORSTATEMENTNOSHORTIF {$$=new_scope();add_child($$,$1);}
 
-LABELEDSTATEMENTNOSHORTIF: IDENTIFIER COLON STATEMENTNOSHORTIF
+LABELEDSTATEMENTNOSHORTIF: IDENTIFIER COLON STATEMENTNOSHORTIF {$$=$3;}
 
-WHILESTATEMENTNOSHORTIF: WHILE OPENPARAN EXPRESSION CLOSEPARAN STATEMENTNOSHORTIF
+WHILESTATEMENTNOSHORTIF: WHILE OPENPARAN EXPRESSION CLOSEPARAN STATEMENTNOSHORTIF 
+                        {
+                            $$=$5;
+                        }
 
-FORSTATEMENTNOSHORTIF: BASICFORSTATEMENTNOSHORTIF
-                      |	ENHANCEDFORSTATEMENTNOSHORTIF
+FORSTATEMENTNOSHORTIF: BASICFORSTATEMENTNOSHORTIF {$$=$1;}
+                      |	ENHANCEDFORSTATEMENTNOSHORTIF {$$=$1;}
 
 
-WHILESTATEMENT: WHILE OPENPARAN EXPRESSION CLOSEPARAN STATEMENT
+WHILESTATEMENT: WHILE OPENPARAN EXPRESSION CLOSEPARAN STATEMENT {$$=new_scope();add_child($$,$5);}
 
-FORSTATEMENT: BASICFORSTATEMENT
-             |	ENHANCEDFORSTATEMENT
+FORSTATEMENT: BASICFORSTATEMENT {$$=$1;}
+             |	ENHANCEDFORSTATEMENT {$$=$1;}
 
-BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT
-                  |	FOR OPENPARAN SEMICOLON SEMICOLON FORUPDATE CLOSEPARAN STATEMENT
+BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT {$$=new_scope(); add_child($$,$6);}
+                  |	FOR OPENPARAN SEMICOLON SEMICOLON FORUPDATE CLOSEPARAN STATEMENT {
+                    $$=new_scope(); add_child($$,$7);
+                  }
                   |	FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENT
+                  {$$=new_scope(); add_child($$,$7);}
                   |	FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENT
+                  {$$=new_scope(); add_child($$,$8);}
                   |	FOR OPENPARAN FORINIT SEMICOLON SEMICOLON CLOSEPARAN STATEMENT
                   |	FOR OPENPARAN FORINIT SEMICOLON SEMICOLON FORUPDATE CLOSEPARAN STATEMENT
                   |	FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENT
@@ -939,7 +1083,10 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                   |	FOR OPENPARAN SEMICOLON SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF
                   |	FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF
                   |	FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF
-                  |	FOR OPENPARAN FORINIT SEMICOLON SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF
+                  |	FOR OPENPARAN FORINIT SEMICOLON SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF 
+                  {
+
+                  }
                   |	FOR OPENPARAN FORINIT SEMICOLON SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF
                   |	FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF
                   |	FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF
