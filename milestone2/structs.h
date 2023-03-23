@@ -96,8 +96,8 @@ map<pair<string,string>, fieldsig> preservedfields;
      map<int, map<string, string>> ds;
      vector <string> code;
 
-     void type_check(string a , string b, string c){};
- string type_conversion(string a , string b, string c){};
+    //  void type_check(string a , string b, string c){};
+//  string type_conversion(string a , string b, string c){};
 
  void dbgsymtable(){
 
@@ -173,4 +173,163 @@ ll num_var=1;
    
    map<ll, map<string, vector<int>>> ds3;
 
+vector<vector<ll>> arithmetics = {
+{1,2,3,4,1,1,1,},
+{2,2,3,4,2,2,2,},
+{3,3,3,4,3,3,3,},
+{4,4,4,4,4,4,4,},
+{1,2,3,4,1,1,1,},
+{1,2,3,4,1,1,1,},
+{1,2,3,4,1,1,1,}
+};
+vector<vector<ll>> bitwise_shifts = {
+    {1,1,-1,-1,1,1,1,},
+{2,2,-1,-1,2,2,2,},
+{-1,-1,-1,-1,-1,-1,-1,},
+{-1,-1,-1,-1,-1,-1,-1,},
+{1,1,-1,-1,1,1,1,},
+{1,1,-1,-1,1,1,1,},
+{1,1,-1,-1,1,1,1,}
+};
+vector<vector<ll>> bitwise_operators ={
+    {1,2,-1,-1,1,1,1,},
+{2,2,-1,-1,2,2,2,},
+{-1,-1,-1,-1,-1,-1,-1,},
+{-1,-1,-1,-1,-1,-1,-1,},
+{1,2,-1,-1,1,1,1,},
+{1,2,-1,-1,1,1,1,},
+{1,2,-1,-1,1,1,1,}
+};
+vector<vector<ll>> conversions = {
+    {1,1,1,1,0,0,0,0},
+{0,1,1,1,0,0,0,0},
+{0,0,1,1,0,0,0,0},
+{0,0,0,1,0,0,0,0},
+{1,1,1,1,1,0,0,0},
+{1,1,1,1,0,1,1,0},
+{1,1,1,1,0,0,1,0},
+{0,0,0,0,0,0,0,1}
+};
+map<string,ll> typetonum={{"int",1},{"long",2},{"float",3},{"double",4},{"char",5},{"byte",6},{"short",7},{"boolean",8}};;
+vector<string> numtotype ={"int","long","float","double","char","byte","short","boolean"};
+void error_report_type(string s1, string s2, string op){
+    cerr<<"Bad operator types "<<s1<<" and "<<s2<<" for operator "<<op<<"\n";
+    exit(0);
+}
+void type_check(string a,string b,string c){
+    int arg1=typetonum[a];
+    int arg2=typetonum[b];
+    if(arg1==0||arg1==0){
+        // reference type
+        return ;
+    }
+    arg1--;
+    arg2--;
+    if(arg1==7||arg2==7){
+        if(arg1!=7||arg2!=7){
+            error_report_type(a,b,c);
+        }
+        else{
+            if(c!="=="&&c!="!="&&c!="&&"&&c!="||"){
+                error_report_type(a,b,c);
+            }
+        }
+    }
+    else{
+        set<string> arithmetic={"+","-","/","*","%"};
+        set<string> bitwise_shift={"<<",">>"};
+        set<string> bitwise_operator ={"&","|"};
+        set<string> relational ={"==", "!=", ">", "<", ">=", "<="};
+        // set<string> relational ={"==", "!=", ">", "<", ">=", "<="};
+        set<string> operator_double ={"+=", "-=", "*=", "/=", "&="};
+        if(c=="="&&!conversions[arg2][arg1]){
+            error_report_type(a,b,c);
+        }
+        if(operator_double.find(c)!=operator_double.end()){
+            string s={c[0]};
+            type_check(a,b,s);
+            if(s[0]=='&')
+            type_check(a,numtotype[bitwise_operators[arg1][arg2]],"=");
+            else 
+            type_check(a,numtotype[arithmetics[arg1][arg2]],"=");
+        }
+        else if(relational.find(c)!=relational.end()){
+            
+        }
+        else if(bitwise_operator.find(c)!=bitwise_operator.end()){
+            if(bitwise_operators[arg1][arg2]==-1)error_report_type(a,b,c);
+        }
+        else if(bitwise_shift.find(c)!=bitwise_shift.end()){
 
+            if(bitwise_shifts[arg1][arg2]==-1)error_report_type(a,b,c);
+        }
+        else if(arithmetic.find(c)!=arithmetic.end()){
+
+        }
+        else {
+            // opertor not find;
+        }
+
+    }
+}
+
+string type_conversion(string a,string b,string c){
+    int arg1=typetonum[a];
+    int arg2=typetonum[b];
+    if(arg1==0||arg1==0){
+        // reference type
+        return "" ;
+    }
+    arg1--;
+    arg2--;
+    if(arg1==7||arg2==7){
+        return "boolean";
+    }
+    else{
+        set<string> arithmetic={"+","-","/","*","%"};
+        set<string> bitwise_shift={"<<",">>"};
+        set<string> bitwise_operator ={"&","|"};
+        set<string> relational ={"==", "!=", ">", "<", ">=", "<="};
+        // set<string> relational ={"==", "!=", ">", "<", ">=", "<="};
+        set<string> operator_double ={"+=", "-=", "*=", "/=", "&="};
+        if(c=="="){
+            if(arg2!=arg1){
+                // add command var(b) = to_cast(a) var(b)
+            }
+            return a;
+        }
+        else if(operator_double.find(c)!=operator_double.end()){
+            return type_conversion(a,b,"="); 
+        }
+        else if(relational.find(c)!=relational.end()){
+            if(conversions[arg2][arg1])
+            return type_conversion(a,b,"=");
+            else
+            return type_conversion(b,a,"=");
+            
+        }
+        else if(bitwise_operator.find(c)!=bitwise_operator.end()){
+            if(conversions[arg2][arg1])
+            return type_conversion(a,b,"=");
+            else
+            return type_conversion(b,a,"=");
+        }
+        else if(bitwise_shift.find(c)!=bitwise_shift.end()){
+
+            if(conversions[arg2][arg1])
+            return type_conversion(a,b,"=");
+            else
+            return type_conversion(b,a,"=");
+        }
+        else if(arithmetic.find(c)!=arithmetic.end()){
+            if(conversions[arg2][arg1])
+            return type_conversion(a,b,"=");
+            else
+            return type_conversion(b,a,"=");
+        }
+        else {
+            // opertor not find;
+        }
+
+    }
+}

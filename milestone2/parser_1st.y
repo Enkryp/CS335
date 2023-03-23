@@ -61,9 +61,14 @@
     //     }
     // };
 
+
+
     string checkclassname="";
 
-    
+    void typ_error(){
+        cerr<<"Unexpected type found\n";
+        exit(0);
+    }
     
 
     void resetclass(){
@@ -502,7 +507,9 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                                                                     int  curr2 = chartonum($3), curr = chartonum($$);
                                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
                                                                     ds[curr]["start"] = ds[curr2]["start"];
-                                                                    assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)));
+                                                                    // assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)));
+                                                                    if((ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)))
+                                                                    typ_error();
                                                                     
                                                                     
                     }
@@ -522,7 +529,9 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                                                                     int  curr2 = chartonum($3), curr = chartonum($$);
                                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
                                                                     ds[curr]["start"] = ds[curr2]["start"];
-                                                                    assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)));
+                                                                    // assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)));
+                                                                    if((ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)))
+                                                                    typ_error();
                                                                     
                                                                     
                     }
@@ -540,7 +549,9 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                         // TYPE CHECK
                                                                     int  curr2 = chartonum($3), curr = chartonum($$);
                                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
-                                                                    assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)));
+                                                                    // assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)));
+                                                                    if((ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)))
+                                                                    typ_error();
                                                                     
                                                                     
                     }
@@ -561,7 +572,9 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
                                                                     ds[curr]["start"] = ds[curr2]["start"];
                                                                     // code.push_back("start="+ds[curr]["start"]);
-                                                                    assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($1)));
+                                                                    // assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($1)));
+                                                                    if((ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)))
+                                                                    typ_error();
                                                                     
                                                                     
                     }
@@ -604,7 +617,9 @@ VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR {$$ = new_temp(); generalmap[$$].
                                                     }
                                                     ds[curr]["start"] = ds[curr1]["start"];
                                                     ds[curr]["lineno"] = ds[curr1]["lineno"];
-                                                    assert(!(ds[curr3].find("type")!=ds[curr3].end()&&ds[curr1].find("type")!=ds[curr1].end()&&ds[curr3]["type"]!=ds[curr1]["type"]));
+                                                    // assert(!(ds[curr3].find("type")!=ds[curr3].end()&&ds[curr1].find("type")!=ds[curr1].end()&&ds[curr3]["type"]!=ds[curr1]["type"]));
+                                                    if((ds[curr3].find("type")!=ds[curr3].end()&&ds[curr1].find("type")!=ds[curr1].end()&&ds[curr3]["type"]!=ds[curr1]["type"]))
+                                                    typ_error();
                                                     // error("Incompatible types");
 
 }
@@ -889,7 +904,7 @@ ARRAYACCESS: EXPRESSIONNAME OPENSQUARE EXPRESSION CLOSESQUARE
                 $$ = new_temp(); 
                 int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);
                 if(ds[curr3]["type"]!="int"&&ds[curr3]["type"]!="long"&&ds[curr3]["type"]!="short"&&ds[curr3]["type"]!="byte")
-                assert(0&&"array index type error");
+                cerr<<"Array index not integer\n";
                 ds[curr] = ds[curr1];   
                 ds[curr]["var"] = new_var();
                 int i = stringtonum(ds[curr]["dims"])+1;
@@ -912,7 +927,7 @@ ARRAYACCESS: EXPRESSIONNAME OPENSQUARE EXPRESSION CLOSESQUARE
                 ds[curr]["var"] = new_var();
                 ds[curr]["type"] = symboltable[name].typ.name;
                 if(ds[curr3]["type"]!="int"&&ds[curr3]["type"]!="long"&&ds[curr3]["type"]!="short"&&ds[curr3]["type"]!="byte")
-                assert(0&&"array index type error");
+                cerr<<"Array index not integer\n";
                 code.push_back(ds[curr]["var"]+" = "+ds[curr3]["var"]);
             }
 
@@ -1480,7 +1495,9 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {$$ = $
                                 string t2 = ds[curr]["type"];
                                 if(!((t=="double"||t=="float")&&(t2=="int"||t2=="long"))){
                                     if(!((t=="double"&&t2=="float")||(t=="long"&&t2=="int")))
-                                    assert(!(ds[curr].find("type")!=ds[curr].end()&&ds[curr]["type"]!=chartostring($1)));
+                                    // assert(!(ds[curr].find("type")!=ds[curr].end()&&ds[curr]["type"]!=chartostring($1)));
+                                    if((ds[curr].find("type")!=ds[curr].end()&&ds[curr]["type"]!=chartostring($1)))
+                                    typ_error();
                                 }
                             }
                             cerr<<"local variable declaration"<<endl;
@@ -1681,7 +1698,8 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr4 = chartonum($4), curr7 = chartonum($7);
                                                                     if(ds[curr4]["type"]!="bool")
-                                                                    assert(0 && "Exp Error");
+                                                                    cerr<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";
+                                                                    // assert(0 && "Exp Error");
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr4]["start"];
                                                                     code.push_back("goto "+ds[curr]["start"]);
@@ -1694,7 +1712,7 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr4 = chartonum($4), curr6 = chartonum($6), curr8 = chartonum($8);
                                                                     if(ds[curr4]["type"]!="bool")
-                                                                    assert(0 && "Exp Error");
+                                                                    cerr<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr4]["start"];
                                                                     int gotoupdate = code.size();
@@ -1739,7 +1757,7 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr8 = chartonum($8);
                                                                     if(ds[curr5]["type"]!="bool")
-                                                                    assert(0 && "Exp Error");
+                                                                    cerr<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr3]["start"];
                                                                     // int gotoupdate = code.size();
@@ -1755,7 +1773,7 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr7 = chartonum($7), curr9 = chartonum($9);
                                                                     if(ds[curr5]["type"]!="bool")
-                                                                    assert(0 && "Exp Error");
+                                                                    cerr<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr3]["start"];
                                                                     int gotoupdate = code.size();
@@ -1790,8 +1808,9 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                   |	FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF   {      /* For update code should be after forbody code */
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr4 = chartonum($4), curr7 = chartonum($7);
+                                                                    
                                                                     if(ds[curr4]["type"]!="bool")
-                                                                    assert(0 && "Exp Error");
+                                                                    cerr<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr4]["start"];
                                                                     code.push_back("goto "+ds[curr]["start"]);
@@ -1803,8 +1822,9 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                   |	FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF {      /* For update code should be after forbody code */
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr4 = chartonum($4), curr6 = chartonum($6), curr8 = chartonum($8);
+                                                                    
                                                                     if(ds[curr4]["type"]!="bool")
-                                                                    assert(0 && "Exp Error");
+                                                                    cerr<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr4]["start"];
                                                                     int gotoupdate = code.size();
@@ -1848,8 +1868,9 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                   |	FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF   {      /* For update code should be after forbody code */
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr8 = chartonum($8);
+                                                                    
                                                                     if(ds[curr5]["type"]!="bool")
-                                                                    assert(0 && "Exp Error");
+                                                                    cerr<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr3]["start"];
                                                                     // int gotoupdate = code.size();
@@ -1864,8 +1885,9 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                   |	FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF {      /* For update code should be after forbody code */
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr7 = chartonum($7), curr9 = chartonum($9);
+                                                                    
                                                                     if(ds[curr5]["type"]!="bool")
-                                                                    assert(0 && "Exp Error");
+                                                                    cerr<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr3]["start"];
                                                                     int gotoupdate = code.size();
@@ -2025,36 +2047,29 @@ INTERFACETYPE   :   CLASSTYPE {$$=$1;}
 int main(int argc, char** argv){
         newscope();
     yyparse();
-    cout<<"CODE:\n";
-    int i = 0;
+    ofstream cout1("3ac.txt");
+    // cout<<"CODE:\n";
+
     for (auto x : code){
-        cout<<i++<<" "+x<<endl;
+        cout1<<x<<endl;
     }
+    ofstream cout2("symtable.csv");
+
+    cout2<<"Token, Name(Lexeme), Type, Line Number, Scope, Dims(If array), ScopeINFO(Child), ScopeINFO(Parent) \n";
+
+    for (auto x : preservedsymboltable){
+        cout2<< x.second.token << ", " << x.first.first << ", " << x.second.typ.name << ", " << x.second.lineno << ", " << x.first.second << ", " << x.second.typ.dims << endl;
+
+    }
+   
+    
+
+    for(auto x : parentscope){
+        cout2<<", , , , , , "<<x.first<<", "<<x.second<<endl;
+    }
+
+
 
   
-    /* cout << "digraph ASTVisual {\n ordering = out ;\n"; */
-    /* for(auto e: labels){
-        string s;
-        
-         for( auto e1: e.l){
-            if(e1=='\"' || e1=='\\'  ){
-                s.push_back('\\');
-            }
-            s.push_back(e1);
-        }
-        cout<<e.num<<" [ label=\""<<s<<"\"]\n";
-    }
-    for(auto e: edges){
-        string s;
-
-        for( auto e1: e.l){
-            if(e1=='\"' || e1=='\\'){
-                s.push_back('\\');
-            }
-            s.push_back(e1);
-        }
-        cout<<e.a<< " -> "<<e.b << "[ label=\""<<s<<"\"]\n";
-    }
-    cout << "  }\n"; */
 
 }
