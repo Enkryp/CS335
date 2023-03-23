@@ -63,6 +63,8 @@ struct formalarg
     };
 
     struct varentry{
+        ll lineno;
+        string token;
         type typ;
         vector<ll> dims; /*BOUNDS*/
         ll scope;
@@ -71,13 +73,16 @@ struct formalarg
         }
     };
     void printvarentry(varentry v){
-    
+        if(v.dims.size() && v.typ.dims && v.dims.size()!=v.typ.dims)  assert(0 && "array init error");
+        if(v.typ.dims && v.dims.size()==0) {for(int i=0; i<v.typ.dims; i++) v.dims.push_back(1000);}
         cout<<" type: "<<v.typ.name<<" type dims: "<<v.typ.dims<<" bounds: "<<v.dims.size()<<" scope: "<<v.scope<<endl;
         for (ll i=0;i<v.dims.size();i++){
             cout<<v.dims[i]<<" ";
         }
     cout<<endl;
     }
+    map<pair<string,string>, methodsig> preservedmethods;
+map<pair<string,string>, fieldsig> preservedfields;
 
 
 
@@ -127,6 +132,7 @@ void printmethodstable(){
  for(auto x : types){
      cout<<x<<" ";
 
+}
 printmethodstable();
 
 cout<<endl;
@@ -137,7 +143,6 @@ cout<<endl;
     for (ll i=0;i<types.size();i++){
         assert(m.argtype[i].name==types[i]);
     }
- }
  }
 
 ll num_var=1;
@@ -167,3 +172,5 @@ ll num_var=1;
     void type_check_unary(string a, string b){}
    
    map<ll, map<string, vector<int>>> ds3;
+
+

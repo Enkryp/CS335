@@ -1,7 +1,7 @@
 %{
     #include<iostream> 
     using namespace std;
-    #include "parser.tab.h"
+    #include "parser_1st.tab.h"
     extern "C" int yylex();
     using namespace std;
     
@@ -38,7 +38,7 @@ escape ((\\(b|s|t|n|f|r|\"|'|\\|[0-7]|([0-7][0-7])|([0-3][0-7][0-7])))|(\\u00[0-
 ".class" {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(DOTCLASS);}
 abstract  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(ABSTRACT);}
 continue  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(CONTINUE);}
-for  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(FOR);}
+for  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(FOR1);}
 new  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(NEW);}
 switch  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(SWITCH);}
 assert  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(ASSERT);}

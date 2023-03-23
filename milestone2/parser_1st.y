@@ -143,7 +143,7 @@
         if(s=="float")return 5;
         if(s=="double")return 7;
         if(s=="char")return 9;
-        if(s=="boolean")return 11;
+        if(s=="bool")return 11;
         if(s=="byte")return 13;
         if(s=="short")return 15;
         if(s=="void")return 17;
@@ -182,7 +182,7 @@
 
 /* data types */
 %start COMPILATIONUNIT
-%type<val>  ADDITIONALBOUND ADDITIVEEXPRESSION ANDEXPRESSION ARGUMENTLIST ARRAYACCESS ARRAYCREATIONEXPRESSION ARRAYINITIALIZER ARRAYINITIALIZER1 ASSERTSTATEMENT ASSIGNMENT ASSIGNMENTEXPRESSION ASSIGNMENTOPERATOR BASICFORSTATEMENT BASICFORSTATEMENTNOSHORTIF BLOCK BLOCKSTATEMENT BLOCKSTATEMENTS BREAKSTATEMENT CLASSBODY CLASSBODYDECLARATION CLASSBODYDECLARATIONS CLASSDECLARATION CLASSEXTENDS CLASSIMPLEMENTS CLASSINSTANCECREATIONEXPRESSION CLASSLITERAL CLASSMEMBERDECLARATION CLASSORINTERFACETYPE CLASSORINTERFACETYPETOINSTANTIATE CLASSPERMITS CLASSTYPE CLASSTYPE1 COMPILATIONUNIT CONDITIONALANDEXPRESSION CONDITIONALEXPRESSION CONDITIONALOREXPRESSION CONSTRUCTORBODY CONSTRUCTORDECLARATION CONSTRUCTORDECLARATOR CONTINUESTATEMENT DIMEXPR DIMEXPRS DIMS EMPTYSTATEMENT ENHANCEDFORSTATEMENT ENHANCEDFORSTATEMENTNOSHORTIF EQUALITYEXPRESSION EXCEPTIONTYPE EXCEPTIONTYPELIST EXCLUSIVEOREXPRESSION EXPLICITCONSTRUCTORINVOCATION EXPRESSION EXPRESSIONNAME EXPRESSIONSTATEMENT FIELDACCESS FIELDDECLARATION FIELDMODIFIERS FLOATINGTYPE FORINIT FORMALPARAMETER FORMALPARAMETERLIST FORSTATEMENT FORSTATEMENTNOSHORTIF FORUPDATE IFTHENELSESTATEMENT IFTHENELSESTATEMENTNOSHORTIF IFTHENSTATEMENT INCLUSIVEOREXPRESSION INSTANCEINITIALIZER INSTANCEOFEXPRESSION INTEGRALTYPE INTERFACETYPE INTERFACETYPELIST LABELEDSTATEMENT LABELEDSTATEMENTNOSHORTIF LEFTHANDSIDE LITERAL LOCALCLASSORINTERFACEDECLARATION LOCALVARIABLEDECLARATION LOCALVARIABLEDECLARATIONSTATEMENT LOCALVARIABLETYPE METHODBODY METHODDECLARATION METHODDECLARATOR METHODHEADER METHODINVOCATION METHODMODIFIERS METHODNAME METHODREFERENCE MULTIPLICATIVEEXPRESSION NORMALCLASSDECLARATION NUMERICTYPE ORDINARYCOMPILATIONUNIT POSTDECREMENTEXPRESSION POSTFIXEXPRESSION POSTINCREMENTEXPRESSION PREDECREMENTEXPRESSION PREINCREMENTEXPRESSION PRIMARY PRIMARYNONEWARRAY PRIMITIVETYPE RECEIVERPARAMETER REFERENCETYPE RELATIONALEXPRESSION RETURNSTATEMENT SHIFTEXPRESSION SIMPLETYPENAME SQUARESTAR STATEMENT STATEMENTEXPRESSION STATEMENTEXPRESSIONLIST STATEMENTNOSHORTIF STATEMENTWITHOUTTRAILINGSUBSTATEMENT STATICINITIALIZER SUPER1 SUPER2 SUPER3 THROWS2 THROWSTATEMENT TOPLEVELCLASSORINTERFACEDECLARATION TYPE TYPEARGUMENT TYPEARGUMENTLIST TYPEARGUMENTS TYPEBOUND TYPENAMES TYPEPARAMETER TYPEPARAMETERLIST TYPEPARAMETERS UNARYEXPRESSION UNARYEXPRESSIONNOTPLUSMINUS UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION VARIABLEARITYPARAMETER VARIABLEDECLARATOR VARIABLEDECLARATORID VARIABLEDECLARATORLIST VARIABLEINITIALIZER VARIABLEINITIALIZERLIST WHILESTATEMENT WHILESTATEMENTNOSHORTIF WILDCARD WILDCARDBOUNDS YIELDSTATEMENT IMPORTDECLARATION NORMALINTERFACEDECLARATION INTERFACEBODY INTERFACEMEMBERDECLARATION INTERFACEDECLARATION INTERFACEMEMBERDECLARATIONS OPENCURLY CLOSECURLY
+%type<val>  ADDITIONALBOUND ADDITIVEEXPRESSION ANDEXPRESSION ARGUMENTLIST ARRAYACCESS ARRAYCREATIONEXPRESSION ARRAYINITIALIZER ARRAYINITIALIZER1 ASSERTSTATEMENT ASSIGNMENT ASSIGNMENTEXPRESSION ASSIGNMENTOPERATOR BASICFORSTATEMENT BASICFORSTATEMENTNOSHORTIF BLOCK BLOCKSTATEMENT BLOCKSTATEMENTS BREAKSTATEMENT CLASSBODY CLASSBODYDECLARATION CLASSBODYDECLARATIONS CLASSDECLARATION CLASSEXTENDS CLASSIMPLEMENTS CLASSINSTANCECREATIONEXPRESSION CLASSLITERAL CLASSMEMBERDECLARATION CLASSORINTERFACETYPE CLASSORINTERFACETYPETOINSTANTIATE CLASSPERMITS CLASSTYPE CLASSTYPE1 COMPILATIONUNIT CONDITIONALANDEXPRESSION CONDITIONALEXPRESSION CONDITIONALOREXPRESSION CONSTRUCTORBODY CONSTRUCTORDECLARATION CONSTRUCTORDECLARATOR CONTINUESTATEMENT DIMEXPR DIMEXPRS DIMS EMPTYSTATEMENT ENHANCEDFORSTATEMENT ENHANCEDFORSTATEMENTNOSHORTIF EQUALITYEXPRESSION EXCEPTIONTYPE EXCEPTIONTYPELIST EXCLUSIVEOREXPRESSION EXPLICITCONSTRUCTORINVOCATION EXPRESSION EXPRESSIONNAME EXPRESSIONSTATEMENT FIELDACCESS FIELDDECLARATION FIELDMODIFIERS FLOATINGTYPE FORINIT FORMALPARAMETER FORMALPARAMETERLIST FORSTATEMENT FORSTATEMENTNOSHORTIF FORUPDATE IFTHENELSESTATEMENT IFTHENELSESTATEMENTNOSHORTIF IFTHENSTATEMENT INCLUSIVEOREXPRESSION INSTANCEINITIALIZER INSTANCEOFEXPRESSION INTEGRALTYPE INTERFACETYPE INTERFACETYPELIST LABELEDSTATEMENT LABELEDSTATEMENTNOSHORTIF LEFTHANDSIDE LITERAL LOCALCLASSORINTERFACEDECLARATION LOCALVARIABLEDECLARATION LOCALVARIABLEDECLARATIONSTATEMENT LOCALVARIABLETYPE METHODBODY METHODDECLARATION METHODDECLARATOR METHODHEADER METHODINVOCATION METHODMODIFIERS METHODNAME METHODREFERENCE MULTIPLICATIVEEXPRESSION NORMALCLASSDECLARATION NUMERICTYPE ORDINARYCOMPILATIONUNIT POSTDECREMENTEXPRESSION POSTFIXEXPRESSION POSTINCREMENTEXPRESSION PREDECREMENTEXPRESSION PREINCREMENTEXPRESSION PRIMARY PRIMARYNONEWARRAY PRIMITIVETYPE RECEIVERPARAMETER REFERENCETYPE RELATIONALEXPRESSION RETURNSTATEMENT SHIFTEXPRESSION SIMPLETYPENAME SQUARESTAR STATEMENT STATEMENTEXPRESSION STATEMENTEXPRESSIONLIST STATEMENTNOSHORTIF STATEMENTWITHOUTTRAILINGSUBSTATEMENT STATICINITIALIZER SUPER1 SUPER2 SUPER3 THROWS2 THROWSTATEMENT TOPLEVELCLASSORINTERFACEDECLARATION TYPE TYPEARGUMENT TYPEARGUMENTLIST TYPEARGUMENTS TYPEBOUND TYPENAMES TYPEPARAMETER TYPEPARAMETERLIST TYPEPARAMETERS UNARYEXPRESSION UNARYEXPRESSIONNOTPLUSMINUS UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION VARIABLEARITYPARAMETER VARIABLEDECLARATOR VARIABLEDECLARATORID VARIABLEDECLARATORLIST VARIABLEINITIALIZER VARIABLEINITIALIZERLIST WHILESTATEMENT WHILESTATEMENTNOSHORTIF WILDCARD WILDCARDBOUNDS YIELDSTATEMENT IMPORTDECLARATION NORMALINTERFACEDECLARATION INTERFACEBODY INTERFACEMEMBERDECLARATION INTERFACEDECLARATION INTERFACEMEMBERDECLARATIONS OPENCURLY CLOSECURLY FOR
 %token<val> BOOLEAN BYTE SHORT INT LONG CHAR FLOAT DOUBLE 
 
 /* Separators */
@@ -195,7 +195,7 @@ EQUALSEQUALS NOTEQUALS
 %token<val> INTEGERLITERAL FLOATINGPOINTLITERAL BOOLEANLITERAL CHARACTERLITERAL STRINGLITERAL TEXTBLOCK NULLLITERAL
 
 /* Keywords */
-%token<val> EXTENDS SUPER CLASS PUBLIC PRIVATE IMPLEMENTS PERMITS PROTECTED STATIC FINAL TRANSIENT VOLATILE INSTANCEOF THIS VOID NEW THROW ASSERT VAR BREAK CONTINUE RETURN YIELD IF ELSE WHILE FOR ABSTRACT SYNCHRONIZED NATIVE STRICTFP
+%token<val> EXTENDS SUPER CLASS PUBLIC PRIVATE IMPLEMENTS PERMITS PROTECTED STATIC FINAL TRANSIENT VOLATILE INSTANCEOF THIS VOID NEW THROW ASSERT VAR BREAK CONTINUE RETURN YIELD IF ELSE WHILE FOR1 ABSTRACT SYNCHRONIZED NATIVE STRICTFP 
 
 /*  Unused keywords  See throw, throws and throwss check non_sealed*/
 %token<val> SWITCH DEFAULT PACKAGE DO GOTO IMPORT THROWS CASE ENUM CATCH TRY INTERFACE FINALLY CONST UNDERSCORE EXPORTS OPENS REQUIRES USES MODULE SEALED PROVIDES TO WITH OPEN RECORD TRANSITIVE ERROR ONCE NL NON_SEALED  
@@ -214,7 +214,7 @@ TYPE    :   PRIMITIVETYPE { $$=$1; }
             |   REFERENCETYPE {$$ = $1;/*TODO*/}
 
 PRIMITIVETYPE   :   NUMERICTYPE {$$=$1;}
-                |   BOOLEAN  {$$=$1;}
+                |   BOOLEAN  {$$=$1; }
 
 NUMERICTYPE     :   INTEGRALTYPE {$$=$1;}
                 |   FLOATINGTYPE {$$=$1;}
@@ -263,6 +263,7 @@ ORDINARYCOMPILATIONUNIT :   TOPLEVELCLASSORINTERFACEDECLARATION
 
 TOPLEVELCLASSORINTERFACEDECLARATION :   CLASSDECLARATION  {   
     for (auto x : fields ){
+        // preservedfields[{x.first, chartostring($1)}] = x.second;
         cout<<x.first;
         cout<<x.second.typ.name;
         cout<<x.second.typ.dims;
@@ -273,6 +274,7 @@ cout<<endl;
     }
     cout<<"meth";
     for(auto x : methods){
+        // preservedfields[{x.first, chartostring($1)}] = x.second;
         cout<<x.first<<endl;
         cout<<x.second.rettype.name <<x.second.rettype.dims <<endl;
         for (auto y : x.second.argtype){
@@ -291,15 +293,15 @@ cout<<endl;
 IMPORTDECLARATION   :   IMPORT EXPRESSIONNAME SEMICOLON
                     |   IMPORT EXPRESSIONNAME DOT MULTIPLY SEMICOLON
                     |   IMPORT STATIC EXPRESSIONNAME SEMICOLON
-                    |   IMPORT STATIC EXPRESSIONNAME DOT MULTIPLY SEMICOLON
+                    |   IMPORT STATIC EXPRESSIONNAME DOT MULTIPLY SEMICOLON 
 
-CLASSDECLARATION    :   NORMALCLASSDECLARATION
+CLASSDECLARATION    :   NORMALCLASSDECLARATION  {$$ = $1;}
                     
 
-NORMALCLASSDECLARATION  :    CLASS IDENTIFIER CLASSBODY {if(checkclassname!="") assert(checkclassname== chartostring($2));/*TODO begin class */}
-                            | SUPER1 CLASS IDENTIFIER CLASSBODY {if(checkclassname!="")assert(checkclassname== chartostring($2));}
-                            | SUPER2 CLASS IDENTIFIER CLASSBODY {if(checkclassname!="")assert(checkclassname== chartostring($2));}
-                            | SUPER3 CLASS IDENTIFIER CLASSBODY {if(checkclassname!="")assert(checkclassname== chartostring($2));}
+NORMALCLASSDECLARATION  :    CLASS IDENTIFIER CLASSBODY {$$ = $2;if(checkclassname!="") assert(checkclassname== chartostring($2));/*TODO begin class */}
+                            | SUPER1 CLASS IDENTIFIER CLASSBODY {$$ = $3; if(checkclassname!="")assert(checkclassname== chartostring($2));}
+                            | SUPER2 CLASS IDENTIFIER CLASSBODY {$$ = $3;if(checkclassname!="")assert(checkclassname== chartostring($2));}
+                            | SUPER3 CLASS IDENTIFIER CLASSBODY {$$ = $3;if(checkclassname!="")assert(checkclassname== chartostring($2));}
 
                             | CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY
                             | CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY
@@ -431,7 +433,7 @@ NORMALINTERFACEDECLARATION  : INTERFACE IDENTIFIER TYPEPARAMETERS CLASSEXTENDS C
                             | SUPER3 INTERFACE IDENTIFIER CLASSPERMITS INTERFACEBODY
                             | SUPER3 INTERFACE IDENTIFIER INTERFACEBODY
 
-
+FOR : FOR1 {newscope();}
 OPENCURLY : OPENCURLY1    {newscope(); }
 CLOSECURLY : CLOSECURLY1  {popscope();}         
 
@@ -585,6 +587,7 @@ VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR {$$ = new_temp(); generalmap[$$].
                                                         ds[curr]["type"] = ds[curr1]["type"];
                                                     }
                                                     ds[curr]["start"] = ds[curr1]["start"];
+                                                    // assert(!(ds[curr1].find("type")!=ds[curr1].end()&&ds[curr1].find("type")!=ds[curr1].end()&&ds[curr3]["type"]!=ds[curr1]["type"]));
                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
 }
 }
@@ -627,7 +630,8 @@ VARIABLEDECLARATORID    :   IDENTIFIER {$$ = new_temp(); generalmap[$$].vid.name
 
 }
                         |   IDENTIFIER DIMS  {$$ = new_temp(); generalmap[$$].vid.name= chartostring($1);  generalmap[$$].vid.num = temp[$2];
-                        
+                        int curr = chartonum($$);
+                                    ds[curr]["var"] = chartostring($1);
                         /*TODO*/
                         }
 
@@ -663,10 +667,12 @@ LEFTHANDSIDE    :   EXPRESSIONNAME    {$$ = $1;}
                                     // ds[curr]["lineno"] = get_symbol_table(chartostring($1),"lineno");
                                     ds[curr]["var"] = chartostring($1);
                                     /* look here */
-                                    ds[curr]["start"] = code.size();
+                                    ds[curr]["start"] = numtostring(code.size());
                 }
                 |   FIELDACCESS {$$ = $1;}
-                |   ARRAYACCESS
+                |   ARRAYACCESS {   $$ = $1;
+                                    ds[chartonum($$)]["var"] = ds[chartonum($$)]["array"]+"["+ds[chartonum($1)]["var"]+"]";
+                }
 
 ASSIGNMENTOPERATOR  :  EQUALS {$$ = new_temp();int curr = chartonum($$);
                                 ds[curr]["op"] = "=";}
@@ -691,7 +697,9 @@ FIELDACCESS: PRIMARY DOT IDENTIFIER {$$ = new_temp();
             |	SUPER DOT IDENTIFIER
             |	IDENTIFIER DOT SUPER DOT IDENTIFIER
 
-PRIMARY: PRIMARYNONEWARRAY  {$$ = $1;}
+PRIMARY: PRIMARYNONEWARRAY  {$$ = $1;
+                            if(ds[chartonum($$)].find("array")!=ds[chartonum($$)].end())
+                            ds[chartonum($$)]["var"] = ds[chartonum($$)]["array"]+"["+ds[chartonum($1)]["var"]+"]"; }
         |	ARRAYCREATIONEXPRESSION {$$ = $1;}
 
 PRIMARYNONEWARRAY: LITERAL  {$$ = $1;}
@@ -704,11 +712,11 @@ PRIMARYNONEWARRAY: LITERAL  {$$ = $1;}
                   |	OPENPARAN EXPRESSION CLOSEPARAN {$$ = $2;}
                   |	CLASSINSTANCECREATIONEXPRESSION         
                   |	FIELDACCESS {$$ = $1;}
-                  |	ARRAYACCESS 
+                  |	ARRAYACCESS {$$ = $1;}
                   |	METHODINVOCATION    {$$ = $1;}
                   |	METHODREFERENCE
 
-LITERAL: INTEGERLITERAL {$$ = new_temp(); ds[chartonum($$)]["type"] = "byte"; ds[chartonum($$)]["var"] = chartostring($1);}
+LITERAL: INTEGERLITERAL {$$ = new_temp(); ds[chartonum($$)]["type"] = "int"; ds[chartonum($$)]["var"] = chartostring($1);}
         |	FLOATINGPOINTLITERAL {$$ = new_temp(); ds[chartonum($$)]["type"] = "float"; ds[chartonum($$)]["var"] = chartostring($1);}
         |	BOOLEANLITERAL {$$ = new_temp(); ds[chartonum($$)]["type"] = "bool"; ds[chartonum($$)]["var"] = chartostring($1);}
         |	CHARACTERLITERAL {$$ = new_temp(); ds[chartonum($$)]["type"] = "char"; ds[chartonum($$)]["var"] = chartostring($1);}
@@ -743,7 +751,10 @@ UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION:     NEW CLASSORINTERFACETYPETOINSTAN
 
 CLASSORINTERFACETYPETOINSTANTIATE:  IDENTIFIER  
 
-ARGUMENTLIST: EXPRESSION    {$$ = $1;}
+ARGUMENTLIST: EXPRESSION    {$$ = $1;
+                            ds2[chartonum($$)]["type"].push_back(ds[chartonum($1)]["type"]);
+                            ds2[chartonum($$)]["var"].push_back(ds[chartonum($1)]["var"]);
+                            }
             |   ARGUMENTLIST COMMA EXPRESSION   {$$ = new_temp();
                                                 int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);
                                                 ds[curr]["start"] = ds[curr1]["start"];
@@ -760,24 +771,28 @@ METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN   {   $$ = new_temp();
                                                         ds[curr]["type"] = methods[name].rettype.name;
                                                         vector<string> types;
                                                         type_check_function(name,types);    // takes in name of function and types of parameters
-                                                        ds[curr]["start"] = code.size();
+                                                        ds[curr]["start"] = numtostring(code.size());
                                                         if(ds[curr]["type"]!="void")
                                                         code.push_back(ds[curr]["var"]+"= call, "+name);
 }
                  |  METHODNAME OPENPARAN ARGUMENTLIST CLOSEPARAN    {   $$ = new_temp();
                                                         int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);
                                                         string name = ds[curr1]["var"] ;
-                                                        ds[curr]["var"] = new_var();
                                                         ds[curr]["type"] = methods[name].rettype.name;
                                                         vector<string> types;
-                                                        for(auto i:ds2[curr3]["type"])
-                                                        types.push_back(i);
+                                                        // cout<<"type2 : "<<ds2[curr3]["type"].size()<<"\n";
+                                                        for(auto i:ds2[curr3]["type"]){
+                                                            types.push_back(i);
+                                                        }
                                                         type_check_function(name,types);    // takes in name of function and types of parameters
                                                         for(auto i:ds2[curr3]["var"])
                                                         code.push_back("push param "+i);
                                                         ds[curr]["start"] = ds[curr3]["start"];
-                                                        if(ds[curr]["type"]!="void")
+                                                        if(ds[curr]["type"]!="void"){
+                                                        ds[curr]["var"] = new_var();
                                                         code.push_back(ds[curr]["var"]+"= call, "+name);
+                                                        }
+                                                        else code.push_back("call, "+name);
 }
                  |	IDENTIFIER DOT IDENTIFIER OPENPARAN CLOSEPARAN  {   /* Method invocation using object?  */
                                                           $$ = new_temp();
@@ -870,8 +885,36 @@ VARIABLEINITIALIZERLIST :   VARIABLEINITIALIZER {$$=$1; generalmap[$$].num=1;}
 
 
 ARRAYACCESS: EXPRESSIONNAME OPENSQUARE EXPRESSION CLOSESQUARE
-            |	PRIMARYNONEWARRAY OPENSQUARE EXPRESSION CLOSESQUARE
-            |	IDENTIFIER OPENSQUARE EXPRESSION CLOSESQUARE
+            |	PRIMARYNONEWARRAY OPENSQUARE EXPRESSION CLOSESQUARE {
+                $$ = new_temp(); 
+                int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);
+                if(ds[curr3]["type"]!="int"&&ds[curr3]["type"]!="long"&&ds[curr3]["type"]!="short"&&ds[curr3]["type"]!="byte")
+                assert(0&&"array index type error");
+                ds[curr] = ds[curr1];   
+                ds[curr]["var"] = new_var();
+                int i = stringtonum(ds[curr]["dims"])+1;
+                ds[curr]["dims"] = numtostring(stringtonum(ds[curr]["dims"])+1);
+                string t = new_var();
+                cout<<"index"<<i<<"\n";
+                cout<<ds[curr]["array"]<<"\n";
+                cout<<symboltable[ds[curr]["array"]].dims.size()<<"\n";
+                int bound = symboltable[ds[curr]["array"]].dims[i];
+                code.push_back(t+" = "+ds[curr1]["var"]+"*"+numtostring(bound));
+                code.push_back(ds[curr]["var"]+" = "+t+" + "+ds[curr3]["var"]); 
+            }
+            |	IDENTIFIER OPENSQUARE EXPRESSION CLOSESQUARE    {
+                $$ = new_temp();
+                int curr = chartonum($$), curr3 = chartonum($3);
+                string name = chartostring($1);
+                ds[curr]["dims"] = "0";
+                ds[curr]["array"] = name;
+                ds[curr]["start"] = ds[curr3]["start"];
+                ds[curr]["var"] = new_var();
+                ds[curr]["type"] = symboltable[name].typ.name;
+                if(ds[curr3]["type"]!="int"&&ds[curr3]["type"]!="long"&&ds[curr3]["type"]!="short"&&ds[curr3]["type"]!="byte")
+                assert(0&&"array index type error");
+                code.push_back(ds[curr]["var"]+" = "+ds[curr3]["var"]);
+            }
 
 CONDITIONALEXPRESSION: CONDITIONALOREXPRESSION  {$$ = $1;}
                       |	CONDITIONALOREXPRESSION QUESTIONMARK EXPRESSION COLON CONDITIONALEXPRESSION {}
@@ -949,7 +992,7 @@ EQUALITYEXPRESSION: RELATIONALEXPRESSION    {$$ = $1; int curr = chartonum($$);
                                                                                     backpatch(ds3[curr3]["falselist"],code.size());
                                                                                     ds[curr]["type"] = "bool";
                                                                                     ds[curr]["var"] = new_var();
-                                                                                    code.push_back(ds[curr]["var"]);
+                                                                                    // code.push_back(ds[curr]["var"]);
                                                                                     code.push_back("if "+ds[curr1]["var"]+"=="+ds[curr3]["var"]+" goto ");
                                                                                     ds3[curr]["truelist"].push_back(code.size()-1);
                                                                                     code.push_back("goto ");
@@ -1012,7 +1055,7 @@ RELATIONALEXPRESSION: SHIFTEXPRESSION   {   $$ = $1; int curr = chartonum($$);
                                                                                 ds[curr]["start"] = ds[curr1]["start"];
                      }
                      |	RELATIONALEXPRESSION ANGULARRIGHT EQUALS SHIFTEXPRESSION    {   $$ = new_temp();
-                                                                                int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);
+                                                                                int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($4);
                                                                                 type_check(ds[curr1]["type"],ds[curr3]["type"],">=");
                                                                                 ds[curr]["type"] = "bool";
                                                                                 ds[curr]["var"] = new_var();
@@ -1026,7 +1069,7 @@ RELATIONALEXPRESSION: SHIFTEXPRESSION   {   $$ = $1; int curr = chartonum($$);
                                                                                 ds[curr]["start"] = ds[curr1]["start"];
                      }
                      |	RELATIONALEXPRESSION ANGULARLEFT EQUALS SHIFTEXPRESSION {   $$ = new_temp();
-                                                                                int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);
+                                                                                int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($4);
                                                                                 type_check(ds[curr1]["type"],ds[curr3]["type"],"<=");
                                                                                 ds[curr]["type"] = "bool";
                                                                                 ds[curr]["var"] = new_var();
@@ -1315,6 +1358,8 @@ for (auto x : generalmap[$$].farglist){
 symboltable[x.vid.name].typ.dims= x.vid.num;
         symboltable[x.vid.name].typ.name= x.typ.name;
         symboltable[x.vid.name].scope = scope;
+        symboltable[x.vid.name].lineno = yylineno;
+        symboltable[x.vid.name].token = "IDENTIFIER";
 
         cout<<x.vid.name;
         printvarentry(symboltable[x.vid.name]);
@@ -1327,6 +1372,8 @@ for (auto x : generalmap[$$].farglist){
 symboltable[x.vid.name].typ.dims= x.vid.num;
         symboltable[x.vid.name].typ.name= x.typ.name;
         symboltable[x.vid.name].scope = scope;
+        symboltable[x.vid.name].lineno = yylineno;
+        symboltable[x.vid.name].token = "IDENTIFIER";
 
         cout<<x.vid.name;
         printvarentry(symboltable[x.vid.name]);
@@ -1350,11 +1397,11 @@ EXCEPTIONTYPE: CLASSTYPE
 
 METHODDECLARATOR: IDENTIFIER OPENPARAN CLOSEPARAN  {$$ = new_temp(); generalmap[$$].num = 0; generalmap[$$].name = chartostring($1);
  int curr = chartonum($$);
-                                        ds[curr]["start"] = code.size();
+                                        ds[curr]["start"] = numtostring(code.size());
                                         code.push_back("begin func "+chartostring($1));
                                         }
                 |   IDENTIFIER OPENPARAN FORMALPARAMETERLIST CLOSEPARAN {$$ = new_temp(); generalmap[$$]= generalmap[$3]; generalmap[$$].num = 0; generalmap[$$].name = chartostring($1);int curr = chartonum($$), curr3 = chartonum($3);
-                                        ds[curr]["start"] = code.size();
+                                        ds[curr]["start"] = numtostring(code.size());
                                         code.push_back("begin func "+chartostring($1));
                                         for(auto i:ds2[curr3]["param"])
                                         code.push_back("pop param, "+ i);}
@@ -1403,17 +1450,21 @@ STATICINITIALIZER: STATIC BLOCK
 BLOCK: OPENCURLY BLOCKSTATEMENTS CLOSECURLY {$$ = $2; }
     |   OPENCURLY  CLOSECURLY
 
-BLOCKSTATEMENTS: BLOCKSTATEMENT    {$$ = $1;}
+BLOCKSTATEMENTS: BLOCKSTATEMENT    {$$ = $1;
+                                                    // code.push_back("start = "+ds[chartonum($$)]["start"]);
+}
                 |  BLOCKSTATEMENTS BLOCKSTATEMENT { $$ = new_temp();
                                                     int curr = chartonum($$), curr1 = chartonum($1), curr2 = chartonum($2);
                                                     ds3[curr]["continuelist"] = merge(ds3[curr1]["continuelist"], ds3[curr2]["continuelist"]);
                                                     ds3[curr]["breaklist"] = merge(ds3[curr1]["breaklist"], ds3[curr2]["breaklist"]);
                                                     ds[curr]["start"] = ds[curr1]["start"];
+                                                    // code.push_back("start = "+ds[curr]["start"]);
                 }
 
 BLOCKSTATEMENT: LOCALCLASSORINTERFACEDECLARATION
                |	LOCALVARIABLEDECLARATIONSTATEMENT   {$$ = $1;}
-               |	STATEMENT   {$$ = $1;}
+               |	STATEMENT   {$$ = $1;
+               }
  
 LOCALCLASSORINTERFACEDECLARATION: CLASSDECLARATION  
 
@@ -1423,6 +1474,15 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {$$ = $
                                                                             }
                         |   LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                             $$ = $2;
+                            int curr = chartonum($$);
+                            string t = chartostring($1);
+                            if(ds[curr].find("type")!=ds[curr].end()){
+                                string t2 = ds[curr]["type"];
+                                if(!((t=="double"||t=="float")&&(t2=="int"||t2=="long"))){
+                                    if(!((t=="double"&&t2=="float")||(t=="long"&&t2=="int")))
+                                    assert(!(ds[curr].find("type")!=ds[curr].end()&&ds[curr]["type"]!=chartostring($1)));
+                                }
+                            }
                             cerr<<"local variable declaration"<<endl;
                             for (auto x: generalmap[$2].vlist){
                             
@@ -1435,10 +1495,12 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {$$ = $
                              reverse(all(x.second.dims));
                             symboltable[x.first.name].dims = x.second.dims;
                             symboltable[x.first.name].scope = scope;
+                            symboltable[x.first.name].lineno = yylineno;
+                            symboltable[x.first.name].token = "IDENTIFIER";
 
                             cout<<x.first.name;
                             printvarentry(symboltable[x.first.name]);
-                            // preservedsymboltable[{x.first.name,scope}] = symboltable[x.first.name];
+                            preservedsymboltable[{x.first.name,scope}] = symboltable[x.first.name];
                         }
                         }
 
@@ -1446,7 +1508,7 @@ LOCALVARIABLETYPE: TYPE {$$ = $1;}
                   |	VAR {$$ = $1;}
 
 
-STATEMENT: STATEMENTWITHOUTTRAILINGSUBSTATEMENT {$$ = $1;}
+STATEMENT: STATEMENTWITHOUTTRAILINGSUBSTATEMENT {$$ = $1; }
           |	LABELEDSTATEMENT    {$$ = $1;}
           |	IFTHENSTATEMENT {$$ = $1;}
           |	IFTHENELSESTATEMENT {$$ = $1;}
@@ -1465,7 +1527,7 @@ STATEMENTWITHOUTTRAILINGSUBSTATEMENT    :BLOCK  {$$ = $1;}
 
 EMPTYSTATEMENT: SEMICOLON   {$$ = new_temp();}
 
-EXPRESSIONSTATEMENT: STATEMENTEXPRESSION SEMICOLON  {$$ = $1;}
+EXPRESSIONSTATEMENT: STATEMENTEXPRESSION SEMICOLON  {$$ = $1; }
 
 STATEMENTEXPRESSION: ASSIGNMENT {$$ = $1;}
                     |	PREINCREMENTEXPRESSION  {$$ = $1;}
@@ -1482,7 +1544,7 @@ BREAKSTATEMENT: BREAK SEMICOLON     {   $$ = new_temp();
                                             int curr = chartonum($$);
                                             ds3[curr]["breaklist"] = vector<int>();
                                             ds3[curr]["breaklist"].push_back(code.size());
-                                            ds[curr]["start"] = code.size();
+                                            ds[curr]["start"] = numtostring(code.size());
                                             code.push_back("goto ");
                                             ds[curr]["type"] = "null";
 }
@@ -1492,7 +1554,7 @@ CONTINUESTATEMENT: CONTINUE SEMICOLON   {   $$ = new_temp();
                                             int curr = chartonum($$);
                                             ds3[curr]["continuelist"] = vector<int>();
                                             ds3[curr]["continuelist"].push_back(code.size());
-                                            ds[curr]["start"] = code.size();
+                                            ds[curr]["start"] = numtostring(code.size());
                                             code.push_back("goto ");
                                             ds[curr]["type"] = "null";
 }
@@ -1500,13 +1562,13 @@ CONTINUESTATEMENT: CONTINUE SEMICOLON   {   $$ = new_temp();
 
 RETURNSTATEMENT: RETURN EXPRESSION SEMICOLON    {$$ = new_temp();
                                                     int curr = chartonum($$), exp = chartonum($2);
-                                                    ds[curr]["start"] = code.size();
+                                                    ds[curr]["start"] = numtostring(code.size());
                                                     ds[curr]["type"]= "null";
                                                     code.push_back("return "+ds[exp]["var"]);
                                                 }
                 |   RETURN SEMICOLON    {$$ = new_temp();
                                                     int curr = chartonum($$);
-                                                    ds[curr]["start"] = code.size();
+                                                    ds[curr]["start"] = numtostring(code.size());
                                                     ds[curr]["type"]= "null";
                                                     code.push_back("return");
                                                 }
@@ -1578,8 +1640,8 @@ WHILESTATEMENTNOSHORTIF: WHILE OPENPARAN EXPRESSION CLOSEPARAN STATEMENTNOSHORTI
                                                                     // ds3[curr]["falselist"] = ds3[curr3]["falselist"];
 }
 
-FORSTATEMENTNOSHORTIF: BASICFORSTATEMENTNOSHORTIF   {$$ = $1;}
-                      |	ENHANCEDFORSTATEMENTNOSHORTIF   {$$ = $1;}
+FORSTATEMENTNOSHORTIF: BASICFORSTATEMENTNOSHORTIF   {$$ = $1; popscope();}
+                      |	ENHANCEDFORSTATEMENTNOSHORTIF   {$$ = $1;popscope();}
 
 
 WHILESTATEMENT: WHILE OPENPARAN EXPRESSION CLOSEPARAN STATEMENT {   $$ = new_temp();
@@ -1593,8 +1655,8 @@ WHILESTATEMENT: WHILE OPENPARAN EXPRESSION CLOSEPARAN STATEMENT {   $$ = new_tem
                                                                     backpatch(ds3[curr5]["breaklist"],code.size());
 }
 
-FORSTATEMENT: BASICFORSTATEMENT {$$ = $1;}
-             |	ENHANCEDFORSTATEMENT    {$$ = $1;}
+FORSTATEMENT: BASICFORSTATEMENT {$$ = $1;popscope();}
+             |	ENHANCEDFORSTATEMENT    {$$ = $1;popscope();}
 
 BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   $$ = new_temp();
                                                                     int curr = chartonum($$), curr6 = chartonum($6);
@@ -1618,7 +1680,7 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                   |	FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENT   {      /* For update code should be after forbody code */
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr4 = chartonum($4), curr7 = chartonum($7);
-                                                                    if(ds[curr4]["type"]!="boolean")
+                                                                    if(ds[curr4]["type"]!="bool")
                                                                     assert(0 && "Exp Error");
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr4]["start"];
@@ -1631,7 +1693,7 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                   |	FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENT {      /* For update code should be after forbody code */
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr4 = chartonum($4), curr6 = chartonum($6), curr8 = chartonum($8);
-                                                                    if(ds[curr4]["type"]!="boolean")
+                                                                    if(ds[curr4]["type"]!="bool")
                                                                     assert(0 && "Exp Error");
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr4]["start"];
@@ -1676,7 +1738,7 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                   |	FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENT   {      /* For update code should be after forbody code */
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr8 = chartonum($8);
-                                                                    if(ds[curr5]["type"]!="boolean")
+                                                                    if(ds[curr5]["type"]!="bool")
                                                                     assert(0 && "Exp Error");
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr3]["start"];
@@ -1692,7 +1754,7 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                   |	FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENT {      /* For update code should be after forbody code */
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr7 = chartonum($7), curr9 = chartonum($9);
-                                                                    if(ds[curr5]["type"]!="boolean")
+                                                                    if(ds[curr5]["type"]!="bool")
                                                                     assert(0 && "Exp Error");
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr3]["start"];
@@ -1728,7 +1790,7 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                   |	FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF   {      /* For update code should be after forbody code */
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr4 = chartonum($4), curr7 = chartonum($7);
-                                                                    if(ds[curr4]["type"]!="boolean")
+                                                                    if(ds[curr4]["type"]!="bool")
                                                                     assert(0 && "Exp Error");
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr4]["start"];
@@ -1741,7 +1803,7 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                   |	FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF {      /* For update code should be after forbody code */
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr4 = chartonum($4), curr6 = chartonum($6), curr8 = chartonum($8);
-                                                                    if(ds[curr4]["type"]!="boolean")
+                                                                    if(ds[curr4]["type"]!="bool")
                                                                     assert(0 && "Exp Error");
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr4]["start"];
@@ -1786,7 +1848,7 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                   |	FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF   {      /* For update code should be after forbody code */
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr8 = chartonum($8);
-                                                                    if(ds[curr5]["type"]!="boolean")
+                                                                    if(ds[curr5]["type"]!="bool")
                                                                     assert(0 && "Exp Error");
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr3]["start"];
@@ -1802,7 +1864,7 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                   |	FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF {      /* For update code should be after forbody code */
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr7 = chartonum($7), curr9 = chartonum($9);
-                                                                    if(ds[curr5]["type"]!="boolean")
+                                                                    if(ds[curr5]["type"]!="bool")
                                                                     assert(0 && "Exp Error");
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr3]["start"];
@@ -1968,6 +2030,7 @@ int main(int argc, char** argv){
     for (auto x : code){
         cout<<i++<<" "+x<<endl;
     }
+
   
     /* cout << "digraph ASTVisual {\n ordering = out ;\n"; */
     /* for(auto e: labels){
