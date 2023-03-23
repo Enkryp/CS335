@@ -10,7 +10,7 @@ char * stringtochar(string s){
     return c;
 }
 char* numtochar( int num){
-    string s="0";
+    string s="";
     while(num>0){
         s.push_back(num%10+'0');
         num/=10;

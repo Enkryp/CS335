@@ -499,6 +499,7 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                         // TYPE CHECK
                                                                     int  curr2 = chartonum($3), curr = chartonum($$);
                                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
+                                                                    ds[curr]["start"] = ds[curr2]["start"];
                                                                     assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)));
                                                                     
                                                                     
@@ -518,6 +519,7 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                         // TYPE CHECK
                                                                     int  curr2 = chartonum($3), curr = chartonum($$);
                                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
+                                                                    ds[curr]["start"] = ds[curr2]["start"];
                                                                     assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)));
                                                                     
                                                                     
@@ -555,6 +557,8 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                         // TYPE CHECK
                                                                     int  curr2 = chartonum($2), curr = chartonum($$);
                                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
+                                                                    ds[curr]["start"] = ds[curr2]["start"];
+                                                                    // code.push_back("start="+ds[curr]["start"]);
                                                                     assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($1)));
                                                                     
                                                                     
@@ -580,6 +584,7 @@ VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR {$$ = new_temp(); generalmap[$$].
                                                         ds[curr]["start"] = ds[curr1]["start"];
                                                         ds[curr]["type"] = ds[curr1]["type"];
                                                     }
+                                                    ds[curr]["start"] = ds[curr1]["start"];
                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
 }
 }
@@ -594,6 +599,7 @@ VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR {$$ = new_temp(); generalmap[$$].
                                                         ds[curr]["start"] = ds[curr3]["start"];
                                                         ds[curr]["type"] = ds[curr1]["type"];
                                                     }
+                                                    ds[curr]["start"] = ds[curr1]["start"];
                                                     ds[curr]["lineno"] = ds[curr1]["lineno"];
                                                     assert(!(ds[curr3].find("type")!=ds[curr3].end()&&ds[curr1].find("type")!=ds[curr1].end()&&ds[curr3]["type"]!=ds[curr1]["type"]));
                                                     // error("Incompatible types");
@@ -602,8 +608,9 @@ VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR {$$ = new_temp(); generalmap[$$].
 }
 
 VARIABLEDECLARATOR  :   VARIABLEDECLARATORID EQUALS VARIABLEINITIALIZER {$$ = new_temp(); generalmap[$$]= generalmap[$1]; generalmap[$$].vinit = generalmap[$3].vinit ;                                           int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);
-                                                                            ds[curr]["start"] = code.size();
+                                                                            ds[curr]["start"] = numtostring(code.size());
                                                                             ds[curr]["type"] = ds[curr3]["type"];
+                                                                            // code.push_back("start="+ds[curr]["start"]);
                                                                             
                                                                             // ds[curr]["lineno"] = ds[curr1]["lineno"];
                                                                             // code.push_back("hello");
@@ -628,7 +635,7 @@ VARIABLEDECLARATORID    :   IDENTIFIER {$$ = new_temp(); generalmap[$$].vid.name
 VARIABLEINITIALIZER :    EXPRESSION {$$ = new_temp(); generalmap[$$]; ds[chartonum($$)] = ds[chartonum($1)]; }
                     |   ARRAYINITIALIZER {$$ = $1;}
 
-EXPRESSION  :  ASSIGNMENTEXPRESSION {$$ = $1;}
+EXPRESSION  :  ASSIGNMENTEXPRESSION {$$ = $1; }
 
 ASSIGNMENTEXPRESSION    :   CONDITIONALEXPRESSION {
                             $$ = $1;
@@ -926,10 +933,12 @@ ANDEXPRESSION: EQUALITYEXPRESSION   {$$ = $1; }
                       }
 
 EQUALITYEXPRESSION: RELATIONALEXPRESSION    {$$ = $1; int curr = chartonum($$);
-                                            if(ds[curr].find("truelist")==ds[curr].end()){
+                                            if(ds3[curr].find("truelist")==ds3[curr].end()){
                                                 ds3[curr]["truelist"] = vector<int>();
                                                 ds3[curr]["falselist"] = vector<int>();
                                             }
+                                            
+                                                                                // cout<<"truelist "<<ds3[curr]["truelist"].size()<<"\n";
                                         }
                    |	EQUALITYEXPRESSION EQUALSEQUALS RELATIONALEXPRESSION    {   $$ = new_temp();
                                                                                     int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);
@@ -966,12 +975,14 @@ EQUALITYEXPRESSION: RELATIONALEXPRESSION    {$$ = $1; int curr = chartonum($$);
                    }
 
 RELATIONALEXPRESSION: SHIFTEXPRESSION   {   $$ = $1; int curr = chartonum($$);
-                                            if(ds[curr].find("truelist")==ds[curr].end()){
+                                            if(ds3[curr].find("truelist")==ds3[curr].end()){
                                                 ds3[curr]["truelist"] = vector<int>();
                                                 ds3[curr]["falselist"] = vector<int>();
                                             }}
                      |	RELATIONALEXPRESSION ANGULARLEFT SHIFTEXPRESSION    {      // IS backpatching for $1 required?
                                                                                 $$ = new_temp();
+                                                                                // code.push_back("REL0 "+ds[chartonum($1)]["start"]);
+                                                                                // code.push_back("REL1 "+ds[chartonum($3)]["start"]);
                                                                                 int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);
                                                                                 type_check(ds[curr1]["type"],ds[curr3]["type"],"<");
                                                                                 ds[curr]["type"] = "bool";
@@ -981,6 +992,7 @@ RELATIONALEXPRESSION: SHIFTEXPRESSION   {   $$ = $1; int curr = chartonum($$);
                                                                                 ds3[curr]["truelist"] = vector<int>();
                                                                                 code.push_back("if "+ds[curr]["var"]+" goto ");
                                                                                 ds3[curr]["truelist"].push_back(code.size()-1);
+                                                                                // cout<<"truelist "<<ds3[curr]["truelist"][0]<<"\n";
                                                                                 code.push_back("goto ");
                                                                                 ds3[curr]["falselist"].push_back(code.size()-1);
                                                                                 ds[curr]["start"] = ds[curr1]["start"];
@@ -1168,7 +1180,11 @@ POSTFIXEXPRESSION: PRIMARY  {$$ = $1;}
                                     /* How to access symbol table entry of a terminal */
                                     ds[curr]["type"] = gettypefromsymtable(chartostring($1));
                                     ds[curr]["identifier"] = "YES";
-                                    ds[curr]["start"] = code.size();
+                                    cout<<"\n\n\n";
+                                    for(auto i:code){
+                                        cout<<i<<"\n";
+                                    }
+                                    ds[curr]["start"] = numtostring(code.size());
                                     ds[curr]["var"] = chartostring($1);
                                     // ds[curr]["var"] = 
                                     /* How to pass values from here? */
@@ -1384,7 +1400,7 @@ INSTANCEINITIALIZER: BLOCK
 
 STATICINITIALIZER: STATIC BLOCK
 
-BLOCK: OPENCURLY BLOCKSTATEMENTS CLOSECURLY {$$ = $2;}
+BLOCK: OPENCURLY BLOCKSTATEMENTS CLOSECURLY {$$ = $2; }
     |   OPENCURLY  CLOSECURLY
 
 BLOCKSTATEMENTS: BLOCKSTATEMENT    {$$ = $1;}
@@ -1403,7 +1419,8 @@ LOCALCLASSORINTERFACEDECLARATION: CLASSDECLARATION
 
 LOCALVARIABLEDECLARATIONSTATEMENT: LOCALVARIABLEDECLARATION SEMICOLON   {$$ = $1;}
 
-LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {$$ = $3;}
+LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {$$ = $3;
+                                                                            }
                         |   LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                             $$ = $2;
                             cerr<<"local variable declaration"<<endl;
@@ -1502,10 +1519,11 @@ LABELEDSTATEMENT: IDENTIFIER COLON STATEMENT
 
 IFTHENSTATEMENT: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENT   {   $$ = new_temp(); //Not keeping truelist and falselist corresponding to statements
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5);
+                                                                    // code.push_back("if="+ds[curr5]["start"]);
+                                                                    // for(auto )
                                                                     backpatch(ds3[curr3]["truelist"],stringtonum(ds[curr5]["start"]));
                                                                     backpatch(ds3[curr3]["falselist"],code.size());
                                                                     ds[curr]["start"] = ds[curr3]["start"];
-                                                                    code.push_back("Inside if then statement");
                                                                     // code.push_back(ds[curr]["start"]);
                                                                     // cout<<"Inside if then statement\n";
                                                                     // cout<<ds[curr]["start"]<<"\n";
@@ -1946,9 +1964,9 @@ int main(int argc, char** argv){
         newscope();
     yyparse();
     cout<<"CODE:\n";
-
+    int i = 0;
     for (auto x : code){
-        cout<<x<<endl;
+        cout<<i++<<" "+x<<endl;
     }
   
     /* cout << "digraph ASTVisual {\n ordering = out ;\n"; */

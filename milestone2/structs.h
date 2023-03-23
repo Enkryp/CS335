@@ -140,7 +140,7 @@ cout<<endl;
  }
  }
 
-ll num_var=100;
+ll num_var=1;
      string new_var(){
         return "t"+numtostring(num_var++);
     }
