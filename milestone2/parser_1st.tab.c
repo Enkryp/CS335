@@ -151,6 +151,7 @@
     /*TODO ARRAY PASSED AS ARG IN METHOD*/
     /*TODO NEW INT ARRAY*/
     /*TODO FOR LOOP*/
+    /*TODO FIELD OR ARG OR METHOD PREV DECLARED*/
         void popscope (){
         
         vector <string> todelete;
@@ -184,7 +185,26 @@
 
 
 
-    
+    string gettypefromsymtable(string a){
+        
+        cerr<< "gettypefromsymtable"<<endl;
+        cerr<< a<<endl;
+        // return "";
+        dbgsymtable();
+        
+
+        string r= "";
+        if(symboltable.find(a)!= symboltable.end()){
+            r = symboltable[a].typ.name;
+        }
+        else if(fields.find(a)!= fields.end()){
+            r = fields[a].typ.name;
+        }
+        else {
+            assert(0 && "not found in symtable");
+        }
+        return r;
+    }
 
 
     ll gettype(string s){
@@ -217,7 +237,7 @@
     map<char*,ll> temp;
     ll gid=0;
     char * new_temp(){
-        int num=gid++;
+        ll num=gid++;
         num*=10;
         return numtochar(num);
     }
@@ -226,7 +246,7 @@
 
     
 
-#line 230 "parser_1st.tab.c"
+#line 250 "parser_1st.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -931,67 +951,67 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   190,   190,   191,   193,   194,   196,   197,   199,   200,
-     202,   203,   204,   205,   206,   208,   209,   211,   213,   215,
-     217,   220,   221,   223,   225,   226,   229,   230,   232,   255,
-     256,   257,   259,   260,   261,   262,   264,   267,   268,   269,
-     270,   272,   273,   274,   275,   276,   277,   278,   279,   280,
-     281,   282,   283,   284,   285,   286,   287,   288,   289,   290,
-     291,   292,   293,   294,   295,   296,   297,   298,   299,   300,
-     301,   302,   303,   304,   305,   306,   307,   308,   309,   310,
-     311,   312,   313,   314,   315,   316,   318,   319,   320,   321,
-     322,   323,   324,   325,   326,   327,   328,   329,   330,   331,
-     332,   337,   338,   339,   340,   341,   342,   343,   344,   345,
-     346,   347,   348,   349,   350,   351,   352,   353,   354,   355,
-     356,   357,   358,   359,   360,   361,   362,   363,   364,   365,
-     366,   367,   368,   369,   370,   371,   372,   373,   374,   375,
-     376,   377,   378,   379,   380,   381,   382,   383,   384,   385,
-     386,   387,   388,   389,   390,   391,   392,   393,   394,   395,
-     396,   397,   398,   399,   400,   403,   404,   406,   407,   409,
-     410,   412,   413,   414,   415,   416,   418,   421,   423,   424,
-     426,   427,   430,   431,   433,   434,   436,   438,   440,   441,
-     443,   445,   446,   448,   449,   451,   452,   454,   455,   456,
-     457,   459,   460,   461,   462,   463,   465,   476,   486,   496,
-     511,   512,   514,   515,   517,   518,   521,   522,   524,   526,
-     527,   529,   531,   532,   533,   534,   536,   537,   538,   539,
-     540,   541,   543,   544,   545,   547,   548,   550,   551,   552,
-     553,   554,   555,   556,   557,   558,   559,   561,   562,   563,
-     564,   565,   566,   567,   569,   570,   571,   572,   573,   574,
-     575,   577,   578,   580,   581,   582,   583,   585,   586,   587,
-     588,   589,   590,   591,   592,   594,   596,   597,   599,   600,
-     601,   602,   603,   604,   605,   606,   607,   608,   609,   610,
-     611,   612,   613,   614,   615,   616,   617,   618,   619,   620,
-     622,   623,   624,   625,   626,   628,   629,   631,   632,   633,
-     635,   636,   637,   638,   639,   640,   641,   642,   643,   644,
-     646,   647,   649,   650,   651,   653,   654,   656,   658,   659,
-     665,   666,   667,   669,   670,   672,   673,   675,   676,   678,
-     679,   681,   682,   684,   685,   687,   688,   689,   691,   692,
-     693,   694,   695,   696,   698,   699,   700,   701,   703,   704,
-     705,   707,   708,   709,   710,   712,   713,   714,   715,   716,
-     718,   720,   722,   723,   724,   726,   727,   728,   729,   730,
-     732,   734,   736,   739,   753,   769,   783,   797,   811,   812,
-     813,   814,   815,   818,   830,   842,   843,   844,   845,   846,
-     847,   850,   852,   853,   855,   857,   858,   859,   860,   861,
-     862,   863,   864,   866,   867,   869,   870,   872,   873,   874,
-     877,   878,   881,   882,   884,   886,   888,   889,   891,   892,
-     894,   895,   896,   898,   900,   902,   903,   923,   924,   927,
-     928,   929,   930,   931,   932,   934,   935,   936,   937,   938,
-     939,   940,   941,   942,   944,   946,   948,   949,   950,   951,
-     952,   953,   954,   956,   957,   959,   960,   962,   963,   965,
-     966,   968,   970,   972,   974,   976,   978,   980,   981,   982,
-     983,   984,   986,   988,   990,   991,   994,   996,   997,   999,
-    1000,  1001,  1002,  1003,  1004,  1005,  1006,  1008,  1009,  1010,
-    1011,  1012,  1013,  1014,  1015,  1017,  1019,  1021,  1022,  1024,
-    1026,  1027,  1029,  1030,  1031,  1032,  1035,  1036,  1037,  1038,
-    1039,  1040,  1041,  1042,  1045,  1047,  1048,  1049,  1050,  1052,
-    1053,  1054,  1055,  1056,  1057,  1058,  1059,  1060,  1061,  1062,
-    1063,  1064,  1065,  1066,  1067,  1068,  1069,  1070,  1071,  1073,
-    1074,  1075,  1076,  1077,  1078,  1080,  1081,  1082,  1083,  1084,
-    1085,  1086,  1087,  1088,  1090,  1091,  1092,  1093,  1094,  1095,
-    1096,  1097,  1098,  1099,  1100,  1102,  1103,  1104,  1105,  1106,
-    1107,  1108,  1109,  1110,  1113,  1114,  1115,  1116,  1117,  1118,
-    1119,  1120,  1121,  1122,  1123,  1125,  1127,  1128,  1130,  1131,
-    1133,  1134,  1136,  1137,  1140
+       0,   210,   210,   211,   213,   214,   216,   217,   219,   220,
+     222,   223,   224,   225,   226,   228,   229,   231,   233,   235,
+     237,   240,   241,   243,   250,   258,   261,   262,   264,   287,
+     288,   289,   291,   292,   293,   294,   296,   299,   300,   301,
+     302,   304,   305,   306,   307,   308,   309,   310,   311,   312,
+     313,   314,   315,   316,   317,   318,   319,   320,   321,   322,
+     323,   324,   325,   326,   327,   328,   329,   330,   331,   332,
+     333,   334,   335,   336,   337,   338,   339,   340,   341,   342,
+     343,   344,   345,   346,   347,   348,   350,   351,   352,   353,
+     354,   355,   356,   357,   358,   359,   360,   361,   362,   363,
+     364,   369,   370,   371,   372,   373,   374,   375,   376,   377,
+     378,   379,   380,   381,   382,   383,   384,   385,   386,   387,
+     388,   389,   390,   391,   392,   393,   394,   395,   396,   397,
+     398,   399,   400,   401,   402,   403,   404,   405,   406,   407,
+     408,   409,   410,   411,   412,   413,   414,   415,   416,   417,
+     418,   419,   420,   421,   422,   423,   424,   425,   426,   427,
+     428,   429,   430,   431,   432,   435,   436,   438,   439,   441,
+     442,   444,   445,   446,   447,   448,   450,   453,   455,   456,
+     458,   459,   462,   463,   465,   466,   468,   470,   472,   473,
+     475,   477,   478,   480,   481,   483,   484,   486,   487,   488,
+     489,   491,   492,   493,   494,   495,   497,   516,   534,   552,
+     576,   586,   604,   612,   614,   622,   628,   629,   631,   633,
+     636,   638,   652,   653,   661,   662,   664,   666,   668,   670,
+     672,   674,   677,   684,   685,   687,   688,   690,   691,   692,
+     696,   697,   698,   699,   700,   701,   702,   704,   705,   706,
+     707,   708,   709,   710,   712,   713,   714,   715,   716,   717,
+     718,   720,   721,   723,   724,   725,   726,   728,   729,   730,
+     731,   732,   733,   734,   735,   737,   739,   740,   749,   760,
+     775,   787,   803,   804,   805,   806,   807,   808,   809,   810,
+     811,   812,   813,   814,   815,   816,   817,   818,   819,   820,
+     822,   823,   824,   825,   826,   828,   829,   831,   832,   833,
+     835,   836,   837,   838,   839,   840,   841,   842,   843,   844,
+     846,   847,   849,   850,   851,   853,   854,   856,   858,   859,
+     865,   866,   867,   869,   870,   872,   873,   887,   888,   898,
+     899,   908,   909,   917,   918,   928,   934,   950,   968,   973,
+     988,  1002,  1016,  1030,  1032,  1033,  1042,  1050,  1059,  1060,
+    1068,  1077,  1078,  1086,  1094,  1103,  1104,  1105,  1108,  1116,
+    1118,  1132,  1146,  1147,  1155,  1164,  1165,  1166,  1176,  1177,
+    1179,  1192,  1207,  1210,  1226,  1244,  1259,  1274,  1289,  1290,
+    1291,  1292,  1293,  1296,  1308,  1320,  1321,  1322,  1323,  1324,
+    1325,  1328,  1330,  1331,  1333,  1335,  1340,  1345,  1346,  1347,
+    1348,  1349,  1350,  1352,  1353,  1355,  1359,  1365,  1369,  1370,
+    1376,  1377,  1380,  1381,  1383,  1385,  1387,  1388,  1390,  1391,
+    1398,  1399,  1400,  1402,  1404,  1406,  1407,  1428,  1429,  1432,
+    1433,  1434,  1435,  1436,  1437,  1439,  1440,  1441,  1442,  1443,
+    1444,  1445,  1446,  1447,  1449,  1451,  1453,  1454,  1455,  1456,
+    1457,  1458,  1459,  1461,  1462,  1464,  1472,  1474,  1482,  1484,
+    1490,  1497,  1499,  1501,  1503,  1519,  1531,  1543,  1544,  1545,
+    1546,  1547,  1549,  1551,  1563,  1564,  1567,  1578,  1579,  1581,
+    1589,  1600,  1613,  1629,  1642,  1658,  1674,  1691,  1699,  1710,
+    1723,  1739,  1752,  1768,  1784,  1802,  1804,  1806,  1807,  1809,
+    1819,  1820,  1829,  1830,  1831,  1832,  1835,  1836,  1837,  1838,
+    1839,  1840,  1841,  1842,  1845,  1847,  1848,  1849,  1850,  1852,
+    1853,  1854,  1855,  1856,  1857,  1858,  1859,  1860,  1861,  1862,
+    1863,  1864,  1865,  1866,  1867,  1868,  1869,  1870,  1871,  1873,
+    1874,  1875,  1876,  1877,  1878,  1880,  1881,  1882,  1883,  1884,
+    1885,  1886,  1887,  1888,  1890,  1891,  1892,  1893,  1894,  1895,
+    1896,  1897,  1898,  1899,  1900,  1902,  1903,  1904,  1905,  1906,
+    1907,  1908,  1909,  1910,  1913,  1914,  1915,  1916,  1917,  1918,
+    1919,  1920,  1921,  1922,  1923,  1925,  1927,  1928,  1930,  1931,
+    1933,  1934,  1936,  1937,  1940
 };
 #endif
 
@@ -3348,151 +3368,163 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* COMPILATIONUNIT: EOFF  */
-#line 190 "parser_1st.y"
+#line 210 "parser_1st.y"
                               {return 0;}
-#line 3354 "parser_1st.tab.c"
+#line 3374 "parser_1st.tab.c"
     break;
 
   case 3: /* COMPILATIONUNIT: ORDINARYCOMPILATIONUNIT EOFF  */
-#line 191 "parser_1st.y"
+#line 211 "parser_1st.y"
                                                      {return 0;}
-#line 3360 "parser_1st.tab.c"
+#line 3380 "parser_1st.tab.c"
     break;
 
   case 4: /* TYPE: PRIMITIVETYPE  */
-#line 193 "parser_1st.y"
+#line 213 "parser_1st.y"
                           { (yyval.val)=(yyvsp[0].val); }
-#line 3366 "parser_1st.tab.c"
+#line 3386 "parser_1st.tab.c"
     break;
 
   case 5: /* TYPE: REFERENCETYPE  */
-#line 194 "parser_1st.y"
+#line 214 "parser_1st.y"
                               {(yyval.val) = (yyvsp[0].val);/*TODO*/}
-#line 3372 "parser_1st.tab.c"
+#line 3392 "parser_1st.tab.c"
     break;
 
   case 6: /* PRIMITIVETYPE: NUMERICTYPE  */
-#line 196 "parser_1st.y"
+#line 216 "parser_1st.y"
                                 {(yyval.val)=(yyvsp[0].val);}
-#line 3378 "parser_1st.tab.c"
+#line 3398 "parser_1st.tab.c"
     break;
 
   case 7: /* PRIMITIVETYPE: BOOLEAN  */
-#line 197 "parser_1st.y"
+#line 217 "parser_1st.y"
                              {(yyval.val)=(yyvsp[0].val);}
-#line 3384 "parser_1st.tab.c"
+#line 3404 "parser_1st.tab.c"
     break;
 
   case 8: /* NUMERICTYPE: INTEGRALTYPE  */
-#line 199 "parser_1st.y"
+#line 219 "parser_1st.y"
                                  {(yyval.val)=(yyvsp[0].val);}
-#line 3390 "parser_1st.tab.c"
+#line 3410 "parser_1st.tab.c"
     break;
 
   case 9: /* NUMERICTYPE: FLOATINGTYPE  */
-#line 200 "parser_1st.y"
+#line 220 "parser_1st.y"
                                  {(yyval.val)=(yyvsp[0].val);}
-#line 3396 "parser_1st.tab.c"
+#line 3416 "parser_1st.tab.c"
     break;
 
   case 10: /* INTEGRALTYPE: BYTE  */
-#line 202 "parser_1st.y"
+#line 222 "parser_1st.y"
                         {(yyval.val)=(yyvsp[0].val);}
-#line 3402 "parser_1st.tab.c"
+#line 3422 "parser_1st.tab.c"
     break;
 
   case 11: /* INTEGRALTYPE: SHORT  */
-#line 203 "parser_1st.y"
+#line 223 "parser_1st.y"
                          {(yyval.val)=(yyvsp[0].val);}
-#line 3408 "parser_1st.tab.c"
+#line 3428 "parser_1st.tab.c"
     break;
 
   case 12: /* INTEGRALTYPE: INT  */
-#line 204 "parser_1st.y"
+#line 224 "parser_1st.y"
                       {(yyval.val)=(yyvsp[0].val);}
-#line 3414 "parser_1st.tab.c"
+#line 3434 "parser_1st.tab.c"
     break;
 
   case 13: /* INTEGRALTYPE: LONG  */
-#line 205 "parser_1st.y"
+#line 225 "parser_1st.y"
                        {(yyval.val)=(yyvsp[0].val);}
-#line 3420 "parser_1st.tab.c"
+#line 3440 "parser_1st.tab.c"
     break;
 
   case 14: /* INTEGRALTYPE: CHAR  */
-#line 206 "parser_1st.y"
+#line 226 "parser_1st.y"
                        {(yyval.val)=(yyvsp[0].val);}
-#line 3426 "parser_1st.tab.c"
+#line 3446 "parser_1st.tab.c"
     break;
 
   case 15: /* FLOATINGTYPE: FLOAT  */
-#line 208 "parser_1st.y"
+#line 228 "parser_1st.y"
                            {(yyval.val)=(yyvsp[0].val);}
-#line 3432 "parser_1st.tab.c"
+#line 3452 "parser_1st.tab.c"
     break;
 
   case 16: /* FLOATINGTYPE: DOUBLE  */
-#line 209 "parser_1st.y"
+#line 229 "parser_1st.y"
                            {(yyval.val)=(yyvsp[0].val);}
-#line 3438 "parser_1st.tab.c"
+#line 3458 "parser_1st.tab.c"
     break;
 
   case 17: /* REFERENCETYPE: CLASSORINTERFACETYPE  */
-#line 211 "parser_1st.y"
+#line 231 "parser_1st.y"
                                          {(yyval.val)=(yyvsp[0].val);}
-#line 3444 "parser_1st.tab.c"
+#line 3464 "parser_1st.tab.c"
     break;
 
   case 18: /* CLASSORINTERFACETYPE: CLASSTYPE  */
-#line 213 "parser_1st.y"
+#line 233 "parser_1st.y"
                                       {(yyval.val)=(yyvsp[0].val);}
-#line 3450 "parser_1st.tab.c"
+#line 3470 "parser_1st.tab.c"
     break;
 
   case 19: /* CLASSTYPE: CLASSTYPE1  */
-#line 215 "parser_1st.y"
+#line 235 "parser_1st.y"
                            {(yyval.val)=(yyvsp[0].val);}
-#line 3456 "parser_1st.tab.c"
+#line 3476 "parser_1st.tab.c"
     break;
 
   case 20: /* CLASSTYPE1: IDENTIFIER  */
-#line 217 "parser_1st.y"
+#line 237 "parser_1st.y"
                            {(yyval.val)=(yyvsp[0].val);}
-#line 3462 "parser_1st.tab.c"
+#line 3482 "parser_1st.tab.c"
     break;
 
   case 21: /* DIMS: OPENSQUARE CLOSESQUARE  */
-#line 220 "parser_1st.y"
+#line 240 "parser_1st.y"
                                    {(yyval.val)=new_temp(); temp[(yyval.val)]= 1;}
-#line 3468 "parser_1st.tab.c"
+#line 3488 "parser_1st.tab.c"
     break;
 
   case 22: /* DIMS: DIMS OPENSQUARE CLOSESQUARE  */
-#line 221 "parser_1st.y"
+#line 241 "parser_1st.y"
                                         {(yyval.val)= new_temp(); temp[(yyval.val)]=temp[(yyvsp[-2].val)]+1;}
-#line 3474 "parser_1st.tab.c"
+#line 3494 "parser_1st.tab.c"
     break;
 
   case 23: /* METHODNAME: IDENTIFIER  */
-#line 223 "parser_1st.y"
-                            {(yyval.val)=(yyvsp[0].val);}
-#line 3480 "parser_1st.tab.c"
+#line 243 "parser_1st.y"
+                            {    (yyval.val) = new_temp();
+                                ll curr1 = chartonum((yyval.val));
+                                ds[curr1]["type"] = methods[chartostring((yyvsp[0].val))].rettype.name;
+                                // ds[curr]["lineno"] = get_symbol_table(chartostring($1),"lineno");
+                                ds[curr1]["var"] = chartostring((yyvsp[0].val));
+                            }
+#line 3505 "parser_1st.tab.c"
     break;
 
   case 24: /* EXPRESSIONNAME: IDENTIFIER DOT IDENTIFIER  */
-#line 225 "parser_1st.y"
-                                               {/*TODO*/}
-#line 3486 "parser_1st.tab.c"
+#line 250 "parser_1st.y"
+                                               {    /*$$ = new_temp();
+                                                    int curr = chartonum($$);
+                                                    string  name = chartostring($1), name2 = chartostring($3);
+                                                    ds[curr]["type"] = get_symbol_table(name,name2,"type");
+                                                    ds[curr]["var"] = name+"."+name2;
+                                                    // ds[curr]["lineno"] = get_symbol_table(name,"lineno");
+                                                    TODO*/
+}
+#line 3518 "parser_1st.tab.c"
     break;
 
   case 25: /* EXPRESSIONNAME: EXPRESSIONNAME DOT IDENTIFIER  */
-#line 226 "parser_1st.y"
+#line 258 "parser_1st.y"
                                                   {/*TODO*/}
-#line 3492 "parser_1st.tab.c"
+#line 3524 "parser_1st.tab.c"
     break;
 
   case 28: /* TOPLEVELCLASSORINTERFACEDECLARATION: CLASSDECLARATION  */
-#line 232 "parser_1st.y"
+#line 264 "parser_1st.y"
                                                           {   
     for (auto x : fields ){
         cout<<x.first;
@@ -3516,48 +3548,56 @@ cout<<endl;
         
         }
      resetclass();}
-#line 3520 "parser_1st.tab.c"
+#line 3552 "parser_1st.tab.c"
     break;
 
   case 37: /* NORMALCLASSDECLARATION: CLASS IDENTIFIER CLASSBODY  */
-#line 267 "parser_1st.y"
-                                                        {if(checkclassname!="") assert(checkclassname== chartostring((yyvsp[-1].val)));}
-#line 3526 "parser_1st.tab.c"
+#line 299 "parser_1st.y"
+                                                        {if(checkclassname!="") assert(checkclassname== chartostring((yyvsp[-1].val)));/*TODO begin class */}
+#line 3558 "parser_1st.tab.c"
     break;
 
   case 38: /* NORMALCLASSDECLARATION: SUPER1 CLASS IDENTIFIER CLASSBODY  */
-#line 268 "parser_1st.y"
+#line 300 "parser_1st.y"
                                                                 {if(checkclassname!="")assert(checkclassname== chartostring((yyvsp[-2].val)));}
-#line 3532 "parser_1st.tab.c"
+#line 3564 "parser_1st.tab.c"
     break;
 
   case 39: /* NORMALCLASSDECLARATION: SUPER2 CLASS IDENTIFIER CLASSBODY  */
-#line 269 "parser_1st.y"
+#line 301 "parser_1st.y"
                                                                 {if(checkclassname!="")assert(checkclassname== chartostring((yyvsp[-2].val)));}
-#line 3538 "parser_1st.tab.c"
+#line 3570 "parser_1st.tab.c"
     break;
 
   case 40: /* NORMALCLASSDECLARATION: SUPER3 CLASS IDENTIFIER CLASSBODY  */
-#line 270 "parser_1st.y"
+#line 302 "parser_1st.y"
                                                                 {if(checkclassname!="")assert(checkclassname== chartostring((yyvsp[-2].val)));}
-#line 3544 "parser_1st.tab.c"
+#line 3576 "parser_1st.tab.c"
     break;
 
   case 165: /* OPENCURLY: OPENCURLY1  */
-#line 403 "parser_1st.y"
+#line 435 "parser_1st.y"
                           {newscope(); }
-#line 3550 "parser_1st.tab.c"
+#line 3582 "parser_1st.tab.c"
     break;
 
   case 166: /* CLOSECURLY: CLOSECURLY1  */
-#line 404 "parser_1st.y"
+#line 436 "parser_1st.y"
                           {popscope();}
-#line 3556 "parser_1st.tab.c"
+#line 3588 "parser_1st.tab.c"
     break;
 
   case 206: /* FIELDDECLARATION: FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON  */
-#line 465 "parser_1st.y"
+#line 497 "parser_1st.y"
                                                                              {
+                    {   (yyval.val) = new_temp();
+                        // TYPE CHECK
+                                                                    int  curr2 = chartonum((yyvsp[-1].val)), curr = chartonum((yyval.val));
+                                                                    // ds[curr]["lineno"] = ds[curr1]["lineno"];
+                                                                    assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring((yyvsp[-2].val))));
+                                                                    
+                                                                    
+                    }
                         
                         for (auto x: generalmap[(yyvsp[-1].val)].vlist){
                             assert(fields.find(x.first.name) == fields.end());
@@ -3568,12 +3608,20 @@ cout<<endl;
                             fields[x.first.name].dims = x.second.dims;
                         }
                     }
-#line 3572 "parser_1st.tab.c"
+#line 3612 "parser_1st.tab.c"
     break;
 
   case 207: /* FIELDDECLARATION: SUPER1 TYPE VARIABLEDECLARATORLIST SEMICOLON  */
-#line 476 "parser_1st.y"
+#line 516 "parser_1st.y"
                                                                     {
+                        {   (yyval.val) = new_temp();
+                        // TYPE CHECK
+                                                                    int  curr2 = chartonum((yyvsp[-1].val)), curr = chartonum((yyval.val));
+                                                                    // ds[curr]["lineno"] = ds[curr1]["lineno"];
+                                                                    assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring((yyvsp[-2].val))));
+                                                                    
+                                                                    
+                    }
                         for (auto x: generalmap[(yyvsp[-1].val)].vlist){
                             assert(fields.find(x.first.name) == fields.end());
 
@@ -3583,12 +3631,20 @@ cout<<endl;
                             fields[x.first.name].dims = x.second.dims;
                         }
                     }
-#line 3587 "parser_1st.tab.c"
+#line 3635 "parser_1st.tab.c"
     break;
 
   case 208: /* FIELDDECLARATION: SUPER2 TYPE VARIABLEDECLARATORLIST SEMICOLON  */
-#line 486 "parser_1st.y"
+#line 534 "parser_1st.y"
                                                                     {
+                        {   (yyval.val) = new_temp();
+                        // TYPE CHECK
+                                                                    int  curr2 = chartonum((yyvsp[-1].val)), curr = chartonum((yyval.val));
+                                                                    // ds[curr]["lineno"] = ds[curr1]["lineno"];
+                                                                    assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring((yyvsp[-2].val))));
+                                                                    
+                                                                    
+                    }
                         for (auto x: generalmap[(yyvsp[-1].val)].vlist){
                             assert(fields.find(x.first.name) == fields.end());
 
@@ -3598,12 +3654,21 @@ cout<<endl;
                             fields[x.first.name].dims = x.second.dims;
                         }
                     }
-#line 3602 "parser_1st.tab.c"
+#line 3658 "parser_1st.tab.c"
     break;
 
   case 209: /* FIELDDECLARATION: TYPE VARIABLEDECLARATORLIST SEMICOLON  */
-#line 496 "parser_1st.y"
+#line 552 "parser_1st.y"
                                                               {
+
+                        {   (yyval.val) = new_temp();
+                        // TYPE CHECK
+                                                                    int  curr2 = chartonum((yyvsp[-1].val)), curr = chartonum((yyval.val));
+                                                                    // ds[curr]["lineno"] = ds[curr1]["lineno"];
+                                                                    assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring((yyvsp[-2].val))));
+                                                                    
+                                                                    
+                    }
                         
                         for (auto x: generalmap[(yyvsp[-1].val)].vlist){
                             
@@ -3615,102 +3680,1009 @@ cout<<endl;
                             fields[x.first.name].dims = x.second.dims;
                         }
                     }
-#line 3619 "parser_1st.tab.c"
+#line 3684 "parser_1st.tab.c"
     break;
 
   case 210: /* VARIABLEDECLARATORLIST: VARIABLEDECLARATOR  */
-#line 511 "parser_1st.y"
-                                               {(yyval.val) = new_temp(); generalmap[(yyval.val)].vlist.push_back({generalmap[(yyvsp[0].val)].vid, generalmap[(yyvsp[0].val)].vinit});}
-#line 3625 "parser_1st.tab.c"
+#line 576 "parser_1st.y"
+                                               {(yyval.val) = new_temp(); generalmap[(yyval.val)].vlist.push_back({generalmap[(yyvsp[0].val)].vid, generalmap[(yyvsp[0].val)].vinit});
+{   
+                                                    int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[0].val));
+                                                    if(ds[curr1].find("start")!=ds[curr1].end()){
+                                                        ds[curr]["start"] = ds[curr1]["start"];
+                                                        ds[curr]["type"] = ds[curr1]["type"];
+                                                    }
+                                                    // ds[curr]["lineno"] = ds[curr1]["lineno"];
+}
+}
+#line 3699 "parser_1st.tab.c"
     break;
 
   case 211: /* VARIABLEDECLARATORLIST: VARIABLEDECLARATORLIST COMMA VARIABLEDECLARATOR  */
-#line 512 "parser_1st.y"
-                                                                            {(yyval.val) = (yyvsp[-2].val); generalmap[(yyval.val)].vlist.push_back({generalmap[(yyvsp[0].val)].vid, generalmap[(yyvsp[0].val)].vinit});}
-#line 3631 "parser_1st.tab.c"
+#line 586 "parser_1st.y"
+                                                                            {(yyval.val) = (yyvsp[-2].val); generalmap[(yyval.val)].vlist.push_back({generalmap[(yyvsp[0].val)].vid, generalmap[(yyvsp[0].val)].vinit});
+                        {  
+                                                    int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)),curr3 = chartonum((yyvsp[0].val));
+                                                    if(ds[curr1].find("start")!=ds[curr1].end()){
+                                                        ds[curr]["start"] = ds[curr1]["start"];
+                                                        ds[curr]["type"] = ds[curr1]["type"];
+                                                    }
+                                                    else if(ds[curr3].find("start")!=ds[curr3].end()){
+                                                        ds[curr]["start"] = ds[curr3]["start"];
+                                                        ds[curr]["type"] = ds[curr1]["type"];
+                                                    }
+                                                    ds[curr]["lineno"] = ds[curr1]["lineno"];
+                                                    assert(!(ds[curr3].find("type")!=ds[curr3].end()&&ds[curr1].find("type")!=ds[curr1].end()&&ds[curr3]["type"]!=ds[curr1]["type"]));
+                                                    // error("Incompatible types");
+
+}
+}
+#line 3721 "parser_1st.tab.c"
     break;
 
   case 212: /* VARIABLEDECLARATOR: VARIABLEDECLARATORID EQUALS VARIABLEINITIALIZER  */
-#line 514 "parser_1st.y"
-                                                                        {(yyval.val) = new_temp(); generalmap[(yyval.val)]= generalmap[(yyvsp[-2].val)]; generalmap[(yyval.val)].vinit = generalmap[(yyvsp[0].val)].vinit ;}
-#line 3637 "parser_1st.tab.c"
+#line 604 "parser_1st.y"
+                                                                        {(yyval.val) = new_temp(); generalmap[(yyval.val)]= generalmap[(yyvsp[-2].val)]; generalmap[(yyval.val)].vinit = generalmap[(yyvsp[0].val)].vinit ;                                           int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                            ds[curr]["start"] = code.size();
+                                                                            ds[curr]["type"] = ds[curr3]["type"];
+                                                                            
+                                                                            // ds[curr]["lineno"] = ds[curr1]["lineno"];
+                                                                            // code.push_back("hello");
+                                                                            code.push_back(ds[curr1]["var"]+"="+ds[curr3]["var"]);
+                                                                            }
+#line 3734 "parser_1st.tab.c"
     break;
 
   case 213: /* VARIABLEDECLARATOR: VARIABLEDECLARATORID  */
-#line 515 "parser_1st.y"
+#line 612 "parser_1st.y"
                                              {(yyval.val) = new_temp(); generalmap[(yyval.val)]= generalmap[(yyvsp[0].val)];}
-#line 3643 "parser_1st.tab.c"
+#line 3740 "parser_1st.tab.c"
     break;
 
   case 214: /* VARIABLEDECLARATORID: IDENTIFIER  */
-#line 517 "parser_1st.y"
-                                       {(yyval.val) = new_temp(); generalmap[(yyval.val)].vid.name= chartostring((yyvsp[0].val)); }
-#line 3649 "parser_1st.tab.c"
+#line 614 "parser_1st.y"
+                                       {(yyval.val) = new_temp(); generalmap[(yyval.val)].vid.name= chartostring((yyvsp[0].val)); 
+ int curr = chartonum((yyval.val));
+
+                                            // ds[curr]["type"] = gettypefromsymtable(chartostring($1));
+                                            // ds[curr]["lineno"] = get_symbol_table(chartostring($1),"lineno");
+                                            ds[curr]["var"] = chartostring((yyvsp[0].val));
+
+}
+#line 3753 "parser_1st.tab.c"
     break;
 
   case 215: /* VARIABLEDECLARATORID: IDENTIFIER DIMS  */
-#line 518 "parser_1st.y"
-                                             {(yyval.val) = new_temp(); generalmap[(yyval.val)].vid.name= chartostring((yyvsp[-1].val));  generalmap[(yyval.val)].vid.num = temp[(yyvsp[0].val)];}
-#line 3655 "parser_1st.tab.c"
+#line 622 "parser_1st.y"
+                                             {(yyval.val) = new_temp(); generalmap[(yyval.val)].vid.name= chartostring((yyvsp[-1].val));  generalmap[(yyval.val)].vid.num = temp[(yyvsp[0].val)];
+                        
+                        /*TODO*/
+                        }
+#line 3762 "parser_1st.tab.c"
     break;
 
   case 216: /* VARIABLEINITIALIZER: EXPRESSION  */
-#line 521 "parser_1st.y"
-                                    {(yyval.val) = new_temp(); generalmap[(yyval.val)];}
-#line 3661 "parser_1st.tab.c"
+#line 628 "parser_1st.y"
+                                    {(yyval.val) = new_temp(); generalmap[(yyval.val)]; ds[chartonum((yyval.val))] = ds[chartonum((yyvsp[0].val))]; }
+#line 3768 "parser_1st.tab.c"
     break;
 
   case 217: /* VARIABLEINITIALIZER: ARRAYINITIALIZER  */
-#line 522 "parser_1st.y"
+#line 629 "parser_1st.y"
                                          {(yyval.val) = (yyvsp[0].val);}
-#line 3667 "parser_1st.tab.c"
+#line 3774 "parser_1st.tab.c"
+    break;
+
+  case 218: /* EXPRESSION: ASSIGNMENTEXPRESSION  */
+#line 631 "parser_1st.y"
+                                    {(yyval.val) = (yyvsp[0].val);}
+#line 3780 "parser_1st.tab.c"
+    break;
+
+  case 219: /* ASSIGNMENTEXPRESSION: CONDITIONALEXPRESSION  */
+#line 633 "parser_1st.y"
+                                                  {
+                            (yyval.val) = (yyvsp[0].val);
+                        }
+#line 3788 "parser_1st.tab.c"
+    break;
+
+  case 220: /* ASSIGNMENTEXPRESSION: ASSIGNMENT  */
+#line 636 "parser_1st.y"
+                                       {(yyval.val) = (yyvsp[0].val);}
+#line 3794 "parser_1st.tab.c"
+    break;
+
+  case 221: /* ASSIGNMENT: LEFTHANDSIDE ASSIGNMENTOPERATOR EXPRESSION  */
+#line 638 "parser_1st.y"
+                                                           {
+    
+    // code.pb($1.val + $2.val + $3.val )
+    // string t  =new_var();
+    // code.pb(t + " = " + $1.val);
+    // $$.val = t;
+    (yyval.val) = (yyvsp[-2].val);
+    int curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val)), curr2 = chartonum((yyvsp[-1].val));
+    type_check(ds[curr1]["type"],ds[curr3]["type"],ds[curr2]["op"]);
+    type_conversion(ds[curr1]["type"],ds[curr3]["type"],ds[curr2]["op"]);
+    code.push_back(ds[curr1]["var"]+ds[curr2]["op"]+ds[curr3]["var"]);
+
+}
+#line 3812 "parser_1st.tab.c"
+    break;
+
+  case 222: /* LEFTHANDSIDE: EXPRESSIONNAME  */
+#line 652 "parser_1st.y"
+                                      {(yyval.val) = (yyvsp[0].val);}
+#line 3818 "parser_1st.tab.c"
+    break;
+
+  case 223: /* LEFTHANDSIDE: IDENTIFIER  */
+#line 653 "parser_1st.y"
+                               {    (yyval.val) = new_temp();
+                                    int curr = chartonum((yyval.val));
+                                    ds[curr]["type"] = gettypefromsymtable(chartostring((yyvsp[0].val)));
+                                    // ds[curr]["lineno"] = get_symbol_table(chartostring($1),"lineno");
+                                    ds[curr]["var"] = chartostring((yyvsp[0].val));
+                                    /* look here */
+                                    ds[curr]["start"] = code.size();
+                }
+#line 3831 "parser_1st.tab.c"
+    break;
+
+  case 224: /* LEFTHANDSIDE: FIELDACCESS  */
+#line 661 "parser_1st.y"
+                                {(yyval.val) = (yyvsp[0].val);}
+#line 3837 "parser_1st.tab.c"
+    break;
+
+  case 226: /* ASSIGNMENTOPERATOR: EQUALS  */
+#line 664 "parser_1st.y"
+                              {(yyval.val) = new_temp();int curr = chartonum((yyval.val));
+                                ds[curr]["op"] = "=";}
+#line 3844 "parser_1st.tab.c"
+    break;
+
+  case 227: /* ASSIGNMENTOPERATOR: MULTIPLYEQUALS  */
+#line 666 "parser_1st.y"
+                                      {(yyval.val) = new_temp();int curr = chartonum((yyval.val));
+                                ds[curr]["op"] = "*=";}
+#line 3851 "parser_1st.tab.c"
+    break;
+
+  case 228: /* ASSIGNMENTOPERATOR: DIVIDEEQUALS  */
+#line 668 "parser_1st.y"
+                                     {(yyval.val) = new_temp();int curr = chartonum((yyval.val));
+                                ds[curr]["op"] = "/=";}
+#line 3858 "parser_1st.tab.c"
+    break;
+
+  case 229: /* ASSIGNMENTOPERATOR: MODEQUALS  */
+#line 670 "parser_1st.y"
+                                  {(yyval.val) = new_temp();int curr = chartonum((yyval.val));
+                                ds[curr]["op"] = "%=";}
+#line 3865 "parser_1st.tab.c"
+    break;
+
+  case 230: /* ASSIGNMENTOPERATOR: PLUSEQUALS  */
+#line 672 "parser_1st.y"
+                                   {(yyval.val) = new_temp();int curr = chartonum((yyval.val));
+                                ds[curr]["op"] = "+=";}
+#line 3872 "parser_1st.tab.c"
+    break;
+
+  case 231: /* ASSIGNMENTOPERATOR: MINUSEQUALS  */
+#line 674 "parser_1st.y"
+                                    {(yyval.val) = new_temp();int curr = chartonum((yyval.val));
+                                ds[curr]["op"] = "-=";}
+#line 3879 "parser_1st.tab.c"
+    break;
+
+  case 232: /* FIELDACCESS: PRIMARY DOT IDENTIFIER  */
+#line 677 "parser_1st.y"
+                                    {(yyval.val) = new_temp();
+                                        int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val));
+                                        ds[curr]["start"] = ds[curr1]["start"];
+                                        if(ds[curr1]["this"]==chartostring("YES")){
+                                            ds[curr]["var"] = chartostring("this.")+chartostring((yyvsp[0].val));
+                                        }else assert(0 && "unexpected type\n");
+                                        }
+#line 3891 "parser_1st.tab.c"
+    break;
+
+  case 235: /* PRIMARY: PRIMARYNONEWARRAY  */
+#line 687 "parser_1st.y"
+                            {(yyval.val) = (yyvsp[0].val);}
+#line 3897 "parser_1st.tab.c"
+    break;
+
+  case 236: /* PRIMARY: ARRAYCREATIONEXPRESSION  */
+#line 688 "parser_1st.y"
+                                        {(yyval.val) = (yyvsp[0].val);}
+#line 3903 "parser_1st.tab.c"
+    break;
+
+  case 237: /* PRIMARYNONEWARRAY: LITERAL  */
+#line 690 "parser_1st.y"
+                            {(yyval.val) = (yyvsp[0].val);}
+#line 3909 "parser_1st.tab.c"
+    break;
+
+  case 238: /* PRIMARYNONEWARRAY: CLASSLITERAL  */
+#line 691 "parser_1st.y"
+                                        {(yyval.val) = (yyvsp[0].val);}
+#line 3915 "parser_1st.tab.c"
+    break;
+
+  case 239: /* PRIMARYNONEWARRAY: THIS  */
+#line 692 "parser_1st.y"
+                                {(yyval.val) = new_temp();    /* Ignoring this as need to send object reference to function as well */
+                            int curr = chartonum((yyval.val));
+                            ds[curr]["this"] = chartostring("YES");
+                            }
+#line 3924 "parser_1st.tab.c"
+    break;
+
+  case 241: /* PRIMARYNONEWARRAY: OPENPARAN EXPRESSION CLOSEPARAN  */
+#line 697 "parser_1st.y"
+                                                        {(yyval.val) = (yyvsp[-1].val);}
+#line 3930 "parser_1st.tab.c"
+    break;
+
+  case 243: /* PRIMARYNONEWARRAY: FIELDACCESS  */
+#line 699 "parser_1st.y"
+                                    {(yyval.val) = (yyvsp[0].val);}
+#line 3936 "parser_1st.tab.c"
+    break;
+
+  case 245: /* PRIMARYNONEWARRAY: METHODINVOCATION  */
+#line 701 "parser_1st.y"
+                                            {(yyval.val) = (yyvsp[0].val);}
+#line 3942 "parser_1st.tab.c"
+    break;
+
+  case 247: /* LITERAL: INTEGERLITERAL  */
+#line 704 "parser_1st.y"
+                        {(yyval.val) = new_temp(); ds[chartonum((yyval.val))]["type"] = "byte"; ds[chartonum((yyval.val))]["var"] = chartostring((yyvsp[0].val));}
+#line 3948 "parser_1st.tab.c"
+    break;
+
+  case 248: /* LITERAL: FLOATINGPOINTLITERAL  */
+#line 705 "parser_1st.y"
+                                     {(yyval.val) = new_temp(); ds[chartonum((yyval.val))]["type"] = "float"; ds[chartonum((yyval.val))]["var"] = chartostring((yyvsp[0].val));}
+#line 3954 "parser_1st.tab.c"
+    break;
+
+  case 249: /* LITERAL: BOOLEANLITERAL  */
+#line 706 "parser_1st.y"
+                               {(yyval.val) = new_temp(); ds[chartonum((yyval.val))]["type"] = "bool"; ds[chartonum((yyval.val))]["var"] = chartostring((yyvsp[0].val));}
+#line 3960 "parser_1st.tab.c"
+    break;
+
+  case 250: /* LITERAL: CHARACTERLITERAL  */
+#line 707 "parser_1st.y"
+                                 {(yyval.val) = new_temp(); ds[chartonum((yyval.val))]["type"] = "char"; ds[chartonum((yyval.val))]["var"] = chartostring((yyvsp[0].val));}
+#line 3966 "parser_1st.tab.c"
+    break;
+
+  case 251: /* LITERAL: STRINGLITERAL  */
+#line 708 "parser_1st.y"
+                              {(yyval.val) = new_temp(); ds[chartonum((yyval.val))]["type"] = "String"; ds[chartonum((yyval.val))]["var"] = chartostring((yyvsp[0].val));}
+#line 3972 "parser_1st.tab.c"
+    break;
+
+  case 252: /* LITERAL: TEXTBLOCK  */
+#line 709 "parser_1st.y"
+                          {(yyval.val) = new_temp(); ds[chartonum((yyval.val))]["type"] = "String"; ds[chartonum((yyval.val))]["var"] = chartostring((yyvsp[0].val));}
+#line 3978 "parser_1st.tab.c"
+    break;
+
+  case 253: /* LITERAL: NULLLITERAL  */
+#line 710 "parser_1st.y"
+                            {(yyval.val) = new_temp(); ds[chartonum((yyval.val))]["type"] = "null"; ds[chartonum((yyval.val))]["var"] = chartostring((yyvsp[0].val));}
+#line 3984 "parser_1st.tab.c"
+    break;
+
+  case 276: /* ARGUMENTLIST: EXPRESSION  */
+#line 739 "parser_1st.y"
+                            {(yyval.val) = (yyvsp[0].val);}
+#line 3990 "parser_1st.tab.c"
+    break;
+
+  case 277: /* ARGUMENTLIST: ARGUMENTLIST COMMA EXPRESSION  */
+#line 740 "parser_1st.y"
+                                                {(yyval.val) = new_temp();
+                                                int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                ds[curr]["start"] = ds[curr1]["start"];
+                                                ds2[curr1]["type"].push_back(ds[curr3]["type"]);
+                                                ds2[curr]["type"] = ds2[curr1]["type"];
+                                                ds2[curr1]["var"].push_back(ds[curr3]["var"]);
+                                                ds2[curr]["var"] = ds2[curr1]["var"];
+                                                }
+#line 4003 "parser_1st.tab.c"
+    break;
+
+  case 278: /* METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN  */
+#line 749 "parser_1st.y"
+                                                    {   (yyval.val) = new_temp();
+                                                        int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val));
+                                                        string name = ds[curr1]["var"];
+                                                        ds[curr]["var"] = new_var();
+                                                        ds[curr]["type"] = methods[name].rettype.name;
+                                                        vector<string> types;
+                                                        type_check_function(name,types);    // takes in name of function and types of parameters
+                                                        ds[curr]["start"] = code.size();
+                                                        if(ds[curr]["type"]!="void")
+                                                        code.push_back(ds[curr]["var"]+"= call, "+name);
+}
+#line 4019 "parser_1st.tab.c"
+    break;
+
+  case 279: /* METHODINVOCATION: METHODNAME OPENPARAN ARGUMENTLIST CLOSEPARAN  */
+#line 760 "parser_1st.y"
+                                                                    {   (yyval.val) = new_temp();
+                                                        int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-3].val)), curr3 = chartonum((yyvsp[-1].val));
+                                                        string name = ds[curr1]["var"] ;
+                                                        ds[curr]["var"] = new_var();
+                                                        ds[curr]["type"] = methods[name].rettype.name;
+                                                        vector<string> types;
+                                                        for(auto i:ds2[curr3]["type"])
+                                                        types.push_back(i);
+                                                        type_check_function(name,types);    // takes in name of function and types of parameters
+                                                        for(auto i:ds2[curr3]["var"])
+                                                        code.push_back("push param "+i);
+                                                        ds[curr]["start"] = ds[curr3]["start"];
+                                                        if(ds[curr]["type"]!="void")
+                                                        code.push_back(ds[curr]["var"]+"= call, "+name);
+}
+#line 4039 "parser_1st.tab.c"
+    break;
+
+  case 280: /* METHODINVOCATION: IDENTIFIER DOT IDENTIFIER OPENPARAN CLOSEPARAN  */
+#line 775 "parser_1st.y"
+                                                                        {   /* Method invocation using object?  */
+                                                          (yyval.val) = new_temp();
+                                                        // int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);
+                                                        // string name = ds[curr1]["var"], name2 = ds[curr3]["var"];
+                                                        // ds[curr]["var"] = new_var();
+                                                        // ds[curr]["type"] = get_symbol_table(name,name2,"type");
+                                                        // vector<string> types;
+                                                        // type_check_function_obj(name,name2,types);    // takes in name of function and types of parameters
+                                                        // ds[curr]["start"] = code.size();
+                                                        // if(ds[curr]["type"]!="void")
+                                                        // code.push_back(ds[curr]["var"]+"= call, "+name);
+}
+#line 4056 "parser_1st.tab.c"
+    break;
+
+  case 281: /* METHODINVOCATION: IDENTIFIER DOT IDENTIFIER OPENPARAN ARGUMENTLIST CLOSEPARAN  */
+#line 787 "parser_1st.y"
+                                                                                    {   /* Method invocation using object?  */
+                                                          (yyval.val) = new_temp();
+                                                        // int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3), curr5 = chartonum($5);
+                                                        // string name = ds[curr1]["var"], name2 = ds[curr3]["var"];
+                                                        // ds[curr]["var"] = new_var();
+                                                        // ds[curr]["type"] = get_symbol_table(name,name2,"type");
+                                                        // vector<string> types;
+                                                        // for(auto i:ds2[curr5]["type"])
+                                                        // types.push_back(i);
+                                                        // type_check_function_obj(name,name2,types);    // takes in name of function and types of parameters
+                                                        // for(auto i:ds2[curr5]["var"])
+                                                        // code.push_back("push param "+i);
+                                                        // ds[curr]["start"] = ds[curr5]["start"];
+                                                        // if(ds[curr]["type"]!="void")
+                                                        // code.push_back(ds[curr]["var"]+"= call, "+name);
+}
+#line 4077 "parser_1st.tab.c"
     break;
 
   case 320: /* ARRAYINITIALIZER: OPENCURLY ARRAYINITIALIZER1 CLOSECURLY  */
-#line 646 "parser_1st.y"
+#line 846 "parser_1st.y"
                                                               {(yyval.val)=(yyvsp[-1].val); generalmap[(yyval.val)].vinit.dims.push_back(generalmap[(yyval.val)].num); generalmap[(yyval.val)].num=0;}
-#line 3673 "parser_1st.tab.c"
+#line 4083 "parser_1st.tab.c"
     break;
 
   case 321: /* ARRAYINITIALIZER: OPENCURLY CLOSECURLY  */
-#line 647 "parser_1st.y"
+#line 847 "parser_1st.y"
                                              {(yyval.val)=new_temp(); generalmap[(yyval.val)].vinit.dims.push_back(0);}
-#line 3679 "parser_1st.tab.c"
+#line 4089 "parser_1st.tab.c"
     break;
 
   case 322: /* ARRAYINITIALIZER1: VARIABLEINITIALIZERLIST  */
-#line 649 "parser_1st.y"
+#line 849 "parser_1st.y"
                                                {(yyval.val)= (yyvsp[0].val);}
-#line 3685 "parser_1st.tab.c"
+#line 4095 "parser_1st.tab.c"
     break;
 
   case 323: /* ARRAYINITIALIZER1: COMMA  */
-#line 650 "parser_1st.y"
+#line 850 "parser_1st.y"
                               {(yyval.val) = new_temp(); generalmap[(yyval.val)].num=1;}
-#line 3691 "parser_1st.tab.c"
+#line 4101 "parser_1st.tab.c"
     break;
 
   case 324: /* ARRAYINITIALIZER1: VARIABLEINITIALIZERLIST COMMA  */
-#line 651 "parser_1st.y"
+#line 851 "parser_1st.y"
                                                       {(yyval.val) = (yyvsp[-1].val); generalmap[(yyval.val)].num++;}
-#line 3697 "parser_1st.tab.c"
+#line 4107 "parser_1st.tab.c"
     break;
 
   case 328: /* VARIABLEINITIALIZERLIST: VARIABLEINITIALIZER  */
-#line 658 "parser_1st.y"
+#line 858 "parser_1st.y"
                                                 {(yyval.val)=(yyvsp[0].val); generalmap[(yyval.val)].num=1;}
-#line 3703 "parser_1st.tab.c"
+#line 4113 "parser_1st.tab.c"
     break;
 
   case 329: /* VARIABLEINITIALIZERLIST: VARIABLEINITIALIZERLIST COMMA VARIABLEINITIALIZER  */
-#line 659 "parser_1st.y"
+#line 859 "parser_1st.y"
                                                                               {(yyval.val)=(yyvsp[-2].val); generalmap[(yyval.val)].num++; assert(generalmap[(yyval.val)].vinit.dims == generalmap[(yyvsp[0].val)].vinit.dims);}
-#line 3709 "parser_1st.tab.c"
+#line 4119 "parser_1st.tab.c"
+    break;
+
+  case 333: /* CONDITIONALEXPRESSION: CONDITIONALOREXPRESSION  */
+#line 869 "parser_1st.y"
+                                                {(yyval.val) = (yyvsp[0].val);}
+#line 4125 "parser_1st.tab.c"
+    break;
+
+  case 334: /* CONDITIONALEXPRESSION: CONDITIONALOREXPRESSION QUESTIONMARK EXPRESSION COLON CONDITIONALEXPRESSION  */
+#line 870 "parser_1st.y"
+                                                                                                    {}
+#line 4131 "parser_1st.tab.c"
+    break;
+
+  case 335: /* CONDITIONALOREXPRESSION: CONDITIONALANDEXPRESSION  */
+#line 872 "parser_1st.y"
+                                                    {(yyval.val) = (yyvsp[0].val); }
+#line 4137 "parser_1st.tab.c"
+    break;
+
+  case 336: /* CONDITIONALOREXPRESSION: CONDITIONALOREXPRESSION OROR CONDITIONALANDEXPRESSION  */
+#line 873 "parser_1st.y"
+                                                                                        {   (yyval.val) = new_temp();
+                                                                                        int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                                        backpatch(ds3[curr1]["falselist"],stringtonum(ds[curr3]["start"]));
+                                                                                        type_check(ds[curr1]["type"],ds[curr3]["type"],"||");
+                                                                                        ds3[curr]["falselist"] = ds3[curr3]["falselist"];
+                                                                                        ds3[curr]["truelist"] = merge(ds3[curr1]["truelist"],ds3[curr3]["truelist"]);
+                                                                                        // backpatch(ds3[curr1]["truelist"],code.size());
+                                                                                        // backpatch(ds3[curr3]["truelist"],code.size());
+                                                                                        // ds[curr]["var"] = new_var();
+                                                                                        // code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]+" || "+ds[curr3]["var"]);
+                                                                                        // ds2[curr]["code"] = ds2[curr1]["code"] + "\n" + ds2[curr3]["code"];
+                                                                                        ds[curr]["type"] = "bool";
+                                                                                        ds[curr]["start"] = ds[curr1]["start"];}
+#line 4155 "parser_1st.tab.c"
+    break;
+
+  case 337: /* CONDITIONALANDEXPRESSION: INCLUSIVEOREXPRESSION  */
+#line 887 "parser_1st.y"
+                                                    {(yyval.val) = (yyvsp[0].val); }
+#line 4161 "parser_1st.tab.c"
+    break;
+
+  case 338: /* CONDITIONALANDEXPRESSION: CONDITIONALANDEXPRESSION ANDAND INCLUSIVEOREXPRESSION  */
+#line 888 "parser_1st.y"
+                                                                                        {   (yyval.val) = new_temp();
+                                                                                        int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                                        backpatch(ds3[curr1]["truelist"],stringtonum(ds[curr3]["start"]));
+                                                                                        type_check(ds[curr1]["type"],ds[curr3]["type"],"&&");
+                                                                                        ds3[curr]["truelist"] = ds3[curr3]["truelist"];
+                                                                                        ds3[curr]["falselist"] = merge(ds3[curr1]["falselist"],ds3[curr3]["falselist"]);
+                                                                                        // ds2[curr]["code"] = ds2[curr1]["code"] + "\n" + ds2[curr3]["code"];
+                                                                                        ds[curr]["type"] = "bool";
+                                                                                        ds[curr]["start"] = ds[curr1]["start"];}
+#line 4175 "parser_1st.tab.c"
+    break;
+
+  case 339: /* INCLUSIVEOREXPRESSION: EXCLUSIVEOREXPRESSION  */
+#line 898 "parser_1st.y"
+                                               {(yyval.val) = (yyvsp[0].val);}
+#line 4181 "parser_1st.tab.c"
+    break;
+
+  case 340: /* INCLUSIVEOREXPRESSION: INCLUSIVEOREXPRESSION OR EXCLUSIVEOREXPRESSION  */
+#line 899 "parser_1st.y"
+                                                                        {    (yyval.val) = new_temp();
+                                                                            int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                            ds[curr]["var"] = new_var();
+                                                                            type_check(ds[curr1]["type"],ds[curr3]["type"],"|");
+                                                                            code.push_back(ds[curr]["var"] + " = " + ds[curr1]["var"] + "|" + ds[curr3]["var"]);
+                                                                            ds[curr]["type"] = "int";
+                                                                            ds[curr]["start"] = ds[curr1]["start"];
+                      }
+#line 4194 "parser_1st.tab.c"
+    break;
+
+  case 341: /* EXCLUSIVEOREXPRESSION: ANDEXPRESSION  */
+#line 908 "parser_1st.y"
+                                        {(yyval.val) = (yyvsp[0].val); }
+#line 4200 "parser_1st.tab.c"
+    break;
+
+  case 342: /* EXCLUSIVEOREXPRESSION: EXCLUSIVEOREXPRESSION XOR ANDEXPRESSION  */
+#line 909 "parser_1st.y"
+                                                                {           (yyval.val) = new_temp();
+                                                                            int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                            ds[curr]["var"] = new_var();
+                                                                            type_check(ds[curr1]["type"],ds[curr3]["type"],"^");
+                                                                            code.push_back(ds[curr]["var"] + " = " + ds[curr1]["var"] + "^" + ds[curr3]["var"]);
+                                                                            ds[curr]["type"] = "int";
+                                                                            ds[curr]["start"] = ds[curr1]["start"];
+                      }
+#line 4213 "parser_1st.tab.c"
+    break;
+
+  case 343: /* ANDEXPRESSION: EQUALITYEXPRESSION  */
+#line 917 "parser_1st.y"
+                                    {(yyval.val) = (yyvsp[0].val); }
+#line 4219 "parser_1st.tab.c"
+    break;
+
+  case 344: /* ANDEXPRESSION: ANDEXPRESSION AND EQUALITYEXPRESSION  */
+#line 918 "parser_1st.y"
+                                                        {   (yyval.val) = new_temp();
+                                                                            int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                            ds[curr]["var"] = new_var();
+                                                                            type_check(ds[curr1]["type"],ds[curr3]["type"],"&");
+                                                                            code.push_back(ds[curr]["var"] + " = " + ds[curr1]["var"] + "&" + ds[curr3]["var"]);
+                                                                            ds[curr]["type"] = "int";
+                                                                            ds[curr]["start"] = ds[curr1]["start"];
+                                                                            
+                      }
+#line 4233 "parser_1st.tab.c"
+    break;
+
+  case 345: /* EQUALITYEXPRESSION: RELATIONALEXPRESSION  */
+#line 928 "parser_1st.y"
+                                            {(yyval.val) = (yyvsp[0].val); int curr = chartonum((yyval.val));
+                                            if(ds[curr].find("truelist")==ds[curr].end()){
+                                                ds3[curr]["truelist"] = vector<int>();
+                                                ds3[curr]["falselist"] = vector<int>();
+                                            }
+                                        }
+#line 4244 "parser_1st.tab.c"
+    break;
+
+  case 346: /* EQUALITYEXPRESSION: EQUALITYEXPRESSION EQUALSEQUALS RELATIONALEXPRESSION  */
+#line 934 "parser_1st.y"
+                                                                                {   (yyval.val) = new_temp();
+                                                                                    int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                                    type_check(ds[curr1]["type"],ds[curr3]["type"],"==");
+                                                                                    backpatch(ds3[curr1]["truelist"],stringtonum(ds[curr3]["start"]));
+                                                                                    backpatch(ds3[curr1]["falselist"],stringtonum(ds[curr3]["start"]));
+                                                                                    backpatch(ds3[curr3]["truelist"],code.size());
+                                                                                    backpatch(ds3[curr3]["falselist"],code.size());
+                                                                                    ds[curr]["type"] = "bool";
+                                                                                    ds[curr]["var"] = new_var();
+                                                                                    code.push_back(ds[curr]["var"]);
+                                                                                    code.push_back("if "+ds[curr1]["var"]+"=="+ds[curr3]["var"]+" goto ");
+                                                                                    ds3[curr]["truelist"].push_back(code.size()-1);
+                                                                                    code.push_back("goto ");
+                                                                                    ds3[curr]["falselist"].push_back(code.size()-1);
+                                                                                    ds[curr]["start"] = ds[curr1]["start"];
+                   }
+#line 4265 "parser_1st.tab.c"
+    break;
+
+  case 347: /* EQUALITYEXPRESSION: EQUALITYEXPRESSION NOTEQUALS RELATIONALEXPRESSION  */
+#line 950 "parser_1st.y"
+                                                                                {   
+                                                                                    (yyval.val) = new_temp();
+                                                                                    int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                                    type_check(ds[curr1]["type"],ds[curr3]["type"],"!=");
+                                                                                    backpatch(ds3[curr1]["truelist"],stringtonum(ds[curr3]["start"]));
+                                                                                    backpatch(ds3[curr1]["falselist"],stringtonum(ds[curr3]["start"]));
+                                                                                    backpatch(ds3[curr3]["truelist"],code.size());
+                                                                                    backpatch(ds3[curr3]["falselist"],code.size());
+                                                                                    ds[curr]["type"] = "bool";
+                                                                                    ds[curr]["var"] = new_var();
+                                                                                    code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]+"!="+ds[curr3]["var"]);
+                                                                                    code.push_back("if "+ds[curr]["var"]+" goto ");
+                                                                                    ds3[curr]["truelist"].push_back(code.size()-1);
+                                                                                    code.push_back("goto ");
+                                                                                    ds3[curr]["falselist"].push_back(code.size()-1);
+                                                                                    ds[curr]["start"] = ds[curr1]["start"];
+                   }
+#line 4287 "parser_1st.tab.c"
+    break;
+
+  case 348: /* RELATIONALEXPRESSION: SHIFTEXPRESSION  */
+#line 968 "parser_1st.y"
+                                        {   (yyval.val) = (yyvsp[0].val); int curr = chartonum((yyval.val));
+                                            if(ds[curr].find("truelist")==ds[curr].end()){
+                                                ds3[curr]["truelist"] = vector<int>();
+                                                ds3[curr]["falselist"] = vector<int>();
+                                            }}
+#line 4297 "parser_1st.tab.c"
+    break;
+
+  case 349: /* RELATIONALEXPRESSION: RELATIONALEXPRESSION ANGULARLEFT SHIFTEXPRESSION  */
+#line 973 "parser_1st.y"
+                                                                            {      // IS backpatching for $1 required?
+                                                                                (yyval.val) = new_temp();
+                                                                                int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                                type_check(ds[curr1]["type"],ds[curr3]["type"],"<");
+                                                                                ds[curr]["type"] = "bool";
+                                                                                ds[curr]["var"] = new_var();
+                                                                                code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]+"<"+ds[curr3]["var"]);
+                                                                                ds3[curr]["falselist"] = vector<int>();
+                                                                                ds3[curr]["truelist"] = vector<int>();
+                                                                                code.push_back("if "+ds[curr]["var"]+" goto ");
+                                                                                ds3[curr]["truelist"].push_back(code.size()-1);
+                                                                                code.push_back("goto ");
+                                                                                ds3[curr]["falselist"].push_back(code.size()-1);
+                                                                                ds[curr]["start"] = ds[curr1]["start"];
+                     }
+#line 4317 "parser_1st.tab.c"
+    break;
+
+  case 350: /* RELATIONALEXPRESSION: RELATIONALEXPRESSION ANGULARRIGHT SHIFTEXPRESSION  */
+#line 988 "parser_1st.y"
+                                                                            {   (yyval.val) = new_temp();
+                                                                                int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                                type_check(ds[curr1]["type"],ds[curr3]["type"],">");
+                                                                                ds[curr]["type"] = "bool";
+                                                                                ds[curr]["var"] = new_var();
+                                                                                code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]+">"+ds[curr3]["var"]);
+                                                                                ds3[curr]["falselist"] = vector<int>();
+                                                                                ds3[curr]["truelist"] = vector<int>();
+                                                                                code.push_back("if "+ds[curr]["var"]+" goto ");
+                                                                                ds3[curr]["truelist"].push_back(code.size()-1);
+                                                                                code.push_back("goto ");
+                                                                                ds3[curr]["falselist"].push_back(code.size()-1);
+                                                                                ds[curr]["start"] = ds[curr1]["start"];
+                     }
+#line 4336 "parser_1st.tab.c"
+    break;
+
+  case 351: /* RELATIONALEXPRESSION: RELATIONALEXPRESSION ANGULARRIGHT EQUALS SHIFTEXPRESSION  */
+#line 1002 "parser_1st.y"
+                                                                                    {   (yyval.val) = new_temp();
+                                                                                int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-3].val)), curr3 = chartonum((yyvsp[-1].val));
+                                                                                type_check(ds[curr1]["type"],ds[curr3]["type"],">=");
+                                                                                ds[curr]["type"] = "bool";
+                                                                                ds[curr]["var"] = new_var();
+                                                                                code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]+">="+ds[curr3]["var"]);
+                                                                                ds3[curr]["falselist"] = vector<int>();
+                                                                                ds3[curr]["truelist"] = vector<int>();
+                                                                                code.push_back("if "+ds[curr]["var"]+" goto ");
+                                                                                ds3[curr]["truelist"].push_back(code.size()-1);
+                                                                                code.push_back("goto ");
+                                                                                ds3[curr]["falselist"].push_back(code.size()-1);
+                                                                                ds[curr]["start"] = ds[curr1]["start"];
+                     }
+#line 4355 "parser_1st.tab.c"
+    break;
+
+  case 352: /* RELATIONALEXPRESSION: RELATIONALEXPRESSION ANGULARLEFT EQUALS SHIFTEXPRESSION  */
+#line 1016 "parser_1st.y"
+                                                                                {   (yyval.val) = new_temp();
+                                                                                int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-3].val)), curr3 = chartonum((yyvsp[-1].val));
+                                                                                type_check(ds[curr1]["type"],ds[curr3]["type"],"<=");
+                                                                                ds[curr]["type"] = "bool";
+                                                                                ds[curr]["var"] = new_var();
+                                                                                code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]+"<="+ds[curr3]["var"]);
+                                                                                ds3[curr]["falselist"] = vector<int>();
+                                                                                ds3[curr]["truelist"] = vector<int>();
+                                                                                code.push_back("if "+ds[curr]["var"]+" goto ");
+                                                                                ds3[curr]["truelist"].push_back(code.size()-1);
+                                                                                code.push_back("goto ");
+                                                                                ds3[curr]["falselist"].push_back(code.size()-1);
+                                                                                ds[curr]["start"] = ds[curr1]["start"];
+                     }
+#line 4374 "parser_1st.tab.c"
+    break;
+
+  case 354: /* SHIFTEXPRESSION: ADDITIVEEXPRESSION  */
+#line 1032 "parser_1st.y"
+                                    {(yyval.val) = (yyvsp[0].val);}
+#line 4380 "parser_1st.tab.c"
+    break;
+
+  case 355: /* SHIFTEXPRESSION: SHIFTEXPRESSION ANGULARLEFTANGULARLEFT ADDITIVEEXPRESSION  */
+#line 1033 "parser_1st.y"
+                                                                                    {   // Invariant : each non terminal corresponds to certain code in 3ac. Maintain the final variable in that 3ac, its type and the start of the code corresponding to that non terminal
+                                                                                    (yyval.val) = new_temp();
+                                                                                int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                                type_check(ds[curr1]["type"],ds[curr3]["type"],"<<");
+                                                                                ds[curr]["var"] = new_var();
+                                                                                ds[curr]["type"] = type_conversion(ds[curr1]["type"],ds[curr3]["type"],"<<");
+                                                                                code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]+" << "+ds[curr3]["var"]);
+                                                                                ds[curr]["start"] = ds[curr1]["start"];
+                }
+#line 4394 "parser_1st.tab.c"
+    break;
+
+  case 356: /* SHIFTEXPRESSION: SHIFTEXPRESSION ANGULARRIGHTANGULARRIGHT ADDITIVEEXPRESSION  */
+#line 1042 "parser_1st.y"
+                                                                                        {   (yyval.val) = new_temp();
+                                                                                int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                                type_check(ds[curr1]["type"],ds[curr3]["type"],">>");
+                                                                                ds[curr]["var"] = new_var();
+                                                                                ds[curr]["type"] = type_conversion(ds[curr1]["type"],ds[curr3]["type"],">>");
+                                                                                code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]+" >> "+ds[curr3]["var"]);
+                                                                                ds[curr]["start"] = ds[curr1]["start"];
+                }
+#line 4407 "parser_1st.tab.c"
+    break;
+
+  case 357: /* SHIFTEXPRESSION: SHIFTEXPRESSION ANGULARRIGHTANGULARRIGHTANGULARRIGHT ADDITIVEEXPRESSION  */
+#line 1050 "parser_1st.y"
+                                                                                                {   (yyval.val) = new_temp();
+                                                                                int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                                type_check(ds[curr1]["type"],ds[curr3]["type"],">>>");
+                                                                                ds[curr]["var"] = new_var();
+                                                                                ds[curr]["type"] = type_conversion(ds[curr1]["type"],ds[curr3]["type"],">>>");
+                                                                                code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]+" >>> "+ds[curr3]["var"]);
+                                                                                ds[curr]["start"] = ds[curr1]["start"];
+                }
+#line 4420 "parser_1st.tab.c"
+    break;
+
+  case 358: /* ADDITIVEEXPRESSION: MULTIPLICATIVEEXPRESSION  */
+#line 1059 "parser_1st.y"
+                                                {   (yyval.val) = (yyvsp[0].val); }
+#line 4426 "parser_1st.tab.c"
+    break;
+
+  case 359: /* ADDITIVEEXPRESSION: ADDITIVEEXPRESSION PLUS MULTIPLICATIVEEXPRESSION  */
+#line 1060 "parser_1st.y"
+                                                                            {   (yyval.val) = new_temp();
+                                                                                int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                                type_check(ds[curr1]["type"],ds[curr3]["type"],"+");
+                                                                                ds[curr]["var"] = new_var();
+                                                                                ds[curr]["type"] = type_conversion(ds[curr1]["type"],ds[curr3]["type"],"+");
+                                                                                code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]+" + "+ds[curr3]["var"]);
+                                                                                ds[curr]["start"] = ds[curr1]["start"];
+                }
+#line 4439 "parser_1st.tab.c"
+    break;
+
+  case 360: /* ADDITIVEEXPRESSION: ADDITIVEEXPRESSION MINUS MULTIPLICATIVEEXPRESSION  */
+#line 1068 "parser_1st.y"
+                                                                            {   (yyval.val) = new_temp();
+                                                                                int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                                type_check(ds[curr1]["type"],ds[curr3]["type"],"-");
+                                                                                ds[curr]["var"] = new_var();
+                                                                                ds[curr]["type"] = type_conversion(ds[curr1]["type"],ds[curr3]["type"],"-");
+                                                                                code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]+" - "+ds[curr3]["var"]);
+                                                                                ds[curr]["start"] = ds[curr1]["start"];
+                }
+#line 4452 "parser_1st.tab.c"
+    break;
+
+  case 361: /* MULTIPLICATIVEEXPRESSION: UNARYEXPRESSION  */
+#line 1077 "parser_1st.y"
+                                            {(yyval.val) = (yyvsp[0].val);}
+#line 4458 "parser_1st.tab.c"
+    break;
+
+  case 362: /* MULTIPLICATIVEEXPRESSION: MULTIPLICATIVEEXPRESSION MULTIPLY UNARYEXPRESSION  */
+#line 1078 "parser_1st.y"
+                                                                                    {   (yyval.val) = new_temp();
+                                                                                int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                                type_check(ds[curr1]["type"],ds[curr3]["type"],"*");
+                                                                                ds[curr]["var"] = new_var();
+                                                                                ds[curr]["type"] = type_conversion(ds[curr1]["type"],ds[curr3]["type"],"*");
+                                                                                code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]+"*"+ds[curr3]["var"]);
+                                                                                ds[curr]["start"] = ds[curr1]["start"];
+                }
+#line 4471 "parser_1st.tab.c"
+    break;
+
+  case 363: /* MULTIPLICATIVEEXPRESSION: MULTIPLICATIVEEXPRESSION DIVIDE UNARYEXPRESSION  */
+#line 1086 "parser_1st.y"
+                                                                                    {   (yyval.val) = new_temp();
+                                                                                int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                                type_check(ds[curr1]["type"],ds[curr3]["type"],"/");
+                                                                                ds[curr]["var"] = new_var();
+                                                                                ds[curr]["type"] = type_conversion(ds[curr1]["type"],ds[curr3]["type"],"/");
+                                                                                code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]+"/"+ds[curr3]["var"]);
+                                                                                ds[curr]["start"] = ds[curr1]["start"];
+                }
+#line 4484 "parser_1st.tab.c"
+    break;
+
+  case 364: /* MULTIPLICATIVEEXPRESSION: MULTIPLICATIVEEXPRESSION MOD UNARYEXPRESSION  */
+#line 1094 "parser_1st.y"
+                                                                                    {   (yyval.val) = new_temp();
+                                                                                int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)), curr3 = chartonum((yyvsp[0].val));
+                                                                                type_check(ds[curr1]["type"],ds[curr3]["type"],"%");
+                                                                                ds[curr]["var"] = new_var();
+                                                                                ds[curr]["type"] = type_conversion(ds[curr1]["type"],ds[curr3]["type"],"%");
+                                                                                code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]+"%"+ds[curr3]["var"]);
+                                                                                ds[curr]["start"] = ds[curr1]["start"];
+                }
+#line 4497 "parser_1st.tab.c"
+    break;
+
+  case 365: /* UNARYEXPRESSION: PREINCREMENTEXPRESSION  */
+#line 1103 "parser_1st.y"
+                                        {(yyval.val) = (yyvsp[0].val);}
+#line 4503 "parser_1st.tab.c"
+    break;
+
+  case 366: /* UNARYEXPRESSION: PREDECREMENTEXPRESSION  */
+#line 1104 "parser_1st.y"
+                                                {(yyval.val) = (yyvsp[0].val);}
+#line 4509 "parser_1st.tab.c"
+    break;
+
+  case 367: /* UNARYEXPRESSION: PLUS UNARYEXPRESSION  */
+#line 1105 "parser_1st.y"
+                                                {(yyval.val) = (yyvsp[0].val);
+                                                int curr = chartonum((yyval.val)), curr2 = chartonum((yyvsp[0].val));
+                                            type_check_unary(ds[curr2]["type"],"+");}
+#line 4517 "parser_1st.tab.c"
+    break;
+
+  case 368: /* UNARYEXPRESSION: MINUS UNARYEXPRESSION  */
+#line 1108 "parser_1st.y"
+                                                {   (yyval.val) = new_temp();
+                                                int curr = chartonum((yyval.val)), curr2 = chartonum((yyvsp[0].val));
+                                                type_check_unary(ds[curr2]["type"],"-");
+                                                ds[curr]["var"] = new_var();
+                                                code.push_back(ds[curr]["var"]+" = -"+ds[curr2]["var"]);
+                                                ds[curr]["type"] = ds[curr2]["type"];
+                                                ds[curr]["start"] = ds[curr2]["start"];
+                    }
+#line 4530 "parser_1st.tab.c"
+    break;
+
+  case 369: /* UNARYEXPRESSION: UNARYEXPRESSIONNOTPLUSMINUS  */
+#line 1116 "parser_1st.y"
+                                                    {(yyval.val) = (yyvsp[0].val);}
+#line 4536 "parser_1st.tab.c"
+    break;
+
+  case 370: /* PREINCREMENTEXPRESSION: PLUSPLUS UNARYEXPRESSION  */
+#line 1118 "parser_1st.y"
+                                                    {   (yyval.val) = new_temp();
+                                                int curr = chartonum((yyval.val)), curr2 = chartonum((yyvsp[0].val));
+                                                type_check_unary(ds[curr2]["type"],"++");
+                                                ds[curr]["var"] = new_var();
+                                                if(ds[curr2].find("identifier")==ds[curr2].end()){
+                                                    assert(0&& "Not an identifier");
+                                                }
+                                                code.push_back(ds[curr]["var"]+" = "+ds[curr2]["var"]+"+1");
+                                                code.push_back(ds[curr2]["var"]+"="+ ds[curr]["var"]);
+                                                ds[curr]["type"] = ds[curr2]["type"];
+                                                ds[curr]["start"] = ds[curr2]["start"];
+                                                // symtable[ds[curr]["identifier"]] += 1;  /* Modify the actual underlying variable */
+                    }
+#line 4554 "parser_1st.tab.c"
+    break;
+
+  case 371: /* PREDECREMENTEXPRESSION: MINUSMINUS UNARYEXPRESSION  */
+#line 1132 "parser_1st.y"
+                                                    {   (yyval.val) = new_temp();
+                                                int curr = chartonum((yyval.val)), curr2 = chartonum((yyvsp[0].val));
+                                                type_check_unary(ds[curr2]["type"],"--");
+                                                ds[curr]["var"] = new_var();
+                                                code.push_back(ds[curr]["var"]+" = "+ds[curr2]["var"]+"-1");
+                                                if(ds[curr2].find("identifier")==ds[curr2].end()){
+                                                    assert(0 && "Not an identifier");
+                                                }
+                                                code.push_back(ds[curr2]["var"]+ "="+ ds[curr]["var"]);
+                                                ds[curr]["type"] = ds[curr2]["type"];
+                                                ds[curr]["start"] = ds[curr2]["start"];
+                                                // symtable[ds[curr]["identifier"]] -= 1;
+                    }
+#line 4572 "parser_1st.tab.c"
+    break;
+
+  case 372: /* UNARYEXPRESSIONNOTPLUSMINUS: POSTFIXEXPRESSION  */
+#line 1146 "parser_1st.y"
+                                                {(yyval.val) = (yyvsp[0].val);}
+#line 4578 "parser_1st.tab.c"
+    break;
+
+  case 373: /* UNARYEXPRESSIONNOTPLUSMINUS: COMPLEMENT UNARYEXPRESSION  */
+#line 1147 "parser_1st.y"
+                                                            {   (yyval.val) = new_temp();
+                                                int curr = chartonum((yyval.val)), curr2 = chartonum((yyvsp[0].val));
+                                                type_check_unary(ds[curr2]["type"],"~");
+                                                ds[curr]["var"] = new_var();
+                                                code.push_back(ds[curr]["var"]+" = ~"+ds[curr2]["var"]);
+                                                ds[curr]["type"] = ds[curr2]["type"];
+                                                ds[curr]["start"] = ds[curr2]["start"];
+                    }
+#line 4591 "parser_1st.tab.c"
+    break;
+
+  case 374: /* UNARYEXPRESSIONNOTPLUSMINUS: NOT UNARYEXPRESSION  */
+#line 1155 "parser_1st.y"
+                                                    {   (yyval.val) = new_temp();
+                                                int curr = chartonum((yyval.val)), curr2 = chartonum((yyvsp[0].val));
+                                                type_check_unary(ds[curr2]["type"],"!");
+                                                ds[curr]["var"] = new_var();
+                                                code.push_back(ds[curr]["var"]+" = !"+ds[curr2]["var"]);
+                                                ds[curr]["type"] = ds[curr2]["type"];
+                                                ds[curr]["start"] = ds[curr2]["start"];
+                    }
+#line 4604 "parser_1st.tab.c"
+    break;
+
+  case 375: /* POSTFIXEXPRESSION: PRIMARY  */
+#line 1164 "parser_1st.y"
+                            {(yyval.val) = (yyvsp[0].val);}
+#line 4610 "parser_1st.tab.c"
+    break;
+
+  case 376: /* POSTFIXEXPRESSION: EXPRESSIONNAME  */
+#line 1165 "parser_1st.y"
+                                        {(yyval.val) = (yyvsp[0].val);}
+#line 4616 "parser_1st.tab.c"
+    break;
+
+  case 377: /* POSTFIXEXPRESSION: IDENTIFIER  */
+#line 1166 "parser_1st.y"
+                                {   (yyval.val) = new_temp();
+                                    int curr = chartonum((yyval.val));
+                                    /* How to access symbol table entry of a terminal */
+                                    ds[curr]["type"] = gettypefromsymtable(chartostring((yyvsp[0].val)));
+                                    ds[curr]["identifier"] = "YES";
+                                    ds[curr]["start"] = code.size();
+                                    ds[curr]["var"] = chartostring((yyvsp[0].val));
+                                    // ds[curr]["var"] = 
+                                    /* How to pass values from here? */
+                  }
+#line 4631 "parser_1st.tab.c"
+    break;
+
+  case 378: /* POSTFIXEXPRESSION: POSTINCREMENTEXPRESSION  */
+#line 1176 "parser_1st.y"
+                                                {(yyval.val) = (yyvsp[0].val);}
+#line 4637 "parser_1st.tab.c"
+    break;
+
+  case 379: /* POSTFIXEXPRESSION: POSTDECREMENTEXPRESSION  */
+#line 1177 "parser_1st.y"
+                                                {(yyval.val) = (yyvsp[0].val);}
+#line 4643 "parser_1st.tab.c"
+    break;
+
+  case 380: /* POSTINCREMENTEXPRESSION: POSTFIXEXPRESSION PLUSPLUS  */
+#line 1179 "parser_1st.y"
+                                                    {   (yyval.val) = new_temp();
+                                                int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-1].val));
+                                                type_check_unary(ds[curr1]["type"],"++");
+                                                ds[curr]["var"] = new_var();
+                                                if(ds[curr1].find("identifier")==ds[curr1].end()){
+                                                    assert(0 && "Not an identifier");
+                                                }
+                                                code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]);
+                                                code.push_back(ds[curr1]["var"]+ "="+ ds[curr]["var"]+"+1");
+                                                ds[curr]["type"] = ds[curr1]["type"];
+                                                ds[curr]["start"] = ds[curr1]["start"];
+}
+#line 4660 "parser_1st.tab.c"
+    break;
+
+  case 381: /* POSTDECREMENTEXPRESSION: POSTFIXEXPRESSION MINUSMINUS  */
+#line 1192 "parser_1st.y"
+                                                        {   (yyval.val) = new_temp();
+                                                int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-1].val));
+                                                type_check_unary(ds[curr1]["type"],"--");
+                                                ds[curr]["var"] = new_var();
+                                                if(ds[curr1].find("identifier")==ds[curr1].end()){
+                                                    assert(0 && "Not an identifier");
+                                                }
+                                                code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]);
+                                                code.push_back(ds[curr1]["var"]+ "="+ ds[curr]["var"]+"-1");
+                                                ds[curr]["type"] = ds[curr1]["type"];
+                                                ds[curr]["start"] = ds[curr1]["start"];
+                                                // ds[curr]["val"] = numtostring(stringtonum(ds[curr1]["val"]));
+                                                // ds[curr1]["val"] = numtostring(stringtonum(ds[curr1]["val"]));
+}
+#line 4679 "parser_1st.tab.c"
     break;
 
   case 383: /* METHODDECLARATION: METHODHEADER METHODBODY  */
-#line 739 "parser_1st.y"
+#line 1210 "parser_1st.y"
                                             {
+    (yyval.val) =(yyvsp[-1].val);
+    code.push_back("end func");
     cerr<<"method declaration"<<generalmap[(yyvsp[-1].val)].name<<endl;
     assert(methods.find(generalmap[(yyvsp[-1].val)].name) == methods.end());
     methods[generalmap[(yyvsp[-1].val)].name].rettype = generalmap[(yyvsp[-1].val)].typ;
@@ -3723,12 +4695,14 @@ cout<<endl;
     methods[generalmap[(yyvsp[-1].val)].name].argtype = argtype;
 
 }
-#line 3727 "parser_1st.tab.c"
+#line 4699 "parser_1st.tab.c"
     break;
 
   case 384: /* METHODDECLARATION: SUPER1 METHODHEADER METHODBODY  */
-#line 753 "parser_1st.y"
+#line 1226 "parser_1st.y"
                                                       {
+                        (yyval.val) =(yyvsp[-2].val);
+    code.push_back("end func");
     cerr<<"method declaration"<<generalmap[(yyvsp[-1].val)].name<<endl;
 
     assert(methods.find(generalmap[(yyvsp[-1].val)].name) == methods.end());
@@ -3744,12 +4718,13 @@ cout<<endl;
     methods[generalmap[(yyvsp[-1].val)].name].argtype = argtype;
 
 }
-#line 3748 "parser_1st.tab.c"
+#line 4722 "parser_1st.tab.c"
     break;
 
   case 385: /* METHODDECLARATION: SUPER2 METHODHEADER METHODBODY  */
-#line 769 "parser_1st.y"
-                                                      {
+#line 1244 "parser_1st.y"
+                                                      {(yyval.val) =(yyvsp[-2].val);
+    code.push_back("end func");
     cerr<<"method declaration"<<generalmap[(yyvsp[-1].val)].name<<endl;
         assert(methods.find(generalmap[(yyvsp[-1].val)].name) == methods.end());
       
@@ -3763,12 +4738,13 @@ cout<<endl;
     methods[generalmap[(yyvsp[-1].val)].name].argtype = argtype;
 
 }
-#line 3767 "parser_1st.tab.c"
+#line 4742 "parser_1st.tab.c"
     break;
 
   case 386: /* METHODDECLARATION: SUPER3 METHODHEADER METHODBODY  */
-#line 783 "parser_1st.y"
-                                                      {
+#line 1259 "parser_1st.y"
+                                                      {(yyval.val) =(yyvsp[-2].val);
+    code.push_back("end func");
     cerr<<"method declaration"<<generalmap[(yyvsp[-1].val)].name<<endl;
         assert(methods.find(generalmap[(yyvsp[-1].val)].name) == methods.end());
 
@@ -3782,12 +4758,13 @@ cout<<endl;
     methods[generalmap[(yyvsp[-1].val)].name].argtype = argtype;
 
 }
-#line 3786 "parser_1st.tab.c"
+#line 4762 "parser_1st.tab.c"
     break;
 
   case 387: /* METHODDECLARATION: METHODMODIFIERS METHODHEADER METHODBODY  */
-#line 797 "parser_1st.y"
-                                                               {
+#line 1274 "parser_1st.y"
+                                                               {(yyval.val) =(yyvsp[-2].val);
+    code.push_back("end func");
     cerr<<"method declaration"<<generalmap[(yyvsp[-1].val)].name<<endl;
         assert(methods.find(generalmap[(yyvsp[-1].val)].name) == methods.end());
 
@@ -3801,11 +4778,11 @@ cout<<endl;
     methods[generalmap[(yyvsp[-1].val)].name].argtype = argtype;
 
 }
-#line 3805 "parser_1st.tab.c"
+#line 4782 "parser_1st.tab.c"
     break;
 
   case 393: /* METHODHEADER: TYPE METHODDECLARATOR  */
-#line 818 "parser_1st.y"
+#line 1296 "parser_1st.y"
                                      { (yyval.val) = (yyvsp[0].val);  generalmap[(yyval.val)].typ.name = chartostring((yyvsp[-1].val)); 
 tempnextscope();
 for (auto x : generalmap[(yyval.val)].farglist){
@@ -3818,11 +4795,11 @@ symboltable[x.vid.name].typ.dims= x.vid.num;
         preservedsymboltable[{x.vid.name, scope}]= symboltable[x.vid.name];
         
         }}
-#line 3822 "parser_1st.tab.c"
+#line 4799 "parser_1st.tab.c"
     break;
 
   case 394: /* METHODHEADER: VOID METHODDECLARATOR  */
-#line 830 "parser_1st.y"
+#line 1308 "parser_1st.y"
                                       { (yyval.val) = (yyvsp[0].val);  generalmap[(yyval.val)].typ.name = chartostring((yyvsp[-1].val)); 
             tempnextscope();
 for (auto x : generalmap[(yyval.val)].farglist){
@@ -3835,42 +4812,123 @@ symboltable[x.vid.name].typ.dims= x.vid.num;
         preservedsymboltable[{x.vid.name, scope}]= symboltable[x.vid.name];
         
         }}
-#line 3839 "parser_1st.tab.c"
+#line 4816 "parser_1st.tab.c"
     break;
 
   case 405: /* METHODDECLARATOR: IDENTIFIER OPENPARAN CLOSEPARAN  */
-#line 857 "parser_1st.y"
-                                                   {(yyval.val) = new_temp(); generalmap[(yyval.val)].num = 0; generalmap[(yyval.val)].name = chartostring((yyvsp[-2].val));}
-#line 3845 "parser_1st.tab.c"
+#line 1335 "parser_1st.y"
+                                                   {(yyval.val) = new_temp(); generalmap[(yyval.val)].num = 0; generalmap[(yyval.val)].name = chartostring((yyvsp[-2].val));
+ int curr = chartonum((yyval.val));
+                                        ds[curr]["start"] = code.size();
+                                        code.push_back("begin func "+chartostring((yyvsp[-2].val)));
+                                        }
+#line 4826 "parser_1st.tab.c"
     break;
 
   case 406: /* METHODDECLARATOR: IDENTIFIER OPENPARAN FORMALPARAMETERLIST CLOSEPARAN  */
-#line 858 "parser_1st.y"
-                                                                        {(yyval.val) = (yyvsp[-1].val); generalmap[(yyval.val)].num = 0; generalmap[(yyval.val)].name = chartostring((yyvsp[-3].val));}
-#line 3851 "parser_1st.tab.c"
+#line 1340 "parser_1st.y"
+                                                                        {(yyval.val) = new_temp(); generalmap[(yyval.val)]= generalmap[(yyvsp[-1].val)]; generalmap[(yyval.val)].num = 0; generalmap[(yyval.val)].name = chartostring((yyvsp[-3].val));int curr = chartonum((yyval.val)), curr3 = chartonum((yyvsp[-1].val));
+                                        ds[curr]["start"] = code.size();
+                                        code.push_back("begin func "+chartostring((yyvsp[-3].val)));
+                                        for(auto i:ds2[curr3]["param"])
+                                        code.push_back("pop param, "+ i);}
+#line 4836 "parser_1st.tab.c"
     break;
 
   case 415: /* FORMALPARAMETERLIST: FORMALPARAMETER  */
-#line 869 "parser_1st.y"
-                                     { (yyval.val) = new_temp(); generalmap[(yyval.val)].farglist.push_back(generalmap[(yyvsp[0].val)].farg);}
-#line 3857 "parser_1st.tab.c"
+#line 1355 "parser_1st.y"
+                                     { (yyval.val) = new_temp(); generalmap[(yyval.val)].farglist.push_back(generalmap[(yyvsp[0].val)].farg);                                        int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[0].val));
+                                        // ds[curr]["var"] = ds[curr2]["var"];
+                                        ds2[curr]["param"] = vector<string>();
+                                        ds2[curr]["param"].push_back(ds[curr1]["var"]);}
+#line 4845 "parser_1st.tab.c"
     break;
 
   case 416: /* FORMALPARAMETERLIST: FORMALPARAMETERLIST COMMA FORMALPARAMETER  */
-#line 870 "parser_1st.y"
-                                                                  {(yyval.val)= (yyvsp[-2].val); cerr<<generalmap[(yyval.val)].farglist.size();  generalmap[(yyval.val)].farglist.push_back(generalmap[(yyvsp[0].val)].farg);}
-#line 3863 "parser_1st.tab.c"
+#line 1359 "parser_1st.y"
+                                                                  {(yyval.val)= new_temp(); generalmap[(yyval.val)]= generalmap[(yyvsp[-2].val)]; generalmap[(yyval.val)].farglist.push_back(generalmap[(yyvsp[0].val)].farg);   int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val)),curr3 = chartonum((yyvsp[0].val));
+                                        // ds[curr]["var"] = ds[curr2]["var"];
+                                        ds2[curr1]["param"].push_back(ds[curr3]["var"]);
+                                        ds2[curr]["param"] = ds2[curr1]["param"];
+                                        }
+#line 4855 "parser_1st.tab.c"
     break;
 
   case 417: /* FORMALPARAMETER: TYPE VARIABLEDECLARATORID  */
-#line 872 "parser_1st.y"
-                                            { (yyval.val) = new_temp(); generalmap[(yyval.val)].farg.typ.name = chartostring((yyvsp[-1].val)); generalmap[(yyval.val)].farg.typ.dims = generalmap[(yyvsp[0].val)].vid.num; generalmap[(yyval.val)].farg.vid = generalmap[(yyvsp[0].val)].vid;}
-#line 3869 "parser_1st.tab.c"
+#line 1365 "parser_1st.y"
+                                            { (yyval.val) = new_temp(); generalmap[(yyval.val)].farg.typ.name = chartostring((yyvsp[-1].val)); generalmap[(yyval.val)].farg.typ.dims = generalmap[(yyvsp[0].val)].vid.num; generalmap[(yyval.val)].farg.vid = generalmap[(yyvsp[0].val)].vid;
+     int curr = chartonum((yyval.val)), curr2 = chartonum((yyvsp[0].val));
+                                        ds[curr]["var"] = ds[curr2]["var"];
+                                        }
+#line 4864 "parser_1st.tab.c"
+    break;
+
+  case 419: /* FORMALPARAMETER: FINAL TYPE VARIABLEDECLARATORID  */
+#line 1370 "parser_1st.y"
+                                                    {   (yyval.val) = new_temp();
+                                        int curr = chartonum((yyval.val)), curr2 = chartonum((yyvsp[-1].val));
+                                        ds[curr]["var"] = ds[curr2]["var"];
+}
+#line 4873 "parser_1st.tab.c"
+    break;
+
+  case 422: /* METHODBODY: BLOCK  */
+#line 1380 "parser_1st.y"
+                    {(yyval.val) = (yyvsp[0].val);}
+#line 4879 "parser_1st.tab.c"
+    break;
+
+  case 426: /* BLOCK: OPENCURLY BLOCKSTATEMENTS CLOSECURLY  */
+#line 1387 "parser_1st.y"
+                                            {(yyval.val) = (yyvsp[-1].val);}
+#line 4885 "parser_1st.tab.c"
+    break;
+
+  case 428: /* BLOCKSTATEMENTS: BLOCKSTATEMENT  */
+#line 1390 "parser_1st.y"
+                                   {(yyval.val) = (yyvsp[0].val);}
+#line 4891 "parser_1st.tab.c"
+    break;
+
+  case 429: /* BLOCKSTATEMENTS: BLOCKSTATEMENTS BLOCKSTATEMENT  */
+#line 1391 "parser_1st.y"
+                                                  { (yyval.val) = new_temp();
+                                                    int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-1].val)), curr2 = chartonum((yyvsp[0].val));
+                                                    ds3[curr]["continuelist"] = merge(ds3[curr1]["continuelist"], ds3[curr2]["continuelist"]);
+                                                    ds3[curr]["breaklist"] = merge(ds3[curr1]["breaklist"], ds3[curr2]["breaklist"]);
+                                                    ds[curr]["start"] = ds[curr1]["start"];
+                }
+#line 4902 "parser_1st.tab.c"
+    break;
+
+  case 431: /* BLOCKSTATEMENT: LOCALVARIABLEDECLARATIONSTATEMENT  */
+#line 1399 "parser_1st.y"
+                                                            {(yyval.val) = (yyvsp[0].val);}
+#line 4908 "parser_1st.tab.c"
+    break;
+
+  case 432: /* BLOCKSTATEMENT: STATEMENT  */
+#line 1400 "parser_1st.y"
+                                    {(yyval.val) = (yyvsp[0].val);}
+#line 4914 "parser_1st.tab.c"
+    break;
+
+  case 434: /* LOCALVARIABLEDECLARATIONSTATEMENT: LOCALVARIABLEDECLARATION SEMICOLON  */
+#line 1404 "parser_1st.y"
+                                                                        {(yyval.val) = (yyvsp[-1].val);}
+#line 4920 "parser_1st.tab.c"
+    break;
+
+  case 435: /* LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST  */
+#line 1406 "parser_1st.y"
+                                                                         {(yyval.val) = (yyvsp[0].val);}
+#line 4926 "parser_1st.tab.c"
     break;
 
   case 436: /* LOCALVARIABLEDECLARATION: LOCALVARIABLETYPE VARIABLEDECLARATORLIST  */
-#line 903 "parser_1st.y"
+#line 1407 "parser_1st.y"
                                                                      {
+                            (yyval.val) = (yyvsp[0].val);
                             cerr<<"local variable declaration"<<endl;
                             for (auto x: generalmap[(yyvsp[0].val)].vlist){
                             
@@ -3889,41 +4947,712 @@ symboltable[x.vid.name].typ.dims= x.vid.num;
                             // preservedsymboltable[{x.first.name,scope}] = symboltable[x.first.name];
                         }
                         }
-#line 3893 "parser_1st.tab.c"
+#line 4951 "parser_1st.tab.c"
     break;
 
   case 437: /* LOCALVARIABLETYPE: TYPE  */
-#line 923 "parser_1st.y"
+#line 1428 "parser_1st.y"
                         {(yyval.val) = (yyvsp[0].val);}
-#line 3899 "parser_1st.tab.c"
+#line 4957 "parser_1st.tab.c"
     break;
 
   case 438: /* LOCALVARIABLETYPE: VAR  */
-#line 924 "parser_1st.y"
+#line 1429 "parser_1st.y"
                             {(yyval.val) = (yyvsp[0].val);}
-#line 3905 "parser_1st.tab.c"
+#line 4963 "parser_1st.tab.c"
+    break;
+
+  case 439: /* STATEMENT: STATEMENTWITHOUTTRAILINGSUBSTATEMENT  */
+#line 1432 "parser_1st.y"
+                                                {(yyval.val) = (yyvsp[0].val);}
+#line 4969 "parser_1st.tab.c"
+    break;
+
+  case 440: /* STATEMENT: LABELEDSTATEMENT  */
+#line 1433 "parser_1st.y"
+                                    {(yyval.val) = (yyvsp[0].val);}
+#line 4975 "parser_1st.tab.c"
+    break;
+
+  case 441: /* STATEMENT: IFTHENSTATEMENT  */
+#line 1434 "parser_1st.y"
+                                {(yyval.val) = (yyvsp[0].val);}
+#line 4981 "parser_1st.tab.c"
+    break;
+
+  case 442: /* STATEMENT: IFTHENELSESTATEMENT  */
+#line 1435 "parser_1st.y"
+                                    {(yyval.val) = (yyvsp[0].val);}
+#line 4987 "parser_1st.tab.c"
+    break;
+
+  case 443: /* STATEMENT: WHILESTATEMENT  */
+#line 1436 "parser_1st.y"
+                                {(yyval.val) = (yyvsp[0].val);}
+#line 4993 "parser_1st.tab.c"
+    break;
+
+  case 444: /* STATEMENT: FORSTATEMENT  */
+#line 1437 "parser_1st.y"
+                                {(yyval.val) = (yyvsp[0].val);}
+#line 4999 "parser_1st.tab.c"
+    break;
+
+  case 445: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: BLOCK  */
+#line 1439 "parser_1st.y"
+                                                {(yyval.val) = (yyvsp[0].val);}
+#line 5005 "parser_1st.tab.c"
+    break;
+
+  case 446: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: EMPTYSTATEMENT  */
+#line 1440 "parser_1st.y"
+                                                        {(yyval.val) = (yyvsp[0].val);}
+#line 5011 "parser_1st.tab.c"
+    break;
+
+  case 447: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: EXPRESSIONSTATEMENT  */
+#line 1441 "parser_1st.y"
+                                                            {(yyval.val) = (yyvsp[0].val);}
+#line 5017 "parser_1st.tab.c"
+    break;
+
+  case 448: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: ASSERTSTATEMENT  */
+#line 1442 "parser_1st.y"
+                                                        {(yyval.val) = (yyvsp[0].val);}
+#line 5023 "parser_1st.tab.c"
+    break;
+
+  case 449: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: BREAKSTATEMENT  */
+#line 1443 "parser_1st.y"
+                                                        {(yyval.val) = (yyvsp[0].val);}
+#line 5029 "parser_1st.tab.c"
+    break;
+
+  case 450: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: CONTINUESTATEMENT  */
+#line 1444 "parser_1st.y"
+                                                            {(yyval.val) = (yyvsp[0].val);}
+#line 5035 "parser_1st.tab.c"
+    break;
+
+  case 451: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: RETURNSTATEMENT  */
+#line 1445 "parser_1st.y"
+                                                        {(yyval.val) = (yyvsp[0].val);}
+#line 5041 "parser_1st.tab.c"
+    break;
+
+  case 452: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: THROWSTATEMENT  */
+#line 1446 "parser_1st.y"
+                                                        {(yyval.val) = (yyvsp[0].val);}
+#line 5047 "parser_1st.tab.c"
+    break;
+
+  case 453: /* STATEMENTWITHOUTTRAILINGSUBSTATEMENT: YIELDSTATEMENT  */
+#line 1447 "parser_1st.y"
+                                                        {(yyval.val) = (yyvsp[0].val);}
+#line 5053 "parser_1st.tab.c"
+    break;
+
+  case 454: /* EMPTYSTATEMENT: SEMICOLON  */
+#line 1449 "parser_1st.y"
+                            {(yyval.val) = new_temp();}
+#line 5059 "parser_1st.tab.c"
+    break;
+
+  case 455: /* EXPRESSIONSTATEMENT: STATEMENTEXPRESSION SEMICOLON  */
+#line 1451 "parser_1st.y"
+                                                    {(yyval.val) = (yyvsp[-1].val);}
+#line 5065 "parser_1st.tab.c"
+    break;
+
+  case 456: /* STATEMENTEXPRESSION: ASSIGNMENT  */
+#line 1453 "parser_1st.y"
+                                {(yyval.val) = (yyvsp[0].val);}
+#line 5071 "parser_1st.tab.c"
+    break;
+
+  case 457: /* STATEMENTEXPRESSION: PREINCREMENTEXPRESSION  */
+#line 1454 "parser_1st.y"
+                                                {(yyval.val) = (yyvsp[0].val);}
+#line 5077 "parser_1st.tab.c"
+    break;
+
+  case 458: /* STATEMENTEXPRESSION: PREDECREMENTEXPRESSION  */
+#line 1455 "parser_1st.y"
+                                                {(yyval.val) = (yyvsp[0].val);}
+#line 5083 "parser_1st.tab.c"
+    break;
+
+  case 459: /* STATEMENTEXPRESSION: POSTINCREMENTEXPRESSION  */
+#line 1456 "parser_1st.y"
+                                                {(yyval.val) = (yyvsp[0].val);}
+#line 5089 "parser_1st.tab.c"
+    break;
+
+  case 460: /* STATEMENTEXPRESSION: POSTDECREMENTEXPRESSION  */
+#line 1457 "parser_1st.y"
+                                                {(yyval.val) = (yyvsp[0].val);}
+#line 5095 "parser_1st.tab.c"
+    break;
+
+  case 461: /* STATEMENTEXPRESSION: METHODINVOCATION  */
+#line 1458 "parser_1st.y"
+                                            {(yyval.val) = (yyvsp[0].val);}
+#line 5101 "parser_1st.tab.c"
+    break;
+
+  case 462: /* STATEMENTEXPRESSION: CLASSINSTANCECREATIONEXPRESSION  */
+#line 1459 "parser_1st.y"
+                                                        {(yyval.val) = (yyvsp[0].val);}
+#line 5107 "parser_1st.tab.c"
+    break;
+
+  case 465: /* BREAKSTATEMENT: BREAK SEMICOLON  */
+#line 1464 "parser_1st.y"
+                                    {   (yyval.val) = new_temp();
+                                            int curr = chartonum((yyval.val));
+                                            ds3[curr]["breaklist"] = vector<int>();
+                                            ds3[curr]["breaklist"].push_back(code.size());
+                                            ds[curr]["start"] = code.size();
+                                            code.push_back("goto ");
+                                            ds[curr]["type"] = "null";
+}
+#line 5120 "parser_1st.tab.c"
+    break;
+
+  case 467: /* CONTINUESTATEMENT: CONTINUE SEMICOLON  */
+#line 1474 "parser_1st.y"
+                                        {   (yyval.val) = new_temp();
+                                            int curr = chartonum((yyval.val));
+                                            ds3[curr]["continuelist"] = vector<int>();
+                                            ds3[curr]["continuelist"].push_back(code.size());
+                                            ds[curr]["start"] = code.size();
+                                            code.push_back("goto ");
+                                            ds[curr]["type"] = "null";
+}
+#line 5133 "parser_1st.tab.c"
+    break;
+
+  case 469: /* RETURNSTATEMENT: RETURN EXPRESSION SEMICOLON  */
+#line 1484 "parser_1st.y"
+                                                {(yyval.val) = new_temp();
+                                                    int curr = chartonum((yyval.val)), exp = chartonum((yyvsp[-1].val));
+                                                    ds[curr]["start"] = code.size();
+                                                    ds[curr]["type"]= "null";
+                                                    code.push_back("return "+ds[exp]["var"]);
+                                                }
+#line 5144 "parser_1st.tab.c"
+    break;
+
+  case 470: /* RETURNSTATEMENT: RETURN SEMICOLON  */
+#line 1490 "parser_1st.y"
+                                        {(yyval.val) = new_temp();
+                                                    int curr = chartonum((yyval.val));
+                                                    ds[curr]["start"] = code.size();
+                                                    ds[curr]["type"]= "null";
+                                                    code.push_back("return");
+                                                }
+#line 5155 "parser_1st.tab.c"
+    break;
+
+  case 474: /* IFTHENSTATEMENT: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENT  */
+#line 1503 "parser_1st.y"
+                                                                {   (yyval.val) = new_temp(); //Not keeping truelist and falselist corresponding to statements
+                                                                    int curr = chartonum((yyval.val)), curr3 = chartonum((yyvsp[-2].val)), curr5 = chartonum((yyvsp[0].val));
+                                                                    backpatch(ds3[curr3]["truelist"],stringtonum(ds[curr5]["start"]));
+                                                                    backpatch(ds3[curr3]["falselist"],code.size());
+                                                                    ds[curr]["start"] = ds[curr3]["start"];
+                                                                    code.push_back("Inside if then statement");
+                                                                    // code.push_back(ds[curr]["start"]);
+                                                                    // cout<<"Inside if then statement\n";
+                                                                    // cout<<ds[curr]["start"]<<"\n";
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds3[curr]["continuelist"] = ds3[curr5]["continuelist"];
+                                                                    ds3[curr]["breaklist"] = ds3[curr5]["breaklist"];
+                                                                    // ds3[curr]["falselist"] = ds3[curr3]["falselist"];
+                                                                    // ds3[curr]["truelist"] = vector<int>();
+}
+#line 5175 "parser_1st.tab.c"
+    break;
+
+  case 475: /* IFTHENELSESTATEMENT: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENTNOSHORTIF ELSE STATEMENT  */
+#line 1519 "parser_1st.y"
+                                                                                            {   (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr3 = chartonum((yyvsp[-4].val)), curr5 = chartonum((yyvsp[-2].val)), curr7 = chartonum((yyvsp[0].val));
+                                                                    backpatch(ds3[curr3]["falselist"],stringtonum(ds[curr7]["start"]));
+                                                                    backpatch(ds3[curr3]["truelist"],stringtonum(ds[curr5]["start"]));
+                                                                    ds[curr]["start"] = ds[curr3]["start"];
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds3[curr]["continuelist"] = merge(ds3[curr5]["continuelist"],ds3[curr7]["continuelist"]);
+                                                                    ds3[curr]["breaklist"] = merge(ds3[curr5]["breaklist"],ds3[curr7]["breaklist"]);
+                                                                    // ds3[curr]["truelist"] = vector<int>();
+                                                                    // ds3[curr]["falselist"] = vector<int>();
+}
+#line 5191 "parser_1st.tab.c"
+    break;
+
+  case 476: /* IFTHENELSESTATEMENTNOSHORTIF: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENTNOSHORTIF ELSE STATEMENTNOSHORTIF  */
+#line 1531 "parser_1st.y"
+                                                                                                                {   (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr3 = chartonum((yyvsp[-4].val)), curr5 = chartonum((yyvsp[-2].val)), curr7 = chartonum((yyvsp[0].val));
+                                                                    backpatch(ds3[curr3]["falselist"],stringtonum(ds[curr7]["start"]));
+                                                                    backpatch(ds3[curr3]["truelist"],stringtonum(ds[curr5]["start"]));
+                                                                    ds[curr]["start"] = ds[curr3]["start"];
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds3[curr]["continuelist"] = merge(ds3[curr5]["continuelist"],ds3[curr7]["continuelist"]);
+                                                                    ds3[curr]["breaklist"] = merge(ds3[curr5]["breaklist"],ds3[curr7]["breaklist"]);
+                                                                    // ds3[curr]["truelist"] = vector<int>();
+                                                                    // ds3[curr]["falselist"] = vector<int>();
+}
+#line 5207 "parser_1st.tab.c"
+    break;
+
+  case 477: /* STATEMENTNOSHORTIF: STATEMENTWITHOUTTRAILINGSUBSTATEMENT  */
+#line 1543 "parser_1st.y"
+                                                            {(yyval.val) = (yyvsp[0].val);}
+#line 5213 "parser_1st.tab.c"
+    break;
+
+  case 478: /* STATEMENTNOSHORTIF: LABELEDSTATEMENTNOSHORTIF  */
+#line 1544 "parser_1st.y"
+                                                    {(yyval.val) = (yyvsp[0].val);}
+#line 5219 "parser_1st.tab.c"
+    break;
+
+  case 479: /* STATEMENTNOSHORTIF: IFTHENELSESTATEMENTNOSHORTIF  */
+#line 1545 "parser_1st.y"
+                                                        {(yyval.val) = (yyvsp[0].val);}
+#line 5225 "parser_1st.tab.c"
+    break;
+
+  case 480: /* STATEMENTNOSHORTIF: WHILESTATEMENTNOSHORTIF  */
+#line 1546 "parser_1st.y"
+                                                {(yyval.val) = (yyvsp[0].val);}
+#line 5231 "parser_1st.tab.c"
+    break;
+
+  case 481: /* STATEMENTNOSHORTIF: FORSTATEMENTNOSHORTIF  */
+#line 1547 "parser_1st.y"
+                                                {(yyval.val) = (yyvsp[0].val);}
+#line 5237 "parser_1st.tab.c"
+    break;
+
+  case 483: /* WHILESTATEMENTNOSHORTIF: WHILE OPENPARAN EXPRESSION CLOSEPARAN STATEMENTNOSHORTIF  */
+#line 1551 "parser_1st.y"
+                                                                                    {   (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr3 = chartonum((yyvsp[-2].val)), curr5 = chartonum((yyvsp[0].val));
+                                                                    backpatch(ds3[curr3]["truelist"],stringtonum(ds[curr5]["start"]));
+                                                                    backpatch(ds3[curr5]["continuelist"],stringtonum(ds[curr3]["start"])); 
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr3]["start"];
+                                                                    code.push_back("goto "+ds[curr]["start"]);
+                                                                    backpatch(ds3[curr3]["falselist"],code.size());
+                                                                    backpatch(ds3[curr5]["breaklist"],code.size());
+                                                                    // ds3[curr]["falselist"] = ds3[curr3]["falselist"];
+}
+#line 5253 "parser_1st.tab.c"
+    break;
+
+  case 484: /* FORSTATEMENTNOSHORTIF: BASICFORSTATEMENTNOSHORTIF  */
+#line 1563 "parser_1st.y"
+                                                    {(yyval.val) = (yyvsp[0].val);}
+#line 5259 "parser_1st.tab.c"
+    break;
+
+  case 485: /* FORSTATEMENTNOSHORTIF: ENHANCEDFORSTATEMENTNOSHORTIF  */
+#line 1564 "parser_1st.y"
+                                                        {(yyval.val) = (yyvsp[0].val);}
+#line 5265 "parser_1st.tab.c"
+    break;
+
+  case 486: /* WHILESTATEMENT: WHILE OPENPARAN EXPRESSION CLOSEPARAN STATEMENT  */
+#line 1567 "parser_1st.y"
+                                                                {   (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr3 = chartonum((yyvsp[-2].val)), curr5 = chartonum((yyvsp[0].val));
+                                                                    backpatch(ds3[curr3]["truelist"],stringtonum(ds[curr5]["start"]));
+                                                                    backpatch(ds3[curr5]["continuelist"],stringtonum(ds[curr3]["start"])); 
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr3]["start"];
+                                                                    code.push_back("goto "+ds[curr]["start"]);
+                                                                    backpatch(ds3[curr3]["falselist"],code.size());
+                                                                    backpatch(ds3[curr5]["breaklist"],code.size());
+}
+#line 5280 "parser_1st.tab.c"
+    break;
+
+  case 487: /* FORSTATEMENT: BASICFORSTATEMENT  */
+#line 1578 "parser_1st.y"
+                                {(yyval.val) = (yyvsp[0].val);}
+#line 5286 "parser_1st.tab.c"
+    break;
+
+  case 488: /* FORSTATEMENT: ENHANCEDFORSTATEMENT  */
+#line 1579 "parser_1st.y"
+                                        {(yyval.val) = (yyvsp[0].val);}
+#line 5292 "parser_1st.tab.c"
+    break;
+
+  case 489: /* BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT  */
+#line 1581 "parser_1st.y"
+                                                                            {   (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr6 = chartonum((yyvsp[0].val));
+                                                                    backpatch(ds3[curr6]["continuelist"],stringtonum(ds[curr6]["start"])); 
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr6]["start"];
+                                                                    code.push_back("goto "+ds[curr]["start"]);
+                                                                    backpatch(ds3[curr6]["breaklist"],code.size()); 
+}
+#line 5305 "parser_1st.tab.c"
+    break;
+
+  case 490: /* BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON FORUPDATE CLOSEPARAN STATEMENT  */
+#line 1589 "parser_1st.y"
+                                                                                            {      /* For update code should be after forbody code */
+                                                                                            (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr5 = chartonum((yyvsp[-2].val)), curr7 = chartonum((yyvsp[0].val));
+                                                                    backpatch(ds3[curr7]["continuelist"],code.size()); 
+                                                                    for(auto s:ds2[curr5]["code"])
+                                                                    code.push_back(s);
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr7]["start"];
+                                                                    code.push_back("goto "+ds[curr]["start"]);
+                                                                    backpatch(ds3[curr7]["breaklist"],code.size()); 
+}
+#line 5321 "parser_1st.tab.c"
+    break;
+
+  case 491: /* BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENT  */
+#line 1600 "parser_1st.y"
+                                                                                            {      /* For update code should be after forbody code */
+                                                                                            (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr4 = chartonum((yyvsp[-3].val)), curr7 = chartonum((yyvsp[0].val));
+                                                                    if(ds[curr4]["type"]!="boolean")
+                                                                    assert(0 && "Exp Error");
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr4]["start"];
+                                                                    code.push_back("goto "+ds[curr]["start"]);
+                                                                    backpatch(ds3[curr4]["truelist"],stringtonum(ds[curr7]["start"]));
+                                                                    backpatch(ds3[curr7]["continuelist"],stringtonum(ds[curr]["start"])); 
+                                                                    backpatch(ds3[curr7]["breaklist"],code.size()); 
+                                                                    backpatch(ds3[curr4]["falselist"],code.size()); 
+}
+#line 5339 "parser_1st.tab.c"
+    break;
+
+  case 492: /* BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENT  */
+#line 1613 "parser_1st.y"
+                                                                                                    {      /* For update code should be after forbody code */
+                                                                                            (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr4 = chartonum((yyvsp[-4].val)), curr6 = chartonum((yyvsp[-2].val)), curr8 = chartonum((yyvsp[0].val));
+                                                                    if(ds[curr4]["type"]!="boolean")
+                                                                    assert(0 && "Exp Error");
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr4]["start"];
+                                                                    int gotoupdate = code.size();
+                                                                    for(auto s:ds2[curr6]["code"])
+                                                                    code.push_back(s);
+                                                                    code.push_back("goto "+ds[curr]["start"]);
+                                                                    backpatch(ds3[curr4]["truelist"],stringtonum(ds[curr8]["start"]));
+                                                                    backpatch(ds3[curr8]["continuelist"],gotoupdate); 
+                                                                    backpatch(ds3[curr8]["breaklist"],code.size()); 
+                                                                    backpatch(ds3[curr4]["falselist"],code.size());
+}
+#line 5360 "parser_1st.tab.c"
+    break;
+
+  case 493: /* BASICFORSTATEMENT: FOR OPENPARAN FORINIT SEMICOLON SEMICOLON CLOSEPARAN STATEMENT  */
+#line 1629 "parser_1st.y"
+                                                                                        {      /* For update code should be after forbody code */
+                                                                                            (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr3 = chartonum((yyvsp[-4].val)), curr7 = chartonum((yyvsp[0].val));
+                                                                    // if(ds[curr4]["type"]!="boolean")
+                                                                    // error();
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr3]["start"];
+                                                                    code.push_back("goto "+ds[curr7]["start"]);
+                                                                    // backpatch(ds3[curr4]["truelist"],ds[curr7]["start"]);
+                                                                    backpatch(ds3[curr7]["continuelist"],stringtonum(ds[curr7]["start"])); 
+                                                                    backpatch(ds3[curr7]["breaklist"],code.size()); 
+                                                                    // backpatch(ds3[curr4]["falselist"],code.size()); 
+}
+#line 5378 "parser_1st.tab.c"
+    break;
+
+  case 494: /* BASICFORSTATEMENT: FOR OPENPARAN FORINIT SEMICOLON SEMICOLON FORUPDATE CLOSEPARAN STATEMENT  */
+#line 1642 "parser_1st.y"
+                                                                                                    {      /* For update code should be after forbody code */
+                                                                                            (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr3 = chartonum((yyvsp[-5].val)), curr6 = chartonum((yyvsp[-2].val)), curr8 = chartonum((yyvsp[0].val));
+                                                                    // if(ds[curr4]["type"]!="boolean")
+                                                                    // error();
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr3]["start"];
+                                                                    int gotoupdate = code.size();
+                                                                    for(auto s:ds2[curr6]["code"])
+                                                                    code.push_back(s);
+                                                                    code.push_back("goto "+ds[curr]["start"]);
+                                                                    // backpatch(ds3[curr4]["truelist"],ds[curr7]["start"]);
+                                                                    backpatch(ds3[curr8]["continuelist"],gotoupdate); 
+                                                                    backpatch(ds3[curr8]["breaklist"],code.size()); 
+                                                                    // backpatch(ds3[curr4]["falselist"],code.size());
+}
+#line 5399 "parser_1st.tab.c"
+    break;
+
+  case 495: /* BASICFORSTATEMENT: FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENT  */
+#line 1658 "parser_1st.y"
+                                                                                                    {      /* For update code should be after forbody code */
+                                                                                            (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr3 = chartonum((yyvsp[-5].val)), curr5 = chartonum((yyvsp[-3].val)), curr8 = chartonum((yyvsp[0].val));
+                                                                    if(ds[curr5]["type"]!="boolean")
+                                                                    assert(0 && "Exp Error");
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr3]["start"];
+                                                                    // int gotoupdate = code.size();
+                                                                    // for(auto s:ds2[curr6]["code"])
+                                                                    // code.push_back(s);
+                                                                    code.push_back("goto "+ds[curr5]["start"]);
+                                                                    backpatch(ds3[curr5]["truelist"],stringtonum(ds[curr8]["start"]));
+                                                                    backpatch(ds3[curr8]["continuelist"],stringtonum(ds[curr5]["start"])); 
+                                                                    backpatch(ds3[curr8]["breaklist"],code.size()); 
+                                                                    backpatch(ds3[curr5]["falselist"],code.size());
+}
+#line 5420 "parser_1st.tab.c"
+    break;
+
+  case 496: /* BASICFORSTATEMENT: FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENT  */
+#line 1674 "parser_1st.y"
+                                                                                                            {      /* For update code should be after forbody code */
+                                                                                            (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr3 = chartonum((yyvsp[-6].val)), curr5 = chartonum((yyvsp[-4].val)), curr7 = chartonum((yyvsp[-2].val)), curr9 = chartonum((yyvsp[0].val));
+                                                                    if(ds[curr5]["type"]!="boolean")
+                                                                    assert(0 && "Exp Error");
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr3]["start"];
+                                                                    int gotoupdate = code.size();
+                                                                    for(auto s:ds2[curr7]["code"])
+                                                                    code.push_back(s);
+                                                                    code.push_back("goto "+ds[curr5]["start"]);
+                                                                    backpatch(ds3[curr5]["truelist"],stringtonum(ds[curr9]["start"]));
+                                                                    backpatch(ds3[curr9]["continuelist"],gotoupdate); 
+                                                                    backpatch(ds3[curr9]["breaklist"],code.size()); 
+                                                                    backpatch(ds3[curr5]["falselist"],code.size());
+}
+#line 5441 "parser_1st.tab.c"
+    break;
+
+  case 497: /* BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF  */
+#line 1691 "parser_1st.y"
+                                                                                              {   (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr6 = chartonum((yyvsp[0].val));
+                                                                    backpatch(ds3[curr6]["continuelist"],stringtonum(ds[curr6]["start"])); 
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr6]["start"];
+                                                                    code.push_back("goto "+ds[curr]["start"]);
+                                                                    backpatch(ds3[curr6]["breaklist"],code.size()); 
+}
+#line 5454 "parser_1st.tab.c"
+    break;
+
+  case 498: /* BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF  */
+#line 1699 "parser_1st.y"
+                                                                                                     {      /* For update code should be after forbody code */
+                                                                                            (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr5 = chartonum((yyvsp[-2].val)), curr7 = chartonum((yyvsp[0].val));
+                                                                    backpatch(ds3[curr7]["continuelist"],code.size()); 
+                                                                    for(auto s:ds2[curr5]["code"])
+                                                                    code.push_back(s);
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr7]["start"];
+                                                                    code.push_back("goto "+ds[curr]["start"]);
+                                                                    backpatch(ds3[curr7]["breaklist"],code.size()); 
+}
+#line 5470 "parser_1st.tab.c"
+    break;
+
+  case 499: /* BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF  */
+#line 1710 "parser_1st.y"
+                                                                                                     {      /* For update code should be after forbody code */
+                                                                                            (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr4 = chartonum((yyvsp[-3].val)), curr7 = chartonum((yyvsp[0].val));
+                                                                    if(ds[curr4]["type"]!="boolean")
+                                                                    assert(0 && "Exp Error");
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr4]["start"];
+                                                                    code.push_back("goto "+ds[curr]["start"]);
+                                                                    backpatch(ds3[curr4]["truelist"],stringtonum(ds[curr7]["start"]));
+                                                                    backpatch(ds3[curr7]["continuelist"],stringtonum(ds[curr]["start"])); 
+                                                                    backpatch(ds3[curr7]["breaklist"],code.size()); 
+                                                                    backpatch(ds3[curr4]["falselist"],code.size()); 
+}
+#line 5488 "parser_1st.tab.c"
+    break;
+
+  case 500: /* BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF  */
+#line 1723 "parser_1st.y"
+                                                                                                             {      /* For update code should be after forbody code */
+                                                                                            (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr4 = chartonum((yyvsp[-4].val)), curr6 = chartonum((yyvsp[-2].val)), curr8 = chartonum((yyvsp[0].val));
+                                                                    if(ds[curr4]["type"]!="boolean")
+                                                                    assert(0 && "Exp Error");
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr4]["start"];
+                                                                    int gotoupdate = code.size();
+                                                                    for(auto s:ds2[curr6]["code"])
+                                                                    code.push_back(s);
+                                                                    code.push_back("goto "+ds[curr]["start"]);
+                                                                    backpatch(ds3[curr4]["truelist"],stringtonum(ds[curr8]["start"]));
+                                                                    backpatch(ds3[curr8]["continuelist"],gotoupdate); 
+                                                                    backpatch(ds3[curr8]["breaklist"],code.size()); 
+                                                                    backpatch(ds3[curr4]["falselist"],code.size());
+}
+#line 5509 "parser_1st.tab.c"
+    break;
+
+  case 501: /* BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN FORINIT SEMICOLON SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF  */
+#line 1739 "parser_1st.y"
+                                                                                                 {      /* For update code should be after forbody code */
+                                                                                            (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr3 = chartonum((yyvsp[-4].val)), curr7 = chartonum((yyvsp[0].val));
+                                                                    // if(ds[curr4]["type"]!="boolean")
+                                                                    // error();
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr3]["start"];
+                                                                    code.push_back("goto "+ds[curr7]["start"]);
+                                                                    // backpatch(ds3[curr4]["truelist"],ds[curr7]["start"]);
+                                                                    backpatch(ds3[curr7]["continuelist"],stringtonum(ds[curr7]["start"])); 
+                                                                    backpatch(ds3[curr7]["breaklist"],code.size()); 
+                                                                    // backpatch(ds3[curr4]["falselist"],code.size()); 
+}
+#line 5527 "parser_1st.tab.c"
+    break;
+
+  case 502: /* BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN FORINIT SEMICOLON SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF  */
+#line 1752 "parser_1st.y"
+                                                                                                             {      /* For update code should be after forbody code */
+                                                                                            (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr3 = chartonum((yyvsp[-5].val)), curr6 = chartonum((yyvsp[-2].val)), curr8 = chartonum((yyvsp[0].val));
+                                                                    // if(ds[curr4]["type"]!="boolean")
+                                                                    // error();
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr3]["start"];
+                                                                    int gotoupdate = code.size();
+                                                                    for(auto s:ds2[curr6]["code"])
+                                                                    code.push_back(s);
+                                                                    code.push_back("goto "+ds[curr]["start"]);
+                                                                    // backpatch(ds3[curr4]["truelist"],ds[curr7]["start"]);
+                                                                    backpatch(ds3[curr8]["continuelist"],gotoupdate); 
+                                                                    backpatch(ds3[curr8]["breaklist"],code.size()); 
+                                                                    // backpatch(ds3[curr4]["falselist"],code.size());
+}
+#line 5548 "parser_1st.tab.c"
+    break;
+
+  case 503: /* BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF  */
+#line 1768 "parser_1st.y"
+                                                                                                             {      /* For update code should be after forbody code */
+                                                                                            (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr3 = chartonum((yyvsp[-5].val)), curr5 = chartonum((yyvsp[-3].val)), curr8 = chartonum((yyvsp[0].val));
+                                                                    if(ds[curr5]["type"]!="boolean")
+                                                                    assert(0 && "Exp Error");
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr3]["start"];
+                                                                    // int gotoupdate = code.size();
+                                                                    // for(auto s:ds2[curr6]["code"])
+                                                                    // code.push_back(s);
+                                                                    code.push_back("goto "+ds[curr5]["start"]);
+                                                                    backpatch(ds3[curr5]["truelist"],stringtonum(ds[curr8]["start"]));
+                                                                    backpatch(ds3[curr8]["continuelist"],stringtonum(ds[curr5]["start"])); 
+                                                                    backpatch(ds3[curr8]["breaklist"],code.size()); 
+                                                                    backpatch(ds3[curr5]["falselist"],code.size());
+}
+#line 5569 "parser_1st.tab.c"
+    break;
+
+  case 504: /* BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF  */
+#line 1784 "parser_1st.y"
+                                                                                                                     {      /* For update code should be after forbody code */
+                                                                                            (yyval.val) = new_temp();
+                                                                    int curr = chartonum((yyval.val)), curr3 = chartonum((yyvsp[-6].val)), curr5 = chartonum((yyvsp[-4].val)), curr7 = chartonum((yyvsp[-2].val)), curr9 = chartonum((yyvsp[0].val));
+                                                                    if(ds[curr5]["type"]!="boolean")
+                                                                    assert(0 && "Exp Error");
+                                                                    ds[curr]["type"] = "null";
+                                                                    ds[curr]["start"] = ds[curr3]["start"];
+                                                                    int gotoupdate = code.size();
+                                                                    for(auto s:ds2[curr7]["code"])
+                                                                    code.push_back(s);
+                                                                    code.push_back("goto "+ds[curr5]["start"]);
+                                                                    backpatch(ds3[curr5]["truelist"],stringtonum(ds[curr9]["start"]));
+                                                                    backpatch(ds3[curr9]["continuelist"],gotoupdate); 
+                                                                    backpatch(ds3[curr9]["breaklist"],code.size()); 
+                                                                    backpatch(ds3[curr5]["falselist"],code.size());
+}
+#line 5590 "parser_1st.tab.c"
+    break;
+
+  case 507: /* FORINIT: STATEMENTEXPRESSIONLIST  */
+#line 1806 "parser_1st.y"
+                                    {(yyval.val) = (yyvsp[0].val);}
+#line 5596 "parser_1st.tab.c"
+    break;
+
+  case 508: /* FORINIT: LOCALVARIABLEDECLARATION  */
+#line 1807 "parser_1st.y"
+                                            {(yyval.val) = (yyvsp[0].val);}
+#line 5602 "parser_1st.tab.c"
+    break;
+
+  case 509: /* FORUPDATE: STATEMENTEXPRESSIONLIST  */
+#line 1809 "parser_1st.y"
+                                    {(yyval.val) = (yyvsp[0].val);
+                                        int curr = chartonum((yyval.val));
+                                        ds2[curr]["code"] = vector<string>();
+                                        for(int i=stringtonum(ds[curr]["start"]);i<code.size();i++){
+                                            ds2[curr]["code"].push_back(code[i]);
+                                        }
+                                        for(int i=0;i<ds2[curr]["code"].size();i++)
+                                        code.pop_back();
+                                        }
+#line 5616 "parser_1st.tab.c"
+    break;
+
+  case 510: /* STATEMENTEXPRESSIONLIST: STATEMENTEXPRESSION  */
+#line 1819 "parser_1st.y"
+                                             {(yyval.val) = (yyvsp[0].val);}
+#line 5622 "parser_1st.tab.c"
+    break;
+
+  case 511: /* STATEMENTEXPRESSIONLIST: STATEMENTEXPRESSIONLIST COMMA STATEMENTEXPRESSION  */
+#line 1820 "parser_1st.y"
+                                                                              {
+
+                            (yyval.val) = new_temp();
+                            int curr = chartonum((yyval.val)), curr1 = chartonum((yyvsp[-2].val));
+                            ds[curr]["start"] = ds[curr1]["start"];
+
+                        }
+#line 5634 "parser_1st.tab.c"
     break;
 
   case 598: /* TYPEARGUMENT: REFERENCETYPE  */
-#line 1130 "parser_1st.y"
+#line 1930 "parser_1st.y"
                                   {(yyval.val)=(yyvsp[0].val);}
-#line 3911 "parser_1st.tab.c"
+#line 5640 "parser_1st.tab.c"
     break;
 
   case 599: /* TYPEARGUMENT: WILDCARD  */
-#line 1131 "parser_1st.y"
+#line 1931 "parser_1st.y"
                              {(yyval.val)=(yyvsp[0].val);}
-#line 3917 "parser_1st.tab.c"
+#line 5646 "parser_1st.tab.c"
     break;
 
   case 604: /* INTERFACETYPE: CLASSTYPE  */
-#line 1140 "parser_1st.y"
+#line 1940 "parser_1st.y"
                               {(yyval.val)=(yyvsp[0].val);}
-#line 3923 "parser_1st.tab.c"
+#line 5652 "parser_1st.tab.c"
     break;
 
 
-#line 3927 "parser_1st.tab.c"
+#line 5656 "parser_1st.tab.c"
 
       default: break;
     }
@@ -4116,13 +5845,18 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 1142 "parser_1st.y"
+#line 1942 "parser_1st.y"
 
 
 
 int main(int argc, char** argv){
         newscope();
     yyparse();
+    cout<<"CODE:\n";
+
+    for (auto x : code){
+        cout<<x<<endl;
+    }
   
     /* cout << "digraph ASTVisual {\n ordering = out ;\n"; */
     /* for(auto e: labels){
