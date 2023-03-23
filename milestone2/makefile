@@ -1,3 +1,5 @@
+default : a.out 
+	./a.out < input.java
 a.out: parser_1st.tab.c lex.yy.c 
 	g++ -w parser_1st.tab.c lex.yy.c -o a.out
 parser_1st.tab.c: parser_1st.y

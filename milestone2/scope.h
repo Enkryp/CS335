@@ -1,3 +1,5 @@
+
+
 struct scope{
     string type;
     class_metadata class_meta;
