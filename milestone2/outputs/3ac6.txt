@@ -1,0 +1,40 @@
+0 begin func main
+1 a=0
+2 v=0
+3 c=0
+4 d=0
+5 i=0
+6 t1 = i<a
+7 if t1 goto  9
+8 goto  14
+9 t3 = a - int 1
+10 a=t3
+11 t2 = i
+12 i=t2+1
+13 goto 6
+14 i=0
+15 t4 = i<a
+16 if t4 goto  18
+17 goto  23
+18 t6 = a - int 1
+19 a=t6
+20 t5 = i
+21 i=t5+1
+22 goto 15
+23 i=0
+24 t7 = i<a
+25 if t7 goto  27
+26 goto  39
+27 j=0
+28 t9 = j<a
+29 if t9 goto  31
+30 goto  36
+31 t11 = a - int 1
+32 a=t11
+33 t10 = j
+34 j=t10+1
+35 goto 28
+36 t8 = i
+37 i=t8+1
+38 goto 24
+39 end func

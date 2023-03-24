@@ -1,0 +1,4 @@
+0 l=0
+1 k=1
+2 begin func main
+3 end func

@@ -1,0 +1,14 @@
+0 begin func main
+1 pop param, args
+2 arr=4
+3 t1 = 0
+4 a=arr[t1]
+5 t2 = 1
+6 b=arr[t2]
+7 t3 = a +int b
+8 d=t3
+9 e=d
+10 e=d
+11 f=d
+12 e=d
+13 end func

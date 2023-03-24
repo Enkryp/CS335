@@ -1,0 +1,54 @@
+0 begin func main
+1 a=5
+2 b=0
+3 t1 = a>b
+4 if t1 goto  6
+5 goto  9
+6 t2 = b
+7 b=t2+1
+8 goto 3
+9 t3 = a>b
+10 if t3 goto  12
+11 goto  15
+12 t4 = b
+13 b=t4+1
+14 goto 9
+15 t5 = a>b
+16 if t5 goto  18
+17 goto  21
+18 t6 = b
+19 b=t6+1
+20 goto 15
+21 t7 = a>b
+22 if t7 goto  24
+23 goto  27
+24 t8 = b
+25 b=t8+1
+26 goto 21
+27 t9 = a>b
+28 if t9 goto  30
+29 goto  33
+30 t10 = b
+31 b=t10+1
+32 goto 27
+33 t11 = a>b
+34 if t11 goto  36
+35 goto  53
+36 c=0
+37 t12 = b>c
+38 if t12 goto  40
+39 goto  50
+40 d=0
+41 t13 = d>b
+42 if t13 goto  44
+43 goto  47
+44 t14 = b
+45 b=t14+1
+46 goto 41
+47 t15 = d
+48 d=t15+1
+49 goto 37
+50 t16 = c
+51 c=t16+1
+52 goto 33
+53 end func

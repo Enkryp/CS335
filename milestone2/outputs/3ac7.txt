@@ -1,0 +1,32 @@
+0 begin func function1
+1 j=0
+2 k=j
+3 t1 = k +int j
+4 return t1
+5 end func
+6 begin func main
+7 a=0
+8 t2 = a +int 5
+9 n=t2
+10 i=0
+11 t3 = i<n
+12 if t3 goto  14
+13 goto  30
+14 j=i
+15 t5 = i<j
+16 if t5 goto  18
+17 goto  19
+18 goto  30
+19 t6 = j
+20 j=t6+1
+21 t7 = i<a
+22 if t7 goto  24
+23 goto  25
+24 goto  30
+25 t8 = a
+26 a=t8+1
+27 t4 = i
+28 i=t4+1
+29 goto 11
+30 t9= call, function1
+31 end func

@@ -1,0 +1,10 @@
+0 begin func main
+1 pop param, args
+2 a=0
+3 b=0
+4 t1 = a +int b
+5 c=t1
+6 d=1
+7 t2 = c +float d
+8 e=t2
+9 end func

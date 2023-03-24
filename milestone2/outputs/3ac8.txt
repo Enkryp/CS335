@@ -1,0 +1,25 @@
+0 l=0
+1 alpha=1
+2 begin func function1
+3 j=0
+4 k=j
+5 t1 = k +int j
+6 return t1
+7 end func
+8 begin func function2
+9 i=0
+10 return i
+11 end func
+12 begin func function3
+13 pop param, k
+14 return k
+15 end func
+16 begin func main
+17 a=0
+18 t2 = a +int 5
+19 n=t2
+20 t3= call, function1
+21 t4= call, function2
+22 push param n
+23 t5= call, function3
+24 end func

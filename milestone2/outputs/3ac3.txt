@@ -1,0 +1,24 @@
+0 begin func main
+1 pop param, args
+2 a=0
+3 b=1
+4 c=a
+5 d=c
+6 t1 = a<d
+7 if t1 goto  9
+8 goto  11
+9 t2 = a
+10 a=t2+1
+11 t3 = b<d
+12 if t3 goto  14
+13 goto  16
+14 t4 = a
+15 a=t4-1
+16 t5 = c<d
+17 if t5 goto  19
+18 goto  
+19 t6 = a
+20 a=t6-1
+21 t7 = a - int 2
+22 a=t7
+23 end func

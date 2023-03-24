@@ -1,0 +1,27 @@
+0 begin func function1
+1 j=0
+2 k=j
+3 t1 = k +int j
+4 return t1
+5 end func
+6 begin func main
+7 t2= call, function1
+8 arr=4
+9 t3 = 0
+10 a=arr[t3]
+11 t4 = 1
+12 b=arr[t4]
+13 t5 = a +int b
+14 d=t5
+15 e=d
+16 e=d
+17 f=d
+18 e=d
+19 t6 = a +int 5
+20 n=t6
+21 t7 = n<2
+22 if t7 goto  24
+23 goto  25
+24 n=5
+25 n=10
+26 end func

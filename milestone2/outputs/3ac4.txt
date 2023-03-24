@@ -1,0 +1,48 @@
+0 begin func main
+1 pop param, args
+2 x=20
+3 y=18
+4 t1 = x>y
+5 if t1 goto  8
+6 goto  9
+7 t2 = x +int y
+8 z=t2
+9 t3 = x +int y
+10 z=t3
+11 x=20
+12 y=18
+13 t4 = x>y
+14 if t4 goto  17
+15 goto  18
+16 t5 = x +int y
+17 z=t5
+18 t6 = x +int y
+19 z=t6
+20 x=20
+21 y=18
+22 t7 = x>y
+23 if t7 goto  26
+24 goto  27
+25 t8 = x +int y
+26 z=t8
+27 t9 = x +int y
+28 z=t9
+29 x=20
+30 y=18
+31 t10 = x>y
+32 if t10 goto  35
+33 goto  36
+34 t11 = x +int y
+35 z=t11
+36 t12 = x +int y
+37 z=t12
+38 x=20
+39 y=18
+40 t13 = x>y
+41 if t13 goto  44
+42 goto  45
+43 t14 = x +int y
+44 z=t14
+45 t15 = x +int y
+46 z=t15
+47 end func
