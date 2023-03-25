@@ -69,8 +69,13 @@
 
     string checkclassname="";
 
-    void typ_error(){
-        cerr<<"Unexpected type found\n";
+    // void typ_error(){
+    //     cout<<"Unexpected type\n";
+    //     // cerr<<"Expected value of type "+a+" at line number "+lineno+". Instead found value of type "+b+"\n";
+    //     exit(0);
+    // }
+    void typ_error(string a, string b, int lineno){
+        cerr<<"Expected value of type "+a+" at line number "<<lineno<<". Instead found value of type "+b+"\n";
         exit(0);
     }
     
@@ -126,8 +131,8 @@
 
     string gettypefromsymtable(string a){
         
-        cerr<< "gettypefromsymtable"<<endl;
-        cerr<< a<<endl;
+        // cerr<< "gettypefromsymtable"<<endl;
+        // cerr<< a<<endl;
         // return "";
         dbgsymtable();
         
@@ -277,28 +282,28 @@ TOPLEVELCLASSORINTERFACEDECLARATION :   CLASSDECLARATION  {
         preservedsymboltable[{x.first, -1}].typ = x.second.typ;
         preservedsymboltable[{x.first, -1}].token = "identifier - field of" + chartostring($1) ;
         
-        cout<<x.first;
-        cout<<x.second.typ.name;
-        cout<<x.second.typ.dims;
-        for(auto y : x.second.dims){
-            cout<<"["<<y<<"]";
-        }
-cout<<endl;
+        //cout<<x.first;
+        //cout<<x.second.typ.name;
+        //cout<<x.second.typ.dims;
+//         for(auto y : x.second.dims){
+//             cout<<"["<<y<<"]";
+//         }
+// cout<<endl;
     }
-    cout<<"meth";
+    // cout<<"meth";
     for(auto x : methods){
         preservedsymboltable[{x.first, -1}].lineno = x.second.lineno;
         preservedsymboltable[{x.first, -1}].typ = x.second.rettype;
         preservedsymboltable[{x.first, -1}].token = "identifier - method of" + chartostring($1) ;
         
         // preservedfields[{x.first, chartostring($1)}] = x.second;
-        cout<<x.first<<endl;
-        cout<<x.second.rettype.name <<x.second.rettype.dims <<endl;
-        for (auto y : x.second.argtype){
-            cout<<y.name<<" "<<y.dims<<" ";
+        // cout<<x.first<<endl;
+        // cout<<x.second.rettype.name <<x.second.rettype.dims <<endl;
+        // for (auto y : x.second.argtype){
+        //     cout<<y.name<<" "<<y.dims<<" ";
 
-        }
-        cout<<endl;
+        // }
+        // cout<<endl;
         
         
         }
@@ -517,11 +522,9 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                     {   $$ = new_temp();
                         // TYPE CHECK
                                                                     int  curr2 = chartonum($3), curr = chartonum($$);
-                                                                    // ds[curr]["lineno"] = ds[curr1]["lineno"];
+                                                                    if(ds[curr2].find("start")!=ds[curr2].end())
                                                                     ds[curr]["start"] = ds[curr2]["start"];
-                                                                    // assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)));
-                                                                    if((ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)))
-                                                                    typ_error();
+                                                                    
                                                                     
                                                                     
                     }
@@ -541,11 +544,9 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                         {   $$ = new_temp();
                         // TYPE CHECK
                                                                     int  curr2 = chartonum($3), curr = chartonum($$);
-                                                                    // ds[curr]["lineno"] = ds[curr1]["lineno"];
+                                                                    if(ds[curr2].find("start")!=ds[curr2].end())
                                                                     ds[curr]["start"] = ds[curr2]["start"];
-                                                                    // assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)));
-                                                                    if((ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)))
-                                                                    typ_error();
+                                                                    
                                                                     
                                                                     
                     }
@@ -564,10 +565,11 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                         {   $$ = new_temp();
                         // TYPE CHECK
                                                                     int  curr2 = chartonum($3), curr = chartonum($$);
+
                                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
                                                                     // assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)));
-                                                                    if((ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)))
-                                                                    typ_error();
+                                                                    // if((ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($2)))
+                                                                    // typ_error();
                                                                     
                                                                     
                     }
@@ -588,11 +590,17 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                         // TYPE CHECK
                                                                     int  curr2 = chartonum($2), curr = chartonum($$);
                                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
+                                                                    // if(ds[curr2].find("start")!=ds[curr2].end())
+                                                                    if(ds[curr2].find("start")!=ds[curr2].end())
                                                                     ds[curr]["start"] = ds[curr2]["start"];
+                                                                    else ds[curr]["start"] = code.size();
                                                                     // code.push_back("start="+ds[curr]["start"]);
                                                                     // assert(!(ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($1)));
-                                                                    if((ds[curr2].find("type")!=ds[curr2].end()&&ds[curr2]["type"]!=chartostring($1)))
-                                                                    typ_error();
+                                                                    for(auto i:ds2[curr2]["type"]){
+                                                                        if(i!=chartostring($1)){
+                                                                            typ_error(chartostring($1),i,int(yylineno));
+                                                                        }
+                                                                    }
                                                                     
                                                                     
                     }
@@ -617,29 +625,32 @@ VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR {$$ = new_temp(); generalmap[$$].
                                                     int curr = chartonum($$), curr1 = chartonum($1);
                                                     if(ds[curr1].find("start")!=ds[curr1].end()){
                                                         ds[curr]["start"] = ds[curr1]["start"];
-                                                        ds[curr]["type"] = ds[curr1]["type"];
+                                                        ds2[curr]["type"].push_back(ds[curr1]["type"]);
                                                     }
-                                                    ds[curr]["start"] = ds[curr1]["start"];
+                                                    // ds[curr]["start"] = ds[curr1]["start"];
                                                     // assert(!(ds[curr1].find("type")!=ds[curr1].end()&&ds[curr1].find("type")!=ds[curr1].end()&&ds[curr3]["type"]!=ds[curr1]["type"]));
                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
 }
 }
                         |   VARIABLEDECLARATORLIST COMMA VARIABLEDECLARATOR {$$ = $1; generalmap[$$].vlist.push_back({generalmap[$3].vid, generalmap[$3].vinit});
-                        {  
+                        {                           
+
                                                     int curr = chartonum($$), curr1 = chartonum($1),curr3 = chartonum($3);
-                                                    if(ds[curr1].find("start")!=ds[curr1].end()){
-                                                        ds[curr]["start"] = ds[curr1]["start"];
-                                                        ds[curr]["type"] = ds[curr1]["type"];
-                                                    }
-                                                    else if(ds[curr3].find("start")!=ds[curr3].end()){
-                                                        ds[curr]["start"] = ds[curr3]["start"];
-                                                        ds[curr]["type"] = ds[curr1]["type"];
-                                                    }
-                                                    ds[curr]["start"] = ds[curr1]["start"];
-                                                    ds[curr]["lineno"] = ds[curr1]["lineno"];
+                                                    // ds[curr]["lineno"] = ds[curr1]["lineno"];
                                                     // assert(!(ds[curr3].find("type")!=ds[curr3].end()&&ds[curr1].find("type")!=ds[curr1].end()&&ds[curr3]["type"]!=ds[curr1]["type"]));
-                                                    if((ds[curr3].find("type")!=ds[curr3].end()&&ds[curr1].find("type")!=ds[curr1].end()&&ds[curr3]["type"]!=ds[curr1]["type"]))
-                                                    typ_error();
+
+                                                    // if((ds[curr3].find("type")!=ds[curr3].end()&&ds[curr1].find("type")!=ds[curr1].end()&&ds[curr3]["type"]!=ds[curr1]["type"])){
+                                                    //     cerr<<ds[curr3]["type"]<<" "<<ds[curr1]["type"]<<"\n";
+                                                    // // typ_error();
+                                                    // }
+                                                    
+                                                    if(ds[curr3].find("start")!=ds[curr3].end()){
+                                                        if(ds[curr].find("start")==ds[curr].end())
+                                                        ds[curr]["start"] = ds[curr3]["start"];
+                                                        // ds[curr]["type"] = ds[curr3]["type"];
+                                                        ds2[curr]["type"].push_back(ds[curr3]["type"]);
+                                                    }
+                                                    // assert(ds[curr].find("start")!=ds[curr].end());
                                                     // error("Incompatible types");
 
 }
@@ -930,9 +941,9 @@ ARRAYACCESS: EXPRESSIONNAME OPENSQUARE EXPRESSION CLOSESQUARE
                 int i = stringtonum(ds[curr]["dims"])+1;
                 ds[curr]["dims"] = numtostring(stringtonum(ds[curr]["dims"])+1);
                 string t = new_var();
-                cout<<"index"<<i<<"\n";
-                cout<<ds[curr]["array"]<<"\n";
-                cout<<symboltable[ds[curr]["array"]].dims.size()<<"\n";
+                // cout<<"index"<<i<<"\n";
+                // cout<<ds[curr]["array"]<<"\n";
+                // cout<<symboltable[ds[curr]["array"]].dims.size()<<"\n";
                 int bound = symboltable[ds[curr]["array"]].dims[i];
                 code.push_back(t+" = "+ds[curr1]["var"]+"*"+numtostring(bound));
                 code.push_back(ds[curr]["var"]+" = "+t+" + "+ds[curr3]["var"]); 
@@ -1258,10 +1269,10 @@ POSTFIXEXPRESSION: PRIMARY  {$$ = $1;}
                                     /* How to access symbol table entry of a terminal */
                                     ds[curr]["type"] = gettypefromsymtable(chartostring($1));
                                     ds[curr]["identifier"] = "YES";
-                                    cout<<"\n\n\n";
-                                    for(auto i:code){
-                                        cout<<i<<"\n";
-                                    }
+                                    // cout<<"\n\n\n";
+                                    // for(auto i:code){
+                                    //     cout<<i<<"\n";
+                                    // }
                                     ds[curr]["start"] = numtostring(code.size());
                                     ds[curr]["var"] = chartostring($1);
                                     // ds[curr]["var"] = 
@@ -1304,7 +1315,7 @@ INSTANCEOFEXPRESSION: RELATIONALEXPRESSION INSTANCEOF REFERENCETYPE
 METHODDECLARATION:  METHODHEADER METHODBODY {
     $$ =$1;
     code.push_back("end func");
-    cerr<<"method declaration"<<generalmap[$1].name<<endl;
+    // cerr<<"method declaration"<<generalmap[$1].name<<endl;
     assert(methods.find(generalmap[$1].name) == methods.end());
     methods[generalmap[$1].name].rettype = generalmap[$1].typ;
     methods[generalmap[$1].name].lineno = yylineno;
@@ -1322,7 +1333,7 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
                     |   SUPER1 METHODHEADER METHODBODY{
                         $$ =$1;
     code.push_back("end func");
-    cerr<<"method declaration"<<generalmap[$2].name<<endl;
+    // cerr<<"method declaration"<<generalmap[$2].name<<endl;
 
     assert(methods.find(generalmap[$2].name) == methods.end());
 
@@ -1340,7 +1351,7 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
 }
                     |   SUPER2 METHODHEADER METHODBODY{$$ =$1;
     code.push_back("end func");
-    cerr<<"method declaration"<<generalmap[$2].name<<endl;
+    // cerr<<"method declaration"<<generalmap[$2].name<<endl;
         assert(methods.find(generalmap[$2].name) == methods.end());
       
 
@@ -1355,7 +1366,7 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
 }
                     |   SUPER3 METHODHEADER METHODBODY{$$ =$1;
     code.push_back("end func");
-    cerr<<"method declaration"<<generalmap[$2].name<<endl;
+    // cerr<<"method declaration"<<generalmap[$2].name<<endl;
         assert(methods.find(generalmap[$2].name) == methods.end());
 
     methods[generalmap[$2].name].rettype = generalmap[$2].typ;
@@ -1370,7 +1381,7 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
 }
                     |   METHODMODIFIERS METHODHEADER METHODBODY{$$ =$1;
     code.push_back("end func");
-    cerr<<"method declaration"<<generalmap[$2].name<<endl;
+    // cerr<<"method declaration"<<generalmap[$2].name<<endl;
         assert(methods.find(generalmap[$2].name) == methods.end());
 
     methods[generalmap[$2].name].rettype = generalmap[$2].typ;
@@ -1399,7 +1410,7 @@ symboltable[x.vid.name].typ.dims= x.vid.num;
         symboltable[x.vid.name].lineno = yylineno;
         symboltable[x.vid.name].token = "IDENTIFIER";
 
-        cout<<x.vid.name;
+        // cout<<x.vid.name;
         printvarentry(symboltable[x.vid.name]);
         preservedsymboltable[{x.vid.name, scope}]= symboltable[x.vid.name];
         
@@ -1413,7 +1424,7 @@ symboltable[x.vid.name].typ.dims= x.vid.num;
         symboltable[x.vid.name].lineno = yylineno;
         symboltable[x.vid.name].token = "IDENTIFIER";
 
-        cout<<x.vid.name;
+        // cout<<x.vid.name;
         printvarentry(symboltable[x.vid.name]);
         preservedsymboltable[{x.vid.name, scope}]= symboltable[x.vid.name];
         
@@ -1485,22 +1496,27 @@ INSTANCEINITIALIZER: BLOCK
 
 STATICINITIALIZER: STATIC BLOCK
 
-BLOCK: OPENCURLY BLOCKSTATEMENTS CLOSECURLY {$$ = $2; }
+BLOCK: OPENCURLY BLOCKSTATEMENTS CLOSECURLY {$$ = $2;  }
     |   OPENCURLY  CLOSECURLY
 
-BLOCKSTATEMENTS: BLOCKSTATEMENT    {$$ = $1;
+BLOCKSTATEMENTS: BLOCKSTATEMENT    {$$ = $1;  
                                                     // code.push_back("start = "+ds[chartonum($$)]["start"]);
 }
                 |  BLOCKSTATEMENTS BLOCKSTATEMENT { $$ = new_temp();
                                                     int curr = chartonum($$), curr1 = chartonum($1), curr2 = chartonum($2);
                                                     ds3[curr]["continuelist"] = merge(ds3[curr1]["continuelist"], ds3[curr2]["continuelist"]);
                                                     ds3[curr]["breaklist"] = merge(ds3[curr1]["breaklist"], ds3[curr2]["breaklist"]);
+                                                    if(ds[curr].find("start")!=ds[curr].end())
                                                     ds[curr]["start"] = ds[curr1]["start"];
+                                                     else if(ds[curr2].find("start")!=ds[curr2].end())
+                                                     ds[curr]["start"] = ds[curr2]["start"];
                                                     // code.push_back("start = "+ds[curr]["start"]);
                 }
 
 BLOCKSTATEMENT: LOCALCLASSORINTERFACEDECLARATION
-               |	LOCALVARIABLEDECLARATIONSTATEMENT   {$$ = $1;}
+               |	LOCALVARIABLEDECLARATIONSTATEMENT   {$$ = $1; 
+                
+               }
                |	STATEMENT   {$$ = $1;
                }
  
@@ -1513,20 +1529,22 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {$$ = $
                         |   LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                             $$ = $2;
                             int curr = chartonum($$);
+                                                    // assert(ds[curr].find("start")!=ds[curr].end());
+                            // assert()
+                            if(ds[curr].find("start")==ds[curr].end())
+                            ds[curr]["start"] = code.size();
                             string t = chartostring($1);
-                            if(ds[curr].find("type")!=ds[curr].end()){
-                                string t2 = ds[curr]["type"];
+                            for(auto t2:ds2[curr]["type"]){
                                 if(!((t=="double"||t=="float")&&(t2=="int"||t2=="long"))){
                                     if(!((t=="double"&&t2=="float")||(t=="long"&&t2=="int")))
-                                    // assert(!(ds[curr].find("type")!=ds[curr].end()&&ds[curr]["type"]!=chartostring($1)));
-                                    if((ds[curr].find("type")!=ds[curr].end()&&ds[curr]["type"]!=chartostring($1)))
-                                    typ_error();
+                                        if(t2!=chartostring($1))
+                                        typ_error(chartostring($1),t2,int(yylineno));
+                                    // }
                                 }
                             }
-                            cerr<<"local variable declaration"<<endl;
                             for (auto x: generalmap[$2].vlist){
                             
-                            cout<<x.first.name<<endl;
+                            // cout<<x.first.name<<endl;
                             assert(symboltable.find(x.first.name) == symboltable.end());
                             /*ADD SIMILAR FOR FILEDS AND METHODS*/
 
@@ -1538,7 +1556,7 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {$$ = $
                             symboltable[x.first.name].lineno = yylineno;
                             symboltable[x.first.name].token = "IDENTIFIER";
 
-                            cout<<x.first.name;
+                            // cout<<x.first.name;
                             printvarentry(symboltable[x.first.name]);
                             preservedsymboltable[{x.first.name,scope}] = symboltable[x.first.name];
                         }
@@ -1556,6 +1574,7 @@ STATEMENT: STATEMENTWITHOUTTRAILINGSUBSTATEMENT {$$ = $1; }
           |	FORSTATEMENT    {$$ = $1;}
 
 STATEMENTWITHOUTTRAILINGSUBSTATEMENT    :BLOCK  {$$ = $1;}
+                                                    // assert(ds[curr].find("start")!=ds[curr].end());}
                                      |	EMPTYSTATEMENT  {$$ = $1;}
                                      |	EXPRESSIONSTATEMENT {$$ = $1;}
                                      |	ASSERTSTATEMENT {$$ = $1;}
