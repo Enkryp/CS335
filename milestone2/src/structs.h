@@ -219,7 +219,7 @@ void error_report_type(string s1, string s2, string op){
     exit(0);
 }
 void type_check(string a,string b,string c){
-    cerr<<a<<b;
+    // cerr<<a<<b;
     int arg1=typetonum[a];
     int arg2=typetonum[b];
     if(arg1==0||arg1==0){

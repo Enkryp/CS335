@@ -5,6 +5,10 @@
     #include "conversion.h"
     #include "structs.h"
     
+    /*TODO typecheck for unary operators
+    Line numbers in error
+    Line number of methods in symtable 
+    GOTOS for */
 
     extern "C" int yylex();
     extern "C" FILE *yyin;
@@ -219,7 +223,7 @@ TYPE    :   PRIMITIVETYPE { $$=$1; }
             |   REFERENCETYPE {$$ = $1;/*TODO*/}
 
 PRIMITIVETYPE   :   NUMERICTYPE {$$=$1;}
-                |   BOOLEAN  {$$=$1; }
+                |   BOOLEAN  {$$ = stringtochar("bool");}
 
 NUMERICTYPE     :   INTEGRALTYPE {$$=$1;}
                 |   FLOATINGTYPE {$$=$1;}
@@ -1156,7 +1160,7 @@ ADDITIVEEXPRESSION: MULTIPLICATIVEEXPRESSION    {   $$ = $1; }
                                                                                 type_check(ds[curr1]["type"],ds[curr3]["type"],"-");
                                                                                 ds[curr]["var"] = new_var();
                                                                                 ds[curr]["type"] = type_conversion(ds[curr1]["type"],ds[curr3]["type"],"-");
-                                                                                code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]+" - "+ds[curr]["type"]+" "+ds[curr3]["var"]);
+                                                                                code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]+" -"+ds[curr]["type"]+" "+ds[curr3]["var"]);
                                                                                 ds[curr]["start"] = ds[curr1]["start"];
                 }
 
@@ -1717,7 +1721,7 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr4 = chartonum($4), curr7 = chartonum($7);
                                                                     if(ds[curr4]["type"]!="bool")
-                                                                    cerr<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";
+                                                                    {cerr<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";exit(0);}
                                                                     // assert(0 && "Exp Error");
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr4]["start"];
@@ -1731,7 +1735,7 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr4 = chartonum($4), curr6 = chartonum($6), curr8 = chartonum($8);
                                                                     if(ds[curr4]["type"]!="bool")
-                                                                    cerr<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";
+                                                                    {cerr<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";exit(0);}
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr4]["start"];
                                                                     int gotoupdate = code.size();
@@ -1776,7 +1780,7 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr8 = chartonum($8);
                                                                     if(ds[curr5]["type"]!="bool")
-                                                                    cerr<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";
+                                                                    {cerr<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";exit(0);}
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr3]["start"];
                                                                     // int gotoupdate = code.size();
@@ -1792,7 +1796,7 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr7 = chartonum($7), curr9 = chartonum($9);
                                                                     if(ds[curr5]["type"]!="bool")
-                                                                    cerr<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";
+                                                                    {cerr<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";exit(0);}
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr3]["start"];
                                                                     int gotoupdate = code.size();
@@ -1829,7 +1833,7 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                                                                     int curr = chartonum($$), curr4 = chartonum($4), curr7 = chartonum($7);
                                                                     
                                                                     if(ds[curr4]["type"]!="bool")
-                                                                    cerr<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";
+                                                                    {cerr<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";exit(0);}
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr4]["start"];
                                                                     code.push_back("goto "+ds[curr]["start"]);
@@ -1843,7 +1847,7 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                                                                     int curr = chartonum($$), curr4 = chartonum($4), curr6 = chartonum($6), curr8 = chartonum($8);
                                                                     
                                                                     if(ds[curr4]["type"]!="bool")
-                                                                    cerr<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";
+                                                                    {cerr<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";exit(0);}
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr4]["start"];
                                                                     int gotoupdate = code.size();
@@ -1889,7 +1893,7 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr8 = chartonum($8);
                                                                     
                                                                     if(ds[curr5]["type"]!="bool")
-                                                                    cerr<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";
+                                                                    {cerr<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";exit(0);}
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr3]["start"];
                                                                     // int gotoupdate = code.size();
@@ -1904,9 +1908,8 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                   |	FOR OPENPARAN FORINIT SEMICOLON EXPRESSION SEMICOLON FORUPDATE CLOSEPARAN STATEMENTNOSHORTIF {      /* For update code should be after forbody code */
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr7 = chartonum($7), curr9 = chartonum($9);
-                                                                    
                                                                     if(ds[curr5]["type"]!="bool")
-                                                                    cerr<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";
+                                                                    {cerr<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";exit(0);}
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr3]["start"];
                                                                     int gotoupdate = code.size();
