@@ -1,4 +1,7 @@
 #define ll long long
+ll gbdimid=1000;
+
+map<ll, string> dimtoid;
 struct vardecid {
     string name;
     ll num=0;
@@ -6,6 +9,8 @@ struct vardecid {
 struct vardecinit {
     
     vector<ll> dims;
+    bool isnewclass=false;
+    string classname = "";
 };
 
 struct type{
@@ -32,8 +37,10 @@ struct formalarg
         vector<ll> arrayinit;
         vardecid vid;
         vardecinit vinit;
+        bool isnewclass=false;
+        string classname = "";
         vector<pair<vardecid, vardecinit>>  vlist;
-
+        vector <string> dimexpaddrs;
  
 
 
@@ -70,6 +77,7 @@ struct formalarg
         type typ;
         vector<ll> dims; /*BOUNDS*/
         ll scope;
+        string objof; 
         bool operator<(const varentry& other) const{
             return scope<other.scope;
         }
@@ -83,10 +91,14 @@ struct formalarg
         }
     cout<<endl;
     }
+
+
     map<pair<string,string>, methodsig> preservedmethods;
 map<pair<string,string>, fieldsig> preservedfields;
 
 
+map<string , map<string, fieldsig>> classfields;
+map<string , map<string, methodsig>> classmethods;
 
    map<string, methodsig> methods;
 
@@ -126,19 +138,28 @@ void printmethodstable(){
         cout<<endl;
     }
 }
+vector <pair<string, vector <string>>> to_check_functions;
+
 
  void type_check_function(string name, vector<string> types){
-// return;
- cout<<"type check function"<<endl;
- cout<<name<<endl;
- for(auto x : types){
-     cout<<x<<" ";
 
+if(methods.find(name)==methods.end()){
+    to_check_functions.push_back({name,types});
+    return;
 }
-printmethodstable();
 
-cout<<endl;
+    methodsig m=methods[name];
+    assert(m.argtype.size()==types.size());
+    for (ll i=0;i<types.size();i++){
+        assert(m.argtype[i].name==types[i]);
+    }
+ }
 
+  void type_check_function_strong(){
+
+for(auto x : to_check_functions){
+    string name=x.first;
+    vector<string> types=x.second;
     assert(methods.find(name)!=methods.end());
     methodsig m=methods[name];
     assert(m.argtype.size()==types.size());
@@ -146,6 +167,8 @@ cout<<endl;
         assert(m.argtype[i].name==types[i]);
     }
  }
+ }
+
 
 ll num_var=1;
      string new_var(){
@@ -335,4 +358,12 @@ string type_conversion(string a,string b,string c){
         }
 
     }
+}
+
+
+
+ll varaddrstoint (string s){
+    gbdimid++;
+    dimtoid[gbdimid]=s;
+    return -gbdimid;
 }

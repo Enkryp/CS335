@@ -24,7 +24,7 @@ class BinarySearchExample{
           //  int arr[] = new int [10][10];
            int key = 30,a=400;  
           //  int a;
-            key = a+30+2.0;
+            key = a+30+20;
             bool ak=false;
             if(a<key){
               int g =0;

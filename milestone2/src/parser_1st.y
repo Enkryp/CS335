@@ -7,7 +7,8 @@
     
     /*TODO typecheck for unary operators
     Line numbers in error
-    Line number of methods in symtable 
+    back patach type check for fields
+    negative for addrs in new exp
     GOTOS for */
 
     extern "C" int yylex();
@@ -275,7 +276,15 @@ EXPRESSIONNAME   :   IDENTIFIER DOT IDENTIFIER {    /*$$ = new_temp();
 ORDINARYCOMPILATIONUNIT :   TOPLEVELCLASSORINTERFACEDECLARATION 
                         |   ORDINARYCOMPILATIONUNIT TOPLEVELCLASSORINTERFACEDECLARATION
 
-TOPLEVELCLASSORINTERFACEDECLARATION :   CLASSDECLARATION  {   
+TOPLEVELCLASSORINTERFACEDECLARATION :   CLASSDECLARATION  {  
+
+    assert(classfields.find(chartostring($1))==classfields.end());
+    assert(classmethods.find(chartostring($1))==classmethods.end());
+
+    classfields[chartostring($1)]= fields;
+    classmethods[chartostring($1)]= methods;
+
+
     for (auto x : fields ){
         // preservedfields[{x.first, chartostring($1)}] = x.second;
         preservedsymboltable[{x.first, -1}].lineno = x.second.lineno;
@@ -519,6 +528,8 @@ CLASSMEMBERDECLARATION:     FIELDDECLARATION
                             |   INTERFACEDECLARATION
 
 FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
+                                if(generalmap[$3].typ.name != "")assert(chartostring($2)== generalmap[$3].typ.name);
+
                     {   $$ = new_temp();
                         // TYPE CHECK
                                                                     int  curr2 = chartonum($3), curr = chartonum($$);
@@ -541,6 +552,8 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                         }
                     }
                     |   SUPER1 TYPE VARIABLEDECLARATORLIST SEMICOLON{
+                                                    if(generalmap[$3].typ.name != "")assert(chartostring($2)== generalmap[$3].typ.name);
+
                         {   $$ = new_temp();
                         // TYPE CHECK
                                                                     int  curr2 = chartonum($3), curr = chartonum($$);
@@ -562,6 +575,8 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                         }
                     }
                     |   SUPER2 TYPE VARIABLEDECLARATORLIST SEMICOLON{
+                                                    if(generalmap[$3].typ.name != "")assert(chartostring($2)== generalmap[$3].typ.name);
+
                         {   $$ = new_temp();
                         // TYPE CHECK
                                                                     int  curr2 = chartonum($3), curr = chartonum($$);
@@ -585,6 +600,8 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                         }
                     }
                     |   TYPE VARIABLEDECLARATORLIST SEMICOLON {
+                        if(generalmap[$2].typ.name != "")assert(chartostring($1)== generalmap[$2].typ.name);
+
 
                         {   $$ = new_temp();
                         // TYPE CHECK
@@ -620,7 +637,7 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
 
 
 
-VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR {$$ = new_temp(); generalmap[$$].vlist.push_back({generalmap[$1].vid, generalmap[$1].vinit});
+VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR {$$ = new_temp(); generalmap[$$].typ = generalmap[$1].typ; generalmap[$$].vlist.push_back({generalmap[$1].vid, generalmap[$1].vinit});
 {   
                                                     int curr = chartonum($$), curr1 = chartonum($1);
                                                     if(ds[curr1].find("start")!=ds[curr1].end()){
@@ -632,7 +649,7 @@ VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR {$$ = new_temp(); generalmap[$$].
                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
 }
 }
-                        |   VARIABLEDECLARATORLIST COMMA VARIABLEDECLARATOR {$$ = $1; generalmap[$$].vlist.push_back({generalmap[$3].vid, generalmap[$3].vinit});
+                        |   VARIABLEDECLARATORLIST COMMA VARIABLEDECLARATOR {$$ = $1; if(generalmap[$3].typ.name != "" && generalmap[$$].typ.name != "" )assert(generalmap[$3].typ.name == generalmap[$$].typ.name); else generalmap[$$].typ.name = max(generalmap[$3].typ.name, generalmap[$$].typ.name );  generalmap[$$].vlist.push_back({generalmap[$3].vid, generalmap[$3].vinit});
                         {                           
 
                                                     int curr = chartonum($$), curr1 = chartonum($1),curr3 = chartonum($3);
@@ -656,9 +673,13 @@ VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR {$$ = new_temp(); generalmap[$$].
 }
 }
 
-VARIABLEDECLARATOR  :   VARIABLEDECLARATORID EQUALS VARIABLEINITIALIZER {$$ = new_temp(); generalmap[$$]= generalmap[$1]; generalmap[$$].vinit = generalmap[$3].vinit ;                                           int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);
+VARIABLEDECLARATOR  :   VARIABLEDECLARATORID EQUALS VARIABLEINITIALIZER {$$ = new_temp(); generalmap[$$]= generalmap[$1]; generalmap[$$].vinit = generalmap[$3].vinit ;   generalmap[$$].typ= generalmap[$3].typ;                                   int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);
                                                                             ds[curr]["start"] = numtostring(code.size());
                                                                             ds[curr]["type"] = ds[curr3]["type"];
+                                                                            generalmap[$$].vinit.classname = generalmap[$3].classname;
+                                                                            generalmap[$$].vinit.isnewclass = generalmap[$3].isnewclass;
+
+                                                                            
                                                                             // code.push_back("start="+ds[curr]["start"]);
                                                                             
                                                                             // ds[curr]["lineno"] = ds[curr1]["lineno"];
@@ -682,7 +703,7 @@ VARIABLEDECLARATORID    :   IDENTIFIER {$$ = new_temp(); generalmap[$$].vid.name
                         }
 
 
-VARIABLEINITIALIZER :    EXPRESSION {$$ = new_temp(); generalmap[$$]; ds[chartonum($$)] = ds[chartonum($1)]; }
+VARIABLEINITIALIZER :    EXPRESSION {$$ = new_temp(); generalmap[$$]= generalmap[$1]; ds[chartonum($$)] = ds[chartonum($1)]; }
                     |   ARRAYINITIALIZER {$$ = $1;}
 
 EXPRESSION  :  ASSIGNMENTEXPRESSION {$$ = $1; }
@@ -690,7 +711,7 @@ EXPRESSION  :  ASSIGNMENTEXPRESSION {$$ = $1; }
 ASSIGNMENTEXPRESSION    :   CONDITIONALEXPRESSION {
                             $$ = $1;
                         }
-                        |   ASSIGNMENT {$$ = $1;}
+                        |   ASSIGNMENT {$$ = $1;/*TODO CHECK multiple assign*/} 
 
 ASSIGNMENT  :   LEFTHANDSIDE ASSIGNMENTOPERATOR EXPRESSION {
     
@@ -756,7 +777,7 @@ PRIMARYNONEWARRAY: LITERAL  {$$ = $1;}
                             }
                   |	IDENTIFIER DOT THIS
                   |	OPENPARAN EXPRESSION CLOSEPARAN {$$ = $2;}
-                  |	CLASSINSTANCECREATIONEXPRESSION         
+                  |	CLASSINSTANCECREATIONEXPRESSION       {$$ = $1; generalmap[$$].isnewclass = true;}  
                   |	FIELDACCESS {$$ = $1;}
                   |	ARRAYACCESS {$$ = $1;}
                   |	METHODINVOCATION    {$$ = $1;}
@@ -781,15 +802,15 @@ CLASSLITERAL: IDENTIFIER DOTCLASS
 SQUARESTAR  :   OPENSQUARE CLOSESQUARE
             |   SQUARESTAR  OPENSQUARE CLOSESQUARE
 
-CLASSINSTANCECREATIONEXPRESSION: UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION
+CLASSINSTANCECREATIONEXPRESSION: UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION {$$ = $1;}
                                 |	EXPRESSIONNAME DOT UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION
                                 |	IDENTIFIER DOT UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION
                                 |	PRIMARY DOT UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION
 
-UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION:     NEW CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN CLOSEPARAN
-                                            |   NEW CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN CLOSEPARAN CLASSBODY
-                                            |   NEW CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN ARGUMENTLIST CLOSEPARAN
-                                            |   NEW CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN ARGUMENTLIST CLOSEPARAN CLASSBODY 
+UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION:     NEW CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN CLOSEPARAN {$$ = new_temp(); generalmap[$$].isnewclass = true; generalmap[$$].classname = chartostring($2); }
+                                            |   NEW CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN CLOSEPARAN CLASSBODY {/*TODO*/}
+                                            |   NEW CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN ARGUMENTLIST CLOSEPARAN {/*TODO*/}
+                                            |   NEW CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN ARGUMENTLIST CLOSEPARAN CLASSBODY {/*TODO*/}
                                             |   NEW TYPEARGUMENTS CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN CLOSEPARAN
                                             |   NEW TYPEARGUMENTS CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN CLOSEPARAN CLASSBODY
                                             |   NEW TYPEARGUMENTS CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN ARGUMENTLIST CLOSEPARAN
@@ -900,29 +921,29 @@ METHODREFERENCE:    PRIMARY DOUBLECOLON TYPEARGUMENTS IDENTIFIER
                 |	IDENTIFIER DOT SUPER DOUBLECOLON IDENTIFIER
                 |	CLASSTYPE DOUBLECOLON NEW
 
-ARRAYCREATIONEXPRESSION: NEW PRIMITIVETYPE DIMEXPRS DIMS
-                        |	NEW CLASSORINTERFACETYPE DIMEXPRS DIMS
-                        |	NEW PRIMITIVETYPE DIMS ARRAYINITIALIZER
-                        |	NEW CLASSORINTERFACETYPE DIMS ARRAYINITIALIZER
-                        |   NEW PRIMITIVETYPE DIMEXPRS 
-                        |	NEW CLASSORINTERFACETYPE DIMEXPRS 
-                        |   NEW PRIMITIVETYPE DIMS
-                        |	NEW CLASSORINTERFACETYPE DIMS
-                        |   NEW PRIMITIVETYPE 
-                        |	NEW CLASSORINTERFACETYPE 
+ARRAYCREATIONEXPRESSION: NEW PRIMITIVETYPE DIMEXPRS DIMS {/*NOT SUPPORTED*/}
+                        |	NEW CLASSORINTERFACETYPE DIMEXPRS DIMS {/*NOT SUPPORTED*/}
+                        |	NEW PRIMITIVETYPE DIMS ARRAYINITIALIZER { $$ = new_temp();  generalmap[$$].typ.name= chartostring($2);  generalmap[$$].vinit = generalmap[$4].vinit; assert (generalmap[$4].vinit.dims.size() == temp[$3]); }
+                        |	NEW CLASSORINTERFACETYPE DIMS ARRAYINITIALIZER {/*NOT SUPPORTED*/}
+                        |   NEW PRIMITIVETYPE DIMEXPRS  { $$ = new_temp();  generalmap[$$].typ.name= chartostring($2);  generalmap[$$].vinit = generalmap[$3].vinit;}
+                        |	NEW CLASSORINTERFACETYPE DIMEXPRS  {/*NOT SUPPORTED*/}
+                        |   NEW PRIMITIVETYPE DIMS {/*NOT SUPPORTED*/}
+                        |	NEW CLASSORINTERFACETYPE DIMS {/*NOT SUPPORTED*/}
+                        |   NEW PRIMITIVETYPE  {/*TODO whats this*/}
+                        |	NEW CLASSORINTERFACETYPE {/*TODO whats this*/}
 
 ARRAYINITIALIZER    :  OPENCURLY ARRAYINITIALIZER1 CLOSECURLY {$$=$2; generalmap[$$].vinit.dims.push_back(generalmap[$$].num); generalmap[$$].num=0;}
                     |   OPENCURLY CLOSECURLY {$$=new_temp(); generalmap[$$].vinit.dims.push_back(0);}
 
 ARRAYINITIALIZER1   :  VARIABLEINITIALIZERLIST {$$= $1;}
-                    |   COMMA {$$ = new_temp(); generalmap[$$].num=1;} 
+                    |   COMMA {$$ = new_temp(); generalmap[$$].num=2;} 
                     |   VARIABLEINITIALIZERLIST COMMA {$$ = $1; generalmap[$$].num++;}
 
-DIMEXPRS: DIMEXPR
-        |   DIMEXPRS DIMEXPR
+DIMEXPRS: DIMEXPR {$$ = new_temp(); generalmap[$$].vinit.dims.push_back(generalmap[$1].num);}
+        |   DIMEXPRS DIMEXPR {$$ = $1; generalmap[$$].vinit.dims.push_back(generalmap[$2].num);}
 
-DIMEXPR: OPENSQUARE EXPRESSION CLOSESQUARE 
-
+DIMEXPR: OPENSQUARE EXPRESSION CLOSESQUARE  {$$ = new_temp(); generalmap[$$].num = varaddrstoint(ds[chartonum($2)]["var"]);}
+       
 VARIABLEINITIALIZERLIST :   VARIABLEINITIALIZER {$$=$1; generalmap[$$].num=1;}
                         |   VARIABLEINITIALIZERLIST COMMA VARIABLEINITIALIZER {$$=$1; generalmap[$$].num++; assert(generalmap[$$].vinit.dims == generalmap[$3].vinit.dims);}
 
@@ -1339,7 +1360,7 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
 
     methods[generalmap[$2].name].rettype = generalmap[$2].typ;
     vector <type> argtype;
-    methods[generalmap[$1].name].lineno = yylineno;
+    methods[generalmap[$2].name].lineno = yylineno;
 
 
     for (auto x : generalmap[$2].farglist)
@@ -1356,6 +1377,8 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
       
 
     methods[generalmap[$2].name].rettype = generalmap[$2].typ;
+        methods[generalmap[$2].name].lineno = yylineno;
+
     vector <type> argtype;
     for (auto x : generalmap[$2].farglist)
         {argtype.push_back(x.typ);
@@ -1370,6 +1393,8 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
         assert(methods.find(generalmap[$2].name) == methods.end());
 
     methods[generalmap[$2].name].rettype = generalmap[$2].typ;
+        methods[generalmap[$2].name].lineno = yylineno;
+
     vector <type> argtype;
 
     for (auto x : generalmap[$2].farglist)
@@ -1385,6 +1410,8 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
         assert(methods.find(generalmap[$2].name) == methods.end());
 
     methods[generalmap[$2].name].rettype = generalmap[$2].typ;
+        methods[generalmap[$2].name].lineno = yylineno;
+
     vector <type> argtype;
 
     for (auto x : generalmap[$2].farglist)
@@ -1524,9 +1551,46 @@ LOCALCLASSORINTERFACEDECLARATION: CLASSDECLARATION
 
 LOCALVARIABLEDECLARATIONSTATEMENT: LOCALVARIABLEDECLARATION SEMICOLON   {$$ = $1;}
 
-LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {$$ = $3;
-                                                                            }
+LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
+
+                            if(generalmap[$3].typ.name != "")assert(chartostring($2)== generalmap[$3].typ.name);
+                            $$ = $3;
+                            int curr = chartonum($$);
+                                                    // assert(ds[curr].find("start")!=ds[curr].end());
+                            // assert()
+                            if(ds[curr].find("start")==ds[curr].end())
+                            ds[curr]["start"] = code.size();
+                            string t = chartostring($2);
+                            for(auto t2:ds2[curr]["type"]){
+                                if(!((t=="double"||t=="float")&&(t2=="int"||t2=="long"))){
+                                    if(!((t=="double"&&t2=="float")||(t=="long"&&t2=="int")))
+                                        if(t2!=chartostring($2))
+                                        typ_error(chartostring($2),t2,int(yylineno));
+                                    // }
+                                }
+                            }
+                            for (auto x: generalmap[$3].vlist){
+                            
+                            // cout<<x.first.name<<endl;
+                            assert(symboltable.find(x.first.name) == symboltable.end());
+                            /*ADD SIMILAR FOR FILEDS AND METHODS*/
+
+                           symboltable[x.first.name].typ.dims= x.first.num;
+                            symboltable[x.first.name].typ.name= chartostring($2);
+                             reverse(all(x.second.dims));
+                            symboltable[x.first.name].dims = x.second.dims;
+                            symboltable[x.first.name].scope = scope;
+                            symboltable[x.first.name].lineno = yylineno;
+                            symboltable[x.first.name].token = "IDENTIFIER";
+
+                            // cout<<x.first.name;
+                            printvarentry(symboltable[x.first.name]);
+                            preservedsymboltable[{x.first.name,scope}] = symboltable[x.first.name];
+                        }
+                        }
                         |   LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
+
+                            if(generalmap[$2].typ.name != "")assert(chartostring($1)== generalmap[$2].typ.name);
                             $$ = $2;
                             int curr = chartonum($$);
                                                     // assert(ds[curr].find("start")!=ds[curr].end());
@@ -2088,6 +2152,8 @@ INTERFACETYPE   :   CLASSTYPE {$$=$1;}
 int main(int argc, char** argv){
         newscope();
     yyparse();
+    type_check_function_strong();
+
     ofstream cout1("3ac.txt");
     // cout<<"CODE:\n";
 

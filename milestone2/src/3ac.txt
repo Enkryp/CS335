@@ -1,0 +1,16 @@
+0 fk=0
+1 begin func main
+2 pop param, args
+3 pop param, x
+4 pop param, nn
+5 key=30
+6 a=400
+7 t1 = a +int 30
+8 t2 = t1 +int 20
+9 key=t2
+10 ak=false
+11 t3 = a<key
+12 if t3 goto  14
+13 goto  15
+14 g=0
+15 end func
