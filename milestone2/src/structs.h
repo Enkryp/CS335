@@ -51,6 +51,7 @@ struct formalarg
     };
 
     map<char*, general> generalmap;
+    map<string, string> pref; 
 
     struct methodsig{
         vector <ll>access;
@@ -170,11 +171,14 @@ for(auto x : to_check_functions){
  }
 
 
-ll num_var=1;
+ll num_var=1, num_var2=1;
      string new_var(){
         return "t"+numtostring(num_var++);
     }
 
+    string new_var2(){
+        return "c"+numtostring(num_var2++);
+    }
 
     void backpatch(vector<int> &lines,int go){
         for(int i=0;i<lines.size();i++){
@@ -360,7 +364,7 @@ string type_conversion(string a,string b,string c){
     }
 }
 
-
+vector<string> object_list;
 
 ll varaddrstoint (string s){
     gbdimid++;
