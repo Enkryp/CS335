@@ -13,6 +13,24 @@ struct vardecinit {
     string classname = "";
 };
 
+
+
+void object_error(string name1, string name2, int lineno){
+
+    cerr<<"Illegal attribute "+name2+" of object "+name1+" at line "<<lineno<<"\n";
+    exit(0);
+
+}
+
+void object_error_func(string name1, string name2, int lineno){
+
+    cerr<<"Illegal function "+name2+" of object "+name1+" at line "<<lineno<<"\n";
+    exit(0);
+
+}
+
+
+
 struct type{
     string name;
     ll dims=0;
@@ -370,4 +388,115 @@ ll varaddrstoint (string s){
     gbdimid++;
     dimtoid[gbdimid]=s;
     return -gbdimid;
+}
+struct objdetails{
+    bool ismethod = false;
+    bool isfield = false;
+    methodsig method;
+    fieldsig field;
+};
+
+objdetails getobjdetails(string obj, string name){
+    string cls = symboltable[obj].typ.name;     /* two objects with same name in different class*/
+    objdetails o;
+
+    // if()
+    if(classfields[cls].find(name) != classfields[cls].end()){
+        
+        o.isfield = true;
+        o.field = classfields[cls][name];
+        return o;
+    }
+    else if(classmethods[cls].find(name) != classmethods[cls].end()){
+        
+        o.ismethod = true;
+        o.method = classmethods[cls][name];
+        return o;
+    }
+    
+    return o;
+    }
+
+struct method_copy{
+
+    int start;
+    int end;
+
+};
+
+map<string, method_copy> method_det;
+
+vector <string> getallfields(string obj){
+    string cls = symboltable[obj].typ.name;
+    vector <string> v;
+    if(classfields.find(cls)==classfields.end()){
+        for (auto x:fields){
+            v.push_back(x.first);
+        }
+    }
+    else {
+    for(auto x:classfields[cls]){
+        v.push_back(x.first);
+    }}
+    return v;
+}
+
+vector<string> getallmethods(string obj){
+    string cls = symboltable[obj].typ.name;
+    vector<string> methods;
+    for(auto names: classmethods[cls]){
+        methods.push_back(names.first);
+    }
+    return methods;
+}
+
+vector<string> split_line(string & line){
+
+    vector<string> words;
+    string prev = "";
+    for(int i=0;i<line.size();i++){
+
+        if(line[i]==' '){
+            words.push_back(prev);
+            prev = "";
+        }else prev += line[i];
+
+    }
+    words.push_back(prev);
+    return words;
+
+}
+
+void add_func(vector<string> &code, string pref, int start, int end){
+
+    set<string> reservedwords = {"goto", "array", "begin", "func", "pop", "push", "param,","end", "call,","return", "if"};
+    // set<string> reservedwords;
+    int currline = code.size();
+    for(int i=start;i<=end;i++){
+        string line = code[i];
+        vector<string> words = split_line(line);
+        vector<string> newline;
+        // string newline;
+        for(auto word: words){
+            if(((word[0]>='a'&&word[0]<='z')||(word[0]>='A'&&word[0]<='Z')) && reservedwords.find(word)==reservedwords.end()){
+                newline.push_back(pref+word);
+            }else{
+                newline.push_back(word);
+                if(word == "goto"){
+                    int next = stringtonum(words.back());
+                    string go = numtostring(next-i+currline);
+                    newline.push_back(go);
+                    break;
+                }
+            }
+        }
+        string nextline = "";
+        for(int j=0;j<newline.size()-1;j++){
+            nextline += newline[j]+" ";
+        }
+        nextline += newline.back();
+        code.push_back(nextline);
+        currline++;
+    }
+
 }
