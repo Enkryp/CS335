@@ -1,6 +1,9 @@
 #define ll long long
 ll gbdimid=1000;
 
+ll curoffset=0;
+stack <ll>scopeoffset;
+
 map<ll, string> dimtoid;
 struct vardecid {
     string name;
@@ -59,6 +62,7 @@ struct formalarg
         string classname = "";
         vector<pair<vardecid, vardecinit>>  vlist;
         vector <string> dimexpaddrs;
+        vector <string> modifiers;
  
 
 
@@ -72,7 +76,7 @@ struct formalarg
     map<string, string> pref; 
 
     struct methodsig{
-        vector <ll>access;
+        vector <string>access;
         type rettype;
         ll lineno;
         vector<type> argtype;
@@ -81,7 +85,7 @@ struct formalarg
         }
     };
     struct fieldsig{
-        vector <ll>access;
+        vector <string>access;
         type typ;  /*CHECK*/
         ll lineno;
         vector<ll> dims;
@@ -96,6 +100,7 @@ struct formalarg
         type typ;
         vector<ll> dims; /*BOUNDS*/
         ll scope;
+        ll offset=0;
         string objof; 
         bool operator<(const varentry& other) const{
             return scope<other.scope;
@@ -104,7 +109,7 @@ struct formalarg
     void printvarentry(varentry v){
         if(v.dims.size() && v.typ.dims && v.dims.size()!=v.typ.dims)  assert(0 && "array init error");
         if(v.typ.dims && v.dims.size()==0) {for(int i=0; i<v.typ.dims; i++) v.dims.push_back(1000);}
-        cout<<" type: "<<v.typ.name<<" type dims: "<<v.typ.dims<<" bounds: "<<v.dims.size()<<" scope: "<<v.scope<<endl;
+        cout<<" type: "<<v.typ.name<<" type dims: "<<v.typ.dims<<" bounds: "<<v.dims.size()<<" scope: "<<v.scope<<" offset "<<v.offset<<endl;
         for (ll i=0;i<v.dims.size();i++){
             cout<<v.dims[i]<<" ";
         }
@@ -384,6 +389,13 @@ string type_conversion(string a,string b,string c){
 
 vector<string> object_list;
 
+bool isnum(string s){
+    for(int i=0;i<s.size();i++){
+        if(s[i]<'0'||s[i]>'9')return false;
+    }
+    return true;
+}
+
 ll varaddrstoint (string s){
     gbdimid++;
     dimtoid[gbdimid]=s;
@@ -498,5 +510,46 @@ void add_func(vector<string> &code, string pref, int start, int end){
         code.push_back(nextline);
         currline++;
     }
+
+}
+ll gettypesize(string s){
+    cerr<<"TPYESIZEINV"<<s<<"NO"<<endl;
+    // TODO bool boolean
+    //  get type size of a variable of java, s stores type
+    if(s=="byte") return 1;
+    else if(s=="short") return 2;
+    else if(s=="int") return 4;
+    else if(s=="long") return 8;
+    else if(s=="float") return 4;
+    else if(s=="double") return 8;
+    else if(s=="boolean") return 1;
+    else if(s=="bool") return 1;
+    else if(s=="char") return 2;
+    else if(classfields.find(s)!=classfields.end()){
+        // todo current class
+        ll size = 0;
+        
+        for(auto x:classfields[s]){
+                    ll array =1;
+
+            for (auto y:x.second.dims){
+                 ll ft = y;
+                                 if(y<0){
+                                    auto g = dimtoid[-y];
+                                    // cerr<<g;
+                                    assert(isnum(g) && "only constant direct expressions supported");
+                                    ft = stringtonum(g);
+
+
+                                }
+                                array *= ft;
+                           
+            }
+            size += array*gettypesize(x.second.typ.name);
+        }
+        return size;
+    }
+    else if(s=="void") return 0;
+    else return 0;
 
 }

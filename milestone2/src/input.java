@@ -25,7 +25,10 @@ class BinarySearchExample{
            int key = 30,a=400;  
           //  int a;
             key = a+30+20;
-            bool ak=false;
+
+            boolean ak=false;
+            int gg [] = {1,1,1,1,1,1,1};
+            int fg=0;
             if(a<key){
               int g =0;
             } 

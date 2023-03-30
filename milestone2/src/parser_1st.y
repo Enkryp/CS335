@@ -7,6 +7,11 @@
     
     /*TODO typecheck for unary operators
     Line numbers in error
+    3ac type sizes in array access
+    2 parse for future class, methods, fields
+    array access new exp, literal exp for offsets
+    offsets for arguments ?
+
     back patach type check for fields
     negative for addrs in new exp
     GOTOS for */
@@ -111,10 +116,15 @@
         // cerr<<scopes.size()<<endl;
         scopes.pop();
         scope = scopes.top();
+        curoffset = scopeoffset.top();
+        scopeoffset.pop();
+
     }
     bool tempincscope = false;
     void newscope(){
         if(tempincscope){tempincscope=false; return;}
+        
+        scopeoffset.push(curoffset);
         ll prev = scope;
         scope = ++scopemax;
         scopes.push(scope);
@@ -564,6 +574,8 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                             assert(fields.find(x.first.name) == fields.end());
                             fields[x.first.name].typ.dims= x.first.num;
                             fields[x.first.name].typ.name= chartostring($2);
+
+                            fields[x.first.name].access = generalmap[$1].modifiers;
                             /*CHECK TODO*/
                             reverse(all(x.second.dims));
                             fields[x.first.name].dims = x.second.dims;
@@ -588,6 +600,7 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
 
                             fields[x.first.name].typ.dims= x.first.num;
                             fields[x.first.name].typ.name= chartostring($2);
+                            fields[x.first.name].access = generalmap[$1].modifiers;
                             reverse(all(x.second.dims));
                             fields[x.first.name].dims = x.second.dims;
                                                         fields[x.first.name].lineno = yylineno;
@@ -615,6 +628,7 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                             fields[x.first.name].typ.name= chartostring($2);
                             reverse(all(x.second.dims));
                             fields[x.first.name].dims = x.second.dims;
+                            fields[x.first.name].access = generalmap[$1].modifiers;
                                                         fields[x.first.name].lineno = yylineno;
 
                         }
@@ -1425,6 +1439,8 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
     methods[generalmap[$2].name].rettype = generalmap[$2].typ;
     vector <type> argtype;
     methods[generalmap[$2].name].lineno = yylineno;
+    
+    methods[generalmap[$2].name].access = generalmap[$1].modifiers;
 
 
     for (auto x : generalmap[$2].farglist)
@@ -1444,6 +1460,8 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
     methods[generalmap[$2].name].rettype = generalmap[$2].typ;
         methods[generalmap[$2].name].lineno = yylineno;
 
+    methods[generalmap[$2].name].access = generalmap[$1].modifiers;
+
     vector <type> argtype;
     for (auto x : generalmap[$2].farglist)
         {argtype.push_back(x.typ);
@@ -1460,6 +1478,8 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
 
     methods[generalmap[$2].name].rettype = generalmap[$2].typ;
         methods[generalmap[$2].name].lineno = yylineno;
+
+    methods[generalmap[$2].name].access = generalmap[$1].modifiers;
 
     vector <type> argtype;
 
@@ -1478,6 +1498,8 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
 
     methods[generalmap[$2].name].rettype = generalmap[$2].typ;
         methods[generalmap[$2].name].lineno = yylineno;
+
+    methods[generalmap[$2].name].access = generalmap[$1].modifiers;
 
     vector <type> argtype;
 
@@ -1652,8 +1674,27 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                             symboltable[x.first.name].scope = scope;
                             symboltable[x.first.name].lineno = yylineno;
                             symboltable[x.first.name].token = "IDENTIFIER";
+                            symboltable[x.first.name].offset = curoffset;
+                          ll arrsize = 1;
+                            for(auto x: symboltable[x.first.name].dims){
+                                ll ft = x;
+                                 if(x<0){
+                                    auto g = dimtoid[-x];
+                                    cerr<<g;
+                                    assert(isnum(g) && "only constant direct expressions supported");
+                                    ft = stringtonum(g);
+
+
+                                }
+                                arrsize *= ft;
+                                cerr<<ft<<" ";
+
+                            }
+                              curoffset += arrsize* gettypesize(symboltable[x.first.name].typ.name);
+                            // TODO support class sizes
 
                             // cout<<x.first.name;
+                            // TODO: printvarentry needed
                             printvarentry(symboltable[x.first.name]);
                             preservedsymboltable[{x.first.name,scope}] = symboltable[x.first.name];
                         }
@@ -1676,6 +1717,7 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                                     // }
                                 }
                             }
+                            
                             for (auto x: generalmap[$2].vlist){
                             
                             // cout<<x.first.name<<endl;
@@ -1689,6 +1731,26 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                             symboltable[x.first.name].scope = scope;
                             symboltable[x.first.name].lineno = yylineno;
                             symboltable[x.first.name].token = "IDENTIFIER";
+                            symboltable[x.first.name].offset = curoffset;
+                            ll arrsize = 1;
+                            for(auto x: symboltable[x.first.name].dims){
+                                ll ft = x;
+                                 if(x<0){
+                                    auto g = dimtoid[-x];
+                                   cerr<<g;
+
+                                    assert(isnum(g) && "only constant direct expressions supported");
+                                    ft = stringtonum(g);
+
+
+                                }
+                                arrsize *= ft;
+                                cerr<<ft<<" ";
+
+                            }
+                            
+                            curoffset += arrsize* gettypesize(symboltable[x.first.name].typ.name);
+                            // TODO support class sizes
 
                             // cout<<x.first.name;
                             printvarentry(symboltable[x.first.name]);
@@ -2147,57 +2209,57 @@ EXPLICITCONSTRUCTORINVOCATION: THIS OPENPARAN CLOSEPARAN SEMICOLON
                             |   PRIMARY DOT TYPEARGUMENTS SUPER OPENPARAN  CLOSEPARAN SEMICOLON
                             |   PRIMARY DOT TYPEARGUMENTS SUPER OPENPARAN ARGUMENTLIST CLOSEPARAN SEMICOLON
 
-SUPER1 : PUBLIC 
-        | PRIVATE 
-        | PROTECTED
-        | SUPER1 PUBLIC 
-        | SUPER1 PRIVATE 
-        | SUPER1 PROTECTED
+SUPER1 : PUBLIC {$$ = new_temp(); generalmap[$$].modifiers.push_back(chartostring($1));}
+        | PRIVATE  {$$ = new_temp(); generalmap[$$].modifiers.push_back(chartostring($1));}
+        | PROTECTED {$$ = new_temp(); generalmap[$$].modifiers.push_back(chartostring($1));}
+        | SUPER1 PUBLIC  {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+        | SUPER1 PRIVATE  {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+        | SUPER1 PROTECTED {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
     
-SUPER2 : STATIC
-        | FINAL 
-        | SUPER1 STATIC
-        | SUPER1 FINAL
-        | SUPER2 STATIC
-        | SUPER2 FINAL
-        | SUPER2 PUBLIC
-        | SUPER2 PRIVATE
-        | SUPER2 PROTECTED
+SUPER2 : STATIC {$$ = new_temp(); generalmap[$$].modifiers.push_back(chartostring($1));}
+        | FINAL  {$$ = new_temp(); generalmap[$$].modifiers.push_back(chartostring($1));}
+        | SUPER1 STATIC {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+        | SUPER1 FINAL {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+        | SUPER2 STATIC {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+        | SUPER2 FINAL {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+        | SUPER2 PUBLIC {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+        | SUPER2 PRIVATE {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+        | SUPER2 PROTECTED {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
 
-SUPER3 : ABSTRACT
-        | STRICTFP
-        | SUPER2 ABSTRACT
-        | SUPER2 STRICTFP
-        | SUPER3 ABSTRACT
-        | SUPER3 STRICTFP
-        | SUPER3 PUBLIC
-        | SUPER3 PRIVATE
-        | SUPER3 PROTECTED
-        | SUPER3 STATIC
-        | SUPER3 FINAL
+SUPER3 : ABSTRACT {$$ = new_temp(); generalmap[$$].modifiers.push_back(chartostring($1));}
+        | STRICTFP {$$ = new_temp(); generalmap[$$].modifiers.push_back(chartostring($1));}
+        | SUPER2 ABSTRACT {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+        | SUPER2 STRICTFP {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+        | SUPER3 ABSTRACT {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+        | SUPER3 STRICTFP {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+        | SUPER3 PUBLIC {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+        | SUPER3 PRIVATE {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+        | SUPER3 PROTECTED {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+        | SUPER3 STATIC {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+        | SUPER3 FINAL {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+ 
+FIELDMODIFIERS: SUPER3 TRANSIENT {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+            |   SUPER3 VOLATILE {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+            |  FIELDMODIFIERS TRANSIENT {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+            |  FIELDMODIFIERS VOLATILE {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+            | FIELDMODIFIERS PUBLIC {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+            | FIELDMODIFIERS PRIVATE {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+            | FIELDMODIFIERS PROTECTED {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+            | FIELDMODIFIERS STATIC {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+            | FIELDMODIFIERS FINAL {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
 
-FIELDMODIFIERS: SUPER3 TRANSIENT
-            |   SUPER3 VOLATILE
-            |  FIELDMODIFIERS TRANSIENT
-            |  FIELDMODIFIERS VOLATILE
-            | FIELDMODIFIERS PUBLIC
-            | FIELDMODIFIERS PRIVATE
-            | FIELDMODIFIERS PROTECTED
-            | FIELDMODIFIERS STATIC
-            | FIELDMODIFIERS FINAL
 
-
-METHODMODIFIERS : SUPER3 SYNCHRONIZED
-                | SUPER3 NATIVE
-                | METHODMODIFIERS SYNCHRONIZED
-                | METHODMODIFIERS NATIVE
-                | METHODMODIFIERS ABSTRACT
-                | METHODMODIFIERS STRICTFP
-                | METHODMODIFIERS PUBLIC
-                | METHODMODIFIERS PRIVATE
-                | METHODMODIFIERS PROTECTED
-                | METHODMODIFIERS STATIC
-                | METHODMODIFIERS FINAL
+METHODMODIFIERS : SUPER3 SYNCHRONIZED {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+                | SUPER3 NATIVE {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+                | METHODMODIFIERS SYNCHRONIZED {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+                | METHODMODIFIERS NATIVE {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+                | METHODMODIFIERS ABSTRACT {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+                | METHODMODIFIERS STRICTFP {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+                | METHODMODIFIERS PUBLIC {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+                | METHODMODIFIERS PRIVATE {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+                | METHODMODIFIERS PROTECTED {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+                | METHODMODIFIERS STATIC {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
+                | METHODMODIFIERS FINAL {$$ = $1; generalmap[$$].modifiers.push_back(chartostring($2));}
 
 TYPEARGUMENTS   :   ANGULARLEFT TYPEARGUMENTLIST  ANGULARRIGHT 
 
