@@ -116,7 +116,9 @@
         // cerr<<scopes.size()<<endl;
         scopes.pop();
         scope = scopes.top();
-        curoffset = scopeoffset.top();
+        ll dec = scopeoffset.top()- curoffset;
+        curoffset += dec;
+        code.push_back("stackpointer - "+ numtostring(-dec));
         scopeoffset.pop();
 
     }
@@ -837,7 +839,7 @@ PRIMARYNONEWARRAY: LITERAL  {$$ = $1;}
                   |	METHODINVOCATION    {$$ = $1;}
                   |	METHODREFERENCE
 
-LITERAL: INTEGERLITERAL {$$ = new_temp(); ds[chartonum($$)]["type"] = "int"; ds[chartonum($$)]["var"] = new_var(); ds[chartonum($$)]["start"] = numtostring(code.size()); code.push_back(ds[chartonum($$)]["var"]+ " = "+ chartostring($1));}
+LITERAL: INTEGERLITERAL {$$ = new_temp();  ds[chartonum($$)]["type"] = "int"; ds[chartonum($$)]["var"] = new_var(); ds[chartonum($$)]["start"] = numtostring(code.size()); tempinitval[ds[chartonum($$)]["var"]]= chartonum($1); code.push_back(ds[chartonum($$)]["var"]+ " = "+ chartostring($1));}
         |	FLOATINGPOINTLITERAL {$$ = new_temp(); ds[chartonum($$)]["type"] = "float"; ds[chartonum($$)]["start"] = numtostring(code.size());ds[chartonum($$)]["var"] = new_var(); code.push_back(ds[chartonum($$)]["var"]+ " = "+ chartostring($1));}
         |	BOOLEANLITERAL {$$ = new_temp(); ds[chartonum($$)]["type"] = "bool";ds[chartonum($$)]["start"] = numtostring(code.size()); ds[chartonum($$)]["var"] = new_var(); code.push_back(ds[chartonum($$)]["var"]+ " = "+ chartostring($1));}
         |	CHARACTERLITERAL {$$ = new_temp(); ds[chartonum($$)]["type"] = "char";ds[chartonum($$)]["start"] = numtostring(code.size()); ds[chartonum($$)]["var"] = new_var(); code.push_back(ds[chartonum($$)]["var"]+ " = "+ chartostring($1));}
@@ -1679,7 +1681,7 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                             for(auto x: symboltable[x.first.name].dims){
                                 ll ft = x;
                                  if(x<0){
-                                    auto g = dimtoid[-x];
+                                    auto g = numtostring(tempinitval[dimtoid[-x]]);
                                     cerr<<g;
                                     assert(isnum(g) && "only constant direct expressions supported");
                                     ft = stringtonum(g);
@@ -1689,8 +1691,11 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                                 arrsize *= ft;
                                 cerr<<ft<<" ";
 
-                            }
-                              curoffset += arrsize* gettypesize(symboltable[x.first.name].typ.name);
+                            }   
+                            ll increment = arrsize* gettypesize(symboltable[x.first.name].typ.name);
+                              curoffset += increment;
+                              code.push_back("stackpointer + "+ numtostring(increment));
+
                             // TODO support class sizes
 
                             // cout<<x.first.name;
@@ -1736,7 +1741,7 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                             for(auto x: symboltable[x.first.name].dims){
                                 ll ft = x;
                                  if(x<0){
-                                    auto g = dimtoid[-x];
+                                    auto g = numtostring(tempinitval[dimtoid[-x]]);
                                    cerr<<g;
 
                                     assert(isnum(g) && "only constant direct expressions supported");
@@ -1749,8 +1754,12 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
 
                             }
                             
-                            curoffset += arrsize* gettypesize(symboltable[x.first.name].typ.name);
-                            // TODO support class sizes
+                              
+                            ll increment = arrsize* gettypesize(symboltable[x.first.name].typ.name);
+                              curoffset += increment;
+                              code.push_back("stackpointer + "+ numtostring(increment));
+                              
+                              // TODO support class sizes
 
                             // cout<<x.first.name;
                             printvarentry(symboltable[x.first.name]);

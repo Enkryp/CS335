@@ -1,6 +1,8 @@
 #define ll long long
 ll gbdimid=1000;
 
+map<string, ll> tempinitval;
+
 ll curoffset=0;
 stack <ll>scopeoffset;
 
