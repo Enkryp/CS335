@@ -10,47 +10,44 @@
 9 end func
 10 begin func main
 11 t3 = call, function1
-12 t4 = 4
-13 t5 = 3
-14 t6 = 2
-15 t7 = 1
-16 stackpointer - 0
-17 arr = t4
-18 stackpointer + 16
-19 t8 = 0
-20 a = arr[t8]
+12 t4 = 5
+13 t5 = t4 * 4
+14 arr = array ( t5 )
+15 stackpointer + 20
+16 t6 = 0
+17 a = arr[t6]
+18 stackpointer + 4
+19 t7 = 1
+20 b = arr[t7]
 21 stackpointer + 4
-22 t9 = 1
-23 b = arr[t9]
+22 t8 = a +int b
+23 d = t8
 24 stackpointer + 4
-25 t10 = a +int b
-26 d = t10
-27 stackpointer + 4
+25 e = d
+26 stackpointer + 4
+27 stackpointer - 4
 28 e = d
 29 stackpointer + 4
 30 stackpointer - 4
-31 e = d
+31 f = d
 32 stackpointer + 4
 33 stackpointer - 4
-34 f = d
+34 e = d
 35 stackpointer + 4
-36 stackpointer - 4
-37 e = d
-38 stackpointer + 4
-39 t11 = 5
-40 t12 = a +int t11
-41 n = t12
-42 stackpointer + 4
-43 t13 = 2
-44 t14 = n < t13
-45 if t14 goto  47
-46 goto  50
-47 t15 = 5
-48 n = t15
+36 t9 = 5
+37 t10 = a +int t9
+38 n = t10
+39 stackpointer + 4
+40 t11 = 2
+41 t12 = n < t11
+42 if t12 goto  44
+43 goto  47
+44 t13 = 5
+45 n = t13
+46 stackpointer - 0
+47 t14 = 10
+48 n = t14
 49 stackpointer - 0
-50 t16 = 10
-51 n = t16
+50 stackpointer - 40
+51 end func
 52 stackpointer - 0
-53 stackpointer - 36
-54 end func
-55 stackpointer - 0

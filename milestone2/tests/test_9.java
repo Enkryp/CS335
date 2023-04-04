@@ -10,7 +10,7 @@ class functionandIfElse
     {  
         
         function1();
-        int arr[] = { 4, 3, 2, 1 };
+        int arr[] = new int [5];
         
 		// Outer loop
 		int a=arr[0];
