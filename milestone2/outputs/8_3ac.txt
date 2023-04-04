@@ -20,9 +20,9 @@
 19 stackpointer - 4
 20 end func
 21 begin func function3
-22 pop param, k
-23 return k
-24 stackpointer - 0
+22 return k
+23 stackpointer - 0
+24 pop param, k
 25 end func
 26 begin func main
 27 t6 = 0

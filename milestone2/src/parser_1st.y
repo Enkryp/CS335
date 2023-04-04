@@ -1025,7 +1025,7 @@ ARRAYCREATIONEXPRESSION: NEW PRIMITIVETYPE DIMEXPRS DIMS {/*NOT SUPPORTED*/}
                         |	NEW CLASSORINTERFACETYPE DIMEXPRS DIMS {/*NOT SUPPORTED*/}
                         |	NEW PRIMITIVETYPE DIMS ARRAYINITIALIZER { $$ = new_temp();  generalmap[$$].typ.name= chartostring($2);  generalmap[$$].vinit = generalmap[$4].vinit; assert (generalmap[$4].vinit.dims.size() == temp[$3]); }
                         |	NEW CLASSORINTERFACETYPE DIMS ARRAYINITIALIZER {/*NOT SUPPORTED*/}
-                        |   NEW PRIMITIVETYPE DIMEXPRS  { $$ = new_temp();  generalmap[$$].typ.name= chartostring($2);  generalmap[$$].vinit = generalmap[$3].vinit; ds[chartonum($$)]["arr"] = "true"; ds[chartonum($$)]["var"] = new_var(); code.push_back(ds[chartonum($$)]["var"]+ " = "+ ds[chartonum($3)]["var"]+" * "+numtostring(gettypesize(chartostring($2)))); ds[chartonum($$)]["type"] = chartostring($2); ds[chartonum($$)]["start"] = ds[chartonum($3)]["start"];}
+                        |   NEW PRIMITIVETYPE DIMEXPRS  { $$ = new_temp();  generalmap[$$].typ.name= chartostring($2);  generalmap[$$].vinit = generalmap[$3].vinit; reverse(all(generalmap[$$].vinit.dims)); ds[chartonum($$)]["arr"] = "true"; ds[chartonum($$)]["var"] = new_var(); code.push_back(ds[chartonum($$)]["var"]+ " = "+ ds[chartonum($3)]["var"]+" * "+numtostring(gettypesize(chartostring($2)))); ds[chartonum($$)]["type"] = chartostring($2); ds[chartonum($$)]["start"] = ds[chartonum($3)]["start"];}
                         |	NEW CLASSORINTERFACETYPE DIMEXPRS  {/*NOT SUPPORTED*/}
                         |   NEW PRIMITIVETYPE DIMS {/*NOT SUPPORTED*/}
                         |	NEW CLASSORINTERFACETYPE DIMS {/*NOT SUPPORTED*/}

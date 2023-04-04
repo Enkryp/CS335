@@ -87,7 +87,7 @@ native  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(NATIVE);}
 super  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(SUPER);}
 while  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(WHILE);}
 _  {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(UNDERSCORE);}
-"System.out.println("{let}{ledig}*");" {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(PRINTLN);}
+"System.out.println("([^\r\n\"\\]|{escape})*");" {yylval.val = strdup(yytext);/*cerr<<yytext;*/ return(PRINTLN);}
 
 
 

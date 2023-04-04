@@ -1,8 +1,8 @@
 Token, Name(Lexeme), Type, Line Number, Scope, Dims(If array), ScopeINFO(Child), ScopeINFO(Parent) << Offsets
 IDENTIFIER, args, String, 2, 3, 1, 0
-IDENTIFIER, fib, int, 5, 3, 1, 4
-IDENTIFIER, i, int, 10, 4, 0, 48
-IDENTIFIER, i, int, 14, 6, 0, 48
+IDENTIFIER, fib, int, 4, 3, 1, 4
+IDENTIFIER, i, int, 9, 4, 0, 48
+IDENTIFIER, i, int, 13, 6, 0, 48
 identifier - method ofFibonacci, main, void, 2, -1, 0, 0
 IDENTIFIER, n, int, 3, 3, 0, 0
 , , , , , , 1, 0, 

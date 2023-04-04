@@ -1,30 +1,17 @@
-class  For{
+class  MultiArrayAccess{
     public static void main() {
-       int a=0;
-       {
-        int v=0;
-        {
-            int c=0;
-            {
-                int d=0;
+
+        int a [][]= new int [10][100];
+        int b = a[0][0];
+        a[4][5] = b;
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 100; j++) {
+                a[i][j] = i + j;
             }
         }
-       }
-       for(int i=0;i<a;i++){
-        a=a-1;
-        ;
-       }
-       for(int i=0;i<a;i++){
-        a=a-1;
-        ;
-       }
-       for(int i=0;i<a;i++){
-            for(int j=0;j<a;j++){
-                // a-=1;
-                a=a-1;
-                ;
-            }
-       }
-       
+
+
     }
+
 }

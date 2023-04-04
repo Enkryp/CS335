@@ -1,72 +1,49 @@
 0 begin func main
-1 t1 = 0
-2 a = t1
-3 stackpointer + 4
-4 t2 = 0
-5 v = t2
-6 stackpointer + 4
-7 t3 = 0
-8 c = t3
-9 stackpointer + 4
-10 t4 = 0
-11 d = t4
+1 t1 = 10
+2 t2 = 100
+3 t3 = t1 *int t2
+4 t4 = t3 * 4
+5 a = array ( t4 )
+6 stackpointer + 4000
+7 t5 = 0
+8 t6 = 0
+9 t8 = t5 * t2
+10 t7 = t8 + t6
+11 b = a[t7]
 12 stackpointer + 4
-13 stackpointer - 4
-14 stackpointer - 4
-15 stackpointer - 4
-16 t5 = 0
-17 i = t5
-18 stackpointer + 4
-19 t6 = i < a
-20 if t6 goto  22
-21 goto  29
-22 t8 = 1
-23 t9 = a -int t8
-24 a = t9
-25 stackpointer - 0
-26 t7 = i
-27 i = t7 +1
-28 goto 19
-29 stackpointer - 4
-30 t10 = 0
-31 i = t10
-32 stackpointer + 4
-33 t11 = i < a
-34 if t11 goto  36
-35 goto  43
-36 t13 = 1
-37 t14 = a -int t13
-38 a = t14
-39 stackpointer - 0
-40 t12 = i
-41 i = t12 +1
-42 goto 33
-43 stackpointer - 4
-44 t15 = 0
-45 i = t15
-46 stackpointer + 4
-47 t16 = i < a
-48 if t16 goto  50
-49 goto  68
-50 t18 = 0
-51 j = t18
-52 stackpointer + 4
-53 t19 = j < a
-54 if t19 goto  56
-55 goto  63
-56 t21 = 1
-57 t22 = a -int t21
-58 a = t22
-59 stackpointer - 0
-60 t20 = j
-61 j = t20 +1
-62 goto 53
-63 stackpointer - 4
-64 stackpointer - 0
-65 t17 = i
-66 i = t17 +1
-67 goto 47
-68 stackpointer - 4
-69 stackpointer - 4
-70 end func
-71 stackpointer - 0
+13 t9 = 4
+14 t10 = 5
+15 t12 = t9 * t2
+16 t11 = t12 + t10
+17 a[ t11 ] = b
+18 t13 = 0
+19 i = t13
+20 stackpointer + 4
+21 t14 = 10
+22 t15 = i < t14
+23 if t15 goto  25
+24 goto  45
+25 t17 = 0
+26 j = t17
+27 stackpointer + 4
+28 t18 = 100
+29 t19 = j < t18
+30 if t19 goto  32
+31 goto  40
+32 t22 = i * t2
+33 t21 = t22 + j
+34 t23 = i +int j
+35 a[ t21 ] = t23
+36 stackpointer - 0
+37 t20 = j
+38 j = t20 +1
+39 goto 28
+40 stackpointer - 4
+41 stackpointer - 0
+42 t16 = i
+43 i = t16 +1
+44 goto 21
+45 stackpointer - 4
+46 stackpointer - 4004
+47 end func
+48 stackpointer - 0

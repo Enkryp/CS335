@@ -1,34 +1,33 @@
-0 begin func main
-1 pop param, args
-2 t1 = 10
-3 t2 = 3
-4 t3 = 2
-5 t4 = 1
-6 stackpointer - 0
-7 arr = t1
-8 stackpointer + 16
-9 t5 = 0
-10 a = arr[t5]
-11 stackpointer + 4
-12 t6 = 1
-13 b = arr[t6]
-14 stackpointer + 4
-15 t7 = a +int b
-16 d = t7
-17 stackpointer + 4
-18 e = d
+0 begin func findGCD
+1 t1 = 0
+2 if b == t1 goto  4
+3 goto  6
+4 return a
+5 stackpointer - 0
+6 t3 = a %int b
+7 push param b
+8 push param t3
+9 t4 = call, findGCD
+10 return t4
+11 stackpointer - 0
+12 stackpointer - 0
+13 pop param, a
+14 pop param, b
+15 end func
+16 begin func main
+17 t5 = 100
+18 num1 = t5
 19 stackpointer + 4
-20 g = e
-21 stackpointer + 4
-22 stackpointer - 8
-23 e = d
-24 stackpointer + 4
-25 stackpointer - 4
-26 f = d
+20 t6 = 134
+21 num2 = t6
+22 stackpointer + 4
+23 push param num1
+24 push param num2
+25 t7 = call, findGCD
+26 gcd = t7
 27 stackpointer + 4
-28 stackpointer - 4
-29 e = d
-30 stackpointer + 4
-31 stackpointer - 32
-32 end func
-33 stackpointer - 0
+28 print gcd
+29 stackpointer - 12
+30 pop param, args
+31 end func
+32 stackpointer - 0

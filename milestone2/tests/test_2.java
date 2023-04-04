@@ -1,25 +1,22 @@
-// Main class
-class Variableandarray {
+public class EuclidsAlgorithm {
 
-	// Main driver method
-	public static void main(String args[])
-	{
+	public static int findGCD(int a, int b) {
+        if (b == 0) {
+            return a;
+        } else {
+            return findGCD(b, a % b);
+        }
+    }
+    public static void main(String args[]) {
+        int num1 = 100;
 
-		// Custom input array
-		int arr[] = { 10, 3, 2, 1 };
+        int num2 = 134;
 
-		// Outer loop
-		int a=arr[0];
-		int b=arr[1];
-		int d=a+b;
-		{
-			int e=d;
-			int g = e;
-		}
-		{
-			int e=d;
-		}
-		{int f=d;}
-		int e=d;
-	}
+        int gcd = findGCD(num1, num2);
+
+        System.out.println(gcd);
+    }
+
+    // Euclid's division algorithm for finding the GCD of two numbers
+    
 }
