@@ -1,0 +1,41 @@
+0 t1 = 0
+1 l = t1
+2 t2 = 1
+3 alpha = t2
+4 begin func function1
+5 t3 = 0
+6 j = t3
+7 stackpointer + 4
+8 k = j
+9 stackpointer + 4
+10 t4 = k +int j
+11 return t4
+12 stackpointer - 8
+13 end func
+14 begin func function2
+15 t5 = 0
+16 i = t5
+17 stackpointer + 4
+18 return i
+19 stackpointer - 4
+20 end func
+21 begin func function3
+22 pop param, k
+23 return k
+24 stackpointer - 0
+25 end func
+26 begin func main
+27 t6 = 0
+28 a = t6
+29 stackpointer + 4
+30 t7 = 5
+31 t8 = a +int t7
+32 n = t8
+33 stackpointer + 4
+34 t9 = call, function1
+35 t10 = call, function2
+36 push param n
+37 t11 = call, function3
+38 stackpointer - 8
+39 end func
+40 stackpointer - 0

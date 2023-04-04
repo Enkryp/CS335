@@ -4,6 +4,8 @@
 
     #include "conversion.h"
     #include "structs.h"
+
+    
     
     /*TODO typecheck for unary operators
     Line numbers in error
@@ -78,11 +80,11 @@
 
     // void typ_error(){
     //     cout<<"Unexpected type\n";
-    //     // cerr<<"Expected value of type "+a+" at line number "+lineno+". Instead found value of type "+b+"\n";
+    //     // cout<<"Expected value of type "+a+" at line number "+lineno+". Instead found value of type "+b+"\n";
     //     exit(0);
     // }
     void typ_error(string a, string b, int lineno){
-        cerr<<"Expected value of type "+a+" at line number "<<lineno<<". Instead found value of type "+b+"\n";
+        cout<<"Expected value of type "+a+" at line number "<<lineno<<". Instead found value of type "+b+"\n";
         exit(0);
     }
     
@@ -113,9 +115,9 @@
         }
         for (auto x : todelete){
             symboltable.erase(x);
-            cerr<<x<<endl;
+            // cout<<x<<endl;
         }
-        // cerr<<scopes.size()<<endl;
+        // cout<<scopes.size()<<endl;
         scopes.pop();
         scope = scopes.top();
         ll dec = scopeoffset.top()- curoffset;
@@ -145,8 +147,8 @@
 
     string gettypefromsymtable(string a){
         
-        // cerr<< "gettypefromsymtable"<<endl;
-        // cerr<< a<<endl;
+        // cout<< "gettypefromsymtable"<<endl;
+        // cout<< a<<endl;
         // return "";
         dbgsymtable();
         
@@ -189,7 +191,7 @@
 
 
     void yyerror(char *s){
-        cerr<<s<<" at: "<<yylineno<<endl;
+        cout<<s<<" at: "<<yylineno<<endl;
         exit(0);
     }
     map<char*,ll> temp;
@@ -224,7 +226,7 @@ EQUALSEQUALS NOTEQUALS
 %token<val> INTEGERLITERAL FLOATINGPOINTLITERAL BOOLEANLITERAL CHARACTERLITERAL STRINGLITERAL TEXTBLOCK NULLLITERAL
 
 /* Keywords */
-%token<val> EXTENDS SUPER CLASS PUBLIC PRIVATE IMPLEMENTS PERMITS PROTECTED STATIC FINAL TRANSIENT VOLATILE INSTANCEOF THIS VOID NEW THROW ASSERT VAR BREAK CONTINUE RETURN YIELD IF ELSE WHILE FOR1 ABSTRACT SYNCHRONIZED NATIVE STRICTFP 
+%token<val> EXTENDS SUPER CLASS PUBLIC PRIVATE IMPLEMENTS PERMITS PROTECTED STATIC FINAL TRANSIENT VOLATILE INSTANCEOF THIS VOID NEW THROW ASSERT VAR BREAK CONTINUE RETURN YIELD IF ELSE WHILE FOR1 PRINTLN ABSTRACT SYNCHRONIZED NATIVE STRICTFP 
 
 /*  Unused keywords  See throw, throws and throwss check non_sealed*/
 %token<val> SWITCH DEFAULT PACKAGE DO GOTO IMPORT THROWS CASE ENUM CATCH TRY INTERFACE FINALLY CONST UNDERSCORE EXPORTS OPENS REQUIRES USES MODULE SEALED PROVIDES TO WITH OPEN RECORD TRANSITIVE ERROR ONCE NL NON_SEALED  
@@ -707,7 +709,7 @@ VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR {$$ = new_temp(); generalmap[$$].
                                                     // assert(!(ds[curr3].find("type")!=ds[curr3].end()&&ds[curr1].find("type")!=ds[curr1].end()&&ds[curr3]["type"]!=ds[curr1]["type"]));
 
                                                     // if((ds[curr3].find("type")!=ds[curr3].end()&&ds[curr1].find("type")!=ds[curr1].end()&&ds[curr3]["type"]!=ds[curr1]["type"])){
-                                                    //     cerr<<ds[curr3]["type"]<<" "<<ds[curr1]["type"]<<"\n";
+                                                    //     cout<<ds[curr3]["type"]<<" "<<ds[curr1]["type"]<<"\n";
                                                     // // typ_error();
                                                     // }
                                                     
@@ -727,7 +729,7 @@ VARIABLEDECLARATOR  :   VARIABLEDECLARATORID EQUALS VARIABLEINITIALIZER {$$ = ne
                                                                             if(ds[curr3].find("class")!=ds[curr3].end()){
                                                                                 ds[curr]["var"] = ds[curr1]["var"];
                                                                                 string cls = ds[curr3]["var"];    // stores the class name after new
-                                                                                cout<<"class "<<cls<<"\n";
+                                                                                // cout<<"class "<<cls<<"\n";
                                                                                 object_list.push_back({ds[curr]["var"],cls}); // Add object to object list
                                                                                 pref[ds[ chartonum($$)]["var"]] = new_var2();
                                                                             }
@@ -972,7 +974,7 @@ METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN   {   $$ = new_temp();
                                                         }
                                                         ds[curr]["var"] = new_var();
                                                         ds[curr]["type"] = detail.method.rettype.name;;
-                                                        cout<<"curr typed "<<ds[curr]["type"]<<"\n";
+                                                        // cout<<"curr typed "<<ds[curr]["type"]<<"\n";
                                                         vector<string> types;
                                                         for(auto i:ds2[curr5]["type"]){
                                                             types.push_back(i);
@@ -1052,7 +1054,7 @@ ARRAYACCESS: EXPRESSIONNAME OPENSQUARE EXPRESSION CLOSESQUARE
                 $$ = new_temp(); 
                 int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);
                 if(ds[curr3]["type"]!="int"&&ds[curr3]["type"]!="long"&&ds[curr3]["type"]!="short"&&ds[curr3]["type"]!="byte")
-                cerr<<"Array index not integer\n";
+                cout<<"Array index not integer\n";
                 ds[curr] = ds[curr1];   
                 ds[curr]["var"] = new_var();
                 int i = stringtonum(ds[curr]["dims"])+1;
@@ -1075,7 +1077,7 @@ ARRAYACCESS: EXPRESSIONNAME OPENSQUARE EXPRESSION CLOSESQUARE
                 ds[curr]["var"] = ds[curr3]["var"];
                 ds[curr]["type"] = symboltable[name].typ.name;
                 if(ds[curr3]["type"]!="int"&&ds[curr3]["type"]!="long"&&ds[curr3]["type"]!="short"&&ds[curr3]["type"]!="byte")
-                cerr<<"Array index not integer\n";
+                cout<<"Array index not integer\n";
                 // code.push_back(ds[curr]["var"]+" = "+ds[curr3]["var"]);
             }
 
@@ -1434,21 +1436,8 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
     method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
     
     code.push_back("end func");
-    // cerr<<"method declaration"<<generalmap[$1].name<<endl;
-    assert(methods.find(generalmap[$1].name) == methods.end());
-    methods[generalmap[$1].name].rettype = generalmap[$1].typ;
-    methods[generalmap[$1].name].lineno = yylineno;
+    // cout<<"method declaration"<<generalmap[$1].name<<endl;
     
-    vector <type> argtype;
-     
-
-    for (auto x : generalmap[$1].farglist)
-        {argtype.push_back(x.typ);
-         }
-    methods[generalmap[$1].name].argtype = argtype;
-        classmethods[curr_class][generalmap[$1].name] = methods[generalmap[$1].name];
-
-
 }
 
 
@@ -1456,89 +1445,89 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
                         $$ =$2;
                         method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
     code.push_back("end func");
-    // cerr<<"method declaration"<<generalmap[$2].name<<endl;
+    // cout<<"method declaration"<<generalmap[$2].name<<endl;
 
-    assert(methods.find(generalmap[$2].name) == methods.end());
+    // assert(methods.find(generalmap[$2].name) == methods.end());
 
-    methods[generalmap[$2].name].rettype = generalmap[$2].typ;
-    vector <type> argtype;
-    methods[generalmap[$2].name].lineno = yylineno;
+    // methods[generalmap[$2].name].rettype = generalmap[$2].typ;
+    // vector <type> argtype;
+    // methods[generalmap[$2].name].lineno = yylineno;
     
-    methods[generalmap[$2].name].access = generalmap[$1].modifiers;
+    // methods[generalmap[$2].name].access = generalmap[$1].modifiers;
 
 
-    for (auto x : generalmap[$2].farglist)
-        {argtype.push_back(x.typ);
+    // for (auto x : generalmap[$2].farglist)
+    //     {argtype.push_back(x.typ);
          
-        }
-    methods[generalmap[$2].name].argtype = argtype;
-        classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
+    //     }
+    // methods[generalmap[$2].name].argtype = argtype;
+    //     classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
 
 
 }
                     |   SUPER2 METHODHEADER METHODBODY{$$ =$2;
                     method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
     code.push_back("end func");
-    // cerr<<"method declaration"<<generalmap[$2].name<<endl;
-        assert(methods.find(generalmap[$2].name) == methods.end());
+    // cout<<"method declaration"<<generalmap[$2].name<<endl;
+    //     assert(methods.find(generalmap[$2].name) == methods.end());
       
 
-    methods[generalmap[$2].name].rettype = generalmap[$2].typ;
-        methods[generalmap[$2].name].lineno = yylineno;
+    // methods[generalmap[$2].name].rettype = generalmap[$2].typ;
+    //     methods[generalmap[$2].name].lineno = yylineno;
 
-    methods[generalmap[$2].name].access = generalmap[$1].modifiers;
+    // methods[generalmap[$2].name].access = generalmap[$1].modifiers;
 
-    vector <type> argtype;
-    for (auto x : generalmap[$2].farglist)
-        {argtype.push_back(x.typ);
+    // vector <type> argtype;
+    // for (auto x : generalmap[$2].farglist)
+    //     {argtype.push_back(x.typ);
         
-        }
-    methods[generalmap[$2].name].argtype = argtype;
-    classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
+    //     }
+    // methods[generalmap[$2].name].argtype = argtype;
+    // classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
 
 
 }
                     |   SUPER3 METHODHEADER METHODBODY{$$ =$2;
                     method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
     code.push_back("end func");
-    // cerr<<"method declaration"<<generalmap[$2].name<<endl;
-        assert(methods.find(generalmap[$2].name) == methods.end());
+    // cout<<"method declaration"<<generalmap[$2].name<<endl;
+    //     assert(methods.find(generalmap[$2].name) == methods.end());
 
-    methods[generalmap[$2].name].rettype = generalmap[$2].typ;
-        methods[generalmap[$2].name].lineno = yylineno;
+    // methods[generalmap[$2].name].rettype = generalmap[$2].typ;
+    //     methods[generalmap[$2].name].lineno = yylineno;
 
-    methods[generalmap[$2].name].access = generalmap[$1].modifiers;
+    // methods[generalmap[$2].name].access = generalmap[$1].modifiers;
 
-    vector <type> argtype;
+    // vector <type> argtype;
 
-    for (auto x : generalmap[$2].farglist)
-        {argtype.push_back(x.typ);
+    // for (auto x : generalmap[$2].farglist)
+    //     {argtype.push_back(x.typ);
         
-        }
-    methods[generalmap[$2].name].argtype = argtype;
-        classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
+    //     }
+    // methods[generalmap[$2].name].argtype = argtype;
+    //     classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
 
 
 }
                     |   METHODMODIFIERS METHODHEADER METHODBODY{$$ =$2;
                     method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
     code.push_back("end func");
-    // cerr<<"method declaration"<<generalmap[$2].name<<endl;
-        assert(methods.find(generalmap[$2].name) == methods.end());
+    // cout<<"method declaration"<<generalmap[$2].name<<endl;
+    //     assert(methods.find(generalmap[$2].name) == methods.end());
 
-    methods[generalmap[$2].name].rettype = generalmap[$2].typ;
-        methods[generalmap[$2].name].lineno = yylineno;
+    // methods[generalmap[$2].name].rettype = generalmap[$2].typ;
+    //     methods[generalmap[$2].name].lineno = yylineno;
 
-    methods[generalmap[$2].name].access = generalmap[$1].modifiers;
+    // methods[generalmap[$2].name].access = generalmap[$1].modifiers;
 
-    vector <type> argtype;
+    // vector <type> argtype;
 
-    for (auto x : generalmap[$2].farglist)
-        {argtype.push_back(x.typ);
+    // for (auto x : generalmap[$2].farglist)
+    //     {argtype.push_back(x.typ);
         
-        }
-    methods[generalmap[$2].name].argtype = argtype;
-        classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
+    //     }
+    // methods[generalmap[$2].name].argtype = argtype;
+    //     classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
 
 
 }
@@ -1551,6 +1540,21 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
 
 METHODHEADER: TYPE METHODDECLARATOR  { $$ = $2;  generalmap[$$].typ.name = chartostring($1); 
 tempnextscope(); 
+
+assert(methods.find(generalmap[$2].name) == methods.end());
+    methods[generalmap[$2].name].rettype = generalmap[$2].typ;
+    methods[generalmap[$2].name].lineno = yylineno;
+    
+    vector <type> argtype;
+     
+
+    for (auto x : generalmap[$2].farglist)
+        {argtype.push_back(x.typ);
+         }
+    methods[generalmap[$2].name].argtype = argtype;
+        classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
+
+
 for (auto x : generalmap[$$].farglist){
 symboltable[x.vid.name].typ.dims= x.vid.num;
         symboltable[x.vid.name].typ.name= x.typ.name;
@@ -1578,6 +1582,22 @@ symboltable[x.vid.name].typ.dims= x.vid.num;
         }
             |   VOID METHODDECLARATOR { $$ = $2;  generalmap[$$].typ.name = chartostring($1); 
             tempnextscope();
+
+            assert(methods.find(generalmap[$2].name) == methods.end());
+    methods[generalmap[$2].name].rettype = generalmap[$2].typ;
+    methods[generalmap[$2].name].lineno = yylineno;
+    
+    vector <type> argtype;
+     
+
+    for (auto x : generalmap[$2].farglist)
+        {argtype.push_back(x.typ);
+         }
+    methods[generalmap[$2].name].argtype = argtype;
+        classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
+
+
+
 for (auto x : generalmap[$$].farglist){
 symboltable[x.vid.name].typ.dims= x.vid.num;
         symboltable[x.vid.name].typ.name= x.typ.name;
@@ -1685,6 +1705,7 @@ BLOCKSTATEMENT: LOCALCLASSORINTERFACEDECLARATION
                }
                |	STATEMENT   {$$ = $1;
                }
+               |    PRINTLN {code.push_back("print "+ chartostring($1).substr(19,chartostring($1).size() -21));}
  
 LOCALCLASSORINTERFACEDECLARATION: CLASSDECLARATION  
 
@@ -1727,15 +1748,13 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                                 ll ft = x;
                                  if(x<0){
                                     auto g = numtostring(tempinitval[dimtoid[-x]]);
-                                    cerr<<g;
                                     assert(isnum(g) && "only constant direct expressions supported");
                                     ft = stringtonum(g);
 
 
                                 }
                                 arrsize *= ft;
-                                cerr<<ft<<" ";
-
+                               
                             }   
                             ll increment = arrsize* gettypesize(symboltable[x.first.name].typ.name);
                               curoffset += increment;
@@ -1787,7 +1806,7 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                                 ll ft = x;
                                  if(x<0){
                                     auto g = numtostring(tempinitval[dimtoid[-x]]);
-                                   cerr<<g;
+                                   
 
                                     assert(isnum(g) && "only constant direct expressions supported");
                                     ft = stringtonum(g);
@@ -1795,7 +1814,6 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
 
                                 }
                                 arrsize *= ft;
-                                cerr<<ft<<" ";
 
                             }
                             
@@ -1990,7 +2008,7 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr4 = chartonum($4), curr7 = chartonum($7);
                                                                     if(ds[curr4]["type"]!="bool")
-                                                                    {cerr<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";exit(0);}
+                                                                    {cout<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";exit(0);}
                                                                     // assert(0 && "Exp Error");
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr4]["start"];
@@ -2004,7 +2022,7 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr4 = chartonum($4), curr6 = chartonum($6), curr8 = chartonum($8);
                                                                     if(ds[curr4]["type"]!="bool")
-                                                                    {cerr<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";exit(0);}
+                                                                    {cout<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";exit(0);}
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr4]["start"];
                                                                     int gotoupdate = code.size();
@@ -2049,7 +2067,7 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr8 = chartonum($8);
                                                                     if(ds[curr5]["type"]!="bool")
-                                                                    {cerr<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";exit(0);}
+                                                                    {cout<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";exit(0);}
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr3]["start"];
                                                                     // int gotoupdate = code.size();
@@ -2065,7 +2083,7 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr7 = chartonum($7), curr9 = chartonum($9);
                                                                     if(ds[curr5]["type"]!="bool")
-                                                                    {cerr<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";exit(0);}
+                                                                    {cout<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";exit(0);}
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr3]["start"];
                                                                     int gotoupdate = code.size();
@@ -2102,7 +2120,7 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                                                                     int curr = chartonum($$), curr4 = chartonum($4), curr7 = chartonum($7);
                                                                     
                                                                     if(ds[curr4]["type"]!="bool")
-                                                                    {cerr<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";exit(0);}
+                                                                    {cout<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";exit(0);}
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr4]["start"];
                                                                     code.push_back("goto "+ds[curr]["start"]);
@@ -2116,7 +2134,7 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                                                                     int curr = chartonum($$), curr4 = chartonum($4), curr6 = chartonum($6), curr8 = chartonum($8);
                                                                     
                                                                     if(ds[curr4]["type"]!="bool")
-                                                                    {cerr<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";exit(0);}
+                                                                    {cout<<"Expected bool type inside for expression. Got "<<ds[curr4]["type"]<<"\n";exit(0);}
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr4]["start"];
                                                                     int gotoupdate = code.size();
@@ -2162,7 +2180,7 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr8 = chartonum($8);
                                                                     
                                                                     if(ds[curr5]["type"]!="bool")
-                                                                    {cerr<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";exit(0);}
+                                                                    {cout<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";exit(0);}
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr3]["start"];
                                                                     // int gotoupdate = code.size();
@@ -2178,7 +2196,7 @@ BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEME
                                                                                             $$ = new_temp();
                                                                     int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr7 = chartonum($7), curr9 = chartonum($9);
                                                                     if(ds[curr5]["type"]!="bool")
-                                                                    {cerr<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";exit(0);}
+                                                                    {cout<<"Expected bool type inside for expression. Got "<<ds[curr5]["type"]<<"\n";exit(0);}
                                                                     ds[curr]["type"] = "null";
                                                                     ds[curr]["start"] = ds[curr3]["start"];
                                                                     int gotoupdate = code.size();
@@ -2336,17 +2354,65 @@ INTERFACETYPE   :   CLASSTYPE {$$=$1;}
 
 
 int main(int argc, char** argv){
+
+
+    //Create command line options 
+
+
+    bool inset = false, outset = false, verbose = false;
+    string outpre="";
+
+    for (int i=0; i< argc; i++){
+        // handle input arguments 
+        //  arguments can be space separated 
+        // arguments are help, input, output, verbose
+
+        if (strcmp(argv[i], "--help") == 0){
+            cerr<<"Usage: ./a.out [--help] [--input <filename>] [--output <output path prefix>] [--verbose]\n";
+            cerr<< "Example: ./a.out --input input.java --output outpre\n";
+            
+        }
+
+        else if (strcmp(argv[i], "--input") == 0){
+            yyin = fopen(argv[i+1], "r");
+            inset = true;
+        }
+
+        else if (strcmp(argv[i], "--output") == 0){
+            outpre = chartostring(argv[i+1]);
+
+            outset = true;
+        }
+        else if (strcmp(argv[i], "--verbose") == 0){
+            verbose = true;
+        }
+    }
+
+    if (!inset){
+        cerr<< "Input not set, see help\n";
+        return 0;
+    }
+    if (!outset){
+        cerr<< "Output not set, see help\n";
+        return 0;
+    }
+
+    // end command line
+    //   if(!verbose)  freopen("/dev/null", "w", stderr);
+
         newscope();
     yyparse();
     // type_check_function_strong();
+    /*Uncomment for debug*/
+    
 
-    ofstream cout1("3ac.txt");
+    ofstream cout1(outpre + "_3ac.txt");
     // cout<<"CODE:\n";
 
     for (int i=0; i< code.size(); i++){
         cout1<<i<<" "<<code[i]<<endl;
     }
-    ofstream cout2("symtable.csv");
+    ofstream cout2(outpre +"_symtable.csv");
 
     cout2<<"Token, Name(Lexeme), Type, Line Number, Scope, Dims(If array), ScopeINFO(Child), ScopeINFO(Parent) << Offsets\n";
 

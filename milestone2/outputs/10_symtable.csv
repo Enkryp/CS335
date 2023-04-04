@@ -1,0 +1,7 @@
+Token, Name(Lexeme), Type, Line Number, Scope, Dims(If array), ScopeINFO(Child), ScopeINFO(Parent) << Offsets
+identifier - field offunctionandWhileandIfelse, k, int, 4, -1, 0, 0
+identifier - field offunctionandWhileandIfelse, l, int, 3, -1, 0, 0
+identifier - method offunctionandWhileandIfelse, main, void, 12, -1, 0, 0
+, , , , , , 1, 0, 
+, , , , , , 2, 1, 
+, , , , , , 3, 2, 

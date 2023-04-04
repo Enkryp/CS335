@@ -139,45 +139,46 @@ extern int yydebug;
     ELSE = 340,                    /* ELSE  */
     WHILE = 341,                   /* WHILE  */
     FOR1 = 342,                    /* FOR1  */
-    ABSTRACT = 343,                /* ABSTRACT  */
-    SYNCHRONIZED = 344,            /* SYNCHRONIZED  */
-    NATIVE = 345,                  /* NATIVE  */
-    STRICTFP = 346,                /* STRICTFP  */
-    SWITCH = 347,                  /* SWITCH  */
-    DEFAULT = 348,                 /* DEFAULT  */
-    PACKAGE = 349,                 /* PACKAGE  */
-    DO = 350,                      /* DO  */
-    GOTO = 351,                    /* GOTO  */
-    IMPORT = 352,                  /* IMPORT  */
-    THROWS = 353,                  /* THROWS  */
-    CASE = 354,                    /* CASE  */
-    ENUM = 355,                    /* ENUM  */
-    CATCH = 356,                   /* CATCH  */
-    TRY = 357,                     /* TRY  */
-    INTERFACE = 358,               /* INTERFACE  */
-    FINALLY = 359,                 /* FINALLY  */
-    CONST = 360,                   /* CONST  */
-    UNDERSCORE = 361,              /* UNDERSCORE  */
-    EXPORTS = 362,                 /* EXPORTS  */
-    OPENS = 363,                   /* OPENS  */
-    REQUIRES = 364,                /* REQUIRES  */
-    USES = 365,                    /* USES  */
-    MODULE = 366,                  /* MODULE  */
-    SEALED = 367,                  /* SEALED  */
-    PROVIDES = 368,                /* PROVIDES  */
-    TO = 369,                      /* TO  */
-    WITH = 370,                    /* WITH  */
-    OPEN = 371,                    /* OPEN  */
-    RECORD = 372,                  /* RECORD  */
-    TRANSITIVE = 373,              /* TRANSITIVE  */
-    ERROR = 374,                   /* ERROR  */
-    ONCE = 375,                    /* ONCE  */
-    NL = 376,                      /* NL  */
-    NON_SEALED = 377,              /* NON_SEALED  */
-    IDENTIFIER = 378,              /* IDENTIFIER  */
-    UNQUALIFIEDMETHODIDENTIFIER = 379, /* UNQUALIFIEDMETHODIDENTIFIER  */
-    DOTCLASS = 380,                /* DOTCLASS  */
-    EOFF = 381                     /* EOFF  */
+    PRINTLN = 343,                 /* PRINTLN  */
+    ABSTRACT = 344,                /* ABSTRACT  */
+    SYNCHRONIZED = 345,            /* SYNCHRONIZED  */
+    NATIVE = 346,                  /* NATIVE  */
+    STRICTFP = 347,                /* STRICTFP  */
+    SWITCH = 348,                  /* SWITCH  */
+    DEFAULT = 349,                 /* DEFAULT  */
+    PACKAGE = 350,                 /* PACKAGE  */
+    DO = 351,                      /* DO  */
+    GOTO = 352,                    /* GOTO  */
+    IMPORT = 353,                  /* IMPORT  */
+    THROWS = 354,                  /* THROWS  */
+    CASE = 355,                    /* CASE  */
+    ENUM = 356,                    /* ENUM  */
+    CATCH = 357,                   /* CATCH  */
+    TRY = 358,                     /* TRY  */
+    INTERFACE = 359,               /* INTERFACE  */
+    FINALLY = 360,                 /* FINALLY  */
+    CONST = 361,                   /* CONST  */
+    UNDERSCORE = 362,              /* UNDERSCORE  */
+    EXPORTS = 363,                 /* EXPORTS  */
+    OPENS = 364,                   /* OPENS  */
+    REQUIRES = 365,                /* REQUIRES  */
+    USES = 366,                    /* USES  */
+    MODULE = 367,                  /* MODULE  */
+    SEALED = 368,                  /* SEALED  */
+    PROVIDES = 369,                /* PROVIDES  */
+    TO = 370,                      /* TO  */
+    WITH = 371,                    /* WITH  */
+    OPEN = 372,                    /* OPEN  */
+    RECORD = 373,                  /* RECORD  */
+    TRANSITIVE = 374,              /* TRANSITIVE  */
+    ERROR = 375,                   /* ERROR  */
+    ONCE = 376,                    /* ONCE  */
+    NL = 377,                      /* NL  */
+    NON_SEALED = 378,              /* NON_SEALED  */
+    IDENTIFIER = 379,              /* IDENTIFIER  */
+    UNQUALIFIEDMETHODIDENTIFIER = 380, /* UNQUALIFIEDMETHODIDENTIFIER  */
+    DOTCLASS = 381,                /* DOTCLASS  */
+    EOFF = 382                     /* EOFF  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -186,11 +187,11 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 208 "parser_1st.y"
+#line 210 "parser_1st.y"
 
     char* val;
 
-#line 194 "parser_1st.tab.h"
+#line 195 "parser_1st.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

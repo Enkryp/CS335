@@ -1,0 +1,8 @@
+0 t1 = 0
+1 l = t1
+2 t2 = 1
+3 k = t2
+4 begin func main
+5 stackpointer - 0
+6 end func
+7 stackpointer - 0

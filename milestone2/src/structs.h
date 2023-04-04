@@ -24,14 +24,14 @@ struct vardecinit {
 
 void object_error(string name1, string name2, int lineno){
 
-    cerr<<"Illegal attribute "+name2+" of object "+name1+" at line "<<lineno<<"\n";
+    cout<<"Illegal attribute "+name2+" of object "+name1+" at line "<<lineno<<"\n";
     exit(0);
 
 }
 
 void object_error_func(string name1, string name2, int lineno){
 
-    cerr<<"Illegal function "+name2+" of object "+name1+" at line "<<lineno<<"\n";
+    cout<<"Illegal function "+name2+" of object "+name1+" at line "<<lineno<<"\n";
     exit(0);
 
 }
@@ -113,11 +113,11 @@ struct formalarg
     void printvarentry(varentry v){
         if(v.dims.size() && v.typ.dims && v.dims.size()!=v.typ.dims)  assert(0 && "array init error");
         if(v.typ.dims && v.dims.size()==0) {for(int i=0; i<v.typ.dims; i++) v.dims.push_back(1000);}
-        cout<<" type: "<<v.typ.name<<" type dims: "<<v.typ.dims<<" bounds: "<<v.dims.size()<<" scope: "<<v.scope<<" offset "<<v.offset<<endl;
+        // cout<<" type: "<<v.typ.name<<" type dims: "<<v.typ.dims<<" bounds: "<<v.dims.size()<<" scope: "<<v.scope<<" offset "<<v.offset<<endl;
         for (ll i=0;i<v.dims.size();i++){
-            cout<<v.dims[i]<<" ";
+            // cout<<v.dims[i]<<" ";
         }
-    cout<<endl;
+    // cout<<endl;
     }
 
 
@@ -144,13 +144,13 @@ map<string , map<string, methodsig>> classmethods;
  void dbgsymtable(){
 
 for (auto x : symboltable){
-    cout<<x.first<<" ";
+    // cout<<x.first<<" ";
     printvarentry(x.second);
  }
- cout<<endl;
+//  cout<<endl;
 
  for (auto x: fields){
-        cout<<x.first<<" ";
+        // cout<<x.first<<" ";
         }
  }
 
@@ -158,12 +158,12 @@ for (auto x : symboltable){
 
 void printmethodstable(){
     for (auto x : methods){
-        cout<<x.first<<" ";
-        cout<<x.second.rettype.name<<" ";
+        // cout<<x.first<<" ";
+        // cout<<x.second.rettype.name<<" ";
         for (auto y : x.second.argtype){
-            cout<<y.name<<" ";
+            // cout<<y.name<<" ";
         }
-        cout<<endl;
+        // cout<<endl;
     }
 }
 vector <pair<string, vector <string>>> to_check_functions;
@@ -177,6 +177,10 @@ if(methods.find(name)==methods.end()){
 }
 
     methodsig m=methods[name];
+    // cout<<name<<endl;
+    // for (auto x : types){
+    //     cout<<x<<" ";
+    // }
     assert(m.argtype.size()==types.size());
     for (ll i=0;i<types.size();i++){
         assert(m.argtype[i].name==types[i]);
@@ -277,11 +281,11 @@ vector<vector<ll>> conversions = {
 map<string,ll> typetonum={{"int",1},{"long",2},{"float",3},{"double",4},{"char",5},{"byte",6},{"short",7},{"boolean",8}};;
 vector<string> numtotype ={"int","long","float","double","char","byte","short","boolean"};
 void error_report_type(string s1, string s2, string op){
-    cerr<<"Bad operator types "<<s1<<" and "<<s2<<" for operator "<<op<<"\n";
+    cout<<"Bad operator types "<<s1<<" and "<<s2<<" for operator "<<op<<"\n";
     exit(0);
 }
 void type_check(string a,string b,string c){
-    // cerr<<a<<b;
+    // cout<<a<<b;
     int arg1=typetonum[a];
     int arg2=typetonum[b];
     if(arg1==0||arg1==0){
@@ -545,7 +549,7 @@ void add_func(vector<string> &code, string pref, int start, int end){
 
 }
 ll gettypesize(string s){
-    cerr<<"TPYESIZEINV"<<s<<"NO"<<endl;
+    // cout<<"TPYESIZEINV"<<s<<"NO"<<endl;
     // TODO bool boolean
     //  get type size of a variable of java, s stores type
     if(s=="byte") return 1;

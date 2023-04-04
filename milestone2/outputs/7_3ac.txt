@@ -1,0 +1,49 @@
+0 begin func function1
+1 t1 = 0
+2 j = t1
+3 stackpointer + 4
+4 k = j
+5 stackpointer + 4
+6 t2 = k +int j
+7 return t2
+8 stackpointer - 8
+9 end func
+10 begin func main
+11 t3 = 0
+12 a = t3
+13 stackpointer + 4
+14 t4 = 5
+15 t5 = a +int t4
+16 n = t5
+17 stackpointer + 4
+18 t6 = 0
+19 i = t6
+20 stackpointer + 4
+21 t7 = i < n
+22 if t7 goto  24
+23 goto  44
+24 j = i
+25 stackpointer + 4
+26 t9 = i < j
+27 if t9 goto  29
+28 goto  30
+29 goto  44
+30 t10 = j
+31 j = t10 +1
+32 t11 = i < a
+33 if t11 goto  35
+34 goto  37
+35 goto  44
+36 stackpointer - 0
+37 t12 = a
+38 a = t12 +1
+39 stackpointer - 0
+40 stackpointer - 4
+41 t8 = i
+42 i = t8 +1
+43 goto 21
+44 stackpointer - 4
+45 t13 = call, function1
+46 stackpointer - 8
+47 end func
+48 stackpointer - 0
