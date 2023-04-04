@@ -304,11 +304,13 @@ ORDINARYCOMPILATIONUNIT :   TOPLEVELCLASSORINTERFACEDECLARATION
 
 TOPLEVELCLASSORINTERFACEDECLARATION :   CLASSDECLARATION  {  
 
-    assert(classfields.find(chartostring($1))==classfields.end());
-    assert(classmethods.find(chartostring($1))==classmethods.end());
+    // assert(classfields.find(chartostring($1))==classfields.end());
+    // assert(classmethods.find(chartostring($1))==classmethods.end());
+    assert(listofclasses.find(chartostring($1))==listofclasses.end());
+    listofclasses.insert(chartostring($1));
 
-    classfields[chartostring($1)]= fields;
-    classmethods[chartostring($1)]= methods;
+    // classfields[chartostring($1)]= fields;
+    // classmethods[chartostring($1)]= methods;
 
 
     for (auto x : fields ){
@@ -587,6 +589,8 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                             fields[x.first.name].dims = x.second.dims;
                                                         fields[x.first.name].lineno = yylineno;
 
+                            classfields[curr_class][x.first.name] = fields[x.first.name];
+
                         }
                     }
                     |   SUPER1 TYPE VARIABLEDECLARATORLIST SEMICOLON{
@@ -610,6 +614,8 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                             reverse(all(x.second.dims));
                             fields[x.first.name].dims = x.second.dims;
                                                         fields[x.first.name].lineno = yylineno;
+                                                        classfields[curr_class][x.first.name] = fields[x.first.name];
+
 
                         }
                     }
@@ -636,6 +642,8 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                             fields[x.first.name].dims = x.second.dims;
                             fields[x.first.name].access = generalmap[$1].modifiers;
                                                         fields[x.first.name].lineno = yylineno;
+                                                                                    classfields[curr_class][x.first.name] = fields[x.first.name];
+
 
                         }
                     }
@@ -671,6 +679,8 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                              reverse(all(x.second.dims));
                             fields[x.first.name].dims = x.second.dims;
                                                         fields[x.first.name].lineno = yylineno;
+                                                                                    classfields[curr_class][x.first.name] = fields[x.first.name];
+
 
                         }
                     }
@@ -1436,8 +1446,11 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
         {argtype.push_back(x.typ);
          }
     methods[generalmap[$1].name].argtype = argtype;
+        classmethods[curr_class][generalmap[$1].name] = methods[generalmap[$1].name];
+
 
 }
+
 
                     |   SUPER1 METHODHEADER METHODBODY{
                         $$ =$2;
@@ -1459,6 +1472,8 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
          
         }
     methods[generalmap[$2].name].argtype = argtype;
+        classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
+
 
 }
                     |   SUPER2 METHODHEADER METHODBODY{$$ =$2;
@@ -1479,6 +1494,8 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
         
         }
     methods[generalmap[$2].name].argtype = argtype;
+    classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
+
 
 }
                     |   SUPER3 METHODHEADER METHODBODY{$$ =$2;
@@ -1499,6 +1516,8 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
         
         }
     methods[generalmap[$2].name].argtype = argtype;
+        classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
+
 
 }
                     |   METHODMODIFIERS METHODHEADER METHODBODY{$$ =$2;
@@ -1519,6 +1538,8 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
         
         }
     methods[generalmap[$2].name].argtype = argtype;
+        classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
+
 
 }
                     | AT OVERRIDE METHODHEADER METHODBODY  

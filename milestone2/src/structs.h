@@ -1,6 +1,8 @@
 #define ll long long
 ll gbdimid=1000;
 
+
+set <string> listofclasses; 
 map<string, ll> tempinitval;
 
 ll curoffset=0;
