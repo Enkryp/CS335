@@ -1,33 +1,48 @@
-0 begin func findGCD
-1 pop param, a
-2 pop param, b
-3 t1 = 0
-4 if b == t1 goto  6
-5 goto  12
-6 return a
-7 stackpointer - 0
-8 t3 = a %int b
-9 push param b
-10 push param t3
-11 t4 = call, findGCD
-12 return t4
-13 stackpointer - 0
-14 stackpointer - 0
-15 end func
-16 begin func main
-17 pop param, args
-18 t5 = 7
-19 num1 = t5
-20 stackpointer + 4
-21 t6 = 100
-22 num2 = t6
-23 stackpointer + 4
-24 push param num1
-25 push param num2
-26 t7 = call, findGCD
-27 gcd = t7
-28 stackpointer + 4
-29 print gcd
-30 stackpointer - 12
-31 end func
-32 stackpointer - 0
+0 begin func main
+1 pop param, args
+2 t1 = 10
+3 n = t1
+4 stackpointer + 4
+5 t2 = 2
+6 n += t2
+7 t3 = 11
+8 fib = array ( t3 )
+9 stackpointer + 44
+10 t4 = 0
+11 t5 = 0
+12 fib[ t4 ] = t5
+13 t6 = 1
+14 t7 = 1
+15 fib[ t6 ] = t7
+16 t8 = 2
+17 i = t8
+18 stackpointer + 4
+19 t9 = i <= n
+20 if t9 goto  22
+21 goto  32
+22 t11 = 1
+23 t12 = i -int t11
+24 t13 = 2
+25 t14 = i -int t13
+26 t15 = fib[t12] +int fib[t14]
+27 fib[ i ] = t15
+28 stackpointer - 0
+29 t10 = i
+30 i = t10 +1
+31 goto 19
+32 stackpointer - 4
+33 t16 = 0
+34 i = t16
+35 stackpointer + 4
+36 t17 = i <= n
+37 if t17 goto  41
+38 goto  44
+39 print fib
+40 stackpointer - 0
+41 t18 = i
+42 i = t18 +1
+43 goto 36
+44 stackpointer - 4
+45 stackpointer - 48
+46 end func
+47 stackpointer - 0

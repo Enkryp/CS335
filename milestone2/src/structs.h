@@ -318,9 +318,9 @@ void type_check(string a,string b,string c){
             string s={c[0]};
             type_check(a,b,s);
             if(s[0]=='&')
-            type_check(a,numtotype[bitwise_operators[arg1][arg2]],"=");
+            type_check(a,numtotype[bitwise_operators[arg1][arg2]-1],"=");
             else 
-            type_check(a,numtotype[arithmetics[arg1][arg2]],"=");
+            type_check(a,numtotype[arithmetics[arg1][arg2]-1],"=");
         }
         else if(relational.find(c)!=relational.end()){
             

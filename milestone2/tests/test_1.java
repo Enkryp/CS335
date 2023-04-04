@@ -1,6 +1,7 @@
 public class Fibonacci {
   public static void main(String args[]) {
       int n = 10;
+      n+=2;
       int fib[] = new int[11];
 
       fib[0] = 0;
