@@ -52,5 +52,6 @@
 51 stackpointer - 4
 52 goto 24
 53 stackpointer - 8
-54 end func
-55 stackpointer - 0
+54 pop param, args
+55 end func
+56 stackpointer - 0

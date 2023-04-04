@@ -45,5 +45,6 @@
 44 goto 21
 45 stackpointer - 4
 46 stackpointer - 4004
-47 end func
-48 stackpointer - 0
+47 pop param, args
+48 end func
+49 stackpointer - 0

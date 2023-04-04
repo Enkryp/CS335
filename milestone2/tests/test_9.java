@@ -1,4 +1,4 @@
-class functionandIfElse
+public class functionandIfElse
 {  
     public static int function1(){
         int j=0;
@@ -6,7 +6,7 @@ class functionandIfElse
         return k+j;
     }
     
-    public static void main()   
+    public static void main(String args[])   
     {  
         
         function1();

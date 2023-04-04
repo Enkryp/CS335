@@ -1,5 +1,6 @@
 Token, Name(Lexeme), Type, Line Number, Scope, Dims(If array), ScopeINFO(Child), ScopeINFO(Parent) << Offsets
 IDENTIFIER, a, int, 3, 3, 0, 0
+IDENTIFIER, args, String, 2, 3, 1, 0
 IDENTIFIER, b, int, 4, 3, 0, 4
 IDENTIFIER, c, int, 16, 6, 0, 8
 IDENTIFIER, d, int, 18, 7, 0, 12

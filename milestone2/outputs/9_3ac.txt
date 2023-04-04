@@ -49,5 +49,6 @@
 48 n = t14
 49 stackpointer - 0
 50 stackpointer - 40
-51 end func
-52 stackpointer - 0
+51 pop param, args
+52 end func
+53 stackpointer - 0

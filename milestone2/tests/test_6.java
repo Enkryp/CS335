@@ -1,5 +1,5 @@
-class  MultiArrayAccess{
-    public static void main() {
+public class  MultiArrayAccess{
+    public static void main(String args[]) {
 
         int a [][]= new int [10][100];
         int b = a[0][0];
