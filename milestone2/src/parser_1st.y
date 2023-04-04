@@ -15,6 +15,8 @@
     back patach type check for fields
     negative for addrs in new exp
     GOTOS for */
+    /*TODO : in method_det use classname and functionname both as keys because multiple classes have functions with same name. maintain current class name in global variable -- done */
+    /*TODO add variable size in dimexprs */
     extern "C" int yylex();
     extern "C" FILE *yyin;
     #define ll long long
@@ -161,7 +163,7 @@
         }
         return r;
     }
-
+    string curr_class;
 
     ll gettype(string s){
         if(s=="int")return 1;
@@ -209,7 +211,7 @@
 
 /* data types */
 %start COMPILATIONUNIT
-%type<val>  ADDITIONALBOUND ADDITIVEEXPRESSION ANDEXPRESSION ARGUMENTLIST ARRAYACCESS ARRAYCREATIONEXPRESSION ARRAYINITIALIZER ARRAYINITIALIZER1 ASSERTSTATEMENT ASSIGNMENT ASSIGNMENTEXPRESSION ASSIGNMENTOPERATOR BASICFORSTATEMENT BASICFORSTATEMENTNOSHORTIF BLOCK BLOCKSTATEMENT BLOCKSTATEMENTS BREAKSTATEMENT CLASSBODY CLASSBODYDECLARATION CLASSBODYDECLARATIONS CLASSDECLARATION CLASSEXTENDS CLASSIMPLEMENTS CLASSINSTANCECREATIONEXPRESSION CLASSLITERAL CLASSMEMBERDECLARATION CLASSORINTERFACETYPE CLASSORINTERFACETYPETOINSTANTIATE CLASSPERMITS CLASSTYPE CLASSTYPE1 COMPILATIONUNIT CONDITIONALANDEXPRESSION CONDITIONALEXPRESSION CONDITIONALOREXPRESSION CONSTRUCTORBODY CONSTRUCTORDECLARATION CONSTRUCTORDECLARATOR CONTINUESTATEMENT DIMEXPR DIMEXPRS DIMS EMPTYSTATEMENT ENHANCEDFORSTATEMENT ENHANCEDFORSTATEMENTNOSHORTIF EQUALITYEXPRESSION EXCEPTIONTYPE EXCEPTIONTYPELIST EXCLUSIVEOREXPRESSION EXPLICITCONSTRUCTORINVOCATION EXPRESSION EXPRESSIONNAME EXPRESSIONSTATEMENT FIELDACCESS FIELDDECLARATION FIELDMODIFIERS FLOATINGTYPE FORINIT FORMALPARAMETER FORMALPARAMETERLIST FORSTATEMENT FORSTATEMENTNOSHORTIF FORUPDATE IFTHENELSESTATEMENT IFTHENELSESTATEMENTNOSHORTIF IFTHENSTATEMENT INCLUSIVEOREXPRESSION INSTANCEINITIALIZER INSTANCEOFEXPRESSION INTEGRALTYPE INTERFACETYPE INTERFACETYPELIST LABELEDSTATEMENT LABELEDSTATEMENTNOSHORTIF LEFTHANDSIDE LITERAL LOCALCLASSORINTERFACEDECLARATION LOCALVARIABLEDECLARATION LOCALVARIABLEDECLARATIONSTATEMENT LOCALVARIABLETYPE METHODBODY METHODDECLARATION METHODDECLARATOR METHODHEADER METHODINVOCATION METHODMODIFIERS METHODNAME METHODREFERENCE MULTIPLICATIVEEXPRESSION NORMALCLASSDECLARATION NUMERICTYPE ORDINARYCOMPILATIONUNIT POSTDECREMENTEXPRESSION POSTFIXEXPRESSION POSTINCREMENTEXPRESSION PREDECREMENTEXPRESSION PREINCREMENTEXPRESSION PRIMARY PRIMARYNONEWARRAY PRIMITIVETYPE RECEIVERPARAMETER REFERENCETYPE RELATIONALEXPRESSION RETURNSTATEMENT SHIFTEXPRESSION SIMPLETYPENAME SQUARESTAR STATEMENT STATEMENTEXPRESSION STATEMENTEXPRESSIONLIST STATEMENTNOSHORTIF STATEMENTWITHOUTTRAILINGSUBSTATEMENT STATICINITIALIZER SUPER1 SUPER2 SUPER3 THROWS2 THROWSTATEMENT TOPLEVELCLASSORINTERFACEDECLARATION TYPE TYPEARGUMENT TYPEARGUMENTLIST TYPEARGUMENTS TYPEBOUND TYPENAMES TYPEPARAMETER TYPEPARAMETERLIST TYPEPARAMETERS UNARYEXPRESSION UNARYEXPRESSIONNOTPLUSMINUS UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION VARIABLEARITYPARAMETER VARIABLEDECLARATOR VARIABLEDECLARATORID VARIABLEDECLARATORLIST VARIABLEINITIALIZER VARIABLEINITIALIZERLIST WHILESTATEMENT WHILESTATEMENTNOSHORTIF WILDCARD WILDCARDBOUNDS YIELDSTATEMENT IMPORTDECLARATION NORMALINTERFACEDECLARATION INTERFACEBODY INTERFACEMEMBERDECLARATION INTERFACEDECLARATION INTERFACEMEMBERDECLARATIONS OPENCURLY CLOSECURLY FOR
+%type<val>  ADDITIONALBOUND ADDITIVEEXPRESSION ANDEXPRESSION ARGUMENTLIST ARRAYACCESS ARRAYCREATIONEXPRESSION ARRAYINITIALIZER ARRAYINITIALIZER1 ASSERTSTATEMENT ASSIGNMENT ASSIGNMENTEXPRESSION ASSIGNMENTOPERATOR BASICFORSTATEMENT BASICFORSTATEMENTNOSHORTIF BLOCK BLOCKSTATEMENT BLOCKSTATEMENTS BREAKSTATEMENT CLASSBODY CLASSBODYDECLARATION CLASSBODYDECLARATIONS CLASSDECLARATION CLASSEXTENDS CLASSIMPLEMENTS CLASSINSTANCECREATIONEXPRESSION CLASSLITERAL CLASSMEMBERDECLARATION CLASSORINTERFACETYPE CLASSORINTERFACETYPETOINSTANTIATE CLASSPERMITS CLASSTYPE CLASSTYPE1 COMPILATIONUNIT CONDITIONALANDEXPRESSION CONDITIONALEXPRESSION CONDITIONALOREXPRESSION CONSTRUCTORBODY CONSTRUCTORDECLARATION CONSTRUCTORDECLARATOR CONTINUESTATEMENT DIMEXPR DIMEXPRS DIMS EMPTYSTATEMENT ENHANCEDFORSTATEMENT ENHANCEDFORSTATEMENTNOSHORTIF EQUALITYEXPRESSION EXCEPTIONTYPE EXCEPTIONTYPELIST EXCLUSIVEOREXPRESSION EXPLICITCONSTRUCTORINVOCATION EXPRESSION EXPRESSIONNAME EXPRESSIONSTATEMENT FIELDACCESS FIELDDECLARATION FIELDMODIFIERS FLOATINGTYPE FORINIT FORMALPARAMETER FORMALPARAMETERLIST FORSTATEMENT FORSTATEMENTNOSHORTIF FORUPDATE IFTHENELSESTATEMENT IFTHENELSESTATEMENTNOSHORTIF IFTHENSTATEMENT INCLUSIVEOREXPRESSION INSTANCEINITIALIZER INSTANCEOFEXPRESSION INTEGRALTYPE INTERFACETYPE INTERFACETYPELIST LABELEDSTATEMENT LABELEDSTATEMENTNOSHORTIF LEFTHANDSIDE LITERAL LOCALCLASSORINTERFACEDECLARATION LOCALVARIABLEDECLARATION LOCALVARIABLEDECLARATIONSTATEMENT LOCALVARIABLETYPE METHODBODY METHODDECLARATION METHODDECLARATOR METHODHEADER METHODINVOCATION METHODMODIFIERS METHODNAME METHODREFERENCE MULTIPLICATIVEEXPRESSION NORMALCLASSDECLARATION NUMERICTYPE ORDINARYCOMPILATIONUNIT POSTDECREMENTEXPRESSION POSTFIXEXPRESSION POSTINCREMENTEXPRESSION PREDECREMENTEXPRESSION PREINCREMENTEXPRESSION PRIMARY PRIMARYNONEWARRAY PRIMITIVETYPE RECEIVERPARAMETER REFERENCETYPE RELATIONALEXPRESSION RETURNSTATEMENT SHIFTEXPRESSION SIMPLETYPENAME SQUARESTAR STATEMENT STATEMENTEXPRESSION STATEMENTEXPRESSIONLIST STATEMENTNOSHORTIF STATEMENTWITHOUTTRAILINGSUBSTATEMENT STATICINITIALIZER SUPER1 SUPER2 SUPER3 THROWS2 THROWSTATEMENT TOPLEVELCLASSORINTERFACEDECLARATION TYPE TYPEARGUMENT TYPEARGUMENTLIST TYPEARGUMENTS TYPEBOUND TYPENAMES TYPEPARAMETER TYPEPARAMETERLIST TYPEPARAMETERS UNARYEXPRESSION UNARYEXPRESSIONNOTPLUSMINUS UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION VARIABLEARITYPARAMETER VARIABLEDECLARATOR VARIABLEDECLARATORID VARIABLEDECLARATORLIST VARIABLEINITIALIZER VARIABLEINITIALIZERLIST WHILESTATEMENT WHILESTATEMENTNOSHORTIF WILDCARD WILDCARDBOUNDS YIELDSTATEMENT IMPORTDECLARATION NORMALINTERFACEDECLARATION INTERFACEBODY INTERFACEMEMBERDECLARATION INTERFACEDECLARATION INTERFACEMEMBERDECLARATIONS OPENCURLY CLOSECURLY FOR CLASSNAME
 %token<val> BOOLEAN BYTE SHORT INT LONG CHAR FLOAT DOUBLE 
 
 /* Separators */
@@ -236,15 +238,7 @@ EQUALSEQUALS NOTEQUALS
 
 COMPILATIONUNIT     :   EOFF  {return 0;}
                     |   ORDINARYCOMPILATIONUNIT EOFF {
-                    for(auto obj:object_list){
-                        string pr = pref[obj];
-                        // vector<string> methods = getallmethods(obj);
-                        vector<string> methods = {"f"};
-                        for(auto method : methods){
-                            // code.push_back(method);
-                            add_func(code, pr, method_det[method].start, method_det[method].end);
-                        }
-                    }
+                    
                     return 0;
                 }
                     
@@ -358,10 +352,20 @@ IMPORTDECLARATION   :   IMPORT EXPRESSIONNAME SEMICOLON
                     |   IMPORT STATIC EXPRESSIONNAME SEMICOLON
                     |   IMPORT STATIC EXPRESSIONNAME DOT MULTIPLY SEMICOLON 
 
-CLASSDECLARATION    :   NORMALCLASSDECLARATION  {$$ = $1;}
+CLASSDECLARATION    :   NORMALCLASSDECLARATION  {$$ = $1;for(auto obj:object_list){
+                        string pr = pref[obj.first];
+                        vector<string> methods = getallmethods(obj.first,obj.second);
+                        // vector<string> methods = {"f"};
+                        for(auto method : methods){
+                            // code.push_back(method);
+                            // cout<<"methods "<<method<<"\n";
+
+                            add_func(code, pr, method_det[obj.second][method].start, method_det[obj.second][method].end);
+                        }
+                    }}
                     
 
-NORMALCLASSDECLARATION  :    CLASS IDENTIFIER CLASSBODY {$$ = $2;if(checkclassname!="") assert(checkclassname== chartostring($2));/*TODO begin class */}
+NORMALCLASSDECLARATION  :    CLASS CLASSNAME CLASSBODY {$$ = $2;if(checkclassname!="") assert(checkclassname== chartostring($2));/*TODO begin class */}
                             | SUPER1 CLASS IDENTIFIER CLASSBODY {$$ = $3; if(checkclassname!="")assert(checkclassname== chartostring($2));}
                             | SUPER2 CLASS IDENTIFIER CLASSBODY {$$ = $3;if(checkclassname!="")assert(checkclassname== chartostring($2));}
                             | SUPER3 CLASS IDENTIFIER CLASSBODY {$$ = $3;if(checkclassname!="")assert(checkclassname== chartostring($2));}
@@ -429,7 +433,7 @@ NORMALCLASSDECLARATION  :    CLASS IDENTIFIER CLASSBODY {$$ = $2;if(checkclassna
                             | SUPER3 CLASS IDENTIFIER CLASSPERMITS CLASSBODY
                             
 
-
+CLASSNAME : IDENTIFIER  {$$ = $1; curr_class = chartostring($$); }
 
 NORMALINTERFACEDECLARATION  : INTERFACE IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS INTERFACEBODY
                             | INTERFACE IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS INTERFACEBODY
@@ -712,9 +716,10 @@ VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR {$$ = new_temp(); generalmap[$$].
 VARIABLEDECLARATOR  :   VARIABLEDECLARATORID EQUALS VARIABLEINITIALIZER {$$ = new_temp(); generalmap[$$]= generalmap[$1]; generalmap[$$].vinit = generalmap[$3].vinit ;   generalmap[$$].typ= generalmap[$3].typ;                                   int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);                 
                                                                             if(ds[curr3].find("class")!=ds[curr3].end()){
                                                                                 ds[curr]["var"] = ds[curr1]["var"];
-                                                                                object_list.push_back(ds[curr]["var"]); // Add object to object list
+                                                                                string cls = ds[curr3]["var"];    // stores the class name after new
+                                                                                cout<<"class "<<cls<<"\n";
+                                                                                object_list.push_back({ds[curr]["var"],cls}); // Add object to object list
                                                                                 pref[ds[ chartonum($$)]["var"]] = new_var2();
-                                                                                
                                                                             }
                                                                             else if(ds[curr3].find("arr")!=ds[curr3].end()){
                                                                                 if(ds[curr3].find("start")==ds[curr3].end())
@@ -925,17 +930,19 @@ METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN   {   $$ = new_temp();
                                                         string name = chartostring($1), name2 = chartostring($3);
                                                         objdetails detail = getobjdetails(name,name2);
                                                         string fname = "";
-                                                        if(detail.ismethod){
+                                                        if(detail.ismethod&&not_static_check(detail.method.access)){
                                                             fname = pref[chartostring($1)]+chartostring($3);
                                                             // ds[curr]["type"] = detail.field.typ.name;
                                                         }else{
                                                             object_error_func(name,name2,yylineno);
                                                         }
-                                                        // ds[curr]["var"] = new_var();
+                                                        ds[curr]["var"] = new_var();
                                                         ds[curr]["type"] = detail.method.rettype.name;
+                                                        // cout<<""
                                                         // code.push_back(ds[curr]["type"]);
                                                         vector<string> types;
-                                                        type_check_function(name2,types);    // takes in name of function and types of parameters
+                                                        type_check_function_obj(detail.method.argtype,types);    // takes in name of function and types of parameters
+                                                        // cout<<"curr var "<<ds[curr]["var"]<<"\n";
                                                         ds[curr]["start"] = code.size();
                                                         if(ds[curr]["type"]!="void")
                                                         code.push_back(ds[curr]["var"]+" = call, "+fname);
@@ -947,19 +954,20 @@ METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN   {   $$ = new_temp();
                                                         string name = chartostring($1), name2 = chartostring($3);
                                                         objdetails detail = getobjdetails(name,name2);
                                                         string fname = "";
-                                                        if(detail.ismethod){
+                                                        if(detail.ismethod&&not_static_check(detail.method.access)){
                                                             fname = pref[chartostring($1)]+chartostring($3);
                                                             // ds[curr]["type"] = detail.field.typ.name;
                                                         }else{
                                                             object_error_func(name,name2,yylineno);
                                                         }
-                                                        // ds[curr]["var"] = new_var();
-                                                        ds[curr]["type"] = methods[name].rettype.name;
+                                                        ds[curr]["var"] = new_var();
+                                                        ds[curr]["type"] = detail.method.rettype.name;;
+                                                        cout<<"curr typed "<<ds[curr]["type"]<<"\n";
                                                         vector<string> types;
                                                         for(auto i:ds2[curr5]["type"]){
                                                             types.push_back(i);
                                                         }
-                                                        type_check_function(name2,types);    // takes in name of function and types of parameters
+                                                        type_check_function_obj(detail.method.argtype,types);    // takes in name of function and types of parameters
                                                         ds[curr]["start"] = code.size();
                                                         if(ds[curr]["type"]!="void")
                                                         code.push_back(ds[curr]["var"]+" = call, "+fname);
@@ -1413,7 +1421,8 @@ INSTANCEOFEXPRESSION: RELATIONALEXPRESSION INSTANCEOF REFERENCETYPE
 
 METHODDECLARATION:  METHODHEADER METHODBODY {
     $$ =$1;
-    method_det[ds[chartonum($$)]["method_name"]].end = code.size(); 
+    method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
+    
     code.push_back("end func");
     // cerr<<"method declaration"<<generalmap[$1].name<<endl;
     assert(methods.find(generalmap[$1].name) == methods.end());
@@ -1432,7 +1441,7 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
 
                     |   SUPER1 METHODHEADER METHODBODY{
                         $$ =$2;
-                        method_det[ds[chartonum($$)]["method_name"]].end = code.size(); 
+                        method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
     code.push_back("end func");
     // cerr<<"method declaration"<<generalmap[$2].name<<endl;
 
@@ -1453,7 +1462,7 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
 
 }
                     |   SUPER2 METHODHEADER METHODBODY{$$ =$2;
-                    method_det[ds[chartonum($$)]["method_name"]].end = code.size(); 
+                    method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
     code.push_back("end func");
     // cerr<<"method declaration"<<generalmap[$2].name<<endl;
         assert(methods.find(generalmap[$2].name) == methods.end());
@@ -1473,7 +1482,7 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
 
 }
                     |   SUPER3 METHODHEADER METHODBODY{$$ =$2;
-                    method_det[ds[chartonum($$)]["method_name"]].end = code.size(); 
+                    method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
     code.push_back("end func");
     // cerr<<"method declaration"<<generalmap[$2].name<<endl;
         assert(methods.find(generalmap[$2].name) == methods.end());
@@ -1493,7 +1502,7 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
 
 }
                     |   METHODMODIFIERS METHODHEADER METHODBODY{$$ =$2;
-                    method_det[ds[chartonum($$)]["method_name"]].end = code.size(); 
+                    method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
     code.push_back("end func");
     // cerr<<"method declaration"<<generalmap[$2].name<<endl;
         assert(methods.find(generalmap[$2].name) == methods.end());
@@ -1520,7 +1529,7 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
 
 
 METHODHEADER: TYPE METHODDECLARATOR  { $$ = $2;  generalmap[$$].typ.name = chartostring($1); 
-tempnextscope();
+tempnextscope(); 
 for (auto x : generalmap[$$].farglist){
 symboltable[x.vid.name].typ.dims= x.vid.num;
         symboltable[x.vid.name].typ.name= x.typ.name;
@@ -1564,14 +1573,16 @@ EXCEPTIONTYPE: CLASSTYPE
 
 METHODDECLARATOR: IDENTIFIER OPENPARAN CLOSEPARAN  {$$ = new_temp(); generalmap[$$].num = 0; generalmap[$$].name = chartostring($1);
  int curr = chartonum($$);              
-                                        method_det[chartostring($1)].start = code.size(); 
+                                        method_det[curr_class][chartostring($1)].start = code.size(); 
                                         ds[curr]["start"] = numtostring(code.size());
                                         ds[curr]["method_name"] = chartostring($1);
                                         code.push_back("begin func "+chartostring($1));
+                                        // cout<<"methodhead "<<ds[chartonum($$)]["method_name"]<<"\n";
                                         }
                 |   IDENTIFIER OPENPARAN FORMALPARAMETERLIST CLOSEPARAN {$$ = new_temp(); generalmap[$$]= generalmap[$3]; generalmap[$$].num = 0; generalmap[$$].name = chartostring($1);int curr = chartonum($$), curr3 = chartonum($3);
-                method_det[chartostring($1)].start = code.size(); 
+                method_det[curr_class][chartostring($1)].start = code.size(); 
                                         ds[curr]["start"] = numtostring(code.size());
+                                        ds[curr]["method_name"] = chartostring($1);
                                         code.push_back("begin func "+chartostring($1));
                                         for(auto i:ds2[curr3]["param"])
                                         code.push_back("pop param, "+ i);}

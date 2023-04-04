@@ -78,7 +78,7 @@ struct formalarg
     map<string, string> pref; 
 
     struct methodsig{
-        vector <string>access;
+        vector <string> access;
         type rettype;
         ll lineno;
         vector<type> argtype;
@@ -178,6 +178,14 @@ if(methods.find(name)==methods.end()){
     assert(m.argtype.size()==types.size());
     for (ll i=0;i<types.size();i++){
         assert(m.argtype[i].name==types[i]);
+    }
+ }
+
+ void type_check_function_obj(vector<type> argtype, vector<string> types){
+    
+    assert(argtype.size()==types.size());
+    for (ll i=0;i<types.size();i++){
+        assert(argtype[i].name==types[i]);
     }
  }
 
@@ -389,7 +397,7 @@ string type_conversion(string a,string b,string c){
     }
 }
 
-vector<string> object_list;
+vector<pair<string,string>> object_list;
 
 bool isnum(string s){
     for(int i=0;i<s.size();i++){
@@ -438,7 +446,7 @@ struct method_copy{
 
 };
 
-map<string, method_copy> method_det;
+map<string, map<string, method_copy>> method_det;
 
 vector <string> getallfields(string obj){
     string cls = symboltable[obj].typ.name;
@@ -455,10 +463,29 @@ vector <string> getallfields(string obj){
     return v;
 }
 
-vector<string> getallmethods(string obj){
-    string cls = symboltable[obj].typ.name;
+bool not_static_check(vector<string> access){
+    for(auto i:access)
+    {
+        if(i=="static")
+        return 0;
+    }
+    return 1;
+}
+
+vector<string> getallmethods(string obj, string cls){
+    // string cls = symboltable[obj].typ.name;
     vector<string> methods;
     for(auto names: classmethods[cls]){
+        int flag = 0;
+        // for(auto j:names.second.access){
+        //     cout<<"access"<<j<<"\n";
+        //     if(j=="static")
+        //     {
+        //         flag = 1;
+        //         break;
+        //     }
+        // }
+        if(not_static_check(names.second.access))
         methods.push_back(names.first);
     }
     return methods;
@@ -483,7 +510,8 @@ vector<string> split_line(string & line){
 
 void add_func(vector<string> &code, string pref, int start, int end){
 
-    set<string> reservedwords = {"goto", "array", "begin", "func", "pop", "push", "param,","end", "call,","return", "if"};
+    // cout<<"srt"<<start<<" "<<end<<"\n";
+    set<string> reservedwords = {"goto", "array", "begin", "func", "pop", "push", "param,","end", "call,","return", "if", "stackpointer"};
     // set<string> reservedwords;
     int currline = code.size();
     for(int i=start;i<=end;i++){
@@ -555,3 +583,4 @@ ll gettypesize(string s){
     else return 0;
 
 }
+
