@@ -11,12 +11,25 @@ char * stringtochar(string s){
 }
 char* numtochar( int num){
     string s="";
+    if(num<0){
+        num=- num;
+        while(num>0){
+        s.push_back(num%10+'0');
+        num/=10;
+    }
+    reverse(s.begin(),s.end());
+    return stringtochar("-" + s);
+
+
+    }
+    else if (num==0){return stringtochar("0");}
+    else {
     while(num>0){
         s.push_back(num%10+'0');
         num/=10;
     }
     reverse(s.begin(),s.end());
-    return stringtochar(s);
+    return stringtochar(s);}
 }
 int stringtonum( string s){
     int i=0;

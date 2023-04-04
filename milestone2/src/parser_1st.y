@@ -1541,7 +1541,20 @@ symboltable[x.vid.name].typ.dims= x.vid.num;
         printvarentry(symboltable[x.vid.name]);
         preservedsymboltable[{x.vid.name, scope}]= symboltable[x.vid.name];
         
-        }}
+        }
+        //  in reverse
+        ll toffset=0;
+        for(int ii=generalmap[$$].farglist.size()-1 ; ii>=0; ii-- ){
+
+                toffset -=   gettypesize(symboltable[generalmap[$$].farglist[ii].vid.name].typ.name);
+                              
+        symboltable[generalmap[$$].farglist[ii].vid.name].offset= toffset;
+        }
+        
+        
+
+
+        }
             |   VOID METHODDECLARATOR { $$ = $2;  generalmap[$$].typ.name = chartostring($1); 
             tempnextscope();
 for (auto x : generalmap[$$].farglist){
@@ -2314,17 +2327,17 @@ int main(int argc, char** argv){
     }
     ofstream cout2("symtable.csv");
 
-    cout2<<"Token, Name(Lexeme), Type, Line Number, Scope, Dims(If array), ScopeINFO(Child), ScopeINFO(Parent) \n";
+    cout2<<"Token, Name(Lexeme), Type, Line Number, Scope, Dims(If array), ScopeINFO(Child), ScopeINFO(Parent) << Offsets\n";
 
     for (auto x : preservedsymboltable){
-        cout2<< x.second.token << ", " << x.first.first << ", " << x.second.typ.name << ", " << x.second.lineno << ", " << x.first.second << ", " << x.second.typ.dims << endl;
+        cout2<< x.second.token << ", " << x.first.first << ", " << x.second.typ.name << ", " << x.second.lineno << ", " << x.first.second << ", " << x.second.typ.dims << ", "<<x.second.offset << endl;
 
     }
    
     
 
     for(auto x : parentscope){
-        cout2<<", , , , , , "<<x.first<<", "<<x.second<<endl;
+        cout2<<", , , , , , "<<x.first<<", "<<x.second<<", "<<endl;
     }
 
 

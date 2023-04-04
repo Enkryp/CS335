@@ -555,32 +555,8 @@ ll gettypesize(string s){
     else if(s=="boolean") return 1;
     else if(s=="bool") return 1;
     else if(s=="char") return 2;
-    else if(classfields.find(s)!=classfields.end()){
-        // todo current class
-        ll size = 0;
-        
-        for(auto x:classfields[s]){
-                    ll array =1;
-
-            for (auto y:x.second.dims){
-                 ll ft = y;
-                                 if(y<0){
-                                    auto g = dimtoid[-y];
-                                    // cerr<<g;
-                                    assert(isnum(g) && "only constant direct expressions supported");
-                                    ft = stringtonum(g);
-
-
-                                }
-                                array *= ft;
-                           
-            }
-            size += array*gettypesize(x.second.typ.name);
-        }
-        return size;
-    }
     else if(s=="void") return 0;
-    else return 0;
+    else return 4;
 
 }
 

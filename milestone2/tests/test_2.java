@@ -1,6 +1,3 @@
-// Java Program to sort an elements
-// by bringing Arrays into play
-
 // Main class
 class Variableandarray {
 
@@ -9,7 +6,7 @@ class Variableandarray {
 	{
 
 		// Custom input array
-		int arr[] = { 4, 3, 2, 1 };
+		int arr[] = { 10, 3, 2, 1 };
 
 		// Outer loop
 		int a=arr[0];
@@ -17,6 +14,7 @@ class Variableandarray {
 		int d=a+b;
 		{
 			int e=d;
+			int g = e;
 		}
 		{
 			int e=d;

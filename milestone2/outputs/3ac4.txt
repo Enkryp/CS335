@@ -1,48 +1,89 @@
 0 begin func main
 1 pop param, args
-2 x=20
-3 y=18
-4 t1 = x>y
-5 if t1 goto  8
-6 goto  9
-7 t2 = x +int y
-8 z=t2
-9 t3 = x +int y
-10 z=t3
-11 x=20
-12 y=18
-13 t4 = x>y
-14 if t4 goto  17
-15 goto  18
-16 t5 = x +int y
-17 z=t5
-18 t6 = x +int y
-19 z=t6
-20 x=20
-21 y=18
-22 t7 = x>y
-23 if t7 goto  26
-24 goto  27
-25 t8 = x +int y
-26 z=t8
-27 t9 = x +int y
-28 z=t9
-29 x=20
-30 y=18
-31 t10 = x>y
-32 if t10 goto  35
-33 goto  36
-34 t11 = x +int y
-35 z=t11
-36 t12 = x +int y
-37 z=t12
-38 x=20
-39 y=18
-40 t13 = x>y
-41 if t13 goto  44
-42 goto  45
-43 t14 = x +int y
-44 z=t14
-45 t15 = x +int y
-46 z=t15
-47 end func
+2 t1 = 20
+3 x = t1
+4 stackpointer + 4
+5 t2 = 18
+6 y = t2
+7 stackpointer + 4
+8 t3 = x > y
+9 if t3 goto  11
+10 goto  15
+11 t4 = x +int y
+12 z = t4
+13 stackpointer + 4
+14 stackpointer - 4
+15 t5 = x +int y
+16 z = t5
+17 stackpointer + 4
+18 stackpointer - 12
+19 t6 = 20
+20 x = t6
+21 stackpointer + 4
+22 t7 = 18
+23 y = t7
+24 stackpointer + 4
+25 t8 = x > y
+26 if t8 goto  28
+27 goto  32
+28 t9 = x +int y
+29 z = t9
+30 stackpointer + 4
+31 stackpointer - 4
+32 t10 = x +int y
+33 z = t10
+34 stackpointer + 4
+35 stackpointer - 12
+36 t11 = 20
+37 x = t11
+38 stackpointer + 4
+39 t12 = 18
+40 y = t12
+41 stackpointer + 4
+42 t13 = x > y
+43 if t13 goto  45
+44 goto  49
+45 t14 = x +int y
+46 z = t14
+47 stackpointer + 4
+48 stackpointer - 4
+49 t15 = x +int y
+50 z = t15
+51 stackpointer + 4
+52 stackpointer - 12
+53 t16 = 20
+54 x = t16
+55 stackpointer + 4
+56 t17 = 18
+57 y = t17
+58 stackpointer + 4
+59 t18 = x > y
+60 if t18 goto  62
+61 goto  66
+62 t19 = x +int y
+63 z = t19
+64 stackpointer + 4
+65 stackpointer - 4
+66 t20 = x +int y
+67 z = t20
+68 stackpointer + 4
+69 stackpointer - 12
+70 t21 = 20
+71 x = t21
+72 stackpointer + 4
+73 t22 = 18
+74 y = t22
+75 stackpointer + 4
+76 t23 = x > y
+77 if t23 goto  79
+78 goto  83
+79 t24 = x +int y
+80 z = t24
+81 stackpointer + 4
+82 stackpointer - 4
+83 t25 = x +int y
+84 z = t25
+85 stackpointer + 4
+86 stackpointer - 12
+87 end func
+88 stackpointer - 0
