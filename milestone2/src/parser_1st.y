@@ -363,16 +363,17 @@ CLASSDECLARATION    :   NORMALCLASSDECLARATION  {$$ = $1;for(auto obj:object_lis
                         for(auto method : methods){
                             // code.push_back(method);
                             // cout<<"methods "<<method<<"\n";
-
+                           
                             add_func(code, pr, method_det[obj.second][method].start, method_det[obj.second][method].end);
                         }
-                    }}
+                        
+                    }object_list.clear();}
                     
 
 NORMALCLASSDECLARATION  :    CLASS CLASSNAME CLASSBODY {$$ = $2;if(checkclassname!="") assert(checkclassname== chartostring($2));/*TODO begin class */}
-                            | SUPER1 CLASS IDENTIFIER CLASSBODY {$$ = $3; if(checkclassname!="")assert(checkclassname== chartostring($2));}
-                            | SUPER2 CLASS IDENTIFIER CLASSBODY {$$ = $3;if(checkclassname!="")assert(checkclassname== chartostring($2));}
-                            | SUPER3 CLASS IDENTIFIER CLASSBODY {$$ = $3;if(checkclassname!="")assert(checkclassname== chartostring($2));}
+                            | SUPER1 CLASS CLASSNAME CLASSBODY {$$ = $3; if(checkclassname!="")assert(checkclassname== chartostring($2));}
+                            | SUPER2 CLASS CLASSNAME CLASSBODY {$$ = $3;if(checkclassname!="")assert(checkclassname== chartostring($2));}
+                            | SUPER3 CLASS CLASSNAME CLASSBODY {$$ = $3;if(checkclassname!="")assert(checkclassname== chartostring($2));}
 
                             | CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSPERMITS CLASSBODY
                             | CLASS IDENTIFIER TYPEPARAMETERS CLASSEXTENDS CLASSIMPLEMENTS CLASSBODY
@@ -731,6 +732,7 @@ VARIABLEDECLARATOR  :   VARIABLEDECLARATORID EQUALS VARIABLEINITIALIZER {$$ = ne
                                                                                 string cls = ds[curr3]["var"];    // stores the class name after new
                                                                                 // cout<<"class "<<cls<<"\n";
                                                                                 object_list.push_back({ds[curr]["var"],cls}); // Add object to object list
+                                                                                code.push_back(ds[curr]["var"]+" = "+"class ( "+cls+" )");
                                                                                 pref[ds[ chartonum($$)]["var"]] = new_var2();
                                                                             }
                                                                             else if(ds[curr3].find("arr")!=ds[curr3].end()){
@@ -980,6 +982,8 @@ METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN   {   $$ = new_temp();
                                                             types.push_back(i);
                                                         }
                                                         type_check_function_obj(detail.method.argtype,types);    // takes in name of function and types of parameters
+                                                        for(auto i:ds2[curr5]["var"])
+                                                        code.push_back("push param "+i);
                                                         ds[curr]["start"] = code.size();
                                                         if(ds[curr]["type"]!="void")
                                                         code.push_back(ds[curr]["var"]+" = call, "+fname);
@@ -1021,7 +1025,7 @@ ARRAYCREATIONEXPRESSION: NEW PRIMITIVETYPE DIMEXPRS DIMS {/*NOT SUPPORTED*/}
                         |	NEW CLASSORINTERFACETYPE DIMEXPRS DIMS {/*NOT SUPPORTED*/}
                         |	NEW PRIMITIVETYPE DIMS ARRAYINITIALIZER { $$ = new_temp();  generalmap[$$].typ.name= chartostring($2);  generalmap[$$].vinit = generalmap[$4].vinit; assert (generalmap[$4].vinit.dims.size() == temp[$3]); }
                         |	NEW CLASSORINTERFACETYPE DIMS ARRAYINITIALIZER {/*NOT SUPPORTED*/}
-                        |   NEW PRIMITIVETYPE DIMEXPRS  { $$ = new_temp();  generalmap[$$].typ.name= chartostring($2);  generalmap[$$].vinit = generalmap[$3].vinit; ds[chartonum($$)]["arr"] = "true"; ds[chartonum($$)]["var"] = ds[chartonum($3)]["var"]; ds[chartonum($$)]["type"] = chartostring($2); ds[chartonum($$)]["start"] = ds[chartonum($3)]["start"];}
+                        |   NEW PRIMITIVETYPE DIMEXPRS  { $$ = new_temp();  generalmap[$$].typ.name= chartostring($2);  generalmap[$$].vinit = generalmap[$3].vinit; ds[chartonum($$)]["arr"] = "true"; ds[chartonum($$)]["var"] = new_var(); code.push_back(ds[chartonum($$)]["var"]+ " = "+ ds[chartonum($3)]["var"]+" * "+numtostring(gettypesize(chartostring($2)))); ds[chartonum($$)]["type"] = chartostring($2); ds[chartonum($$)]["start"] = ds[chartonum($3)]["start"];}
                         |	NEW CLASSORINTERFACETYPE DIMEXPRS  {/*NOT SUPPORTED*/}
                         |   NEW PRIMITIVETYPE DIMS {/*NOT SUPPORTED*/}
                         |	NEW CLASSORINTERFACETYPE DIMS {/*NOT SUPPORTED*/}
@@ -1058,13 +1062,16 @@ ARRAYACCESS: EXPRESSIONNAME OPENSQUARE EXPRESSION CLOSESQUARE
                 ds[curr] = ds[curr1];   
                 ds[curr]["var"] = new_var();
                 int i = stringtonum(ds[curr]["dims"])+1;
+        
                 ds[curr]["dims"] = numtostring(stringtonum(ds[curr]["dims"])+1);
                 string t = new_var();
                 // cout<<"index"<<i<<"\n";
                 // cout<<ds[curr]["array"]<<"\n";
                 // cout<<symboltable[ds[curr]["array"]].dims.size()<<"\n";
                 int bound = symboltable[ds[curr]["array"]].dims[i];
-                code.push_back(t+" = "+ds[curr1]["var"]+" * "+numtostring(bound));
+             
+                string exp = dimtoid[-bound];
+                code.push_back(t+" = "+ds[curr1]["var"]+" * "+exp);
                 code.push_back(ds[curr]["var"]+" = "+t+" + "+ds[curr3]["var"]); 
             }
             |	IDENTIFIER OPENSQUARE EXPRESSION CLOSESQUARE    {
@@ -1435,15 +1442,18 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
     $$ =$1;
     method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
     
+    for(auto i:ds2[chartonum($$)]["param"])
+    code.push_back("pop param, "+ i);
     code.push_back("end func");
     // cout<<"method declaration"<<generalmap[$1].name<<endl;
-    
 }
 
 
                     |   SUPER1 METHODHEADER METHODBODY{
                         $$ =$2;
                         method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
+for(auto i:ds2[chartonum($$)]["param"])
+                                        code.push_back("pop param, "+ i);
     code.push_back("end func");
     // cout<<"method declaration"<<generalmap[$2].name<<endl;
 
@@ -1463,10 +1473,11 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
     // methods[generalmap[$2].name].argtype = argtype;
     //     classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
 
-
 }
                     |   SUPER2 METHODHEADER METHODBODY{$$ =$2;
                     method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
+    for(auto i:ds2[chartonum($$)]["param"])
+                                        code.push_back("pop param, "+ i);
     code.push_back("end func");
     // cout<<"method declaration"<<generalmap[$2].name<<endl;
     //     assert(methods.find(generalmap[$2].name) == methods.end());
@@ -1489,6 +1500,8 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
 }
                     |   SUPER3 METHODHEADER METHODBODY{$$ =$2;
                     method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
+    for(auto i:ds2[chartonum($$)]["param"])
+                                        code.push_back("pop param, "+ i);
     code.push_back("end func");
     // cout<<"method declaration"<<generalmap[$2].name<<endl;
     //     assert(methods.find(generalmap[$2].name) == methods.end());
@@ -1511,6 +1524,8 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
 }
                     |   METHODMODIFIERS METHODHEADER METHODBODY{$$ =$2;
                     method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
+    for(auto i:ds2[chartonum($$)]["param"])
+                                        code.push_back("pop param, "+ i);
     code.push_back("end func");
     // cout<<"method declaration"<<generalmap[$2].name<<endl;
     //     assert(methods.find(generalmap[$2].name) == methods.end());
@@ -1638,8 +1653,9 @@ METHODDECLARATOR: IDENTIFIER OPENPARAN CLOSEPARAN  {$$ = new_temp(); generalmap[
                                         ds[curr]["start"] = numtostring(code.size());
                                         ds[curr]["method_name"] = chartostring($1);
                                         code.push_back("begin func "+chartostring($1));
-                                        for(auto i:ds2[curr3]["param"])
-                                        code.push_back("pop param, "+ i);}
+                                        // for(auto i:ds2[curr3]["param"])
+                                        // code.push_back("pop param, "+ i);
+                                        ds2[curr]["param"] = ds2[curr3]["param"];}
                 |   IDENTIFIER RECEIVERPARAMETER COMMA OPENPARAN CLOSEPARAN 
                 |   IDENTIFIER OPENPARAN CLOSEPARAN DIMS
                 |   IDENTIFIER RECEIVERPARAMETER COMMA OPENPARAN CLOSEPARAN DIMS
@@ -1889,7 +1905,7 @@ CONTINUESTATEMENT: CONTINUE SEMICOLON   {   $$ = new_temp();
 
 RETURNSTATEMENT: RETURN EXPRESSION SEMICOLON    {$$ = new_temp();
                                                     int curr = chartonum($$), exp = chartonum($2);
-                                                    ds[curr]["start"] = numtostring(code.size());
+                                                    ds[curr]["start"] = ds[exp]["start"];
                                                     ds[curr]["type"]= "null";
                                                     code.push_back("return "+ds[exp]["var"]);
                                                 }
