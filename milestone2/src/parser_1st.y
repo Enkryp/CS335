@@ -213,7 +213,7 @@
 
 /* data types */
 %start COMPILATIONUNIT
-%type<val>  ADDITIONALBOUND ADDITIVEEXPRESSION ANDEXPRESSION ARGUMENTLIST ARRAYACCESS ARRAYCREATIONEXPRESSION ARRAYINITIALIZER ARRAYINITIALIZER1 ASSERTSTATEMENT ASSIGNMENT ASSIGNMENTEXPRESSION ASSIGNMENTOPERATOR BASICFORSTATEMENT BASICFORSTATEMENTNOSHORTIF BLOCK BLOCKSTATEMENT BLOCKSTATEMENTS BREAKSTATEMENT CLASSBODY CLASSBODYDECLARATION CLASSBODYDECLARATIONS CLASSDECLARATION CLASSEXTENDS CLASSIMPLEMENTS CLASSINSTANCECREATIONEXPRESSION CLASSLITERAL CLASSMEMBERDECLARATION CLASSORINTERFACETYPE CLASSORINTERFACETYPETOINSTANTIATE CLASSPERMITS CLASSTYPE CLASSTYPE1 COMPILATIONUNIT CONDITIONALANDEXPRESSION CONDITIONALEXPRESSION CONDITIONALOREXPRESSION CONSTRUCTORBODY CONSTRUCTORDECLARATION CONSTRUCTORDECLARATOR CONTINUESTATEMENT DIMEXPR DIMEXPRS DIMS EMPTYSTATEMENT ENHANCEDFORSTATEMENT ENHANCEDFORSTATEMENTNOSHORTIF EQUALITYEXPRESSION EXCEPTIONTYPE EXCEPTIONTYPELIST EXCLUSIVEOREXPRESSION EXPLICITCONSTRUCTORINVOCATION EXPRESSION EXPRESSIONNAME EXPRESSIONSTATEMENT FIELDACCESS FIELDDECLARATION FIELDMODIFIERS FLOATINGTYPE FORINIT FORMALPARAMETER FORMALPARAMETERLIST FORSTATEMENT FORSTATEMENTNOSHORTIF FORUPDATE IFTHENELSESTATEMENT IFTHENELSESTATEMENTNOSHORTIF IFTHENSTATEMENT INCLUSIVEOREXPRESSION INSTANCEINITIALIZER INSTANCEOFEXPRESSION INTEGRALTYPE INTERFACETYPE INTERFACETYPELIST LABELEDSTATEMENT LABELEDSTATEMENTNOSHORTIF LEFTHANDSIDE LITERAL LOCALCLASSORINTERFACEDECLARATION LOCALVARIABLEDECLARATION LOCALVARIABLEDECLARATIONSTATEMENT LOCALVARIABLETYPE METHODBODY METHODDECLARATION METHODDECLARATOR METHODHEADER METHODINVOCATION METHODMODIFIERS METHODNAME METHODREFERENCE MULTIPLICATIVEEXPRESSION NORMALCLASSDECLARATION NUMERICTYPE ORDINARYCOMPILATIONUNIT POSTDECREMENTEXPRESSION POSTFIXEXPRESSION POSTINCREMENTEXPRESSION PREDECREMENTEXPRESSION PREINCREMENTEXPRESSION PRIMARY PRIMARYNONEWARRAY PRIMITIVETYPE RECEIVERPARAMETER REFERENCETYPE RELATIONALEXPRESSION RETURNSTATEMENT SHIFTEXPRESSION SIMPLETYPENAME SQUARESTAR STATEMENT STATEMENTEXPRESSION STATEMENTEXPRESSIONLIST STATEMENTNOSHORTIF STATEMENTWITHOUTTRAILINGSUBSTATEMENT STATICINITIALIZER SUPER1 SUPER2 SUPER3 THROWS2 THROWSTATEMENT TOPLEVELCLASSORINTERFACEDECLARATION TYPE TYPEARGUMENT TYPEARGUMENTLIST TYPEARGUMENTS TYPEBOUND TYPENAMES TYPEPARAMETER TYPEPARAMETERLIST TYPEPARAMETERS UNARYEXPRESSION UNARYEXPRESSIONNOTPLUSMINUS UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION VARIABLEARITYPARAMETER VARIABLEDECLARATOR VARIABLEDECLARATORID VARIABLEDECLARATORLIST VARIABLEINITIALIZER VARIABLEINITIALIZERLIST WHILESTATEMENT WHILESTATEMENTNOSHORTIF WILDCARD WILDCARDBOUNDS YIELDSTATEMENT IMPORTDECLARATION NORMALINTERFACEDECLARATION INTERFACEBODY INTERFACEMEMBERDECLARATION INTERFACEDECLARATION INTERFACEMEMBERDECLARATIONS OPENCURLY CLOSECURLY FOR CLASSNAME
+%type<val>  ADDITIONALBOUND ADDITIVEEXPRESSION ANDEXPRESSION ARGUMENTLIST ARRAYACCESS ARRAYCREATIONEXPRESSION ARRAYINITIALIZER ARRAYINITIALIZER1 ASSERTSTATEMENT ASSIGNMENT ASSIGNMENTEXPRESSION ASSIGNMENTOPERATOR BASICFORSTATEMENT BASICFORSTATEMENTNOSHORTIF BLOCK BLOCKSTATEMENT BLOCKSTATEMENTS BREAKSTATEMENT CLASSBODY CLASSBODYDECLARATION CLASSBODYDECLARATIONS CLASSDECLARATION CLASSEXTENDS CLASSIMPLEMENTS CLASSINSTANCECREATIONEXPRESSION CLASSLITERAL CLASSMEMBERDECLARATION CLASSORINTERFACETYPE CLASSORINTERFACETYPETOINSTANTIATE CLASSPERMITS CLASSTYPE CLASSTYPE1 COMPILATIONUNIT CONDITIONALANDEXPRESSION CONDITIONALEXPRESSION CONDITIONALOREXPRESSION CONSTRUCTORBODY CONSTRUCTORDECLARATION CONSTRUCTORDECLARATOR CONTINUESTATEMENT DIMEXPR DIMEXPRS DIMS EMPTYSTATEMENT ENHANCEDFORSTATEMENT ENHANCEDFORSTATEMENTNOSHORTIF EQUALITYEXPRESSION EXCEPTIONTYPE EXCEPTIONTYPELIST EXCLUSIVEOREXPRESSION EXPLICITCONSTRUCTORINVOCATION EXPRESSION EXPRESSIONNAME EXPRESSIONSTATEMENT FIELDACCESS FIELDDECLARATION FIELDMODIFIERS FLOATINGTYPE FORINIT FORMALPARAMETER FORMALPARAMETERLIST FORSTATEMENT FORSTATEMENTNOSHORTIF FORUPDATE IFTHENELSESTATEMENT IFTHENELSESTATEMENTNOSHORTIF IFTHENSTATEMENT INCLUSIVEOREXPRESSION INSTANCEINITIALIZER INSTANCEOFEXPRESSION INTEGRALTYPE INTERFACETYPE INTERFACETYPELIST LABELEDSTATEMENT LABELEDSTATEMENTNOSHORTIF LEFTHANDSIDE LITERAL LOCALCLASSORINTERFACEDECLARATION LOCALVARIABLEDECLARATION LOCALVARIABLEDECLARATIONSTATEMENT LOCALVARIABLETYPE METHODBODY METHODDECLARATION METHODDECLARATOR METHODHEADER METHODINVOCATION METHODMODIFIERS METHODNAME METHODREFERENCE MULTIPLICATIVEEXPRESSION NORMALCLASSDECLARATION NUMERICTYPE ORDINARYCOMPILATIONUNIT POSTDECREMENTEXPRESSION POSTFIXEXPRESSION POSTINCREMENTEXPRESSION PREDECREMENTEXPRESSION PREINCREMENTEXPRESSION PRIMARY PRIMARYNONEWARRAY PRIMITIVETYPE RECEIVERPARAMETER REFERENCETYPE RELATIONALEXPRESSION RETURNSTATEMENT SHIFTEXPRESSION SIMPLETYPENAME SQUARESTAR STATEMENT STATEMENTEXPRESSION STATEMENTEXPRESSIONLIST STATEMENTNOSHORTIF STATEMENTWITHOUTTRAILINGSUBSTATEMENT STATICINITIALIZER SUPER1 SUPER2 SUPER3 THROWS2 THROWSTATEMENT TOPLEVELCLASSORINTERFACEDECLARATION TYPE TYPEARGUMENT TYPEARGUMENTLIST TYPEARGUMENTS TYPEBOUND TYPENAMES TYPEPARAMETER TYPEPARAMETERLIST TYPEPARAMETERS UNARYEXPRESSION UNARYEXPRESSIONNOTPLUSMINUS UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION VARIABLEARITYPARAMETER VARIABLEDECLARATOR VARIABLEDECLARATORID VARIABLEDECLARATORLIST VARIABLEINITIALIZER VARIABLEINITIALIZERLIST WHILESTATEMENT WHILESTATEMENTNOSHORTIF WILDCARD WILDCARDBOUNDS YIELDSTATEMENT IMPORTDECLARATION NORMALINTERFACEDECLARATION INTERFACEBODY INTERFACEMEMBERDECLARATION INTERFACEDECLARATION INTERFACEMEMBERDECLARATIONS OPENCURLY CLOSECURLY FOR CLASSNAME TEMP
 %token<val> BOOLEAN BYTE SHORT INT LONG CHAR FLOAT DOUBLE 
 
 /* Separators */
@@ -1932,6 +1932,7 @@ IFTHENSTATEMENT: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENT   {   $$ = new_tem
                                                                     // code.push_back(ds[curr]["start"]);
                                                                     // cout<<"Inside if then statement\n";
                                                                     // cout<<ds[curr]["start"]<<"\n";
+                                                                    // backpatch(ds3[curr5]["endlist"],code.size());
                                                                     ds[curr]["type"] = "null";
                                                                     ds3[curr]["continuelist"] = ds3[curr5]["continuelist"];
                                                                     ds3[curr]["breaklist"] = ds3[curr5]["breaklist"];
@@ -1939,29 +1940,61 @@ IFTHENSTATEMENT: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENT   {   $$ = new_tem
                                                                     // ds3[curr]["truelist"] = vector<int>();
 }
 
-IFTHENELSESTATEMENT: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENTNOSHORTIF ELSE STATEMENT   {   $$ = new_temp();
-                                                                    int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr7 = chartonum($7);
-                                                                    backpatch(ds3[curr3]["falselist"],stringtonum(ds[curr7]["start"]));
-                                                                    backpatch(ds3[curr3]["truelist"],stringtonum(ds[curr5]["start"]));
-                                                                    ds[curr]["start"] = ds[curr3]["start"];
+IFTHENELSESTATEMENT: TEMP ELSE STATEMENT   {   $$ = new_temp();
+                                                                    int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);
+                                                                    backpatch(ds3[curr1]["falselist"],stringtonum(ds[curr3]["start"]));
+                                                                    backpatch(ds3[curr1]["endlist"],code.size());
+                                                                    // backpatch(ds3[curr3]["truelist"],stringtonum(ds[curr5]["start"]));
+                                                                    // backpatch(ds3[curr5]["endlist"],code.size());
+                                                                    // backpatch(ds3[curr7]["endlist"],code.size());
+                                                                    ds[curr]["start"] = ds[curr1]["start"];
                                                                     ds[curr]["type"] = "null";
-                                                                    ds3[curr]["continuelist"] = merge(ds3[curr5]["continuelist"],ds3[curr7]["continuelist"]);
-                                                                    ds3[curr]["breaklist"] = merge(ds3[curr5]["breaklist"],ds3[curr7]["breaklist"]);
+                                                                    ds3[curr]["continuelist"] = merge(ds3[curr1]["continuelist"],ds3[curr3]["continuelist"]);
+                                                                    ds3[curr]["breaklist"] = merge(ds3[curr1]["breaklist"],ds3[curr3]["breaklist"]);
                                                                     // ds3[curr]["truelist"] = vector<int>();
                                                                     // ds3[curr]["falselist"] = vector<int>();
 }
 
-IFTHENELSESTATEMENTNOSHORTIF: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENTNOSHORTIF ELSE STATEMENTNOSHORTIF     {   $$ = new_temp();
-                                                                    int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr7 = chartonum($7);
-                                                                    backpatch(ds3[curr3]["falselist"],stringtonum(ds[curr7]["start"]));
-                                                                    backpatch(ds3[curr3]["truelist"],stringtonum(ds[curr5]["start"]));
-                                                                    ds[curr]["start"] = ds[curr3]["start"];
+IFTHENELSESTATEMENTNOSHORTIF:  TEMP ELSE STATEMENTNOSHORTIF     {   $$ = new_temp();
+                                                                    // int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5), curr7 = chartonum($7);
+                                                                    // backpatch(ds3[curr3]["falselist"],stringtonum(ds[curr7]["start"]));
+                                                                    // backpatch(ds3[curr3]["truelist"],stringtonum(ds[curr5]["start"]));
+                                                                    // // backpatch(ds3[curr5]["endlist"],code.size());
+                                                                    // // backpatch(ds3[curr7]["endlist"],code.size());
+                                                                    // ds[curr]["start"] = ds[curr3]["start"];
+                                                                    // ds[curr]["type"] = "null";
+                                                                    // ds3[curr]["continuelist"] = merge(ds3[curr5]["continuelist"],ds3[curr7]["continuelist"]);
+                                                                    // ds3[curr]["breaklist"] = merge(ds3[curr5]["breaklist"],ds3[curr7]["breaklist"]);
+                                                                    // // ds3[curr]["truelist"] = vector<int>();
+                                                                    // // ds3[curr]["falselist"] = vector<int>();
+                                                                    int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);
+                                                                    backpatch(ds3[curr1]["falselist"],stringtonum(ds[curr3]["start"]));
+                                                                    backpatch(ds3[curr1]["endlist"],code.size());
+                                                                    // backpatch(ds3[curr3]["truelist"],stringtonum(ds[curr5]["start"]));
+                                                                    // backpatch(ds3[curr5]["endlist"],code.size());
+                                                                    // backpatch(ds3[curr7]["endlist"],code.size());
+                                                                    ds[curr]["start"] = ds[curr1]["start"];
                                                                     ds[curr]["type"] = "null";
-                                                                    ds3[curr]["continuelist"] = merge(ds3[curr5]["continuelist"],ds3[curr7]["continuelist"]);
-                                                                    ds3[curr]["breaklist"] = merge(ds3[curr5]["breaklist"],ds3[curr7]["breaklist"]);
+                                                                    ds3[curr]["continuelist"] = merge(ds3[curr1]["continuelist"],ds3[curr3]["continuelist"]);
+                                                                    ds3[curr]["breaklist"] = merge(ds3[curr1]["breaklist"],ds3[curr3]["breaklist"]);
                                                                     // ds3[curr]["truelist"] = vector<int>();
                                                                     // ds3[curr]["falselist"] = vector<int>();
+
 }
+
+TEMP: IF OPENPARAN EXPRESSION CLOSEPARAN STATEMENTNOSHORTIF {   $$ = new_temp();
+int curr = chartonum($$), curr3 = chartonum($3), curr5 = chartonum($5);
+ds[curr]["start"] = ds[curr3]["start"];
+backpatch(ds3[curr3]["truelist"],stringtonum(ds[curr5]["start"]));
+ds3[curr]["falselist"] = ds3[curr3]["falselist"];
+ds3[curr]["breaklist"] = ds3[curr5]["breaklist"];
+ds3[curr]["continuelist"] = ds3[curr5]["continuelist"];
+ds3[curr]["endlist"] = vector<int>();
+ds3[curr]["endlist"].push_back(code.size());
+code.push_back("goto ");
+}
+
+
 
 STATEMENTNOSHORTIF: STATEMENTWITHOUTTRAILINGSUBSTATEMENT    {$$ = $1;}
                    |	LABELEDSTATEMENTNOSHORTIF   {$$ = $1;}
