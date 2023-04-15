@@ -1,0 +1,46 @@
+0 begin func getLength
+1 return length
+2 stackpointer - 0
+3 end func
+4 begin func getWidth
+5 return width
+6 stackpointer - 0
+7 end func
+8 begin func getArea
+9 t1 = length *int width
+10 return t1
+11 stackpointer - 0
+12 end func
+13 stackpointer - 0
+14 begin func main
+15 t2 = 10
+16 length = t2
+17 stackpointer + 4
+18 t3 = 20
+19 width = t3
+20 stackpointer + 4
+21 rectangle1 = class ( Rectangle )
+22 stackpointer + 4
+23 c1length = length
+24 c1width = width
+25 t4 = call, c1getArea
+26 area = t4
+27 stackpointer + 4
+28 print area
+29 stackpointer - 16
+30 pop param, args
+31 end func
+32 stackpointer - 0
+33 begin func c1getArea
+34 c1t1 = c1length *int c1width
+35 return c1t1
+36 stackpointer - 0
+37 end func
+38 begin func c1getLength
+39 return c1length
+40 stackpointer - 0
+41 end func
+42 begin func c1getWidth
+43 return c1width
+44 stackpointer - 0
+45 end func

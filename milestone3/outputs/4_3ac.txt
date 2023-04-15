@@ -1,0 +1,89 @@
+0 begin func main
+1 t1 = 20
+2 x = t1
+3 stackpointer + 4
+4 t2 = 18
+5 y = t2
+6 stackpointer + 4
+7 t3 = x > y
+8 if t3 goto  10
+9 goto  14
+10 t4 = x +int y
+11 z = t4
+12 stackpointer + 4
+13 stackpointer - 4
+14 t5 = x +int y
+15 z = t5
+16 stackpointer + 4
+17 stackpointer - 12
+18 t6 = 20
+19 x = t6
+20 stackpointer + 4
+21 t7 = 18
+22 y = t7
+23 stackpointer + 4
+24 t8 = x > y
+25 if t8 goto  27
+26 goto  31
+27 t9 = x +int y
+28 z = t9
+29 stackpointer + 4
+30 stackpointer - 4
+31 t10 = x +int y
+32 z = t10
+33 stackpointer + 4
+34 stackpointer - 12
+35 t11 = 20
+36 x = t11
+37 stackpointer + 4
+38 t12 = 18
+39 y = t12
+40 stackpointer + 4
+41 t13 = x > y
+42 if t13 goto  44
+43 goto  48
+44 t14 = x +int y
+45 z = t14
+46 stackpointer + 4
+47 stackpointer - 4
+48 t15 = x +int y
+49 z = t15
+50 stackpointer + 4
+51 stackpointer - 12
+52 t16 = 20
+53 x = t16
+54 stackpointer + 4
+55 t17 = 18
+56 y = t17
+57 stackpointer + 4
+58 t18 = x > y
+59 if t18 goto  61
+60 goto  65
+61 t19 = x +int y
+62 z = t19
+63 stackpointer + 4
+64 stackpointer - 4
+65 t20 = x +int y
+66 z = t20
+67 stackpointer + 4
+68 stackpointer - 12
+69 t21 = 20
+70 x = t21
+71 stackpointer + 4
+72 t22 = 18
+73 y = t22
+74 stackpointer + 4
+75 t23 = x > y
+76 if t23 goto  78
+77 goto  82
+78 t24 = x +int y
+79 z = t24
+80 stackpointer + 4
+81 stackpointer - 4
+82 t25 = x +int y
+83 z = t25
+84 stackpointer + 4
+85 stackpointer - 12
+86 pop param, args
+87 end func
+88 stackpointer - 0

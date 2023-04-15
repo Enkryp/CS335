@@ -1,0 +1,19 @@
+Token, Name(Lexeme), Type, Line Number, Scope, Dims(If array), ScopeINFO(Child), ScopeINFO(Parent), Offsets
+IDENTIFIER, area, int, 29, 7, 0, 12
+IDENTIFIER, args, String, 20, 7, 1, 0
+identifier - method ofRectangle, getArea, int, 14, -1, 0, 0
+identifier - method ofRectangle, getLength, int, 6, -1, 0, 0
+identifier - method ofRectangle, getWidth, int, 10, -1, 0, 0
+identifier - field ofRectangle, length, int, 2, -1, 0, 0
+IDENTIFIER, length, int, 21, 7, 0, 0
+identifier - method ofMain, main, void, 20, -1, 0, 0
+IDENTIFIER, rectangle1, Rectangle, 25, 7, 0, 8
+identifier - field ofRectangle, width, int, 3, -1, 0, 0
+IDENTIFIER, width, int, 23, 7, 0, 4
+, , , , , , 1, 0, 
+, , , , , , 2, 1, 
+, , , , , , 3, 2, 
+, , , , , , 4, 2, 
+, , , , , , 5, 2, 
+, , , , , , 6, 0, 
+, , , , , , 7, 6, 
