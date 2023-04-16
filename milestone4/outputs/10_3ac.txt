@@ -1,0 +1,47 @@
+0 begin func main
+1 t1 = 10
+2 n = t1
+3 stackpointer + 4
+4 t2 = 11
+5 t3 = t2 * 4
+6 fib = array ( t3 )
+7 stackpointer + 44
+8 t4 = 0
+9 t5 = 0
+10 fib[ t4 ] = t5
+11 t6 = 1
+12 t7 = 1
+13 fib[ t6 ] = t7
+14 t8 = 2
+15 i = t8
+16 stackpointer + 4
+17 t9 = i <= n
+18 if t9 goto  20
+19 goto  30
+20 t11 = 1
+21 t12 = i -int t11
+22 t13 = 2
+23 t14 = i -int t13
+24 t15 = fib[t12] +int fib[t14]
+25 fib[ i ] = t15
+26 stackpointer - 0
+27 t10 = i
+28 i = t10 +1
+29 goto 17
+30 stackpointer - 4
+31 t16 = 0
+32 i = t16
+33 stackpointer + 4
+34 t17 = i <= n
+35 if t17 goto  39
+36 goto  42
+37 print fib[i]
+38 stackpointer - 0
+39 t18 = i
+40 i = t18 +1
+41 goto 34
+42 stackpointer - 4
+43 stackpointer - 48
+44 pop param, args
+45 end func
+46 stackpointer - 0

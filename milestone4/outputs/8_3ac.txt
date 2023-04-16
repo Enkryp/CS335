@@ -1,0 +1,27 @@
+0 begin func main
+1 t1 = 1000
+2 n = t1
+3 stackpointer + 4
+4 t2 = 0
+5 sum = t2
+6 stackpointer + 4
+7 t3 = 1
+8 i = t3
+9 stackpointer + 4
+10 t4 = i <= n
+11 if t4 goto  13
+12 goto  21
+13 t6 = i *int i
+14 t7 = t6 *int i
+15 t8 = sum +int t7
+16 sum = t8
+17 stackpointer - 0
+18 t5 = i
+19 i = t5 +1
+20 goto 10
+21 stackpointer - 4
+22 print sum
+23 stackpointer - 8
+24 pop param, args
+25 end func
+26 stackpointer - 0

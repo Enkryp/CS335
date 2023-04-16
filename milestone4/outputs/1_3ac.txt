@@ -1,0 +1,30 @@
+0 begin func main
+1 t1 = 99567
+2 n = t1
+3 stackpointer + 4
+4 t2 = 2
+5 t3 = n < t2
+6 if t3 goto  8
+7 goto  13
+8 t4 = 0
+9 isPrime = t4
+10 stackpointer + 4
+11 stackpointer - 4
+12 goto  25
+13 t5 = 3
+14 if n == t5 goto  16
+15 goto  21
+16 t7 = 5
+17 isprime = t7
+18 stackpointer + 4
+19 stackpointer - 4
+20 goto  25
+21 t8 = 10
+22 isprime = t8
+23 stackpointer + 4
+24 stackpointer - 4
+25 print isPrime
+26 stackpointer - 4
+27 pop param, args
+28 end func
+29 stackpointer - 0

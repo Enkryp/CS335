@@ -1,0 +1,55 @@
+0 begin func function1
+1 t1 = 0
+2 j = t1
+3 stackpointer + 4
+4 k = j
+5 stackpointer + 4
+6 t2 = k +int j
+7 return t2
+8 stackpointer - 8
+9 end func
+10 begin func main
+11 t3 = call, function1
+12 t4 = 5
+13 t5 = t4 * 4
+14 arr = array ( t5 )
+15 stackpointer + 20
+16 t6 = 0
+17 a = arr[t6]
+18 stackpointer + 4
+19 t7 = 1
+20 b = arr[t7]
+21 stackpointer + 4
+22 t8 = a +int b
+23 d = t8
+24 stackpointer + 4
+25 e = d
+26 stackpointer + 4
+27 stackpointer - 4
+28 e = d
+29 stackpointer + 4
+30 stackpointer - 4
+31 f = d
+32 stackpointer + 4
+33 stackpointer - 4
+34 e = d
+35 stackpointer + 4
+36 t9 = 5
+37 t10 = a +int t9
+38 n = t10
+39 stackpointer + 4
+40 t11 = 2
+41 t12 = n < t11
+42 if t12 goto  44
+43 goto  48
+44 t13 = 5
+45 n = t13
+46 stackpointer - 0
+47 goto  51
+48 t14 = 10
+49 n = t14
+50 stackpointer - 0
+51 stackpointer - 40
+52 pop param, args
+53 end func
+54 stackpointer - 0

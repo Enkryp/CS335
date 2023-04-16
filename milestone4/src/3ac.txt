@@ -1,0 +1,45 @@
+0 t1 = 0
+1 fk = t1
+2 stackpointer + 4
+3 stackpointer - 4
+4 begin func main
+5 pop param, args
+6 pop param, x
+7 pop param, nn
+8 t2 = 30
+9 key = t2
+10 t3 = 400
+11 a = t3
+12 stackpointer + 4
+13 stackpointer + 4
+14 t4 = 30
+15 t5 = a +int t4
+16 t6 = 20
+17 t7 = t5 +int t6
+18 key = t7
+19 t8 = false
+20 ak = t8
+21 stackpointer + 1
+22 t9 = 1
+23 t10 = 1
+24 t11 = 1
+25 t12 = 1
+26 t13 = 1
+27 t14 = 1
+28 t15 = 1
+29 stackpointer - 0
+30 gg = t9
+31 stackpointer + 28
+32 t16 = 0
+33 fg = t16
+34 stackpointer + 4
+35 t17 = a < key
+36 if t17 goto  38
+37 goto  42
+38 t18 = 0
+39 g = t18
+40 stackpointer + 4
+41 stackpointer - 4
+42 stackpointer - 41
+43 end func
+44 stackpointer - 0
