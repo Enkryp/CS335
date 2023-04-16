@@ -1723,12 +1723,9 @@ BLOCKSTATEMENTS: BLOCKSTATEMENT    {$$ = $1;
                 }
 
 BLOCKSTATEMENT: LOCALCLASSORINTERFACEDECLARATION
-               |	LOCALVARIABLEDECLARATIONSTATEMENT   {$$ = $1; 
-                
-               }
+               
                |	STATEMENT   {$$ = $1;
                }
-               |    PRINTLN {code.push_back("print "+ chartostring($1).substr(19,chartostring($1).size() -21));}
  
 LOCALCLASSORINTERFACEDECLARATION: CLASSDECLARATION  
 
@@ -1863,6 +1860,10 @@ STATEMENT: STATEMENTWITHOUTTRAILINGSUBSTATEMENT {$$ = $1; int curr = chartonum($
           |	IFTHENELSESTATEMENT {$$ = $1; int curr = chartonum($$); if(ds[curr].find("start")==ds[curr].end()) ds[curr]["start"] = numtostring(code.size());}
           |	WHILESTATEMENT  {$$ = $1; int curr = chartonum($$); if(ds[curr].find("start")==ds[curr].end()) ds[curr]["start"] = numtostring(code.size());}
           |	FORSTATEMENT    {$$ = $1; int curr = chartonum($$); if(ds[curr].find("start")==ds[curr].end()) ds[curr]["start"] = numtostring(code.size());}
+               |    PRINTLN {code.push_back("print "+ chartostring($1).substr(19,chartostring($1).size() -21));}
+               |	LOCALVARIABLEDECLARATIONSTATEMENT   {$$ = $1; 
+                
+               }
 
 STATEMENTWITHOUTTRAILINGSUBSTATEMENT    :BLOCK  {$$ = $1;}
                                                     // assert(ds[curr].find("start")!=ds[curr].end());}
