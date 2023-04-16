@@ -1860,7 +1860,7 @@ STATEMENT: STATEMENTWITHOUTTRAILINGSUBSTATEMENT {$$ = $1; int curr = chartonum($
           |	IFTHENELSESTATEMENT {$$ = $1; int curr = chartonum($$); if(ds[curr].find("start")==ds[curr].end()) ds[curr]["start"] = numtostring(code.size());}
           |	WHILESTATEMENT  {$$ = $1; int curr = chartonum($$); if(ds[curr].find("start")==ds[curr].end()) ds[curr]["start"] = numtostring(code.size());}
           |	FORSTATEMENT    {$$ = $1; int curr = chartonum($$); if(ds[curr].find("start")==ds[curr].end()) ds[curr]["start"] = numtostring(code.size());}
-               |    PRINTLN {code.push_back("print "+ chartostring($1).substr(19,chartostring($1).size() -21));}
+               |    PRINTLN {$$ = new_temp();ds[chartonum($$)]["start"] = numtostring(code.size());code.push_back("print "+ chartostring($1).substr(19,chartostring($1).size() -21));   }
                |	LOCALVARIABLEDECLARATIONSTATEMENT   {$$ = $1; 
                 
                }
@@ -2150,7 +2150,7 @@ BASICFORSTATEMENT: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENT   {   
                                                                     backpatch(ds3[curr5]["falselist"],code.size());
 }
 
-BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF   {   $$ = new_temp();
+BASICFORSTATEMENTNOSHORTIF: FOR OPENPARAN SEMICOLON SEMICOLON CLOSEPARAN STATEMENTNOSHORTIF   {   $$ = new_temp(); 
                                                                     int curr = chartonum($$), curr6 = chartonum($6);
                                                                     backpatch(ds3[curr6]["continuelist"],stringtonum(ds[curr6]["start"])); 
                                                                     ds[curr]["type"] = "null";
