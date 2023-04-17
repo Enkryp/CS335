@@ -306,7 +306,7 @@ void type_check(string a,string b,string c){
     }
     else{
         set<string> arithmetic={"+","-","/","*","%"};
-        set<string> bitwise_shift={"<<",">>"};
+        set<string> bitwise_shift={"<<",">>", ">>>"};
         set<string> bitwise_operator ={"&","|"};
         set<string> relational ={"==", "!=", ">", "<", ">=", "<="};
         // set<string> relational ={"==", "!=", ">", "<", ">=", "<="};
@@ -356,7 +356,7 @@ string type_conversion(string a,string b,string c){
     }
     else{
         set<string> arithmetic={"+","-","/","*","%"};
-        set<string> bitwise_shift={"<<",">>"};
+        set<string> bitwise_shift={"<<",">>", ">>>"};
         set<string> bitwise_operator ={"&","|"};
         set<string> relational ={"==", "!=", ">", "<", ">=", "<="};
         // set<string> relational ={"==", "!=", ">", "<", ">=", "<="};

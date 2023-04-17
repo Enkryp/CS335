@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.5.1.  */
+/* A Bison parser, made by GNU Bison 3.8.2.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2021 Free Software Foundation,
    Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /* As a special exception, you may create a larger work that contains
    part or all of the Bison parser skeleton and distribute that work
@@ -31,8 +31,9 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-/* Undocumented macros, especially those whose name start with YY_,
-   are private implementation details.  Do not rely on them.  */
+/* DO NOT RELY ON FEATURES THAT ARE NOT DOCUMENTED in the manual,
+   especially those whose name start with YY_ or yy_.  They are
+   private implementation details that can be changed or removed.  */
 
 #ifndef YY_YY_PARSER_1ST_TAB_H_INCLUDED
 # define YY_YY_PARSER_1ST_TAB_H_INCLUDED
@@ -44,137 +45,142 @@
 extern int yydebug;
 #endif
 
-/* Token type.  */
+/* Token kinds.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
   enum yytokentype
   {
-    BOOLEAN = 258,
-    BYTE = 259,
-    SHORT = 260,
-    INT = 261,
-    LONG = 262,
-    CHAR = 263,
-    FLOAT = 264,
-    DOUBLE = 265,
-    COMMA = 266,
-    QUESTIONMARK = 267,
-    SEMICOLON = 268,
-    OPENCURLY1 = 269,
-    CLOSECURLY1 = 270,
-    ANGULARLEFT = 271,
-    ANGULARRIGHT = 272,
-    OPENSQUARE = 273,
-    CLOSESQUARE = 274,
-    OPENPARAN = 275,
-    CLOSEPARAN = 276,
-    DOUBLECOLON = 277,
-    TRIPLEDOT = 278,
-    WS = 279,
-    AT = 280,
-    OVERRIDE = 281,
-    EQUALS = 282,
-    MULTIPLYEQUALS = 283,
-    DIVIDEEQUALS = 284,
-    MODEQUALS = 285,
-    PLUSEQUALS = 286,
-    MINUSEQUALS = 287,
-    PLUS = 288,
-    MINUS = 289,
-    DIVIDE = 290,
-    MULTIPLY = 291,
-    MOD = 292,
-    OR = 293,
-    XOR = 294,
-    COLON = 295,
-    NOT = 296,
-    COMPLEMENT = 297,
-    AND = 298,
-    DOT = 299,
-    OROR = 300,
-    ANDAND = 301,
-    PLUSPLUS = 302,
-    MINUSMINUS = 303,
-    ANGULARLEFTANGULARLEFT = 304,
-    ANGULARRIGHTANGULARRIGHT = 305,
-    ANGULARRIGHTANGULARRIGHTANGULARRIGHT = 306,
-    EQUALSEQUALS = 307,
-    NOTEQUALS = 308,
-    INTEGERLITERAL = 309,
-    FLOATINGPOINTLITERAL = 310,
-    BOOLEANLITERAL = 311,
-    CHARACTERLITERAL = 312,
-    STRINGLITERAL = 313,
-    TEXTBLOCK = 314,
-    NULLLITERAL = 315,
-    EXTENDS = 316,
-    SUPER = 317,
-    CLASS = 318,
-    PUBLIC = 319,
-    PRIVATE = 320,
-    IMPLEMENTS = 321,
-    PERMITS = 322,
-    PROTECTED = 323,
-    STATIC = 324,
-    FINAL = 325,
-    TRANSIENT = 326,
-    VOLATILE = 327,
-    INSTANCEOF = 328,
-    THIS = 329,
-    VOID = 330,
-    NEW = 331,
-    THROW = 332,
-    ASSERT = 333,
-    VAR = 334,
-    BREAK = 335,
-    CONTINUE = 336,
-    RETURN = 337,
-    YIELD = 338,
-    IF = 339,
-    ELSE = 340,
-    WHILE = 341,
-    FOR1 = 342,
-    PRINTLN = 343,
-    ABSTRACT = 344,
-    SYNCHRONIZED = 345,
-    NATIVE = 346,
-    STRICTFP = 347,
-    SWITCH = 348,
-    DEFAULT = 349,
-    PACKAGE = 350,
-    DO = 351,
-    GOTO = 352,
-    IMPORT = 353,
-    THROWS = 354,
-    CASE = 355,
-    ENUM = 356,
-    CATCH = 357,
-    TRY = 358,
-    INTERFACE = 359,
-    FINALLY = 360,
-    CONST = 361,
-    UNDERSCORE = 362,
-    EXPORTS = 363,
-    OPENS = 364,
-    REQUIRES = 365,
-    USES = 366,
-    MODULE = 367,
-    SEALED = 368,
-    PROVIDES = 369,
-    TO = 370,
-    WITH = 371,
-    OPEN = 372,
-    RECORD = 373,
-    TRANSITIVE = 374,
-    ERROR = 375,
-    ONCE = 376,
-    NL = 377,
-    NON_SEALED = 378,
-    IDENTIFIER = 379,
-    UNQUALIFIEDMETHODIDENTIFIER = 380,
-    DOTCLASS = 381,
-    EOFF = 382
+    YYEMPTY = -2,
+    YYEOF = 0,                     /* "end of file"  */
+    YYerror = 256,                 /* error  */
+    YYUNDEF = 257,                 /* "invalid token"  */
+    BOOLEAN = 258,                 /* BOOLEAN  */
+    BYTE = 259,                    /* BYTE  */
+    SHORT = 260,                   /* SHORT  */
+    INT = 261,                     /* INT  */
+    LONG = 262,                    /* LONG  */
+    CHAR = 263,                    /* CHAR  */
+    FLOAT = 264,                   /* FLOAT  */
+    DOUBLE = 265,                  /* DOUBLE  */
+    COMMA = 266,                   /* COMMA  */
+    QUESTIONMARK = 267,            /* QUESTIONMARK  */
+    SEMICOLON = 268,               /* SEMICOLON  */
+    OPENCURLY1 = 269,              /* OPENCURLY1  */
+    CLOSECURLY1 = 270,             /* CLOSECURLY1  */
+    ANGULARLEFT = 271,             /* ANGULARLEFT  */
+    ANGULARRIGHT = 272,            /* ANGULARRIGHT  */
+    OPENSQUARE = 273,              /* OPENSQUARE  */
+    CLOSESQUARE = 274,             /* CLOSESQUARE  */
+    OPENPARAN = 275,               /* OPENPARAN  */
+    CLOSEPARAN = 276,              /* CLOSEPARAN  */
+    DOUBLECOLON = 277,             /* DOUBLECOLON  */
+    TRIPLEDOT = 278,               /* TRIPLEDOT  */
+    WS = 279,                      /* WS  */
+    AT = 280,                      /* AT  */
+    OVERRIDE = 281,                /* OVERRIDE  */
+    EQUALS = 282,                  /* EQUALS  */
+    MULTIPLYEQUALS = 283,          /* MULTIPLYEQUALS  */
+    DIVIDEEQUALS = 284,            /* DIVIDEEQUALS  */
+    MODEQUALS = 285,               /* MODEQUALS  */
+    PLUSEQUALS = 286,              /* PLUSEQUALS  */
+    MINUSEQUALS = 287,             /* MINUSEQUALS  */
+    PLUS = 288,                    /* PLUS  */
+    MINUS = 289,                   /* MINUS  */
+    DIVIDE = 290,                  /* DIVIDE  */
+    MULTIPLY = 291,                /* MULTIPLY  */
+    MOD = 292,                     /* MOD  */
+    OR = 293,                      /* OR  */
+    XOR = 294,                     /* XOR  */
+    COLON = 295,                   /* COLON  */
+    NOT = 296,                     /* NOT  */
+    COMPLEMENT = 297,              /* COMPLEMENT  */
+    AND = 298,                     /* AND  */
+    DOT = 299,                     /* DOT  */
+    OROR = 300,                    /* OROR  */
+    ANDAND = 301,                  /* ANDAND  */
+    PLUSPLUS = 302,                /* PLUSPLUS  */
+    MINUSMINUS = 303,              /* MINUSMINUS  */
+    ANGULARLEFTANGULARLEFT = 304,  /* ANGULARLEFTANGULARLEFT  */
+    ANGULARRIGHTANGULARRIGHT = 305, /* ANGULARRIGHTANGULARRIGHT  */
+    ANGULARRIGHTANGULARRIGHTANGULARRIGHT = 306, /* ANGULARRIGHTANGULARRIGHTANGULARRIGHT  */
+    EQUALSEQUALS = 307,            /* EQUALSEQUALS  */
+    NOTEQUALS = 308,               /* NOTEQUALS  */
+    INTEGERLITERAL = 309,          /* INTEGERLITERAL  */
+    FLOATINGPOINTLITERAL = 310,    /* FLOATINGPOINTLITERAL  */
+    BOOLEANLITERAL = 311,          /* BOOLEANLITERAL  */
+    CHARACTERLITERAL = 312,        /* CHARACTERLITERAL  */
+    STRINGLITERAL = 313,           /* STRINGLITERAL  */
+    TEXTBLOCK = 314,               /* TEXTBLOCK  */
+    NULLLITERAL = 315,             /* NULLLITERAL  */
+    EXTENDS = 316,                 /* EXTENDS  */
+    SUPER = 317,                   /* SUPER  */
+    CLASS = 318,                   /* CLASS  */
+    PUBLIC = 319,                  /* PUBLIC  */
+    PRIVATE = 320,                 /* PRIVATE  */
+    IMPLEMENTS = 321,              /* IMPLEMENTS  */
+    PERMITS = 322,                 /* PERMITS  */
+    PROTECTED = 323,               /* PROTECTED  */
+    STATIC = 324,                  /* STATIC  */
+    FINAL = 325,                   /* FINAL  */
+    TRANSIENT = 326,               /* TRANSIENT  */
+    VOLATILE = 327,                /* VOLATILE  */
+    INSTANCEOF = 328,              /* INSTANCEOF  */
+    THIS = 329,                    /* THIS  */
+    VOID = 330,                    /* VOID  */
+    NEW = 331,                     /* NEW  */
+    THROW = 332,                   /* THROW  */
+    ASSERT = 333,                  /* ASSERT  */
+    VAR = 334,                     /* VAR  */
+    BREAK = 335,                   /* BREAK  */
+    CONTINUE = 336,                /* CONTINUE  */
+    RETURN = 337,                  /* RETURN  */
+    YIELD = 338,                   /* YIELD  */
+    IF = 339,                      /* IF  */
+    ELSE = 340,                    /* ELSE  */
+    WHILE = 341,                   /* WHILE  */
+    FOR1 = 342,                    /* FOR1  */
+    PRINTLN = 343,                 /* PRINTLN  */
+    ABSTRACT = 344,                /* ABSTRACT  */
+    SYNCHRONIZED = 345,            /* SYNCHRONIZED  */
+    NATIVE = 346,                  /* NATIVE  */
+    STRICTFP = 347,                /* STRICTFP  */
+    SWITCH = 348,                  /* SWITCH  */
+    DEFAULT = 349,                 /* DEFAULT  */
+    PACKAGE = 350,                 /* PACKAGE  */
+    DO = 351,                      /* DO  */
+    GOTO = 352,                    /* GOTO  */
+    IMPORT = 353,                  /* IMPORT  */
+    THROWS = 354,                  /* THROWS  */
+    CASE = 355,                    /* CASE  */
+    ENUM = 356,                    /* ENUM  */
+    CATCH = 357,                   /* CATCH  */
+    TRY = 358,                     /* TRY  */
+    INTERFACE = 359,               /* INTERFACE  */
+    FINALLY = 360,                 /* FINALLY  */
+    CONST = 361,                   /* CONST  */
+    UNDERSCORE = 362,              /* UNDERSCORE  */
+    EXPORTS = 363,                 /* EXPORTS  */
+    OPENS = 364,                   /* OPENS  */
+    REQUIRES = 365,                /* REQUIRES  */
+    USES = 366,                    /* USES  */
+    MODULE = 367,                  /* MODULE  */
+    SEALED = 368,                  /* SEALED  */
+    PROVIDES = 369,                /* PROVIDES  */
+    TO = 370,                      /* TO  */
+    WITH = 371,                    /* WITH  */
+    OPEN = 372,                    /* OPEN  */
+    RECORD = 373,                  /* RECORD  */
+    TRANSITIVE = 374,              /* TRANSITIVE  */
+    ERROR = 375,                   /* ERROR  */
+    ONCE = 376,                    /* ONCE  */
+    NL = 377,                      /* NL  */
+    NON_SEALED = 378,              /* NON_SEALED  */
+    IDENTIFIER = 379,              /* IDENTIFIER  */
+    UNQUALIFIEDMETHODIDENTIFIER = 380, /* UNQUALIFIEDMETHODIDENTIFIER  */
+    DOTCLASS = 381,                /* DOTCLASS  */
+    EOFF = 382                     /* EOFF  */
   };
+  typedef enum yytokentype yytoken_kind_t;
 #endif
 
 /* Value type.  */
@@ -185,7 +191,7 @@ union YYSTYPE
 
     char* val;
 
-#line 189 "parser_1st.tab.h"
+#line 195 "parser_1st.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -196,6 +202,8 @@ typedef union YYSTYPE YYSTYPE;
 
 extern YYSTYPE yylval;
 
+
 int yyparse (void);
+
 
 #endif /* !YY_YY_PARSER_1ST_TAB_H_INCLUDED  */

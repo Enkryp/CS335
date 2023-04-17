@@ -1,5 +1,5 @@
 
-#line 3 "lex.yy.c"
+#line 2 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -956,8 +956,8 @@ char *yytext;
     using namespace std;
     
 
+#line 959 "lex.yy.c"
 #line 960 "lex.yy.c"
-#line 961 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -1177,7 +1177,7 @@ YY_DECL
 #line 27 "lexer.l"
 
 
-#line 1181 "lex.yy.c"
+#line 1180 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1930,7 +1930,7 @@ YY_RULE_SETUP
 #line 204 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 1934 "lex.yy.c"
+#line 1933 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
