@@ -11,6 +11,12 @@ public class Whileandnested {
             b=b+3;
         }
 
+        System.out.println(b);
+        System.out.println(a);
+        
+
+        
+
         
         while(a>4*b){
             int c=0;

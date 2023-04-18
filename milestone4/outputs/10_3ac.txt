@@ -1,17 +1,60 @@
 0 begin func main
-1 t1 = 2
+1 t1 = 5
 2 a = t1
 3 stackpointer + 4
-4 t2 = 32
-5 t3 = - t2
-6 j = t3
-7 stackpointer + 8
-8 t4 = j >>> a
-9 x = t4
-10 stackpointer + 8
-11 print j
-12 print x
-13 stackpointer - 20
-14 pop param, args
-15 end func
-16 stackpointer - 0
+4 t2 = 0
+5 b = t2
+6 stackpointer + 4
+7 t3 = a > b
+8 if t3 goto  10
+9 goto  14
+10 t4 = 1
+11 b += t4
+12 stackpointer - 0
+13 goto 7
+14 t5 = 2
+15 t6 = t5 *int b
+16 t7 = a > t6
+17 if t7 goto  19
+18 goto  24
+19 t8 = 3
+20 t9 = b +int t8
+21 b = t9
+22 stackpointer - 0
+23 goto 14
+24 print b
+25 print a
+26 print b
+27 t10 = 4
+28 t11 = t10 *int b
+29 t12 = a > t11
+30 if t12 goto  32
+31 goto  56
+32 t13 = 0
+33 c = t13
+34 stackpointer + 4
+35 t14 = b > c
+36 if t14 goto  38
+37 goto  52
+38 t15 = 0
+39 d = t15
+40 stackpointer + 4
+41 t16 = d > b
+42 if t16 goto  44
+43 goto  48
+44 t17 = 1
+45 b += t17
+46 stackpointer - 0
+47 goto 41
+48 t18 = 1
+49 d += t18
+50 stackpointer - 4
+51 goto 35
+52 t19 = 1
+53 c += t19
+54 stackpointer - 4
+55 goto 27
+56 stackpointer - 8
+57 pop param, args
+58 end func
+59 stackpointer - 0

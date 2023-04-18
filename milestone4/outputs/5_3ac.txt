@@ -22,36 +22,38 @@
 21 b = t9
 22 stackpointer - 0
 23 goto 14
-24 t10 = 4
-25 t11 = t10 *int b
-26 t12 = a > t11
-27 if t12 goto  29
-28 goto  53
-29 t13 = 0
-30 c = t13
-31 stackpointer + 4
-32 t14 = b > c
-33 if t14 goto  35
-34 goto  49
-35 t15 = 0
-36 d = t15
-37 stackpointer + 4
-38 t16 = d > b
-39 if t16 goto  41
-40 goto  45
-41 t17 = b
-42 b = t17 +1
-43 stackpointer - 0
-44 goto 38
-45 t18 = d
-46 d = t18 +1
-47 stackpointer - 4
-48 goto 32
-49 t19 = c
-50 c = t19 +1
-51 stackpointer - 4
-52 goto 24
-53 stackpointer - 8
-54 pop param, args
-55 end func
-56 stackpointer - 0
+24 print b
+25 print a
+26 t10 = 4
+27 t11 = t10 *int b
+28 t12 = a > t11
+29 if t12 goto  31
+30 goto  55
+31 t13 = 0
+32 c = t13
+33 stackpointer + 4
+34 t14 = b > c
+35 if t14 goto  37
+36 goto  51
+37 t15 = 0
+38 d = t15
+39 stackpointer + 4
+40 t16 = d > b
+41 if t16 goto  43
+42 goto  47
+43 t17 = b
+44 b = t17 +1
+45 stackpointer - 0
+46 goto 40
+47 t18 = d
+48 d = t18 +1
+49 stackpointer - 4
+50 goto 34
+51 t19 = c
+52 c = t19 +1
+53 stackpointer - 4
+54 goto 26
+55 stackpointer - 8
+56 pop param, args
+57 end func
+58 stackpointer - 0
