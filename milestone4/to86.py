@@ -118,7 +118,9 @@ for line in data:
     if(elements[0] == 'push'):
         if(boolenter==0):
             boolenter=1
-            out.append("add $" + str(offset-8) + ", %rsp")
+
+            out.append("mov %rbp, %rsp")
+            out.append("sub $" + str(-offset+8) + ", %rsp")
                         
         out.append("push "+str(retaddr(elements[2]))+ "(%rbp)")
         continue
@@ -130,7 +132,9 @@ for line in data:
     if ('call,' in elements):
         if(boolenter==0):
             boolenter=1
-            out.append("add $" + str(offset-8) + ", %rsp")
+
+            out.append("mov %rbp, %rsp")
+            out.append("sub $" + str(-offset+8) + ", %rsp")
             
         boolenter =0
         if(elements[2] == 'call,'):
@@ -142,6 +146,8 @@ for line in data:
        
 
     if (elements[0]== 'print'):
+        out.append("mov %rbp, %rsp")
+        out.append("sub $" + str(-offset+8) + ", %rsp")
 
         out.append("mov "+str(retaddr(elements[1]))+"(%rbp), %rax")
 

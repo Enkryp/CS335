@@ -1,24 +1,35 @@
-public class EuclidsAlgorithm {
+public class Whileandnested {
+    public static void main(String args[]) {
+        int a=5;
+        int b=0;
 
-	public static int findGCD(int a, int b) {
-        if (b == 0) {
-            return a;
-        } 
+        while(a>b){
+            b+=1;
+        }
+
+        while(a>2*b){
+            b=b+3;
+        }
+
+        System.out.println(b);
+        System.out.println(a);
+        System.out.println(b);
         
-        if(b!=0) {
-            return findGCD(b, a % b);
+        
+
+        
+
+        
+        while(a>4*b){
+            int c=0;
+            while(b>c){
+                int d=0;
+                while(d>b){
+                    b+=1;
+                }
+                d+=1;
+            }
+            c+=1;
         }
     }
-    public static void main(String args[]) {
-        int num1 = 10;
-
-        int num2 = 100;
-
-        int gcd = findGCD(num1, num2);
-
-        System.out.println(gcd);
-    }
-
-    // Euclid's division algorithm for finding the GCD of two numbers
-    
 }
