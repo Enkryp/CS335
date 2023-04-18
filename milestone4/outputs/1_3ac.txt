@@ -2,29 +2,38 @@
 1 t1 = 99567
 2 n = t1
 3 stackpointer + 4
-4 t2 = 2
-5 t3 = n < t2
-6 if t3 goto  8
-7 goto  13
-8 t4 = 0
-9 isPrime = t4
-10 stackpointer + 4
-11 stackpointer - 4
-12 goto  25
-13 t5 = 3
-14 if n == t5 goto  16
-15 goto  21
-16 t7 = 5
-17 isprime = t7
-18 stackpointer + 4
-19 stackpointer - 4
-20 goto  25
-21 t8 = 10
-22 isprime = t8
-23 stackpointer + 4
-24 stackpointer - 4
-25 print isPrime
+4 t2 = 1
+5 isPrime = t2
+6 stackpointer + 4
+7 t3 = 2
+8 i = t3
+9 stackpointer + 4
+10 t4 = i *int i
+11 t5 = t4 <= n
+12 if t5 goto  14
+13 goto  26
+14 t7 = n %int i
+15 t8 = 0
+16 if t7 == t8 goto  18
+17 goto  22
+18 t10 = 0
+19 isPrime = t10
+20 goto  26
+21 stackpointer - 0
+22 stackpointer - 0
+23 t6 = i
+24 i = t6 +1
+25 goto 10
 26 stackpointer - 4
-27 pop param, args
-28 end func
-29 stackpointer - 0
+27 t11 = 2
+28 t12 = n < t11
+29 if t12 goto  31
+30 goto  34
+31 t13 = 0
+32 isPrime = t13
+33 stackpointer - 0
+34 print isPrime
+35 stackpointer - 8
+36 pop param, args
+37 end func
+38 stackpointer - 0

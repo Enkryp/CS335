@@ -1,15 +1,24 @@
-public class Fibonacci {
-  public static void main(String args[]) {
+public class EuclidsAlgorithm {
 
+	public static int findGCD(int a, int b) {
+        if (b == 0) {
+            return a;
+        } 
+        
+        if(b!=0) {
+            return findGCD(b, a % b);
+        }
+    }
+    public static void main(String args[]) {
+        int num1 = 10;
 
-    int a = 2;
-    long j = -32;
+        int num2 = 100;
 
-      long  x = ((j)>>>a);
+        int gcd = findGCD(num1, num2);
 
+        System.out.println(gcd);
+    }
+
+    // Euclid's division algorithm for finding the GCD of two numbers
     
-      System.out.println(j);
-      System.out.println(x);
-
-  }
 }

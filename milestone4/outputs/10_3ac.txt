@@ -1,17 +1,37 @@
-0 begin func main
-1 t1 = 2
-2 a = t1
-3 stackpointer + 4
-4 t2 = 32
-5 t3 = - t2
-6 j = t3
-7 stackpointer + 8
-8 t4 = j >>> a
-9 x = t4
-10 stackpointer + 8
-11 print j
-12 print x
-13 stackpointer - 20
-14 pop param, args
-15 end func
+0 begin func findGCD
+1 t1 = 0
+2 if b == t1 goto  4
+3 goto  6
+4 return a
+5 stackpointer - 0
+6 t3 = 0
+7 t4 = b != t3
+8 if t4 goto  10
+9 goto  16
+10 t5 = a %int b
+11 push param b
+12 push param t5
+13 t6 = call, findGCD
+14 return t6
+15 stackpointer - 0
 16 stackpointer - 0
+17 pop param, a
+18 pop param, b
+19 end func
+20 begin func main
+21 t7 = 10
+22 num1 = t7
+23 stackpointer + 4
+24 t8 = 100
+25 num2 = t8
+26 stackpointer + 4
+27 push param num1
+28 push param num2
+29 t9 = call, findGCD
+30 gcd = t9
+31 stackpointer + 4
+32 print gcd
+33 stackpointer - 12
+34 pop param, args
+35 end func
+36 stackpointer - 0
