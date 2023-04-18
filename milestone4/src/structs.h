@@ -138,7 +138,7 @@ map<string , map<string, methodsig>> classmethods;
      map<int, map<string, string>> ds;
      vector <string> code;
 
-    //  void type_check(string a , string b, string c){};
+    //  void type_check(yylineno, string a , string b, string c){};
 //  string type_conversion(string a , string b, string c){};
 
  void dbgsymtable(){
@@ -280,15 +280,15 @@ vector<vector<ll>> conversions = {
 };
 map<string,ll> typetonum={{"int",1},{"long",2},{"float",3},{"double",4},{"char",5},{"byte",6},{"short",7},{"boolean",8}};;
 vector<string> numtotype ={"int","long","float","double","char","byte","short","boolean"};
-void error_report_type(string s1, string s2, string op){
-    cout<<"Bad operator types "<<s1<<" and "<<s2<<" for operator "<<op<<"\n";
+void error_report_type(int yylineno, string s1, string s2, string op){
+    cout<<"Bad operator types "<<s1<<" and "<<s2<<" for operator "<<op<<" at line number "<<yylineno<<" \n";
     exit(0);
 }
-void type_check(string a,string b,string c){
+void type_check(int yylineno, string a,string b,string c){
     // cout<<a<<b;
     int arg1=typetonum[a];
     int arg2=typetonum[b];
-    if(arg1==0||arg1==0){
+    if(arg1==0||arg2==0){
         // reference type
         return ;
     }
@@ -296,11 +296,11 @@ void type_check(string a,string b,string c){
     arg2--;
     if(arg1==7||arg2==7){
         if(arg1!=7||arg2!=7){
-            error_report_type(a,b,c);
+            error_report_type(yylineno, a,b,c);
         }
         else{
             if(c!="=="&&c!="!="&&c!="&&"&&c!="||"){
-                error_report_type(a,b,c);
+                error_report_type(yylineno, a,b,c);
             }
         }
     }
@@ -312,25 +312,25 @@ void type_check(string a,string b,string c){
         // set<string> relational ={"==", "!=", ">", "<", ">=", "<="};
         set<string> operator_double ={"+=", "-=", "*=", "/=", "&="};
         if(c=="="&&!conversions[arg2][arg1]){
-            error_report_type(a,b,c);
+            error_report_type(yylineno, a,b,c);
         }
         if(operator_double.find(c)!=operator_double.end()){
             string s={c[0]};
-            type_check(a,b,s);
+            type_check(yylineno, a,b,s);
             if(s[0]=='&')
-            type_check(a,numtotype[bitwise_operators[arg1][arg2]-1],"=");
+            type_check(yylineno, a,numtotype[bitwise_operators[arg1][arg2]-1],"=");
             else 
-            type_check(a,numtotype[arithmetics[arg1][arg2]-1],"=");
+            type_check(yylineno, a,numtotype[arithmetics[arg1][arg2]-1],"=");
         }
         else if(relational.find(c)!=relational.end()){
             
         }
         else if(bitwise_operator.find(c)!=bitwise_operator.end()){
-            if(bitwise_operators[arg1][arg2]==-1)error_report_type(a,b,c);
+            if(bitwise_operators[arg1][arg2]==-1)error_report_type(yylineno, a,b,c);
         }
         else if(bitwise_shift.find(c)!=bitwise_shift.end()){
 
-            if(bitwise_shifts[arg1][arg2]==-1)error_report_type(a,b,c);
+            if(bitwise_shifts[arg1][arg2]==-1)error_report_type(yylineno, a,b,c);
         }
         else if(arithmetic.find(c)!=arithmetic.end()){
 
@@ -403,7 +403,11 @@ string type_conversion(string a,string b,string c){
     }
 }
 
-vector<pair<string,string>> object_list;
+struct triple{
+    string first,second,third;
+};
+
+vector<triple> object_list;
 
 bool isnum(string s){
     for(int i=0;i<s.size();i++){
@@ -513,11 +517,12 @@ vector<string> split_line(string & line){
     return words;
 
 }
+set<string> static_name;
 
 void add_func(vector<string> &code, string pref, int start, int end){
 
     // cout<<"srt"<<start<<" "<<end<<"\n";
-    set<string> reservedwords = {"goto", "array", "begin", "func", "pop", "push", "param,","end", "call,","return", "if", "stackpointer"};
+    set<string> reservedwords = {"goto", "array", "begin", "func", "pop", "push", "param,","end", "call,","return", "if", "stackpointer","class"};
     // set<string> reservedwords;
     int currline = code.size();
     for(int i=start;i<=end;i++){
@@ -526,7 +531,7 @@ void add_func(vector<string> &code, string pref, int start, int end){
         vector<string> newline;
         // string newline;
         for(auto word: words){
-            if(((word[0]>='a'&&word[0]<='z')||(word[0]>='A'&&word[0]<='Z')) && reservedwords.find(word)==reservedwords.end()){
+            if(((word[0]>='a'&&word[0]<='z')||(word[0]>='A'&&word[0]<='Z')) && reservedwords.find(word)==reservedwords.end() && static_name.find(word)==static_name.end()){
                 newline.push_back(pref+word);
             }else{
                 newline.push_back(word);
@@ -534,6 +539,14 @@ void add_func(vector<string> &code, string pref, int start, int end){
                     int next = stringtonum(words.back());
                     string go = numtostring(next-i+currline);
                     newline.push_back(go);
+                    break;
+                }else if(word=="class"){
+                    newline.push_back("(");
+                    newline.push_back(words[words.size()-2]);
+                    newline.push_back(")");
+                    break;
+                }else if(word=="call,"){
+                    newline.push_back(words.back());
                     break;
                 }
             }
