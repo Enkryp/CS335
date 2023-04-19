@@ -2,43 +2,48 @@ data =None
 with open ("./outputs/10_3ac.txt", "r") as myfile:
     data=myfile.readlines()
 
-sample = """0 begin func findGCD
-1 t1 = 0
-2 if b == t1 goto  4
-3 goto  6
-4 return a
-5 stackpointer - 0
-6 t3 = 0
-7 t4 = b != t3
-8 if t4 goto  10
-9 goto  16
-10 t5 = a %int b
-11 push param b
-12 push param t5
-13 t6 = call, findGCD
-14 return t6
-15 stackpointer - 0
-16 stackpointer - 0
-17 pop param, a
-18 pop param, b
-19 end func
-20 begin func main
-21 t7 = 100
-22 num1 = t7
-23 stackpointer + 4
-24 t8 = 134
-25 num2 = t8
-26 stackpointer + 4
-27 push param num1
-28 push param num2
-29 t9 = call, findGCD
-30 gcd = t9
-31 stackpointer + 4
-32 print gcd
-33 stackpointer - 12
-34 pop param, args
-35 end func
-36 stackpointer - 0
+sample = """
+
+0 begin func main
+1 t1 = 1000
+2 n = t1
+3 stackpointer + 4
+4 t2 = 1
+5 t3 = n +int t2
+6 t4 = t3 * 4
+7 sums = array ( t4 )
+8 stackpointer + 0
+9 t5 = 0
+10 t6 = 0
+11 t7 = 0
+12 t8 = t6 +int t7
+13 sums[ t5 ] = t8
+14 t9 = 0
+15 t10 = 0
+16 sums[ t9 ] = sums[sums[t10]]
+17 t11 = 1
+18 i = t11
+19 stackpointer + 4
+20 t12 = i <= n
+21 if t12 goto  23
+22 goto  33
+23 t14 = 1
+24 t15 = i -int t14
+25 t16 = i *int i
+26 t17 = t16 *int i
+27 t18 = sums[t15] +int t17
+28 sums[ i ] = t18
+29 stackpointer - 0
+30 t13 = 1
+31 i += t13
+32 goto 20
+33 stackpointer - 4
+34 print sums[n]
+35 stackpointer - 4
+36 pop param, args
+37 end func
+38 stackpointer - 0
+
 
 
 """
@@ -69,6 +74,13 @@ out.append("""
         .text
 
    """)
+
+
+def callnew ():
+    global out
+    out.append("mov %rbp, %rsp")
+    out.append("sub $" + str(-offset+8) + ", %rsp")
+               
 
 
 for line in data:
@@ -119,9 +131,7 @@ for line in data:
         if(boolenter==0):
             boolenter=1
 
-            out.append("mov %rbp, %rsp")
-            out.append("sub $" + str(-offset+8) + ", %rsp")
-                        
+            callnew()         
         out.append("push "+str(retaddr(elements[2]))+ "(%rbp)")
         continue
 
@@ -132,10 +142,7 @@ for line in data:
     if ('call,' in elements):
         if(boolenter==0):
             boolenter=1
-
-            out.append("mov %rbp, %rsp")
-            out.append("sub $" + str(-offset+8) + ", %rsp")
-            
+            callnew()
         boolenter =0
         if(elements[2] == 'call,'):
             out.append("call " + elements[3])
@@ -146,9 +153,7 @@ for line in data:
        
 
     if (elements[0]== 'print'):
-        out.append("mov %rbp, %rsp")
-        out.append("sub $" + str(-offset+8) + ", %rsp")
-
+        callnew()
         out.append("mov "+str(retaddr(elements[1]))+"(%rbp), %rax")
 
         out.append("""mov $format, %rdi\nmov %rax, %rsi\nxor     %rax, %rax\ncall printf   """)
@@ -180,12 +185,30 @@ for line in data:
             continue
         else :
             out.append("jmp L"+elements[1])
+    
+    if(elements[1]== '['):
+        
+        out.append("mov "+str(retaddr(elements[0]))+"(%rbp), %rax")
+        out.append("mov "+str(retaddr(elements[2]))+"(%rbp), %rbx")
+        out.append("add %rbx, %rax")
+        out.append("mov "+ str(retaddr(elements[5]))+"(%rbp), %rbx")
+
+        out.append("mov %rbx, (%rax)")
 
     if (elements[1]== '='):
+        if (elements[2]== 'array'):
+            callnew()
+            out.append("mov "+str(retaddr(elements[4]))+"(%rbp), %rdi")
+            out.append("call malloc")
+            out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+            continue
+
+
+
 
         # constant assignment
         # print(elements)
-        if (elements[2][0].isdigit()):
+        elif (elements[2][0].isdigit()):
 
             out.append("mov $"+elements[2]+", %rax")
             out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
@@ -195,6 +218,15 @@ for line in data:
             out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
             out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
         
+
+        #array element to be  assigned
+        elif (len(elements)==6):
+            out.append("mov "+str(retaddr(elements[2]))+"(%rbp), %rax")
+            out.append("mov "+str(retaddr(elements[4]))+"(%rbp), %rbx")
+            out.append("add %rbx, %rax")
+            out.append("mov (%rax), %rbx")
+
+            out.append("mov %rbx, " + str(retaddr(elements[0])) + "(%rbp)")
 
         # unary assignment
 
