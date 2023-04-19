@@ -1017,7 +1017,7 @@ UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION:     NEW CLASSORINTERFACETYPETOINSTAN
                                                    /*CONS*/     consinfo detail = getconstructordetails(class_name);
                                                         // ds[curr]["pref"] = new_var2();
                                                         if(detail.isconstructor){    // pref is still not initialised here
-                                                            type_check_function_obj(detail.cons.argtype,types);     // takes in name of function and types of parameters
+                                                            type_check_function_obj(yylineno,detail.cons.argtype,types);     // takes in name of function and types of parameters
                                                             ds[curr]["start"] = numtostring(code.size());
                                                             ds[curr]["isconstructor"] = "true";
                                                             // cout<<"YES\n";
@@ -1041,7 +1041,7 @@ UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION:     NEW CLASSORINTERFACETYPETOINSTAN
                                             /*CONS*/     consinfo detail = getconstructordetails(class_name);
                                                         // ds[curr]["pref"] = new_var2();
                                                         if(detail.isconstructor){    // pref is still not initialised here
-                                                            type_check_function_obj(detail.cons.argtype,types);    // takes in name of function and types of parameters
+                                                            type_check_function_obj(yylineno,detail.cons.argtype,types);    // takes in name of function and types of parameters
                                                             ds[curr]["start"] = numtostring(code.size());
                                                             ds[curr]["isconstructor"] = "true";
                                                             for(auto i:ds2[curr4]["var"])
@@ -1124,7 +1124,7 @@ METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN   {   $$ = new_temp();
                                                         ds[curr]["type"] = detail.method.rettype.name;
                                                         // cout<<""
                                                         // code.push_back(ds[curr]["type"]);
-                                                        type_check_function_obj(detail.method.argtype,types);    // takes in name of function and types of parameters
+                                                        type_check_function_obj(yylineno,detail.method.argtype,types);    // takes in name of function and types of parameters
                                                         // cout<<"curr var "<<ds[curr]["var"]<<"\n";
                                                         ds[curr]["start"] = numtostring(code.size());
                                                         if(ds[curr]["type"]!="void")
@@ -1150,7 +1150,7 @@ METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN   {   $$ = new_temp();
                                                         ds[curr]["var"] = new_var();
                                                         ds[curr]["type"] = detail.method.rettype.name;;
                                                         // cout<<"curr typed "<<ds[curr]["type"]<<"\n";
-                                                        type_check_function_obj(detail.method.argtype,types);    // takes in name of function and types of parameters
+                                                        type_check_function_obj(yylineno,detail.method.argtype,types);    // takes in name of function and types of parameters
                                                         ds[curr]["start"] = numtostring(code.size());
                                                         for(auto i:ds2[curr5]["var"])
                                                         code.push_back("push param "+i);

@@ -255,32 +255,7 @@ void printpolymethodstable(){
 vector <pair<string, vector <string>>> to_check_functions;
 
 
- void type_check_function(string name, vector<string> types, int yylineno){
 
-if(methods.find(name)==methods.end()){
-    // to_check_functions.push_back({name,types});
-    return;
-}
-
-    methodsig m=methods[name];
-    // cout<<name<<endl;
-    // for (auto x : types){
-    //     cout<<x<<" ";
-    // }
-    // cout<<m.argtype.size()<<"\n";
-    // cout<<types.size()<<"\n";
-    // assert(m.argtype.size()==types.size());
-    if(m.argtype.size()!=types.size()){
-        cout<<"Error: actual and formal argument lists differ in size at line number "<<yylineno<<"\n";
-        exit(0);
-    }
-    for (ll i=0;i<types.size();i++){
-        if(m.argtype[i].name!=types[i]){
-            cout<<"Error: incompatible types in function call at line number "<<yylineno<<".\n";
-        exit(0);
-        }
-    }
- }
 
 //   void type_check_function_poly(string name, vector<string> types){
 
@@ -315,13 +290,7 @@ if(methods.find(name)==methods.end()){
 //     }
 //  }
 
- void type_check_function_obj(vector<type> argtype, vector<string> types){
-    
-    assert(argtype.size()==types.size());
-    for (ll i=0;i<types.size();i++){
-        assert(argtype[i].name==types[i]);
-    }
- }
+
 
   void type_check_function_strong(){
     //  TODO: NOT TOBE DONE ?
@@ -770,3 +739,49 @@ ll gettypesize(string s){
 
 }
 
+ void type_check_function(string name, vector<string> types, int yylineno){
+
+if(methods.find(name)==methods.end()){
+    // to_check_functions.push_back({name,types});
+    return;
+}
+
+    methodsig m=methods[name];
+    // cout<<name<<endl;
+    // for (auto x : types){
+    //     cout<<x<<" ";
+    // }
+    // cout<<m.argtype.size()<<"\n";
+    // cout<<types.size()<<"\n";
+    // assert(m.argtype.size()==types.size());
+    if(m.argtype.size()!=types.size()){
+        cout<<"Error: actual and formal argument lists differ in size at line number "<<yylineno<<"\n";
+        exit(0);
+    }
+    for (ll i=0;i<types.size();i++){
+        // if(m.argtype[i].name!=types[i]){
+        if(!conversions[typetonum[types[i]]-1][typetonum[m.argtype[i].name]-1]){
+            cout<<"Error: incompatible types in function call at line number "<<yylineno<<".\n";
+        exit(0);
+        }
+    }
+ }
+
+ void type_check_function_obj(int yylineno, vector<type> argtype, vector<string> types){
+    
+    // assert(argtype.size()==types.size());
+    // for (ll i=0;i<types.size();i++){
+    //     assert(argtype[i].name==types[i]);
+    // }
+    if(argtype.size()!=types.size()){
+        cout<<"Error: actual and formal argument lists differ in size at line number "<<yylineno<<"\n";
+        exit(0);
+    }
+    for (ll i=0;i<types.size();i++){
+        // if(m.argtype[i].name!=types[i]){
+        if(!conversions[typetonum[types[i]]-1][typetonum[argtype[i].name]-1]){
+            cout<<"Error: incompatible types in function call at line number "<<yylineno<<".\n";
+        exit(0);
+        }
+    }
+ }
