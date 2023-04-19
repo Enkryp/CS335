@@ -291,7 +291,7 @@ EXPRESSIONNAME   :   IDENTIFIER DOT IDENTIFIER {
                                                     // if(get_symbol_table_function(name,name2,"type"))
                                                     objdetails detail = getobjdetails(name,name2);
                                                     if(detail.isfield){
-                                                        ds[curr]["var"] = pref[chartostring($1)]+chartostring($3);
+                                                        ds[curr]["var"] = chartostring($1)+"."+chartostring($3);
                                                         ds[curr]["type"] = detail.field.typ.name;
                                                     }else{
                                                         object_error(name,name2,yylineno);
@@ -371,6 +371,7 @@ IMPORTDECLARATION   :   IMPORT EXPRESSIONNAME SEMICOLON
                     |   IMPORT STATIC EXPRESSIONNAME DOT MULTIPLY SEMICOLON 
 
 CLASSDECLARATION    :   NORMALCLASSDECLARATION  {$$ = $1;
+
                     //     for(auto obj:object_list){
                     //     string pr = obj.third;
                     //     vector<string> methods = getallmethods(obj.first,obj.second);
@@ -383,7 +384,8 @@ CLASSDECLARATION    :   NORMALCLASSDECLARATION  {$$ = $1;
                     //     }
                         
                     // }
-                    object_list.clear();static_name.clear();}
+                    // object_list.clear();static_name.clear();
+                    }
                     
 
 NORMALCLASSDECLARATION  :    CLASS CLASSNAME CLASSBODY {$$ = $2;
@@ -592,9 +594,14 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                     {   $$ = new_temp();
                         // TYPE CHECK
                                                                                      int  curr2 = chartonum($3), curr = chartonum($$);
+                                                                                     int start = code.size();
+                                                                                     if(ds[curr2].find("start")!=ds[curr2].end()){
+                                                                                        start = stringtonum(ds[curr2]["start"]);
+                                                                                     }
                                                                     int flag = 0;
                                                                     for(auto i:generalmap[$1].modifiers){
                                                                         if(i=="static"){
+                                                                            add_static(code,start,ds2[curr2]["var_name"]);
                                                                             flag = 1;
                                                                             break;
                                                                         }
@@ -641,9 +648,14 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                         {   $$ = new_temp();
                         // TYPE CHECK
                                                                                      int  curr2 = chartonum($3), curr = chartonum($$);
+                                                                                     int start = code.size();
+                                                                                     if(ds[curr2].find("start")!=ds[curr2].end()){
+                                                                                        start = stringtonum(ds[curr2]["start"]);
+                                                                                     }
                                                                 int flag = 0;
                                                                     for(auto i:generalmap[$1].modifiers){
                                                                         if(i=="static"){
+                                                                            add_static(code,start,ds2[curr2]["var_name"]);
                                                                             flag = 1;
                                                                             break;
                                                                         }
@@ -688,9 +700,14 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                         {   $$ = new_temp();
                         // TYPE CHECK
                                                                                      int  curr2 = chartonum($3), curr = chartonum($$);
+                                                                                     int start = code.size();
+                                                                                     if(ds[curr2].find("start")!=ds[curr2].end()){
+                                                                                        start = stringtonum(ds[curr2]["start"]);
+                                                                                     }
                                                                  int flag = 0;
                                                                     for(auto i:generalmap[$1].modifiers){
                                                                         if(i=="static"){
+                                                                            add_static(code,start,ds2[curr2]["var_name"]);
                                                                             flag = 1;
                                                                             break;
                                                                         }
@@ -728,15 +745,20 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
 
                         }
                     }
-                    |   TYPE VARIABLEDECLARATORLIST SEMICOLON {
+                    |   TYPE  VARIABLEDECLARATORLIST SEMICOLON {
                         if(generalmap[$2].typ.name != "")assert(chartostring($1)== generalmap[$2].typ.name);
 
 
                         {   $$ = new_temp();
                         // TYPE CHECK
                                                                     int  curr2 = chartonum($2), curr = chartonum($$);
+                                                                    int start = code.size();
+                                                                                     if(ds[curr2].find("start")!=ds[curr2].end()){
+                                                                                        start = stringtonum(ds[curr2]["start"]);
+                                                                                     }
                                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
                                                                     // if(ds[curr2].find("start")!=ds[curr2].end())
+                                                                    add_non_static(code,start,ds2[curr2]["var_name"]);
                                                                     if(ds[curr2].find("start")!=ds[curr2].end())
                                                                     ds[curr]["start"] = ds[curr2]["start"];
                                                                     else ds[curr]["start"] = numtostring(code.size());
@@ -814,11 +836,17 @@ VARIABLEDECLARATOR  :   VARIABLEDECLARATORID EQUALS VARIABLEINITIALIZER {$$ = ne
                                                                                 ds[curr]["start"] = numtostring(code.size());
                                                                                 else ds[curr]["start"] = ds[curr3]["start"];
                                                                                 code.push_back(ds[curr]["var"]+" = "+"class ( "+cls+" )");
+                                                                                // Constructor call after declaring object
+                                                                                if(ds[curr3].find("isconstructor")!=ds[curr3].end()){
+                                                                                    for(auto i:ds2[curr3]["cons_code"])
+                                                                                    code.push_back(i);
+                                                                                    code.push_back("call, "+ds[curr]["var"]+"."+cls);
+                                                                                }
                                                                                 // pref[ds[ chartonum($$)]["var"]] = new_var2();
-                                                                                pref[ds[ chartonum($$)]["var"]] = ds[chartonum($3)]["pref"];
+                                                                                // pref[ds[ chartonum($$)]["var"]] = ds[chartonum($3)]["pref"];
                                                                                 // if(ds[curr3].find("isconstructor")!=ds[curr3].end())
                                                                                 // code.push_back("call, "+pref[ds[ chartonum($$)]["var"]]+cls);
-                                                                                object_list.push_back({ds[curr]["var"],cls,pref[ds[ chartonum($$)]["var"]]}); // Add object to object list
+                                                                                // object_list.push_back({ds[curr]["var"],cls,pref[ds[ chartonum($$)]["var"]]}); // Add object to object list
                                                                             }
                                                                             else if(ds[curr3].find("arr")!=ds[curr3].end()){
                                                                                 if(ds[curr3].find("start")==ds[curr3].end())
@@ -901,9 +929,10 @@ LEFTHANDSIDE    :   EXPRESSIONNAME    {$$ = $1;}
                 }
                 |   FIELDACCESS {$$ = $1;}
                 |   ARRAYACCESS {   $$ = $1;
-                                    ds[chartonum($$)]["var"]  = new_var();
-                                    code.push_back(ds[chartonum($$)]["var"]+" = "+ds[chartonum($$)]["array"]+" [ "+ds[chartonum($1)]["var"]+" ]")
-                                    // ds[chartonum($$)]["var"] = ds[chartonum($$)]["array"]+" [ "+ds[chartonum($1)]["var"]+" ]";
+                // ds[chartonum($$)] = ds[chartonum($1)];
+                                    // ds[chartonum($$)]["var"]  = new_var();
+                                    // code.push_back(ds[chartonum($$)]["var"]+" = "+ds[chartonum($$)]["array"]+" [ "+ds[chartonum($1)]["var"]+" ]");
+                                    ds[chartonum($$)]["var"] = ds[chartonum($$)]["array"]+" [ "+ds[chartonum($1)]["var"]+" ]";
                 }
 
 ASSIGNMENTOPERATOR  :  EQUALS {$$ = new_temp();int curr = chartonum($$);
@@ -929,9 +958,15 @@ FIELDACCESS: PRIMARY DOT IDENTIFIER {$$ = new_temp();
             |	SUPER DOT IDENTIFIER
             |	IDENTIFIER DOT SUPER DOT IDENTIFIER
 
-PRIMARY: PRIMARYNONEWARRAY  {$$ = $1;
-                            if(ds[chartonum($$)].find("array")!=ds[chartonum($$)].end())
-                            ds[chartonum($$)]["var"] = ds[chartonum($$)]["array"]+"["+ds[chartonum($1)]["var"]+"]"; }
+PRIMARY: PRIMARYNONEWARRAY  {
+                            if(ds[chartonum($1)].find("array")!=ds[chartonum($1)].end()){
+                                    $$ = new_temp();
+                                    ds[chartonum($$)] = ds[chartonum($1)];
+                                    ds[chartonum($$)]["var"]  = new_var();
+                                    code.push_back(ds[chartonum($$)]["var"]+" = "+ds[chartonum($$)]["array"]+" [ "+ds[chartonum($1)]["var"]+" ]");
+                            }else $$ = $1;
+                            // ds[chartonum($$)]["var"] = ds[chartonum($$)]["array"]+"["+ds[chartonum($1)]["var"]+"]"; 
+                            }
         |	ARRAYCREATIONEXPRESSION {$$ = $1;}
 
 PRIMARYNONEWARRAY: LITERAL  {$$ = $1;}
@@ -944,7 +979,7 @@ PRIMARYNONEWARRAY: LITERAL  {$$ = $1;}
                   |	OPENPARAN EXPRESSION CLOSEPARAN {$$ = $2;}
                   |	CLASSINSTANCECREATIONEXPRESSION       {$$ = $1; generalmap[$$].isnewclass = true;}  
                   |	FIELDACCESS {$$ = $1;}
-                  |	ARRAYACCESS {$$ = $1;}
+                  |	ARRAYACCESS {$$=$1;}
                   |	METHODINVOCATION    {$$ = $1;}
                   |	METHODREFERENCE
 
@@ -967,7 +1002,7 @@ CLASSLITERAL: IDENTIFIER DOTCLASS
 SQUARESTAR  :   OPENSQUARE CLOSESQUARE
             |   SQUARESTAR  OPENSQUARE CLOSESQUARE
 
-CLASSINSTANCECREATIONEXPRESSION: UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION {$$ = $1;}
+CLASSINSTANCECREATIONEXPRESSION: UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION {$$ = $1; }
                                 |	EXPRESSIONNAME DOT UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION
                                 |	IDENTIFIER DOT UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION
                                 |	PRIMARY DOT UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION
@@ -975,15 +1010,20 @@ CLASSINSTANCECREATIONEXPRESSION: UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION {$$ 
 UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION:     NEW CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN CLOSEPARAN {$$ = new_temp(); generalmap[$$].isnewclass = true; generalmap[$$].classname = ds[ chartonum($2)]["var"]; ds[ chartonum($$)] = ds[ chartonum($2)]; 
 
                                                         int curr = chartonum($$);
+                                                        // cout<<"passses here\n";
                                                         // string name = chartostring($1), name2 = chartostring($3);
+                                                        string class_name = ds[chartonum($2)]["var"];
                                                             vector<string> types;
-                                                   /*CONS*/     objdetails detail = getconstructordetails(name,name2,types);
-                                                        ds[curr]["pref"] = new_var2();
+                                                   /*CONS*/     consinfo detail = getconstructordetails(class_name);
+                                                        // ds[curr]["pref"] = new_var2();
                                                         if(detail.isconstructor){    // pref is still not initialised here
-                                                            // type_check_constructor_obj(detail.constructor.argtype,types);    // takes in name of function and types of parameters
-                                                            ds[curr]["start"] = code.size();
-                                                            code.push_back("call, "+ds[curr]["pref"]+ds[chartonum($$)][var]);
+                                                            type_check_function_obj(detail.cons.argtype,types);     // takes in name of function and types of parameters
+                                                            ds[curr]["start"] = numtostring(code.size());
+                                                            ds[curr]["isconstructor"] = "true";
+                                                            // cout<<"YES\n";
+                                                            // ds2[curr].push_back("call, "+ds[curr]["pref"]+ds[chartonum($$)][var]);
                                                         }else{
+                                                            // cout<<"NO\n";
                                                             // object_error_func(name,name2,yylineno);
                                                             // Using default constructor
                                                         }
@@ -992,17 +1032,23 @@ UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION:     NEW CLASSORINTERFACETYPETOINSTAN
                                             |   NEW CLASSORINTERFACETYPETOINSTANTIATE OPENPARAN ARGUMENTLIST CLOSEPARAN {
                                                 $$ = new_temp(); generalmap[$$].isnewclass = true; generalmap[$$].classname = ds[ chartonum($2)]["var"]; ds[ chartonum($$)] = ds[ chartonum($2)]; 
 
-                                                        int curr = chartonum($$);
+                                                        int curr = chartonum($$), curr4 = chartonum($4);
+                                                        string class_name = ds[chartonum($2)]["var"];
                                                         // string name = chartostring($1), name2 = chartostring($3);
                                                             vector<string> types;
-                                            /*CONS*/     objdetails detail = getconstructordetails(name,name2,types);
-                                                        ds[curr]["pref"] = new_var2();
+                                                            for(auto i:ds2[curr4]["type"])
+                                                            types.push_back(i);
+                                            /*CONS*/     consinfo detail = getconstructordetails(class_name);
+                                                        // ds[curr]["pref"] = new_var2();
                                                         if(detail.isconstructor){    // pref is still not initialised here
-                                                            // type_check_constructor_obj(detail.constructor.argtype,types);    // takes in name of function and types of parameters
-                                                            ds[curr]["start"] = code.size();
-                                                            code.push_back("call, "+ds[curr]["pref"]+ds[chartonum($$)][var]);
+                                                            type_check_function_obj(detail.cons.argtype,types);    // takes in name of function and types of parameters
+                                                            ds[curr]["start"] = numtostring(code.size());
+                                                            ds[curr]["isconstructor"] = "true";
+                                                            for(auto i:ds2[curr4]["var"])
+                                                            ds2[curr]["cons_code"].push_back("push_param "+i);
+                                                            // code.push_back("call, "+ds[curr]["pref"]+ds[chartonum($$)][var]);
                                                         }else{
-                                                            object_error_constructor(name,yylineno);
+                                                            object_error_constructor(class_name,yylineno);
                                                             // Using default constructor
                                                         }
                                             }
@@ -1034,13 +1080,14 @@ METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN   {   $$ = new_temp();
                                                         ds[curr]["var"] = new_var();
                                                         ds[curr]["type"] = methods[name].rettype.name;
                                                         vector<string> types;
-                                                        type_check_function(name,types);    // takes in name of function and types of parameters
+                                                        type_check_function(name,types,yylineno);    // takes in name of function and types of parameters
                                                         ds[curr]["start"] = numtostring(code.size());
                                                         if(ds[curr]["type"]!="void")
-                                                        code.push_back(ds[curr]["var"]+" = call, "+name);
-                                                        else code.push_back("call, "+name);
+                                                        code.push_back(ds[curr]["var"]+" = call, "+curr_class+"!"+name);
+                                                        else code.push_back("call, "+curr_class+"!"+name);
 }
                  |  METHODNAME OPENPARAN ARGUMENTLIST CLOSEPARAN    {   $$ = new_temp();
+                                                        // cout<<"passes here\n";
                                                         int curr = chartonum($$), curr1 = chartonum($1), curr3 = chartonum($3);
                                                         string name = ds[curr1]["var"] ;
                                                         ds[curr]["type"] = methods[name].rettype.name;
@@ -1049,25 +1096,26 @@ METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN   {   $$ = new_temp();
                                                         for(auto i:ds2[curr3]["type"]){
                                                             types.push_back(i);
                                                         }
-                                                        type_check_function(name,types);    // takes in name of function and types of parameters
+                                                        type_check_function(name,types,yylineno);    // takes in name of function and types of parameters
                                                         for(auto i:ds2[curr3]["var"])
                                                         code.push_back("push param "+i);
-                                                        ds[curr]["start"] = ds[curr3]["start"];
+                                                        ds[curr]["start"] = numtostring(code.size());
                                                         if(ds[curr]["type"]!="void"){
                                                         ds[curr]["var"] = new_var();
-                                                        code.push_back(ds[curr]["var"]+" = call, "+name);
+                                                        code.push_back(ds[curr]["var"]+" = call, "+curr_class+"!"+name);
                                                         }
-                                                        else code.push_back("call, "+name);
+                                                        else code.push_back("call, "+curr_class+"!"+name);
 }
                  |	IDENTIFIER DOT IDENTIFIER OPENPARAN CLOSEPARAN  {   /* Method invocation using object?  */
                                                           $$ = new_temp();
                                                         int curr = chartonum($$);
                                                         vector<string> types;
                                                         string name = chartostring($1), name2 = chartostring($3);
-                                                        objdetails detail = getobjdetails(name,name2,types);    //support polymorphism by characterising function by class name, func name and types of arguments.
+                                                        objdetails detail = getobjdetails(name,name2);    //support polymorphism by characterising function by class name, func name and types of arguments.
                                                         string fname = "";
                                                         if(detail.ismethod&&not_static_check(detail.method.access)){
-                                                            fname = pref[chartostring($1)]+chartostring($3);
+                                                            // fname = pref[chartostring($1)]+chartostring($3);
+                                                            fname = chartostring($1)+"."+chartostring($3);
                                                             // ds[curr]["type"] = detail.field.typ.name;
                                                         }else{
                                                             object_error_func(name,name2,yylineno);
@@ -1076,9 +1124,9 @@ METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN   {   $$ = new_temp();
                                                         ds[curr]["type"] = detail.method.rettype.name;
                                                         // cout<<""
                                                         // code.push_back(ds[curr]["type"]);
-                                                        // type_check_function_obj(detail.method.argtype,types);    // takes in name of function and types of parameters
+                                                        type_check_function_obj(detail.method.argtype,types);    // takes in name of function and types of parameters
                                                         // cout<<"curr var "<<ds[curr]["var"]<<"\n";
-                                                        ds[curr]["start"] = code.size();
+                                                        ds[curr]["start"] = numtostring(code.size());
                                                         if(ds[curr]["type"]!="void")
                                                         code.push_back(ds[curr]["var"]+" = call, "+fname);
                                                         else code.push_back("call, "+fname);
@@ -1091,10 +1139,10 @@ METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN   {   $$ = new_temp();
                                                         for(auto i:ds2[curr5]["type"]){
                                                             types.push_back(i);
                                                         }
-                                                        objdetails detail = getobjdetails(name,name2,types);    //support polymorphism by characterising function by class name, func name and types of arguments.
+                                                        objdetails detail = getobjdetails(name,name2);    //support polymorphism by characterising function by class name, func name and types of arguments.
                                                         string fname = "";
                                                         if(detail.ismethod&&not_static_check(detail.method.access)){
-                                                            fname = pref[chartostring($1)]+chartostring($3);
+                                                            fname = chartostring($1)+"."+chartostring($3);
                                                             // ds[curr]["type"] = detail.field.typ.name;
                                                         }else{
                                                             object_error_func(name,name2,yylineno);
@@ -1102,10 +1150,10 @@ METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN   {   $$ = new_temp();
                                                         ds[curr]["var"] = new_var();
                                                         ds[curr]["type"] = detail.method.rettype.name;;
                                                         // cout<<"curr typed "<<ds[curr]["type"]<<"\n";
-                                                        // type_check_function_obj(detail.method.argtype,types);    // takes in name of function and types of parameters
+                                                        type_check_function_obj(detail.method.argtype,types);    // takes in name of function and types of parameters
+                                                        ds[curr]["start"] = numtostring(code.size());
                                                         for(auto i:ds2[curr5]["var"])
                                                         code.push_back("push param "+i);
-                                                        ds[curr]["start"] = code.size();
                                                         if(ds[curr]["type"]!="void")
                                                         code.push_back(ds[curr]["var"]+" = call, "+fname);
                                                         else code.push_back("call, "+fname);
@@ -1577,7 +1625,7 @@ POSTDECREMENTEXPRESSION: POSTFIXEXPRESSION MINUSMINUS   {   $$ = new_temp();
 INSTANCEOFEXPRESSION: RELATIONALEXPRESSION INSTANCEOF REFERENCETYPE
 
 
-METHODDECLARATION:  METHODHEADER METHODBODY {
+METHODDECLARATION:  METHODHEADER METHODBODY {   
     $$ =$1;
     method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
     classmethods[curr_class][generalmap[$1].name] = methods[generalmap[$1].name];
@@ -1798,14 +1846,14 @@ METHODDECLARATOR: IDENTIFIER OPENPARAN CLOSEPARAN  {$$ = new_temp(); generalmap[
                                         method_det[curr_class][chartostring($1)].start = code.size(); 
                                         ds[curr]["start"] = numtostring(code.size());
                                         ds[curr]["method_name"] = chartostring($1);
-                                        code.push_back("begin func "+chartostring($1));
+                                        code.push_back("begin func "+curr_class+"!"+chartostring($1));
                                         // cout<<"methodhead "<<ds[chartonum($$)]["method_name"]<<"\n";
                                         }
                 |   IDENTIFIER OPENPARAN FORMALPARAMETERLIST CLOSEPARAN {$$ = new_temp(); generalmap[$$]= generalmap[$3]; generalmap[$$].num = 0; generalmap[$$].name = chartostring($1);int curr = chartonum($$), curr3 = chartonum($3);
                 method_det[curr_class][chartostring($1)].start = code.size(); 
                                         ds[curr]["start"] = numtostring(code.size());
                                         ds[curr]["method_name"] = chartostring($1);
-                                        code.push_back("begin func "+chartostring($1));
+                                        code.push_back("begin func "+curr_class+"!"+chartostring($1));
                                         reverse(ds2[curr3]["param"].begin(),ds2[curr3]["param"].end());
                                         for(auto i:ds2[curr3]["param"])
                                         code.push_back("pop param, "+ i);
@@ -1852,13 +1900,14 @@ INSTANCEINITIALIZER: BLOCK
 
 STATICINITIALIZER: STATIC BLOCK
 
-BLOCK: OPENCURLY BLOCKSTATEMENTS CLOSECURLY {$$ = $2;  }
+BLOCK: OPENCURLY BLOCKSTATEMENTS CLOSECURLY {$$ = $2; }
     |   OPENCURLY  CLOSECURLY
 
-BLOCKSTATEMENTS: BLOCKSTATEMENT    {$$ = $1;  
+BLOCKSTATEMENTS: BLOCKSTATEMENT    {$$ = $1; 
                                                     // code.push_back("start = "+ds[chartonum($$)]["start"]);
 }
                 |  BLOCKSTATEMENTS BLOCKSTATEMENT { $$ = new_temp();
+                
                                                     int curr = chartonum($$), curr1 = chartonum($1), curr2 = chartonum($2);
                                                     ds3[curr]["continuelist"] = merge(ds3[curr1]["continuelist"], ds3[curr2]["continuelist"]);
                                                     ds3[curr]["breaklist"] = merge(ds3[curr1]["breaklist"], ds3[curr2]["breaklist"]);
@@ -1871,7 +1920,7 @@ BLOCKSTATEMENTS: BLOCKSTATEMENT    {$$ = $1;
 
 BLOCKSTATEMENT: LOCALCLASSORINTERFACEDECLARATION
                
-               |	STATEMENT   {$$ = $1;
+               |	STATEMENT   {$$ = $1; 
                }
  
 LOCALCLASSORINTERFACEDECLARATION: CLASSDECLARATION  
@@ -1879,7 +1928,7 @@ LOCALCLASSORINTERFACEDECLARATION: CLASSDECLARATION
 LOCALVARIABLEDECLARATIONSTATEMENT: LOCALVARIABLEDECLARATION SEMICOLON   {$$ = $1;}
 
 LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
-
+                            
                             if(generalmap[$3].typ.name != "")assert(chartostring($2)== generalmap[$3].typ.name);
                             $$ = $3;
                             int curr = chartonum($$);
@@ -1891,6 +1940,8 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                             for(auto t2:ds2[curr]["type"]){
                                 type_check(yylineno, t,t2,"=");
                             }
+                            // for(auto i:ds2[curr]["decl_code"])  // adding code for local decl only when 
+                            // code.push_back(i);                  
                             for (auto x: generalmap[$3].vlist){
                             
                             // cout<<x.first.name<<endl;
@@ -1931,7 +1982,6 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                         }
                         }
                         |   LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
-
                             if(generalmap[$2].typ.name != "")assert(chartostring($1)== generalmap[$2].typ.name);
                             $$ = $2;
                             int curr = chartonum($$);
@@ -1998,9 +2048,8 @@ STATEMENT: STATEMENTWITHOUTTRAILINGSUBSTATEMENT {$$ = $1; int curr = chartonum($
           |	IFTHENELSESTATEMENT {$$ = $1; int curr = chartonum($$); if(ds[curr].find("start")==ds[curr].end()) ds[curr]["start"] = numtostring(code.size());}
           |	WHILESTATEMENT  {$$ = $1; int curr = chartonum($$); if(ds[curr].find("start")==ds[curr].end()) ds[curr]["start"] = numtostring(code.size());}
           |	FORSTATEMENT    {$$ = $1; int curr = chartonum($$); if(ds[curr].find("start")==ds[curr].end()) ds[curr]["start"] = numtostring(code.size());}
-               |    PRINTLN OPENPARAN EXPRESSION CLOSEPARAN {$$ = new_temp();ds[chartonum($$)]["start"] = numtostring(code.size());code.push_back("print "+ ds[chartonum($3)]["var"]);   }
-               |	LOCALVARIABLEDECLARATIONSTATEMENT   {$$ = $1; 
-                
+               |    PRINTLN OPENPARAN EXPRESSION CLOSEPARAN {$$ = new_temp();int curr = chartonum($$);ds[curr]["start"] = ds[chartonum($3)]["start"];code.push_back("print "+ ds[chartonum($3)]["var"]);   }
+               |	LOCALVARIABLEDECLARATIONSTATEMENT   {$$ = $1;int curr = chartonum($$); if(ds[curr].find("start")==ds[curr].end()) ds[curr]["start"] = numtostring(code.size());
                }
 
 STATEMENTWITHOUTTRAILINGSUBSTATEMENT    :BLOCK  {$$ = $1;}
