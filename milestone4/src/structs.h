@@ -94,6 +94,15 @@ struct formalarg
             return rettype.dims<other.rettype.dims;
         }
     };
+
+    struct constsig {
+
+        vector<type> argtype;
+        bool operator<(const constsig& other) const{
+            return rettype.dims<other.rettype.dims;
+        }
+    };
+    
     struct fieldsig{
         vector <string>access;
         type typ;  /*CHECK*/
@@ -128,15 +137,41 @@ struct formalarg
 
 
     map<pair<string,string>, methodsig> preservedmethods;
-map<pair<string,string>, fieldsig> preservedfields;
+    map<pair<string,string>, vector<methodsig>> preservedpolymethods;
 
+map<pair<string,string>, fieldsig> preservedfields;
+    map<pair<string,string>, vector <constsig>> preservedconst;
+
+
+pair<string, string> getrettype (string methodname, vector<string> argtype){
+    ll ii =0;
+    for (auto x : polymethods[methodname]){
+        ii++;
+        if (x.argtype.size()==argtype.size()){
+            bool flag=true;
+            for (ll i=0;i<x.argtype.size();i++){
+                if (x.argtype[i].name!=argtype[i]){
+                    flag=false;
+                    break;
+                }
+            }
+            if (flag) return {x.rettype.name, numtostring(ii)};
+        }
+
+    }
+}
 
 map<string , map<string, fieldsig>> classfields;
 map<string , map<string, methodsig>> classmethods;
+map<string , map<string, vector<methodsig>>> classpolymethods;
+
+map<string , map<string, vector <constsig>>> classconst;
 
    map<string, methodsig> methods;
+   map <string, vector<methodsig>> polymethods;
 
     map<string, fieldsig> fields;
+    map<string, vector <constsig>> constructors;
 
     map<string, varentry> symboltable;
         map<pair<string,ll>, varentry> preservedsymboltable;
@@ -172,6 +207,18 @@ void printmethodstable(){
         // cout<<endl;
     }
 }
+
+void printpolymethodstable(){
+    for (auto x : polymethods){
+        for (auto z : x.second)
+        // cout<<x.first<<" ";
+        // cout<<x.second.rettype.name<<" ";
+        for (auto y : z.argtype){
+            // cout<<y.name<<" ";
+        }
+        // cout<<endl;
+    }
+}
 vector <pair<string, vector <string>>> to_check_functions;
 
 
@@ -193,6 +240,39 @@ if(methods.find(name)==methods.end()){
     }
  }
 
+  void type_check_function_poly(string name, vector<string> types){
+
+if(methods.find(name)==methods.end()){
+    // TODO: check 
+    cout << "function not found at line "<<yylineno << endl;
+    assert(0 && "declare func before use");
+    return;
+}
+
+    vector <methodsig> m=methods[name];
+    // cout<<name<<endl;
+    // for (auto x : types){
+    //     cout<<x<<" ";
+    // }
+    bool isval = false;
+    for (auto x : m){
+        if (x.argtype.size()==types.size()){
+            isval = true;
+            
+            for (ll i=0;i<types.size();i++){
+                if(x.argtype[i].name!=types[i]){
+                    isval = false;
+                    break;
+                }
+            }
+        }
+    }
+    if (!isval){
+        cout << "function argument list not valid at line "<<yylineno << endl;
+        assert(0 && "use proper function arglist");
+    }
+ }
+
  void type_check_function_obj(vector<type> argtype, vector<string> types){
     
     assert(argtype.size()==types.size());
@@ -202,6 +282,7 @@ if(methods.find(name)==methods.end()){
  }
 
   void type_check_function_strong(){
+    //  TODO: NOT TOBE DONE ?
 
 for(auto x : to_check_functions){
     string name=x.first;
@@ -453,6 +534,49 @@ objdetails getobjdetails(string obj, string name){
         o.ismethod = true;
         o.method = classmethods[cls][name];
         return o;
+    }
+    
+    return o;
+    }
+
+struct objdetails{
+    bool ismethod = false;
+    // add isconstructor field
+    bool isfield = false;
+    methodsig method;
+    fieldsig field;
+};
+
+// Modify to make arguments as objname, method name, argumentlist
+// make another function for fields. arguments are objname and methodname 
+objdetails getpolyobjdetails(string obj, string name, vector<string> argtype){
+    string cls = symboltable[obj].typ.name;     /* two objects with same name in different class - symoboltable gets cleared after current class ends. name is method name*/
+    objdetails o;
+
+    // if()
+    if(classfields[cls].find(name) != classfields[cls].end()){
+        
+        o.isfield = true;
+        o.field = classfields[cls][name];
+        return o;
+    }
+    else if(classpolymethods[cls].find(name) != classpolymethods[cls].end()){
+
+        for(auto i:classpolymethods[cls][name]){
+
+            bool flag = true;
+            for(int j=0;j<argtype.size();j++){
+                if(argtype[j]!=i.argtype[j].name){
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag){
+                o.ismethod = true;
+                o.method = i;
+                return o;
+            }
+        }
     }
     
     return o;

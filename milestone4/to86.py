@@ -48,6 +48,12 @@ sample = """
 
 """
 
+curclass = ""
+curfunc = ""
+class2size={}
+class2offsetStatic={}
+class2offsetNon={}
+class2init = {}
 
 offset = -8
 boolenter =0
@@ -95,8 +101,34 @@ for line in data:
     out.append("L"+ elements[0] + ":")
     # print(elements)
     elements= elements[1:]
+
+    if(elements[0] == "begin" and elements[1] == "class"):
+        curclass = elements[2]
+        class2size[curclass] = 0
+        class2offsetStatic[curclass] = {}
+        class2offsetNon[curclass] = {}
+        class2init[curclass] = {}
+        continue
+
+    if(elements[0] == "fieldstatic"):
+
+        class2offsetStatic[curclass][elements[1]] = class2size[curclass]
+        class2size[curclass] = class2size[curclass] + 8
+        if(len(elements) >= 4 and elements[2] == "="):
+            class2init[curclass][elements[1]] = elements[3:]
+        continue
+
+    if(elements[0] == "fieldnon"):
+
+        class2offsetNon[curclass][elements[1]] = class2size[curclass]
+        class2size[curclass] = class2size[curclass] + 8
+        if(len(elements) >= 4 and elements[2] == "="):
+            class2init[curclass][elements[1]] = elements[3:]
+        continue
+
     
-    if(elements[0] == 'begin'):
+    if(elements[0] == 'begin' and elements[1] == 'func'):
+        curfunc = elements[2]
         boolmain=0
         boolenter=0
         out.append(elements[2] + ":")
@@ -112,7 +144,15 @@ for line in data:
         continue
         
 
-    if(elements[0] == 'end'):
+    if(elements[0] == 'end' and elements[1] == 'func'):
+        if(curfunc == 'main'):
+            out.append("""
+  
+        # exit(0)
+        mov     $60, %rax               # system call 60 is exit
+        xor     %rdi, %rdi              # we want return code 0
+        syscall                         # invoke operating system to exit""")
+            
         if(boolmain!=1):
 
             
@@ -444,11 +484,6 @@ for line in data:
 
 out.append("""
 
-  
-        # exit(0)
-        mov     $60, %rax               # system call 60 is exit
-        xor     %rdi, %rdi              # we want return code 0
-        syscall                         # invoke operating system to exit
 format:
         .ascii  "%lld\\n"
 

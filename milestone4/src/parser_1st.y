@@ -91,6 +91,7 @@
 
     void resetclass(){
         methods.clear();
+        polymethods.clear();
         fields.clear();
         symboltable.clear();
         scope = 0;
@@ -330,6 +331,7 @@ TOPLEVELCLASSORINTERFACEDECLARATION :   CLASSDECLARATION  {
 // cout<<endl;
     }
     // cout<<"meth";
+
     for(auto x : methods){
         preservedsymboltable[{x.first, -1}].lineno = x.second.lineno;
         preservedsymboltable[{x.first, -1}].typ = x.second.rettype;
@@ -346,6 +348,18 @@ TOPLEVELCLASSORINTERFACEDECLARATION :   CLASSDECLARATION  {
         
         
         }
+        int iik=0;
+        for(auto x : polymethods){
+            for (auto y : x.second){
+                preservedsymboltable[{x.first, -iik}].lineno = y.lineno;
+                preservedsymboltable[{x.first, -iik}].typ = y.rettype;
+                preservedsymboltable[{x.first, -iik}].token = "identifier - method of" + chartostring($1) ;
+                iik++;
+            }
+              
+        
+        }
+
      resetclass();}
                                     |   SEMICOLON  
                                     |   IMPORTDECLARATION TOPLEVELCLASSORINTERFACEDECLARATION
@@ -357,18 +371,19 @@ IMPORTDECLARATION   :   IMPORT EXPRESSIONNAME SEMICOLON
                     |   IMPORT STATIC EXPRESSIONNAME DOT MULTIPLY SEMICOLON 
 
 CLASSDECLARATION    :   NORMALCLASSDECLARATION  {$$ = $1;
-                        for(auto obj:object_list){
-                        string pr = obj.third;
-                        vector<string> methods = getallmethods(obj.first,obj.second);
-                        // vector<string> methods = {"f"};
-                        for(auto method : methods){
-                            // code.push_back(method);
-                            // cout<<"methods "<<method<<"\n";
+                    //     for(auto obj:object_list){
+                    //     string pr = obj.third;
+                    //     vector<string> methods = getallmethods(obj.first,obj.second);
+                    //     // vector<string> methods = {"f"};
+                    //     for(auto method : methods){
+                    //         // code.push_back(method);
+                    //         // cout<<"methods "<<method<<"\n";
                            
-                            add_func(code, pr, method_det[obj.second][method].start, method_det[obj.second][method].end);
-                        }
+                    //         add_func(code, pr, method_det[obj.second][method].start, method_det[obj.second][method].end);
+                    //     }
                         
-                    }object_list.clear();static_name.clear();}
+                    // }
+                    object_list.clear();static_name.clear();}
                     
 
 NORMALCLASSDECLARATION  :    CLASS CLASSNAME CLASSBODY {$$ = $2;
@@ -1565,6 +1580,10 @@ INSTANCEOFEXPRESSION: RELATIONALEXPRESSION INSTANCEOF REFERENCETYPE
 METHODDECLARATION:  METHODHEADER METHODBODY {
     $$ =$1;
     method_det[curr_class][ds[chartonum($$)]["method_name"]].end = code.size(); 
+    classmethods[curr_class][generalmap[$1].name] = methods[generalmap[$1].name];
+    classpolymethods[curr_class][generalmap[$1].name].push_back(methods[generalmap[$1].name]);
+
+    polymethods[generalmap[$1].name].push_back(methods[generalmap[$1].name]);
     
     
     code.push_back("end func");
@@ -1584,7 +1603,10 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
     // vector <type> argtype;
     // methods[generalmap[$2].name].lineno = yylineno;
     
-    // methods[generalmap[$2].name].access = generalmap[$1].modifiers;
+    methods[generalmap[$2].name].access = generalmap[$1].modifiers;
+    classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
+    classpolymethods[curr_class][generalmap[$2].name].push_back(methods[generalmap[$2].name]);
+    polymethods[generalmap[$2].name].push_back(methods[generalmap[$2].name]);
 
 
     // for (auto x : generalmap[$2].farglist)
@@ -1605,7 +1627,11 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
     // methods[generalmap[$2].name].rettype = generalmap[$2].typ;
     //     methods[generalmap[$2].name].lineno = yylineno;
 
-    // methods[generalmap[$2].name].access = generalmap[$1].modifiers;
+    methods[generalmap[$2].name].access = generalmap[$1].modifiers;
+    classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
+    classpolymethods[curr_class][generalmap[$2].name].push_back(methods[generalmap[$2].name]);
+
+    polymethods[generalmap[$2].name].push_back(methods[generalmap[$2].name]);
 
     // vector <type> argtype;
     // for (auto x : generalmap[$2].farglist)
@@ -1626,7 +1652,11 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
     // methods[generalmap[$2].name].rettype = generalmap[$2].typ;
     //     methods[generalmap[$2].name].lineno = yylineno;
 
-    // methods[generalmap[$2].name].access = generalmap[$1].modifiers;
+    methods[generalmap[$2].name].access = generalmap[$1].modifiers;
+    classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
+    classpolymethods[curr_class][generalmap[$2].name].push_back(methods[generalmap[$2].name]);
+
+    polymethods[generalmap[$2].name].push_back(methods[generalmap[$2].name]);
 
     // vector <type> argtype;
 
@@ -1648,7 +1678,12 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
     // methods[generalmap[$2].name].rettype = generalmap[$2].typ;
     //     methods[generalmap[$2].name].lineno = yylineno;
 
-    // methods[generalmap[$2].name].access = generalmap[$1].modifiers;
+    methods[generalmap[$2].name].access = generalmap[$1].modifiers;
+    classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
+    classpolymethods[curr_class][generalmap[$2].name].push_back(methods[generalmap[$2].name]);
+
+
+    polymethods[generalmap[$2].name].push_back(methods[generalmap[$2].name]);
 
     // vector <type> argtype;
 
@@ -1671,7 +1706,6 @@ METHODDECLARATION:  METHODHEADER METHODBODY {
 METHODHEADER: TYPE METHODDECLARATOR  { $$ = $2;  generalmap[$$].typ.name = chartostring($1); 
 tempnextscope(); 
 
-assert(methods.find(generalmap[$2].name) == methods.end());
     methods[generalmap[$2].name].rettype = generalmap[$2].typ;
     methods[generalmap[$2].name].lineno = yylineno;
     
@@ -1683,6 +1717,8 @@ assert(methods.find(generalmap[$2].name) == methods.end());
          }
     methods[generalmap[$2].name].argtype = argtype;
         classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
+
+    
 
 
 for (auto x : generalmap[$$].farglist){
@@ -2414,6 +2450,9 @@ CONSTRUCTORDECLARATOR: SIMPLETYPENAME OPENPARAN  CLOSEPARAN{
     if(chartostring($1)!=curr_class){
         cout<<"Error: invalid method declaration; return type required at line number "<<yylineno<<"\n"; exit(0);
     }
+    auto  ttt = new constsig();
+    constructors[chartostring($1)].push_back(*ttt);
+
     $$ = new_temp();
     int curr = chartonum($$);              
     method_det[curr_class][chartostring($1)].start = code.size(); 
@@ -2425,6 +2464,16 @@ CONSTRUCTORDECLARATOR: SIMPLETYPENAME OPENPARAN  CLOSEPARAN{
                         if(chartostring($1)!=curr_class){
                             cout<<"Error: invalid method declaration; return type required at line number "<<yylineno<<"\n"; exit(0);
                         } $$ = new_temp();
+
+                        auto  ttt = new constsig();
+                        for (auto x : generalmap[$3].farglist){
+                            
+                            ttt->argtype.push_back(x.typ);
+                        }
+                        
+                        constructors[chartostring($1)].push_back(*ttt);
+
+
                         int curr = chartonum($$), curr3 = chartonum($3);
                         method_det[curr_class][chartostring($1)].start = code.size(); 
                         ds[curr]["start"] = numtostring(code.size());
