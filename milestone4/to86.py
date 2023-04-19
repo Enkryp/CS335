@@ -54,6 +54,7 @@ class2size={}
 class2offsetStatic={}
 class2offsetNon={}
 class2init = {}
+class2func={}
 
 offset = -8
 boolenter =0
@@ -71,6 +72,55 @@ def retaddr (a):
 
     offset = offset - 8
     return var2offset[a]
+
+
+def move (a, b):
+    # a is element 
+    # b is register
+    global out
+    global curclass
+
+    if (a.find('.') != -1):
+        return
+        
+    else :
+        if(a in var2offset.keys()):
+            out.append("mov " + str(var2offset[a]) + "(%rbp), " + b)
+            return
+        elif (a in class2offsetStatic[curclass].keys()):
+            off2pointer = class2offsetStatic[curclass][a]
+            classpt = var2offset["THIS696969" + curclass]
+            out.append( "mov " + str(classpt) + "(%rbp), %r10")
+            out.append("mov " + str(off2pointer) + "(%r10), " + b)
+            return
+        else :
+            out.append("mov " + str(retaddr(a)) + "(%rbp), " + b)
+            return
+
+
+
+def move2 (a, b):
+    # a is register 
+    # b is element
+    global out
+    global curclass
+
+    if (b.find('.') != -1):
+        return
+    
+    else :
+        if(b in var2offset.keys()):
+            out.append("mov " + a + ", " + str(var2offset[b]) + "(%rbp)")
+            return
+        elif (b in class2offsetStatic[curclass].keys()):
+            off2pointer = class2offsetStatic[curclass][b]
+            classpt = var2offset["THIS696969" + curclass]
+            out.append( "mov " + str(classpt) + "(%rbp), %r10")
+            out.append("mov " + a + ", " + str(off2pointer) + "(%r10)")
+            return
+        else :
+            out.append("mov " + a + ", " + str(retaddr(b)) + "(%rbp)")
+            return
 
 
 out =[]
@@ -108,6 +158,7 @@ for line in data:
         class2offsetStatic[curclass] = {}
         class2offsetNon[curclass] = {}
         class2init[curclass] = {}
+        class2func[curclass] = {}
         continue
 
     if(elements[0] == "fieldstatic"):
@@ -127,7 +178,10 @@ for line in data:
         continue
 
     
+
+
     if(elements[0] == 'begin' and elements[1] == 'func'):
+        class2func[curclass][elements[2]] = 1
         curfunc = elements[2]
         boolmain=0
         boolenter=0
@@ -136,8 +190,17 @@ for line in data:
         retoffset=16
         var2offset.clear()
         if(elements[2] == 'main'):
+
+
             out.append("sub $16, %rsp")
             out.append("mov %rsp, %rbp")
+
+            for i in class2size.keys():
+                # use malloc 
+                out.append("mov $"+ str(class2size[i]) + ", %rdi")
+                out.append("call malloc")
+                out.append("mov %rax, %r10")
+                out.append("mov %r10, " + str(retaddr("THIS696969" + i)) + "(%rbp)")
             boolmain=1
         out.append("push %rbp")
         out.append("mov %rsp, %rbp")
@@ -145,6 +208,7 @@ for line in data:
         
 
     if(elements[0] == 'end' and elements[1] == 'func'):
+        boolmain =0
         if(curfunc == 'main'):
             out.append("""
   
@@ -162,7 +226,7 @@ for line in data:
         continue
 
     if(elements[0] == 'return'):
-        out.append("mov "+str(retaddr(elements[1]))+"(%rbp), %rax")
+        move (elements[1], "%rax")
         out.append("leave")
         out.append("ret")
         continue
@@ -171,8 +235,9 @@ for line in data:
         if(boolenter==0):
             boolenter=1
 
-            callnew()         
-        out.append("push "+str(retaddr(elements[2]))+ "(%rbp)")
+            callnew()
+        move(elements[2], "%rax")         
+        out.append("push %rax")
         continue
 
     if(elements[0] == 'pop'):
@@ -186,7 +251,7 @@ for line in data:
         boolenter =0
         if(elements[2] == 'call,'):
             out.append("call " + elements[3])
-            out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+            move2("%rax", elements[0])
         else :
             out.append("call " + elements[1])
             # TODO cases where needed 
@@ -194,26 +259,26 @@ for line in data:
 
     if (elements[0]== 'print'):
         callnew()
-        out.append("mov "+str(retaddr(elements[1]))+"(%rbp), %rax")
-
+        move(elements[1], "%rax")
         out.append("""mov $format, %rdi\nmov %rax, %rsi\nxor     %rax, %rax\ncall printf   """)
 
     if(elements[0]== 'if'):
         if (len(elements)==6):
             if(elements[2]=='=='):
-                out.append("mov "+str(retaddr(elements[1]))+"(%rbp), %rax")
-                out.append("cmp "+str(retaddr(elements[3]))+"(%rbp), %rax")
+                move (elements[1], "%rax")
+                move (elements[3], "%rbx")
+                out.append("cmp %rbx, %rax")
                 out.append("je L"+elements[5])
 
             if(elements[2]=='!='):
-                out.append("mov "+str(retaddr(elements[1]))+"(%rbp), %rax")
-                out.append("cmp "+str(retaddr(elements[3]))+"(%rbp), %rax")
+                move (elements[1], "%rax")
+                move (elements[3], "%rbx")
+                out.append("cmp %rbx, %rax")
                 out.append("jne L"+elements[5])
 
                 
         if (len(elements)==4):
-
-            out.append("mov "+str(retaddr(elements[1]))+"(%rbp), %rax")
+            move (elements[1], "%rax")
             out.append("cmp $0, %rax")
             out.append("jne L"+elements[3])
 
@@ -227,20 +292,21 @@ for line in data:
             out.append("jmp L"+elements[1])
     
     if(elements[1]== '['):
+        move(elements[0], "%rax")
+        move(elements[2], "%rbx")
         
-        out.append("mov "+str(retaddr(elements[0]))+"(%rbp), %rax")
-        out.append("mov "+str(retaddr(elements[2]))+"(%rbp), %rbx")
         out.append("add %rbx, %rax")
-        out.append("mov "+ str(retaddr(elements[5]))+"(%rbp), %rbx")
+
+        move (elements[5], "%rbx")
 
         out.append("mov %rbx, (%rax)")
 
     if (elements[1]== '='):
         if (elements[2]== 'array'):
             callnew()
-            out.append("mov "+str(retaddr(elements[4]))+"(%rbp), %rdi")
+            move(elements[4], "%rdi")
             out.append("call malloc")
-            out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+            move2("%rax", elements[0])
             continue
 
 
@@ -251,42 +317,45 @@ for line in data:
         elif (elements[2][0].isdigit()):
 
             out.append("mov $"+elements[2]+", %rax")
-            out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+            move2("%rax", elements[0])
 
         # variable assignment
         elif (len(elements)==3):
-            out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
-            out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+            move (elements[2], "%rax")
+            move2("%rax", elements[0])
         
 
         #array element to be  assigned
         elif (len(elements)==6):
-            out.append("mov "+str(retaddr(elements[2]))+"(%rbp), %rax")
-            out.append("mov "+str(retaddr(elements[4]))+"(%rbp), %rbx")
+            move(elements[2], "%rax")
+            move(elements[4], "%rbx")
             out.append("add %rbx, %rax")
             out.append("mov (%rax), %rbx")
 
-            out.append("mov %rbx, " + str(retaddr(elements[0])) + "(%rbp)")
+            move2("%rbx", elements[0])
 
         # unary assignment
 
         elif (len(elements)==4):
             if (elements[2]== '-'):
-                out.append("mov "+str(retaddr(elements[3])) + "(%rbp), %rax")
+                move (elements[3], "%rax")
+
+                move (elements[3], "%rax")
                 out.append("neg %rax")
-                out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                move2("%rax", elements[0])
+                move2("%rax", elements[0])
 
             if (elements[2] == '!'):
-                out.append("mov "+str(retaddr(elements[3])) + "(%rbp), %rax")
+                move (elements[3], "%rax")
                 out.append("cmp $0, %rax")
                 out.append("sete %al")
                 out.append("movzb %al, %rax")
-                out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                move2("%rax", elements[0])
             
             if (elements[2]== '~'):
-                out.append("mov "+str(retaddr(elements[3])) + "(%rbp), %rax")
+                move (elements[3], "%rax")
                 out.append("not %rax")
-                out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                move2("%rax", elements[0])
             
 
         # arithmetic assignment
@@ -294,144 +363,160 @@ for line in data:
 
             # addition
                 if (elements[3][0]== '+'):
-                    out.append("mov "+str(retaddr(elements[4])) + "(%rbp), %rax")
-                    out.append("add "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move (elements[4], "%rax")
+                    move (elements[2], "%rbx")
+                    out.append("add %rbx, %rax")
+                    move2("%rax", elements[0])
 
                 # subtraction
 
                 if (elements[3][0]== '-'):
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("sub "+str(retaddr(elements[4])) + "(%rbp), %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move (elements[2], "%rax")
+                    move (elements[4], "%rbx")
+                    out.append("sub %rbx, %rax")
+                    move2("%rax", elements[0])
                 
                 if (elements[3][0]== '*'):
-                    out.append("mov "+str(retaddr(elements[4])) + "(%rbp), %rax")
-                    out.append("imul "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move (elements[4], "%rax")
+                    move (elements[2], "%rbx")
+                    out.append("imul %rbx, %rax")
+                    move2("%rax", elements[0])
 
                 
                 if(elements[3] == '<<'):
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("mov "+str(retaddr(elements[4])) + "(%rbp), %cl")
+                    move (elements[2], "%rax")
+                    move (elements[4], "%cl")
                     out.append("sal %cl, %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move2("%rax", elements[0])
                 
                 if (elements[3]== '>>'):
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("mov "+str(retaddr(elements[4])) + "(%rbp), %cl")
+                    move (elements[2], "%rax")
+                    move (elements[4], "%cl")
                     out.append("sar %cl, %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move2("%rax", elements[0])
 
                 if (elements[3]== '>>>'):
                 
                     # unsigned right shift
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("mov "+str(retaddr(elements[4])) + "(%rbp), %cl")
+                    move (elements[2], "%rax")
+                    move (elements[4], "%cl")
                     out.append("shr %cl, %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move2("%rax", elements[0])
                     
 
                 if (elements[3][0] == '%'):
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("mov "+str(retaddr(elements[4])) + "(%rbp), %rbx")
+                    move (elements[2], "%rax")
+                    move (elements[4], "%rbx")
                     # out.append("mov $0, %rdx")
                     out.append ("cqo")
                     out.append("idiv %rbx")
-                    out.append("mov %rdx, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move2("%rdx", elements[0])
                 
                 if (elements[3][0]== '/'):
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("mov "+str(retaddr(elements[4])) + "(%rbp), %rbx")
+                    move (elements[2], "%rax")
+                    move (elements[4], "%rbx")
                     out.append ("cqo")
                     out.append("idiv %rbx")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move2("%rax", elements[0])
 
                 # TODO >>>
 
                 if (elements[3] == '|'):
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("or "+str(retaddr(elements[4])) + "(%rbp), %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move (elements[2], "%rax")
+                    move (elements[4], "%rbx")
+                    out.append("or %rbx, %rax")
+                    move2("%rax", elements[0])
 
                 if (elements[3] == '&'):
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("and "+str(retaddr(elements[4])) + "(%rbp), %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move (elements[2], "%rax")
+                    move (elements[4], "%rbx")
+                    out.append("and %rbx, %rax")
+                    move2("%rax", elements[0])
                 
                 if (elements[3] == '^'):
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("xor "+str(retaddr(elements[4])) + "(%rbp), %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move (elements[2], "%rax")
+                    move (elements[4], "%rbx")
+                    out.append("xor %rbx, %rax")
+                    move2("%rax", elements[0])
                 
                 if (elements[3] == '=='):
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("cmp "+str(retaddr(elements[4])) + "(%rbp), %rax")
+                    move (elements[2], "%rax")
+                    move (elements[4], "%rbx")
+                    out.append("cmp %rbx, %rax")
                     out.append("sete %al")
                     out.append("movzb %al, %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move2("%rax", elements[0])
 
                 if (elements[3] == '!='):
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("cmp "+str(retaddr(elements[4])) + "(%rbp), %rax")
+                    move (elements[2], "%rax")
+                    move (elements[4], "%rbx")
+                    out.append("cmp %rbx, %rax")
                     out.append("setne %al")
                     out.append("movzb %al, %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move2("%rax", elements[0])
                 
                 if (elements[3] == '<'):
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("cmp "+str(retaddr(elements[4])) + "(%rbp), %rax")
+                    move (elements[2], "%rax")
+
+                    move (elements[4], "%rbx")
+                    out.append("cmp %rbx, %rax")
                     out.append("setl %al")
                     out.append("movzb %al, %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move2("%rax", elements[0])
                 
                 if (elements[3] == '>'):
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("cmp "+str(retaddr(elements[4])) + "(%rbp), %rax")
+                    move (elements[2], "%rax")
+
+                    move (elements[4], "%rbx")
+                    out.append("cmp %rbx, %rax")
                     out.append("setg %al")
                     out.append("movzb %al, %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move2("%rax", elements[0])
                 
                 if (elements[3] == '<='):
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("cmp "+str(retaddr(elements[4])) + "(%rbp), %rax")
+                    move (elements[2], "%rax")
+
+                    move (elements[4], "%rbx")
+                    out.append("cmp %rbx, %rax")
                     out.append("setle %al")
                     out.append("movzb %al, %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move2("%rax", elements[0])
                 
                 if (elements[3] == '>='):
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
-                    out.append("cmp "+str(retaddr(elements[4])) + "(%rbp), %rax")
+                    move (elements[2], "%rax")
+
+                    move (elements[4], "%rbx")
+                    out.append("cmp %rbx, %rax")
                     out.append("setge %al")
                     out.append("movzb %al, %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move2("%rax", elements[0])
                 
                 if (elements[3] == '&&'):
 
 
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
+                    move (elements[2], "%rax")
                     out.append("cmp $0, %rax")
                     out.append("setne %al")
                     out.append("movzb %al, %rbx")
-                    out.append("mov "+str(retaddr(elements[4])) + "(%rbp), %rax")
+                    move (elements[4], "%rax")
                     out.append("cmp $0, %rax")
                     out.append("setne %al")
                     out.append("movzb %al, %rax")
                     out.append("and %rbx, %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move2("%rax", elements[0])
                 
                 if (elements[3] == '||'):
 
-                    out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rax")
+                    move (elements[2], "%rax")
                     out.append("cmp $0, %rax")
                     out.append("setne %al")
                     out.append("movzb %al, %rbx")
-                    out.append("mov "+str(retaddr(elements[4])) + "(%rbp), %rax")
+                    move (elements[4], "%rax")
                     out.append("cmp $0, %rax")
                     out.append("setne %al")
                     out.append("movzb %al, %rax")
                     out.append("or %rbx, %rax")
-                    out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+                    move2("%rax", elements[0])
                 
 
                 
@@ -441,37 +526,43 @@ for line in data:
 
 
     elif (elements[1]== '*='):
-        out.append("mov "+str(retaddr(elements[0])) + "(%rbp), %rax")
-        out.append("imul "+str(retaddr(elements[2])) + "(%rbp), %rax")
-        out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+        move (elements[0], "%rax")
+        move (elements[2], "%rbx")
+        out.append("imul %rbx, %rax")
+        move2("%rax", elements[0])
     
     elif (elements[1]== '/='):
 
-        out.append("mov "+str(retaddr(elements[0])) + "(%rbp), %rax")
-        out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rbx")
+        move (elements[0], "%rax")
+
+        move (elements[2], "%rbx")
         out.append ("cqo")
         out.append("idiv %rbx")
-        out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+        move2("%rax", elements[0])
 
     elif (elements[1]== '%='):
 
-        out.append("mov "+str(retaddr(elements[0])) + "(%rbp), %rax")
-        out.append("mov "+str(retaddr(elements[2])) + "(%rbp), %rbx")
+        move (elements[0], "%rax")
+        move (elements[2], "%rbx")
         out.append ("cqo")
         out.append("idiv %rbx")
-        out.append("mov %rdx, "+str(retaddr(elements[0])) + "(%rbp)")
+        move2("%rdx", elements[0])
 
     elif (elements[1]== '+='):
 
-        out.append("mov "+str(retaddr(elements[0])) + "(%rbp), %rax")
-        out.append("add "+str(retaddr(elements[2])) + "(%rbp), %rax")
-        out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+        move (elements[0], "%rax")
+
+        move (elements[2], "%rbx")
+        out.append("add %rbx, %rax")
+        move2("%rax", elements[0])
     
     elif (elements[1]== '-='):
 
-        out.append("mov "+str(retaddr(elements[0])) + "(%rbp), %rax")
-        out.append("sub "+str(retaddr(elements[2])) + "(%rbp), %rax")
-        out.append("mov %rax, "+str(retaddr(elements[0])) + "(%rbp)")
+        move (elements[0], "%rax")
+
+        move (elements[2], "%rbx")
+        out.append("sub %rbx, %rax")
+        move2("%rax", elements[0])
     
 
 
