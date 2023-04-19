@@ -56,7 +56,7 @@ class2offsetNon={}
 class2init = {}
 class2func={}
 var2class = {}
-
+classedvar2offset = {}
 offset = -8
 boolenter =0
 boolmain=0
@@ -82,6 +82,7 @@ def move (a, b):
     global curclass
 
     if (a.find('.') != -1):
+
         parts = a.split('.')
         classnow = var2class[parts[0]]
         if (parts[1] in class2offsetStatic[classnow].keys()):
@@ -91,9 +92,9 @@ def move (a, b):
             out.append("mov " + str(off2pointer) + "(%r10), " + b)
             return
 
-        elif (parts[1] in class2offsetNon[classnow].keys() and curfunc != "main"):
+        elif (parts[1] in class2offsetNon[classnow].keys() ):
             off2pointer = class2offsetNon[classnow][parts[1]]
-            classpt = var2offset["my@base"]
+            classpt = var2offset[parts[0]]
             out.append( "mov " + str(classpt) + "(%rbp), %r10")
             out.append("mov " + str(off2pointer) + "(%r10), " + b)
             return
@@ -108,8 +109,8 @@ def move (a, b):
             out.append( "mov " + str(classpt) + "(%rbp), %r10")
             out.append("mov " + str(off2pointer) + "(%r10), " + b)
             return
-        elif (a in class2offsetNon[curclass].keys() and curfunc != "main"):
-            off2pointer = class2offsetStatic[curclass][a]
+        elif (a in class2offsetNon[curclass].keys() ):
+            off2pointer = class2offsetNon[curclass][a]
             classpt = var2offset["my@base"]
             out.append( "mov " + str(classpt) + "(%rbp), %r10")
             out.append("mov " + str(off2pointer) + "(%r10), " + b)
@@ -121,12 +122,14 @@ def move (a, b):
 
 
 def move2 (a, b):
+
     # a is register 
     # b is element
     global out
     global curclass
 
     if (b.find('.') != -1):
+        
         
         parts = b.split('.')
         classnow = var2class[parts[0]]
@@ -137,9 +140,9 @@ def move2 (a, b):
             out.append("mov " + a + ", " + str(off2pointer) + "(%r10)")
             return
         
-        elif (parts[1] in class2offsetNon[classnow].keys() and curfunc != "main"):
+        elif (parts[1] in class2offsetNon[classnow].keys() ):
             off2pointer = class2offsetNon[classnow][parts[1]]
-            classpt = var2offset["my@base"]
+            classpt = var2offset[parts[0]]
             out.append( "mov " + str(classpt) + "(%rbp), %r10")
             out.append("mov " + a + ", " + str(off2pointer) + "(%r10)")
             return
@@ -154,7 +157,7 @@ def move2 (a, b):
             out.append( "mov " + str(classpt) + "(%rbp), %r10")
             out.append("mov " + a + ", " + str(off2pointer) + "(%r10)")
             return
-        elif (b in class2offsetNon[curclass].keys() and curfunc != "main"):
+        elif (b in class2offsetNon[curclass].keys() ):
             off2pointer = class2offsetNon[curclass][b]
             classpt = var2offset["my@base"]
             out.append( "mov " + str(classpt) + "(%rbp), %r10")
@@ -176,7 +179,6 @@ for line in data1:
         continue
     for i in range(len(elements)):
         elements[i] = elements[i].strip()
-    # print(elements)
     elements= elements[1:]
 
     if(elements[0] == "begin" and elements[1] == "class"):
@@ -188,7 +190,7 @@ for line in data1:
         class2func[curclass] = {}
         continue
 
-    if(elements[0] == "fieldstatic"):
+    if(elements[0] == "static"):
 
         class2offsetStatic[curclass][elements[1]] = class2size[curclass]
         class2size[curclass] = class2size[curclass] + 8
@@ -196,7 +198,7 @@ for line in data1:
             class2init[curclass][elements[1]] = elements[3:]
         continue
 
-    if(elements[0] == "fieldnon"):
+    if(elements[0] == "non"):
 
         class2offsetNon[curclass][elements[1]] = class2size[curclass]
         class2size[curclass] = class2size[curclass] + 8
@@ -229,10 +231,6 @@ def callnew (a =0):
     global out
     out.append("mov %rbp, %rsp")
     out.append("sub $" + str(-offset+8) + ", %rsp")
-    classlist = list(class2size.keys())
-    for i in classlist:
-        # push var2offset["static@base" + i] to stack 
-        out.append("push " + str(var2offset["static@base" + i]) + "(%rbp)")
     # if(a==0):
     #     out.append("push %rax")
                
@@ -248,7 +246,6 @@ for line in data:
     for i in range(len(elements)):
         elements[i] = elements[i].strip()
     out.append("L"+ elements[0] + ":")
-    # print(elements)
     elements= elements[1:]
 
     if(elements[0] == "begin" and elements[1] == "class"):
@@ -296,20 +293,40 @@ for line in data:
             out.append("sub $16, %rsp")
             out.append("mov %rsp, %rbp")
 
+            boolmain=1
+        out.append("push %rbp")
+        out.append("mov %rsp, %rbp")
+        if(boolmain):
             for i in class2size.keys():
                 # use malloc 
                 out.append("mov $"+ str(class2size[i]) + ", %rdi")
                 out.append("call malloc")
                 out.append("mov %rax, %r10")
                 out.append("mov %r10, " + str(retaddr("static@base" + i)) + "(%rbp)")
-            boolmain=1
-        out.append("push %rbp")
-        out.append("mov %rsp, %rbp")
+        if(curfunc != 'main'):
+            classlist = list(class2size.keys())
+            classlist.reverse()
+
+            var2offset["my@base"] = retoffset
+            retoffset = retoffset + 8
+            # out.append("DEBUG"+ str(retoffset-8))
+
+            for i in classlist:
+                var2offset["static@base" + i] = retoffset
+                retoffset = retoffset + 8
+                # out.append("DEBUG"+ str(retoffset-8))
+
+
+            
         continue
         
-
+    # if(elements[0] == 'end' and elements[1] == 'class'):
+    #     classedvar2offset[curclass] = var2offset.copy()
+    #     continue
+    
     if(elements[0] == 'end' and elements[1] == 'func'):
         boolmain =0
+        var2offset.clear()
         if(curfunc == 'main'):
             out.append("""
   
@@ -323,6 +340,7 @@ for line in data:
             
             out.append("leave")
             out.append("ret")
+        curfunc = ""
         
         continue
 
@@ -342,25 +360,15 @@ for line in data:
         continue
 
     if(elements[0] == 'pop'):
+        
+
+
         popstart = True
         var2offset[elements[2]] = retoffset
         retoffset = retoffset + 8
         continue
     
-    if(popstart):
-        popstart = False
-        if(curfunc != 'main'):
-            classlist = list(class2size.keys())
-            classlist.reverse()
-
-            var2offset["my@base"] = retoffset
-            retoffset = retoffset + 8
-
-            for i in classlist:
-                var2offset["static@base" + i] = retoffset
-                retoffset = retoffset + 8
-
-
+    
 
 
     if ('call,' in elements):
@@ -373,11 +381,22 @@ for line in data:
             if (elements[3].find('.')!=-1):
                 # TODO
                 parts = elements[3].split('.')
+                classlist = list(class2size.keys())
+                for i in classlist:
+                    # push var2offset["static@base" + i] to stack 
+                    out.append("push " + str(var2offset["static@base" + i]) + "(%rbp)")
+                
                 out.append("push " + str(var2offset[parts[0]]) + "(%rbp)")
-                out.append("call " + var2class[parts[0]] + "!" + parts[1])
+                out.append("call " + var2class[parts[0]] + "_" + parts[1])
                 move2("%rax", elements[0])
 
             else :
+                classlist = list(class2size.keys())
+                for i in classlist:
+                    # push var2offset["static@base" + i] to stack 
+                    out.append("push " + str(var2offset["static@base" + i]) + "(%rbp)")
+              
+                
                 out.append("push %rax")
                     
                 out.append("call " + elements[3])
@@ -454,7 +473,6 @@ for line in data:
 
 
         # constant assignment
-        # print(elements)
         elif (elements[2][0].isdigit()):
 
             out.append("mov $"+elements[2]+", %rax")
@@ -462,8 +480,12 @@ for line in data:
 
         # variable assignment
         elif (len(elements)==3):
-            move (elements[2], "%rax")
-            move2("%rax", elements[0])
+            if(curfunc!=""):
+                move (elements[2], "%rax")
+                move2("%rax", elements[0])
+            else :
+                class2init[curclass][elements[0]] = elements[2]
+
         
 
         #array element to be  assigned

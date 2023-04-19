@@ -1,5 +1,5 @@
 0 begin class SumOfCubes
-1 begin func SumOfCubes!main
+1 begin func main
 2 pop param, args
 3 t1 = 1000
 4 n = t1

@@ -1,5 +1,5 @@
 0 begin class Whileandnested
-1 begin func Whileandnested!main
+1 begin func main
 2 pop param, args
 3 t1 = 5
 4 a = t1

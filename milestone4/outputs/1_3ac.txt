@@ -1,5 +1,5 @@
 0 begin class PrimeDetector
-1 begin func PrimeDetector!main
+1 begin func main
 2 pop param, args
 3 t1 = 99567
 4 n = t1

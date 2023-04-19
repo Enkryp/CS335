@@ -1,5 +1,5 @@
 0 begin class functionandIfElse
-1 begin func functionandIfElse!function1
+1 begin func functionandIfElse_function1
 2 t1 = 0
 3 j = t1
 4 stackpointer + 4
@@ -9,9 +9,9 @@
 8 return t2
 9 stackpointer - 8
 10 end func
-11 begin func functionandIfElse!main
+11 begin func main
 12 pop param, args
-13 t3 = call, functionandIfElse!function1
+13 t3 = call, functionandIfElse_function1
 14 t4 = 5
 15 t6 = 8
 16 t5 = t4 *int t6

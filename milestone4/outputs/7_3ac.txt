@@ -1,11 +1,11 @@
 0 begin class EuclidsAlgorithm
-1 t1 = 100
-2 non a1
+1 non a1
+2 t1 = 100
 3 a1 = t1
-4 t2 = 134
-5 non b1
+4 non b1
+5 t2 = 134
 6 b1 = t2
-7 begin func EuclidsAlgorithm!f1
+7 begin func EuclidsAlgorithm_f1
 8 pop param, b
 9 pop param, a
 10 t3 = a +int b
@@ -15,10 +15,10 @@
 14 stackpointer - 0
 15 end class
 16 begin class E2
-17 t4 = 0
-18 non aa
+17 non aa
+18 t4 = 0
 19 aa = t4
-20 begin func E2!main
+20 begin func main
 21 pop param, args
 22 e2 = class ( E2 )
 23 stackpointer + 4

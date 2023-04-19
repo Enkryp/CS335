@@ -1,5 +1,5 @@
 0 begin class EuclidsAlgorithm
-1 begin func EuclidsAlgorithm!findGCD
+1 begin func EuclidsAlgorithm_findGCD
 2 pop param, b
 3 pop param, a
 4 t1 = 0
@@ -14,12 +14,12 @@
 13 t5 = a %int b
 14 push param b
 15 push param t5
-16 t6 = call, EuclidsAlgorithm!findGCD
+16 t6 = call, EuclidsAlgorithm_findGCD
 17 return t6
 18 stackpointer - 0
 19 stackpointer - 0
 20 end func
-21 begin func EuclidsAlgorithm!main
+21 begin func main
 22 pop param, args
 23 t7 = 100
 24 num1 = t7
@@ -29,7 +29,7 @@
 28 stackpointer + 4
 29 push param num1
 30 push param num2
-31 t9 = call, EuclidsAlgorithm!findGCD
+31 t9 = call, EuclidsAlgorithm_findGCD
 32 gcd = t9
 33 stackpointer + 4
 34 print gcd
