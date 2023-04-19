@@ -31,7 +31,13 @@ void object_error(string name1, string name2, int lineno){
 
 void object_error_func(string name1, string name2, int lineno){
 
-    cout<<"Illegal function "+name2+" of object "+name1+" at line "<<lineno<<"\n";
+    cout<<"Error: Illegal function "+name2+" of object "+name1+" at line "<<lineno<<"\n";
+    exit(0);
+
+}
+void object_error_constructor(string name1, int lineno){
+
+    cout<<"Error: Illegal creation of object of class "+name1+" at line "<<lineno<<". No such constructor found\n";
     exit(0);
 
 }
@@ -423,13 +429,16 @@ ll varaddrstoint (string s){
 }
 struct objdetails{
     bool ismethod = false;
+    // add isconstructor field
     bool isfield = false;
     methodsig method;
     fieldsig field;
 };
 
+// Modify to make arguments as objname, method name, argumentlist
+// make another function for fields. arguments are objname and methodname 
 objdetails getobjdetails(string obj, string name){
-    string cls = symboltable[obj].typ.name;     /* two objects with same name in different class*/
+    string cls = symboltable[obj].typ.name;     /* two objects with same name in different class - symoboltable gets cleared after current class ends. name is method name*/
     objdetails o;
 
     // if()
