@@ -215,7 +215,8 @@ void add_static(vector<string> &code, int start, vector<string> &var_name){
 void add_non_static(vector<string> &code, int start, vector<string> &var_name){
 
     vector<string> temp;
-    for(int i=start;i<code.size();i++)
+    int n = code.size();
+    for(int i=start;i<n;i++)
     {
         temp.push_back(code.back());
         code.pop_back();

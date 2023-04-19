@@ -1083,8 +1083,8 @@ METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN   {   $$ = new_temp();
                                                         type_check_function(name,types,yylineno);    // takes in name of function and types of parameters
                                                         ds[curr]["start"] = numtostring(code.size());
                                                         if(ds[curr]["type"]!="void")
-                                                        code.push_back(ds[curr]["var"]+" = call, "+curr_class+"!"+name);
-                                                        else code.push_back("call, "+curr_class+"!"+name);
+                                                        code.push_back(ds[curr]["var"]+" = call, "+curr_class+"_"+name);
+                                                        else code.push_back("call, "+curr_class+"_"+name);
 }
                  |  METHODNAME OPENPARAN ARGUMENTLIST CLOSEPARAN    {   $$ = new_temp();
                                                         // cout<<"passes here\n";
@@ -1102,9 +1102,9 @@ METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN   {   $$ = new_temp();
                                                         ds[curr]["start"] = numtostring(code.size());
                                                         if(ds[curr]["type"]!="void"){
                                                         ds[curr]["var"] = new_var();
-                                                        code.push_back(ds[curr]["var"]+" = call, "+curr_class+"!"+name);
+                                                        code.push_back(ds[curr]["var"]+" = call, "+curr_class+"_"+name);
                                                         }
-                                                        else code.push_back("call, "+curr_class+"!"+name);
+                                                        else code.push_back("call, "+curr_class+"_"+name);
 }
                  |	IDENTIFIER DOT IDENTIFIER OPENPARAN CLOSEPARAN  {   /* Method invocation using object?  */
                                                           $$ = new_temp();
@@ -1846,14 +1846,18 @@ METHODDECLARATOR: IDENTIFIER OPENPARAN CLOSEPARAN  {$$ = new_temp(); generalmap[
                                         method_det[curr_class][chartostring($1)].start = code.size(); 
                                         ds[curr]["start"] = numtostring(code.size());
                                         ds[curr]["method_name"] = chartostring($1);
-                                        code.push_back("begin func "+curr_class+"!"+chartostring($1));
+                                        if(chartostring($1)!="main")
+                                        code.push_back("begin func "+curr_class+"_"+chartostring($1));
+                                        else code.push_back("begin func "+chartostring($1));
                                         // cout<<"methodhead "<<ds[chartonum($$)]["method_name"]<<"\n";
                                         }
                 |   IDENTIFIER OPENPARAN FORMALPARAMETERLIST CLOSEPARAN {$$ = new_temp(); generalmap[$$]= generalmap[$3]; generalmap[$$].num = 0; generalmap[$$].name = chartostring($1);int curr = chartonum($$), curr3 = chartonum($3);
                 method_det[curr_class][chartostring($1)].start = code.size(); 
                                         ds[curr]["start"] = numtostring(code.size());
                                         ds[curr]["method_name"] = chartostring($1);
-                                        code.push_back("begin func "+curr_class+"!"+chartostring($1));
+                                        if(chartostring($1)!="main")
+                                        code.push_back("begin func "+curr_class+"_"+chartostring($1));
+                                        else code.push_back("begin func "+chartostring($1));
                                         reverse(ds2[curr3]["param"].begin(),ds2[curr3]["param"].end());
                                         for(auto i:ds2[curr3]["param"])
                                         code.push_back("pop param, "+ i);
