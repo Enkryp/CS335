@@ -1,6 +1,7 @@
 Token, Name(Lexeme), Type, Line Number, Scope, Dims(If array), ScopeINFO(Child), ScopeINFO(Parent), Offsets
 IDENTIFIER, args, String, 4, 3, 1, 0
 identifier - method ofscopes, main, void, 4, -1, 0, 0
+identifier - method ofscopes, main, void, 4, 0, 0, 0
 IDENTIFIER, x, int, 29, 3, 0, 0
 IDENTIFIER, x, int, 5, 4, 0, 0
 IDENTIFIER, x, int, 11, 6, 0, 0

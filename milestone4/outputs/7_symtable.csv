@@ -8,7 +8,9 @@ identifier - field ofEuclidsAlgorithm, b1, int, 3, -1, 0, 0
 IDENTIFIER, e2, E2, 15, 5, 0, 0
 IDENTIFIER, euclidsAlgorithm, EuclidsAlgorithm, 16, 5, 0, 4
 identifier - method ofEuclidsAlgorithm, f1, int, 4, -1, 0, 0
+identifier - method ofEuclidsAlgorithm, f1, int, 4, 0, 0, 0
 identifier - method ofE2, main, void, 14, -1, 0, 0
+identifier - method ofE2, main, void, 14, 0, 0, 0
 , , , , , , 1, 0, 
 , , , , , , 2, 1, 
 , , , , , , 3, 2, 

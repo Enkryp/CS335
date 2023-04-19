@@ -9,6 +9,7 @@ IDENTIFIER, e, int, 20, 5, 0, 32
 IDENTIFIER, e, int, 23, 6, 0, 32
 IDENTIFIER, f, int, 25, 7, 0, 32
 identifier - method offunctionandIfElse, function1, int, 3, -1, 0, 0
+identifier - method offunctionandIfElse, function1, int, 3, 0, 0, 0
 IDENTIFIER, j, int, 4, 3, 0, 0
 IDENTIFIER, k, int, 5, 3, 0, 4
 identifier - method offunctionandIfElse, main, void, 10, -1, 0, 0

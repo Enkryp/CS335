@@ -717,7 +717,7 @@ for line in data:
 out.append("""
 
 format:
-        .ascii  "%lld\\n"
+        .ascii  "%ld\\n"
 
 """)
             

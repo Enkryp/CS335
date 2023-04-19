@@ -1,53 +1,62 @@
-0 begin func main
-1 t1 = 10
-2 t2 = 100
-3 t3 = t1 *int t2
-4 t4 = t3 * 4
-5 a = array ( t4 )
-6 stackpointer + 4000
-7 t5 = 0
-8 t6 = 0
-9 t8 = t5 * t2
-10 t9 = t8 + t6
-11 t7 = t9 * 4
-12 b = a[t7]
-13 stackpointer + 4
-14 t10 = 4
-15 t11 = 5
-16 t13 = t10 * t2
-17 t14 = t13 + t11
-18 t12 = t14 * 4
-19 a[ t12 ] = b
-20 t15 = 0
-21 i = t15
-22 stackpointer + 4
-23 t16 = 10
-24 t17 = i < t16
-25 if t17 goto  27
-26 goto  48
-27 t19 = 0
-28 j = t19
-29 stackpointer + 4
-30 t20 = 100
-31 t21 = j < t20
-32 if t21 goto  34
-33 goto  43
-34 t24 = i * t2
-35 t25 = t24 + j
-36 t23 = t25 * 4
-37 t26 = i +int j
-38 a[ t23 ] = t26
-39 stackpointer - 0
-40 t22 = j
-41 j = t22 +1
-42 goto 30
-43 stackpointer - 4
-44 stackpointer - 0
-45 t18 = i
-46 i = t18 +1
-47 goto 23
-48 stackpointer - 4
-49 stackpointer - 4004
-50 pop param, args
-51 end func
+0 begin class MultiArrayAccess
+1 begin func MultiArrayAccess!main
+2 pop param, args
+3 t1 = 10
+4 t2 = 100
+5 t3 = t1 *byte t2
+6 t5 = 8
+7 t4 = t3 *int t5
+8 a = array ( t4 )
+9 stackpointer + 4000
+10 t6 = 0
+11 t7 = 8
+12 t8 = t6 *int t7
+13 t9 = 0
+14 t10 = t8 *int t2
+15 t11 = t10 + t9
+16 t12 = a [ t11 ]
+17 b = t12
+18 stackpointer + 4
+19 t13 = 4
+20 t14 = 8
+21 t15 = t13 *int t14
+22 t16 = 5
+23 t17 = t15 *int t2
+24 t18 = t17 + t16
+25 a [ t18 ] = b
+26 t19 = 0
+27 i = t19
+28 stackpointer + 4
+29 t20 = 10
+30 t21 = i < t20
+31 if t21 goto  33
+32 goto  57
+33 t24 = 0
+34 j = t24
+35 stackpointer + 4
+36 t25 = 100
+37 t26 = j < t25
+38 if t26 goto  40
+39 goto  51
+40 t29 = 8
+41 t30 = i *int t29
+42 t31 = t30 *int t2
+43 t32 = t31 + j
+44 t33 = i +int j
+45 a [ t32 ] = t33
+46 stackpointer - 0
+47 t27 = j
+48 t28 = 1
+49 j = t27 +int t28
+50 goto 36
+51 stackpointer - 4
 52 stackpointer - 0
+53 t22 = i
+54 t23 = 1
+55 i = t22 +int t23
+56 goto 29
+57 stackpointer - 4
+58 stackpointer - 4004
+59 end func
+60 stackpointer - 0
+61 end class

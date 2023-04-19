@@ -1,46 +1,11 @@
-0 begin func main
-1 t1 = 1000
-2 n = t1
-3 stackpointer + 4
-4 t2 = 1
-5 t3 = n +int t2
-6 t4 = t3 * 8
-7 sums = array ( t4 )
-8 stackpointer + 0
-9 t5 = 0
-10 t6 = 0
-11 t7 = 0
-12 t8 = t6 +int t7
-13 sums [ t5 ] = t8
-14 t9 = 0
-15 t10 = 0
-100 t100 = sums [ t10 ]
-101 t101 = sums [ t100 ]
-16 sums [ t9 ] = t101
-17 t11 = 1
-18 i = t11
-19 stackpointer + 4
-20 t12 = i <= n
-21 if t12 goto  23
-22 goto  33
-23 t14 = 1
-24 t15 = i -int t14
-177 t177 = t15 * 8
-25 t16 = i *int i
-26 t17 = t16 *int i
-147 t147 = sums [ t177 ]
-27 t18 = t147 +int t17
-299 t299 = i * 8
-28 sums [ t299 ] = t18
-29 stackpointer - 0
-30 t13 = 1
-31 i += t13
-32 goto 20
-33 stackpointer - 4
-131 t131 = n * 8 
-130 t130 = sums [ t131 ]
-34 print t130
-35 stackpointer - 4
-36 pop param, args
-37 end func
-38 stackpointer - 0
+0 begin class SumOfCubes
+1 begin func SumOfCubes!main
+2 pop param, args
+3 t1 = 1000
+4 n = t1
+5 stackpointer + 4
+6 print n
+7 stackpointer - 4
+8 end func
+9 stackpointer - 0
+10 end class

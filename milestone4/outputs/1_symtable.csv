@@ -3,6 +3,7 @@ IDENTIFIER, args, String, 3, 3, 1, 0
 IDENTIFIER, i, int, 10, 4, 0, 8
 IDENTIFIER, isPrime, int, 6, 3, 0, 4
 identifier - method ofPrimeDetector, main, void, 3, -1, 0, 0
+identifier - method ofPrimeDetector, main, void, 3, 0, 0, 0
 IDENTIFIER, n, int, 4, 3, 0, 0
 , , , , , , 1, 0, 
 , , , , , , 2, 1, 
