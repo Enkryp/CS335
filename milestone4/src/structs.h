@@ -99,7 +99,7 @@ struct formalarg
 
         vector<type> argtype;
         bool operator<(const constsig& other) const{
-            return rettype.dims<other.rettype.dims;
+            return argtype.size()<other.argtype.size();
         }
     };
     
@@ -143,23 +143,23 @@ map<pair<string,string>, fieldsig> preservedfields;
     map<pair<string,string>, vector <constsig>> preservedconst;
 
 
-pair<string, string> getrettype (string methodname, vector<string> argtype){
-    ll ii =0;
-    for (auto x : polymethods[methodname]){
-        ii++;
-        if (x.argtype.size()==argtype.size()){
-            bool flag=true;
-            for (ll i=0;i<x.argtype.size();i++){
-                if (x.argtype[i].name!=argtype[i]){
-                    flag=false;
-                    break;
-                }
-            }
-            if (flag) return {x.rettype.name, numtostring(ii)};
-        }
+// pair<string, string> getrettype (string methodname, vector<string> argtype){
+//     ll ii =0;
+//     for (auto x : polymethods[methodname]){
+//         ii++;
+//         if (x.argtype.size()==argtype.size()){
+//             bool flag=true;
+//             for (ll i=0;i<x.argtype.size();i++){
+//                 if (x.argtype[i].name!=argtype[i]){
+//                     flag=false;
+//                     break;
+//                 }
+//             }
+//             if (flag) return make_pair({x.rettype.name, numtostring(ii)});
+//         }
 
-    }
-}
+//     }
+// }
 
 map<string , map<string, fieldsig>> classfields;
 map<string , map<string, methodsig>> classmethods;
@@ -195,6 +195,38 @@ for (auto x : symboltable){
         }
  }
 
+void add_static(vector<string> &code, int start, vector<string> &var_name){
+    // return ;
+    vector<string> temp;
+    int n = code.size();
+    for(int i=start;i<n;i++)
+    {
+        temp.push_back(code.back());
+        code.pop_back();
+    }
+    // for(int i)
+    for(auto i:var_name)
+    code.push_back("static "+i);
+    for(int i=temp.size()-1;i>=0;i--){
+        code.push_back(temp[i]);
+    }
+}
+
+void add_non_static(vector<string> &code, int start, vector<string> &var_name){
+
+    vector<string> temp;
+    for(int i=start;i<code.size();i++)
+    {
+        temp.push_back(code.back());
+        code.pop_back();
+    }
+    for(auto i:var_name)
+    code.push_back("non "+i);
+    for(int i=temp.size()-1;i>=0;i--){
+        code.push_back(temp[i]);
+    }
+}
+
  map<ll, map<string,vector<string>>> ds2;
 
 void printmethodstable(){
@@ -222,10 +254,10 @@ void printpolymethodstable(){
 vector <pair<string, vector <string>>> to_check_functions;
 
 
- void type_check_function(string name, vector<string> types){
+ void type_check_function(string name, vector<string> types, int yylineno){
 
 if(methods.find(name)==methods.end()){
-    to_check_functions.push_back({name,types});
+    // to_check_functions.push_back({name,types});
     return;
 }
 
@@ -234,44 +266,53 @@ if(methods.find(name)==methods.end()){
     // for (auto x : types){
     //     cout<<x<<" ";
     // }
-    assert(m.argtype.size()==types.size());
-    for (ll i=0;i<types.size();i++){
-        assert(m.argtype[i].name==types[i]);
+    // cout<<m.argtype.size()<<"\n";
+    // cout<<types.size()<<"\n";
+    // assert(m.argtype.size()==types.size());
+    if(m.argtype.size()!=types.size()){
+        cout<<"Error: actual and formal argument lists differ in size at line number "<<yylineno<<"\n";
+        exit(0);
     }
- }
-
-  void type_check_function_poly(string name, vector<string> types){
-
-if(methods.find(name)==methods.end()){
-    // TODO: check 
-    cout << "function not found at line "<<yylineno << endl;
-    assert(0 && "declare func before use");
-    return;
-}
-
-    vector <methodsig> m=methods[name];
-    // cout<<name<<endl;
-    // for (auto x : types){
-    //     cout<<x<<" ";
-    // }
-    bool isval = false;
-    for (auto x : m){
-        if (x.argtype.size()==types.size()){
-            isval = true;
-            
-            for (ll i=0;i<types.size();i++){
-                if(x.argtype[i].name!=types[i]){
-                    isval = false;
-                    break;
-                }
-            }
+    for (ll i=0;i<types.size();i++){
+        if(m.argtype[i].name!=types[i]){
+            cout<<"Error: incompatible types in function call at line number "<<yylineno<<".\n";
+        exit(0);
         }
     }
-    if (!isval){
-        cout << "function argument list not valid at line "<<yylineno << endl;
-        assert(0 && "use proper function arglist");
-    }
  }
+
+//   void type_check_function_poly(string name, vector<string> types){
+
+// if(methods.find(name)==methods.end()){
+//     // TODO: check 
+//     cout << "function not found at line "<<yylineno << endl;
+//     assert(0 && "declare func before use");
+//     return;
+// }
+
+//     vector <methodsig> m=methods[name];
+//     // cout<<name<<endl;
+//     // for (auto x : types){
+//     //     cout<<x<<" ";
+//     // }
+//     bool isval = false;
+//     for (auto x : m){
+//         if (x.argtype.size()==types.size()){
+//             isval = true;
+            
+//             for (ll i=0;i<types.size();i++){
+//                 if(x.argtype[i].name!=types[i]){
+//                     isval = false;
+//                     break;
+//                 }
+//             }
+//         }
+//     }
+//     if (!isval){
+//         cout << "function argument list not valid at line "<<yylineno << endl;
+//         assert(0 && "use proper function arglist");
+//     }
+//  }
 
  void type_check_function_obj(vector<type> argtype, vector<string> types){
     
@@ -538,14 +579,30 @@ objdetails getobjdetails(string obj, string name){
     
     return o;
     }
-
-struct objdetails{
-    bool ismethod = false;
-    // add isconstructor field
-    bool isfield = false;
-    methodsig method;
-    fieldsig field;
+struct consinfo{
+    bool isconstructor = false;
+    constsig cons;
 };
+
+consinfo getconstructordetails(string class_name){
+
+    consinfo x;
+    // cout<<class_name<<"\n";
+     if(constructors.find(class_name)!=constructors.end()){
+        x.isconstructor = true;
+        x.cons = constructors[class_name][0];
+     }
+     return x;
+
+
+}
+// struct objdetails{
+//     bool ismethod = false;
+//     // add isconstructor field
+//     bool isfield = false;
+//     methodsig method;
+//     fieldsig field;
+// };
 
 // Modify to make arguments as objname, method name, argumentlist
 // make another function for fields. arguments are objname and methodname 
