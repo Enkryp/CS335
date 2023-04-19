@@ -932,7 +932,10 @@ LEFTHANDSIDE    :   EXPRESSIONNAME    {$$ = $1;}
                 // ds[chartonum($$)] = ds[chartonum($1)];
                                     // ds[chartonum($$)]["var"]  = new_var();
                                     // code.push_back(ds[chartonum($$)]["var"]+" = "+ds[chartonum($$)]["array"]+" [ "+ds[chartonum($1)]["var"]+" ]");
-                                    ds[chartonum($$)]["var"] = ds[chartonum($$)]["array"]+" [ "+ds[chartonum($1)]["var"]+" ]";
+                                    string t = new_var(), t2 = new_var();
+                                    code.push_back(t+" = 8");
+                                    code.push_back(t2+" = "+ds[chartonum($1)]["var"]+" *int "+t);
+                                    ds[chartonum($$)]["var"] = ds[chartonum($$)]["array"]+" [ "+t2+" ]";
                 }
 
 ASSIGNMENTOPERATOR  :  EQUALS {$$ = new_temp();int curr = chartonum($$);
@@ -962,8 +965,11 @@ PRIMARY: PRIMARYNONEWARRAY  {
                             if(ds[chartonum($1)].find("array")!=ds[chartonum($1)].end()){
                                     $$ = new_temp();
                                     ds[chartonum($$)] = ds[chartonum($1)];
+                                    string t = new_var(), t2 = new_var();
+                                    code.push_back(t+" = 8");
+                                    code.push_back(t2+" = "+ds[chartonum($1)]["var"]+" *int "+t);
                                     ds[chartonum($$)]["var"]  = new_var();
-                                    code.push_back(ds[chartonum($$)]["var"]+" = "+ds[chartonum($$)]["array"]+" [ "+ds[chartonum($1)]["var"]+" ]");
+                                    code.push_back(ds[chartonum($$)]["var"]+" = "+ds[chartonum($$)]["array"]+" [ "+t2+" ]");
                             }else $$ = $1;
                             // ds[chartonum($$)]["var"] = ds[chartonum($$)]["array"]+"["+ds[chartonum($1)]["var"]+"]"; 
                             }
@@ -1016,9 +1022,9 @@ UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION:     NEW CLASSORINTERFACETYPETOINSTAN
                                                             vector<string> types;
                                                    /*CONS*/     consinfo detail = getconstructordetails(class_name);
                                                         // ds[curr]["pref"] = new_var2();
+                                                        ds[curr]["start"] = numtostring(code.size());
                                                         if(detail.isconstructor){    // pref is still not initialised here
                                                             type_check_function_obj(yylineno,detail.cons.argtype,types);     // takes in name of function and types of parameters
-                                                            ds[curr]["start"] = numtostring(code.size());
                                                             ds[curr]["isconstructor"] = "true";
                                                             // cout<<"YES\n";
                                                             // ds2[curr].push_back("call, "+ds[curr]["pref"]+ds[chartonum($$)][var]);
@@ -1042,10 +1048,10 @@ UNQUALIFIEDCLASSINSTANCECREATIONEXPRESSION:     NEW CLASSORINTERFACETYPETOINSTAN
                                                         // ds[curr]["pref"] = new_var2();
                                                         if(detail.isconstructor){    // pref is still not initialised here
                                                             type_check_function_obj(yylineno,detail.cons.argtype,types);    // takes in name of function and types of parameters
-                                                            ds[curr]["start"] = numtostring(code.size());
+                                                            ds[curr]["start"] = ds[curr4]["start"];
                                                             ds[curr]["isconstructor"] = "true";
                                                             for(auto i:ds2[curr4]["var"])
-                                                            ds2[curr]["cons_code"].push_back("push_param "+i);
+                                                            ds2[curr]["cons_code"].push_back("push param "+i);
                                                             // code.push_back("call, "+ds[curr]["pref"]+ds[chartonum($$)][var]);
                                                         }else{
                                                             object_error_constructor(class_name,yylineno);
@@ -1097,9 +1103,9 @@ METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN   {   $$ = new_temp();
                                                             types.push_back(i);
                                                         }
                                                         type_check_function(name,types,yylineno);    // takes in name of function and types of parameters
+                                                        ds[curr]["start"] = ds[curr3]["start"];
                                                         for(auto i:ds2[curr3]["var"])
                                                         code.push_back("push param "+i);
-                                                        ds[curr]["start"] = numtostring(code.size());
                                                         if(ds[curr]["type"]!="void"){
                                                         ds[curr]["var"] = new_var();
                                                         code.push_back(ds[curr]["var"]+" = call, "+curr_class+"_"+name);
@@ -1151,7 +1157,7 @@ METHODINVOCATION: METHODNAME OPENPARAN CLOSEPARAN   {   $$ = new_temp();
                                                         ds[curr]["type"] = detail.method.rettype.name;;
                                                         // cout<<"curr typed "<<ds[curr]["type"]<<"\n";
                                                         type_check_function_obj(yylineno,detail.method.argtype,types);    // takes in name of function and types of parameters
-                                                        ds[curr]["start"] = numtostring(code.size());
+                                                        ds[curr]["start"] = ds[curr5]["start"];
                                                         for(auto i:ds2[curr5]["var"])
                                                         code.push_back("push param "+i);
                                                         if(ds[curr]["type"]!="void")
@@ -1256,11 +1262,11 @@ ARRAYACCESS: EXPRESSIONNAME OPENSQUARE EXPRESSION CLOSESQUARE
                 ds[curr]["dims"] = "0";
                 ds[curr]["array"] = name;
                 ds[curr]["start"] = ds[curr3]["start"];
-                string t = new_var();
-                ds[curr]["var"] = new_var();
-                code.push_back(t+" = 8");
+                // string t = new_var();
+                ds[curr]["var"] = ds[curr3]["var"];
+                // code.push_back(t+" = 8");
                 // code.push_back(t+" = "+numtostring(gettypesize(ds[curr3]["var"])));
-                code.push_back(ds[curr]["var"]+" = "+ds[curr3]["var"]+" *int "+t);
+                // code.push_back(ds[curr]["var"]+" = "+ds[curr3]["var"]+" *int "+t);
                 ds[curr]["type"] = symboltable[name].typ.name;
                 if(ds[curr3]["type"]!="int"&&ds[curr3]["type"]!="long"&&ds[curr3]["type"]!="short"&&ds[curr3]["type"]!="byte")
                 cout<<"Array index not integer\n";
