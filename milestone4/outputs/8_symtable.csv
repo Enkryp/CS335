@@ -2,6 +2,7 @@ Token, Name(Lexeme), Type, Line Number, Scope, Dims(If array), ScopeINFO(Child),
 IDENTIFIER, args, String, 2, 3, 1, 0
 IDENTIFIER, i, int, 7, 4, 0, 8
 identifier - method ofSumOfCubes, main, void, 2, -1, 0, 0
+identifier - method ofSumOfCubes, main, void, 2, 0, 0, 0
 IDENTIFIER, n, int, 4, 3, 0, 0
 IDENTIFIER, sum, int, 6, 3, 0, 4
 , , , , , , 1, 0, 

@@ -3,6 +3,7 @@ IDENTIFIER, a, int, 3, 3, 0, -8
 IDENTIFIER, args, String, 12, 6, 1, 0
 IDENTIFIER, b, int, 3, 3, 0, -4
 identifier - method ofEuclidsAlgorithm, findGCD, int, 3, -1, 0, 0
+identifier - method ofEuclidsAlgorithm, findGCD, int, 3, 0, 0, 0
 IDENTIFIER, gcd, int, 17, 6, 0, 8
 identifier - method ofEuclidsAlgorithm, main, void, 12, -1, 0, 0
 IDENTIFIER, num1, int, 13, 6, 0, 0

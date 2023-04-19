@@ -1,37 +1,39 @@
-0 begin func findGCD
-1 t1 = 0
-2 if b == t1 goto  4
-3 goto  6
-4 return a
-5 stackpointer - 0
-6 t3 = 0
-7 t4 = b != t3
-8 if t4 goto  10
-9 goto  16
-10 t5 = a %int b
-11 push param b
-12 push param t5
-13 t6 = call, findGCD
-14 return t6
-15 stackpointer - 0
-16 stackpointer - 0
-17 pop param, a
-18 pop param, b
-19 end func
-20 begin func main
-21 t7 = 100
-22 num1 = t7
-23 stackpointer + 4
-24 t8 = 134
-25 num2 = t8
-26 stackpointer + 4
-27 push param num1
-28 push param num2
-29 t9 = call, findGCD
-30 gcd = t9
-31 stackpointer + 4
-32 print gcd
-33 stackpointer - 12
-34 pop param, args
-35 end func
-36 stackpointer - 0
+0 begin class EuclidsAlgorithm
+1 begin func EuclidsAlgorithm!findGCD
+2 pop param, b
+3 pop param, a
+4 t1 = 0
+5 if b == t1 goto  7
+6 goto  9
+7 return a
+8 stackpointer - 0
+9 t3 = 0
+10 t4 = b != t3
+11 if t4 goto  16
+12 goto  19
+13 t5 = a %int b
+14 push param b
+15 push param t5
+16 t6 = call, EuclidsAlgorithm!findGCD
+17 return t6
+18 stackpointer - 0
+19 stackpointer - 0
+20 end func
+21 begin func EuclidsAlgorithm!main
+22 pop param, args
+23 t7 = 100
+24 num1 = t7
+25 stackpointer + 4
+26 t8 = 134
+27 num2 = t8
+28 stackpointer + 4
+29 push param num1
+30 push param num2
+31 t9 = call, EuclidsAlgorithm!findGCD
+32 gcd = t9
+33 stackpointer + 4
+34 print gcd
+35 stackpointer - 12
+36 end func
+37 stackpointer - 0
+38 end class
