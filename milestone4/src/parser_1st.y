@@ -1846,14 +1846,14 @@ METHODDECLARATOR: IDENTIFIER OPENPARAN CLOSEPARAN  {$$ = new_temp(); generalmap[
                                         method_det[curr_class][chartostring($1)].start = code.size(); 
                                         ds[curr]["start"] = numtostring(code.size());
                                         ds[curr]["method_name"] = chartostring($1);
-                                        code.push_back("begin func "+curr_class+"_"+chartostring($1));
+                                        code.push_back("begin func "+curr_class+"!"+chartostring($1));
                                         // cout<<"methodhead "<<ds[chartonum($$)]["method_name"]<<"\n";
                                         }
                 |   IDENTIFIER OPENPARAN FORMALPARAMETERLIST CLOSEPARAN {$$ = new_temp(); generalmap[$$]= generalmap[$3]; generalmap[$$].num = 0; generalmap[$$].name = chartostring($1);int curr = chartonum($$), curr3 = chartonum($3);
                 method_det[curr_class][chartostring($1)].start = code.size(); 
                                         ds[curr]["start"] = numtostring(code.size());
                                         ds[curr]["method_name"] = chartostring($1);
-                                        code.push_back("begin func "+curr_class+"_"+chartostring($1));
+                                        code.push_back("begin func "+curr_class+"!"+chartostring($1));
                                         reverse(ds2[curr3]["param"].begin(),ds2[curr3]["param"].end());
                                         for(auto i:ds2[curr3]["param"])
                                         code.push_back("pop param, "+ i);
