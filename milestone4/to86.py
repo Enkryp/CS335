@@ -1,3 +1,6 @@
+from copy import deepcopy
+
+
 data =None
 with open ("./outputs/10_3ac.txt", "r") as myfile:
     data=myfile.readlines()
@@ -47,13 +50,14 @@ sample = """
 
 
 """
-
+curfield = ""
 curclass = ""
 curfunc = ""
 class2size={}
 class2offsetStatic={}
 class2offsetNon={}
-class2init = {}
+class2initstatic = {}
+class2initnonstatic = {}
 class2func={}
 var2class = {}
 classedvar2offset = {}
@@ -84,7 +88,11 @@ def move (a, b):
     if (a.find('.') != -1):
 
         parts = a.split('.')
-        classnow = var2class[parts[0]]
+        if(parts[0].startswith("static@base")):
+            classnow = parts[0][11:]
+            
+        else :
+            classnow = var2class[parts[0]]
         if (parts[1] in class2offsetStatic[classnow].keys()):
             off2pointer = class2offsetStatic[classnow][parts[1]]
             classpt = var2offset["static@base" + classnow]
@@ -132,7 +140,11 @@ def move2 (a, b):
         
         
         parts = b.split('.')
-        classnow = var2class[parts[0]]
+        if(parts[0].startswith("static@base")):
+            classnow = parts[0][11:]
+            
+        else :
+            classnow = var2class[parts[0]]
         if (parts[1] in class2offsetStatic[classnow].keys()):
             off2pointer = class2offsetStatic[classnow][parts[1]]
             classpt = var2offset["static@base" + classnow]
@@ -186,7 +198,8 @@ for line in data1:
         class2size[curclass] = 0
         class2offsetStatic[curclass] = {}
         class2offsetNon[curclass] = {}
-        class2init[curclass] = {}
+        class2initstatic[curclass] = {}
+        class2initnonstatic[curclass] = {}
         class2func[curclass] = {}
         continue
 
@@ -194,16 +207,12 @@ for line in data1:
 
         class2offsetStatic[curclass][elements[1]] = class2size[curclass]
         class2size[curclass] = class2size[curclass] + 8
-        if(len(elements) >= 4 and elements[2] == "="):
-            class2init[curclass][elements[1]] = elements[3:]
         continue
 
     if(elements[0] == "non"):
 
         class2offsetNon[curclass][elements[1]] = class2size[curclass]
         class2size[curclass] = class2size[curclass] + 8
-        if(len(elements) >= 4 and elements[2] == "="):
-            class2init[curclass][elements[1]] = elements[3:]
         continue
 
     
@@ -211,8 +220,153 @@ for line in data1:
 
     if(elements[0] == 'begin' and elements[1] == 'func'):
         class2func[curclass][elements[2]] = 1
+
+
+#1.5 parse
+data2 = data.copy()
+curstate =0
+
+for line in data2:
+    line = line.strip()
+    while(line.find("  ")!=-1):
+        line = line.replace("  ", " ")
+    elements = line.split()
+    if(len(elements)<=1):
+        continue
+    for i in range(len(elements)):
+        elements[i] = elements[i].strip()
+    elements= elements[1:]
+
+    if(elements[0] == "begin" and elements[1] == "class"):
+        curclass = elements[2]
+        class2initstatic[curclass] = {}
+        class2initnonstatic[curclass] = {}
+        continue
+    if(elements[0] == 'begin' and elements[1] == 'func'):
+        curfunc = elements[2]
+        continue
+    
+    if(elements[0] == 'end' and elements[1] == 'func'):
+        curfunc = ""
+        continue
+    
+    if(elements[0] == 'end' and elements[1] == 'class'):
+        curclass = ""
+        continue
+    
+    if(curfunc!= ''):
+        continue
+
+    if(elements[0] == "static"):
+        curstate = 1
+        curfield = elements[1]
+        class2initstatic[curclass][curfield] = []
+        continue
+
+    if(elements[0] == "non"):
+        curstate = 2
+        curfield = elements[1]
+        class2initnonstatic[curclass][curfield] = []
+        continue
+    
+    if(curstate == 1):
+
+        class2initstatic[curclass][curfield].append(elements)
+        continue
+
+    if(curstate == 2):
+
+        class2initnonstatic[curclass][curfield].append(elements)
+        continue
+
+
+# parse 1.75
+
+def staticinit():
+    lis =[]
+    for cls in class2initstatic.keys():
         
-      
+        for i in class2initstatic[cls].keys():
+            temp = class2initstatic[cls][i]
+            tempnew= []
+            for j in temp:
+                gg=[]
+                for elem in j:
+                    if(elem in class2initstatic[cls].keys()):
+                        gg.append("static@base"+cls+"."+ elem)
+                    
+                    else:   
+                        gg.append(elem)
+                tempnew.append(gg)
+            lis.extend(tempnew)
+    return lis
+
+           
+
+
+def nonstaticinit(obj, cls):
+    lis =[]
+    for i in class2initnonstatic[cls].keys():
+        temp = class2initnonstatic[cls][i]
+        tempnew= []
+        for j in temp:
+            gg=[]
+            for elem  in j:
+                if(elem in class2initnonstatic[cls].keys()):
+                    gg.append(obj+"."+ elem)
+                
+                else:   
+                    gg.append(elem)
+            tempnew.append(gg)
+        lis.extend(tempnew)
+    return lis
+
+
+
+
+extracount=0
+data4 = data.copy()
+data5=[]
+for line in data4:
+    line2= deepcopy(line)
+    line2 = line2.strip()
+    while(line2.find("  ")!=-1):
+        line2 = line2.replace("  ", " ")
+    elements = line2.split()
+    if(len(elements)<=1):
+        continue
+    for i in range(len(elements)):
+        elements[i] = elements[i].strip()
+    elements= elements[1:]
+
+    data5.append(line)
+
+
+    if(elements[0] == "begin" and elements[1] == "func" and elements[2] == "main"):
+        temp = staticinit()
+        for i in temp:
+                i.insert(0, str(2*len(data)+extracount))
+                extracount = extracount + 1
+                data5.append(" ".join(i))
+        
+
+
+
+        continue
+
+    if (elements[1]== '='):
+        if (elements[2]== 'class'):
+            temp = nonstaticinit(elements[0], elements[4])
+            # print(temp)
+            
+            for i in temp:
+                i.insert(0, str(2*len(data)+extracount))
+                extracount = extracount + 1
+                data5.append(" ".join(i))
+            continue
+    
+
+
 #second parse
 
 
@@ -230,13 +384,18 @@ out.append("""
 def callnew (a =0):
     global out
     out.append("mov %rbp, %rsp")
-    out.append("sub $" + str(-offset+8) + ", %rsp")
+    out.append("mov $" + str(-offset+8) + ", %r9")
+    out.append("shr $4, %r9")
+    out.append("add $1, %r9")
+    out.append("shl $4, %r9")
+
+    out.append("sub %r9, %rsp")
     # if(a==0):
     #     out.append("push %rax")
                
 
 
-for line in data:
+for line in data5:
     line = line.strip()
     while(line.find("  ")!=-1):
         line = line.replace("  ", " ")
@@ -297,12 +456,18 @@ for line in data:
         out.append("push %rbp")
         out.append("mov %rsp, %rbp")
         if(boolmain):
+            callnew()
             for i in class2size.keys():
+                
                 # use malloc 
                 out.append("mov $"+ str(class2size[i]) + ", %rdi")
                 out.append("call malloc")
                 out.append("mov %rax, %r10")
                 out.append("mov %r10, " + str(retaddr("static@base" + i)) + "(%rbp)")
+                # print(var2offset)
+            
+            
+
         if(curfunc != 'main'):
             classlist = list(class2size.keys())
             classlist.reverse()
@@ -439,7 +604,8 @@ for line in data:
             continue
         else :
             out.append("jmp L"+elements[1])
-    
+    if(curfunc==''):
+        continue
     if(elements[1]== '['):
         move(elements[0], "%rax")
         move(elements[2], "%rbx")
@@ -459,6 +625,7 @@ for line in data:
             out.append("mov $"+ str(class2size[elements[4]]) + ", %rdi")
             out.append("call malloc")
             move2("%rax", elements[0])
+
             continue
 
 
@@ -480,12 +647,9 @@ for line in data:
 
         # variable assignment
         elif (len(elements)==3):
-            if(curfunc!=""):
-                move (elements[2], "%rax")
-                move2("%rax", elements[0])
-            else :
-                class2init[curclass][elements[0]] = elements[2]
-
+            move (elements[2], "%rax")
+            move2("%rax", elements[0])
+            
         
 
         #array element to be  assigned
