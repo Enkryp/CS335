@@ -4715,7 +4715,7 @@ yyreduce:
                 // cout<<"index"<<i<<"\n";
                 // cout<<ds[curr]["array"]<<"\n";
                 // cout<<symboltable[ds[curr]["array"]].dims.size()<<"\n";
-                int bound = symboltable[ds[curr]["array"]].dims[i];
+                int bound = getdim(ds[curr]["array"],i);
              
                 string exp = dimtoid[-bound];
                 code.push_back(t+" = "+ds[curr1]["var"]+" *int "+exp);
@@ -4742,7 +4742,7 @@ yyreduce:
                 // code.push_back(t+" = 8");
                 // code.push_back(t+" = "+numtostring(gettypesize(ds[curr3]["var"])));
                 // code.push_back(ds[curr]["var"]+" = "+ds[curr3]["var"]+" *int "+t);
-                ds[curr]["type"] = symboltable[name].typ.name;
+                ds[curr]["type"] = gettypenew(name);
                 if(ds[curr3]["type"]!="int"&&ds[curr3]["type"]!="long"&&ds[curr3]["type"]!="short"&&ds[curr3]["type"]!="byte")
                 cout<<"Array index not integer\n";
                 // code.push_back(ds[curr]["var"]+" = "+ds[curr3]["var"]);

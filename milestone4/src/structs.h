@@ -1,7 +1,7 @@
 #define ll long long
 ll gbdimid=1000;
 
-
+extern "C" int yylineno;
 set <string> listofclasses; 
 map<string, ll> tempinitval;
 
@@ -721,6 +721,31 @@ void add_func(vector<string> &code, string pref, int start, int end){
     }
 
 }
+ll getdim(string s, ll dim){
+
+    if(symboltable.find(s)!=symboltable.end()){
+        return symboltable[s].dims[dim];
+    }
+    else if(fields.find(s)!=fields.end()){
+        // cout<<fields[s].dims.size()<<endl;
+        return fields[s].dims[dim];
+    }
+    else {
+        cout<<"Not found in symtable at line"<<yylineno<<" "<<s<<endl;
+        assert(0 && "array to be accesed not in symtable");
+    };
+}
+string gettypenew (string s){
+
+    if(symboltable.find(s)!=symboltable.end()){
+        return symboltable[s].typ.name;
+    }
+    else if(fields.find(s)!=fields.end()){
+        return fields[s].typ.name;
+    }
+    else return "int";
+}
+
 ll gettypesize(string s){
     // cout<<"TPYESIZEINV"<<s<<"NO"<<endl;
     // TODO bool boolean

@@ -237,6 +237,9 @@ for line in data2:
         elements[i] = elements[i].strip()
     elements= elements[1:]
 
+    if(elements[0]== "stackpointer"):
+        continue
+
     if(elements[0] == "begin" and elements[1] == "class"):
         curclass = elements[2]
         class2initstatic[curclass] = {}
@@ -267,6 +270,7 @@ for line in data2:
         curstate = 2
         curfield = elements[1]
         class2initnonstatic[curclass][curfield] = []
+        
         continue
     
     if(curstate == 1):
@@ -275,6 +279,7 @@ for line in data2:
         continue
 
     if(curstate == 2):
+        # print(class2initnonstatic[curclass], curfield, elements)
 
         class2initnonstatic[curclass][curfield].append(elements)
         continue
@@ -467,6 +472,10 @@ for line in data5:
                 out.append("mov %rax, %r10")
                 out.append("mov %r10, " + str(retaddr("static@base" + i)) + "(%rbp)")
                 # print(var2offset)
+            out.append("mov $"+ str(class2size[curclass]) + ", %rdi")
+            out.append("call malloc@plt")
+            out.append("mov %rax, %r10")
+            out.append("mov %r10, " + str(retaddr("my@base")) + "(%rbp)")
             
             
 
@@ -564,7 +573,7 @@ for line in data5:
                     out.append("push " + str(var2offset["static@base" + i]) + "(%rbp)")
               
                 
-                out.append("push %rax")
+                out.append("push " + str(var2offset['my@base']) + "(%rbp)")
                     
                 out.append("call " + elements[3])
                 move2("%rax", elements[0])
@@ -589,7 +598,7 @@ for line in data5:
                     out.append("push " + str(var2offset["static@base" + i]) + "(%rbp)")
               
                 
-                out.append("push %rax")
+                out.append("push " + str(var2offset['my@base']) + "(%rbp)")
                     
                 out.append("call " + elements[1])
                 
