@@ -543,7 +543,7 @@ for line in data5:
             boolenter=1
             callnew()
         boolenter =0
-        if(elements[2] == 'call,'):
+        if(len(elements)>2 and elements[2] == 'call,'):
 
             if (elements[3].find('.')!=-1):
                 # TODO
@@ -569,9 +569,30 @@ for line in data5:
                 out.append("call " + elements[3])
                 move2("%rax", elements[0])
         else :
-            out.append("call " + elements[1])
-            # TODO cases where needed 
-       
+
+            if (elements[1].find('.')!=-1):
+                # TODO
+                parts = elements[1].split('.')
+                classlist = list(class2size.keys())
+                for i in classlist:
+                    # push var2offset["static@base" + i] to stack 
+                    out.append("push " + str(var2offset["static@base" + i]) + "(%rbp)")
+                
+                out.append("push " + str(var2offset[parts[0]]) + "(%rbp)")
+                out.append("call " + var2class[parts[0]] + "_" + parts[1])
+                
+
+            else :
+                classlist = list(class2size.keys())
+                for i in classlist:
+                    # push var2offset["static@base" + i] to stack 
+                    out.append("push " + str(var2offset["static@base" + i]) + "(%rbp)")
+              
+                
+                out.append("push %rax")
+                    
+                out.append("call " + elements[1])
+                
 
     if (elements[0]== 'print'):
         callnew()

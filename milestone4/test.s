@@ -20,20 +20,25 @@ mov %rsp, %rbp
 L8:
 L9:
 L10:
-mov 40(%rbp), %rax
-mov 48(%rbp), %rbx
-add %rbx, %rax
+mov $2, %rax
 mov %rax, -8(%rbp)
 L11:
 mov -8(%rbp), %rax
-leave
-ret
+mov 16(%rbp), %r10
+mov %rax, 0(%r10)
 L12:
+mov 40(%rbp), %rax
+mov 48(%rbp), %rbx
+add %rbx, %rax
+mov %rax, -16(%rbp)
 L13:
+mov -16(%rbp), %rax
 leave
 ret
 L14:
 L15:
+leave
+ret
 L16:
 L17:
 L18:
@@ -42,6 +47,23 @@ L20:
 L21:
 L22:
 L23:
+L24:
+L25:
+E2_f1:
+push %rbp
+mov %rsp, %rbp
+L26:
+mov $10, %rax
+mov %rax, -8(%rbp)
+L27:
+mov -8(%rbp), %rax
+mov 16(%rbp), %r10
+mov %rax, 0(%r10)
+L28:
+L29:
+leave
+ret
+L30:
 main:
 sub $16, %rsp
 mov %rsp, %rbp
@@ -61,16 +83,16 @@ mov $16, %rdi
 call malloc@plt
 mov %rax, %r10
 mov %r10, -16(%rbp)
-L78:
+L80:
 mov $10, %rax
 mov %rax, -24(%rbp)
-L79:
+L81:
 mov -24(%rbp), %rax
 mov -16(%rbp), %r10
 mov %rax, 8(%r10)
-L80:
-L24:
-L25:
+L82:
+L31:
+L32:
 mov %rbp, %rsp
 mov $40, %r9
 shr $4, %r9
@@ -80,86 +102,41 @@ sub %r9, %rsp
 mov $16, %rdi
 call malloc@plt
 mov %rax, -32(%rbp)
-L81:
+L83:
 mov $0, %rax
 mov %rax, -40(%rbp)
-L82:
+L84:
 mov -40(%rbp), %rax
 mov -32(%rbp), %r10
 mov %rax, 0(%r10)
-L26:
-L27:
+L33:
+L34:
 mov %rbp, %rsp
 mov $56, %r9
 shr $4, %r9
 add $1, %r9
 shl $4, %r9
 sub %r9, %rsp
-mov $16, %rdi
-call malloc@plt
-mov %rax, -48(%rbp)
-L83:
-mov $100, %rax
-mov %rax, -56(%rbp)
-L84:
-mov -56(%rbp), %rax
-mov -48(%rbp), %r10
-mov %rax, 0(%r10)
-L85:
-mov $134, %rax
-mov %rax, -64(%rbp)
-L86:
-mov -64(%rbp), %rax
-mov -48(%rbp), %r10
-mov %rax, 8(%r10)
-L87:
-L28:
-L29:
-mov %rbp, %rsp
-mov $80, %r9
-shr $4, %r9
-add $1, %r9
-shl $4, %r9
-sub %r9, %rsp
-mov -48(%rbp), %r10
-mov 0(%r10), %rax
-push %rax
-L30:
-mov -48(%rbp), %r10
-mov 8(%r10), %rax
-push %rax
-L31:
 push -8(%rbp)
 push -16(%rbp)
-push -48(%rbp)
-call EuclidsAlgorithm_f1
-mov %rax, -72(%rbp)
-L32:
-mov -72(%rbp), %rax
-mov -32(%rbp), %r10
-mov %rax, 0(%r10)
-L33:
-mov -32(%rbp), %r10
-mov 0(%r10), %rax
-mov -16(%rbp), %r10
-mov 8(%r10), %rbx
-add %rbx, %rax
-mov %rax, -80(%rbp)
-L34:
+push -32(%rbp)
+call E2_f1
+L35:
 mov %rbp, %rsp
-mov $96, %r9
+mov $56, %r9
 shr $4, %r9
 add $1, %r9
 shl $4, %r9
 sub %r9, %rsp
-mov -80(%rbp), %rax
+mov -32(%rbp), %r10
+mov 0(%r10), %rax
 mov %rax, %rsi
  lea .note0(%rip), %rax
  mov %rax, %rdi
  xor     %rax, %rax
 call printf@plt 
-L35:
 L36:
+L37:
 
   
         # exit(0)
@@ -168,8 +145,8 @@ L36:
         syscall                         # invoke operating system to exit
 leave
 ret
-L37:
 L38:
+L39:
 
 
 format:

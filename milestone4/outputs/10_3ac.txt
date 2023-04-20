@@ -8,32 +8,33 @@
 7 begin func EuclidsAlgorithm_f1
 8 pop param, b
 9 pop param, a
-10 t3 = a +int b
-11 return t3
-12 stackpointer - 0
-13 end func
+10 t3 = 2
+11 a1 = t3
+12 t4 = a +int b
+13 return t4
 14 stackpointer - 0
-15 end class
-16 begin class E2
-17 non aa
-18 t4 = 0
-19 aa = t4
-20 static bb
-21 t5 = 10
-22 bb = t5
-23 begin func main
-24 pop param, args
-25 e2 = class ( E2 )
-26 stackpointer + 4
-27 euclidsAlgorithm = class ( EuclidsAlgorithm )
-28 stackpointer + 4
-29 push param euclidsAlgorithm.a1
-30 push param euclidsAlgorithm.b1
-31 t6 = call, euclidsAlgorithm.f1
-32 e2.aa = t6
-33 t7 = bb +int e2.aa
-34 print t7
-35 stackpointer - 8
-36 end func
-37 stackpointer - 0
-38 end class
+15 end func
+16 stackpointer - 0
+17 end class
+18 begin class E2
+19 non aa
+20 t5 = 0
+21 aa = t5
+22 static bb
+23 t6 = 10
+24 bb = t6
+25 begin func E2_f1
+26 t7 = 10
+27 aa = t7
+28 stackpointer - 0
+29 end func
+30 begin func main
+31 pop param, args
+32 e2 = class ( E2 )
+33 stackpointer + 4
+34 call, e2.f1
+35 print e2.aa
+36 stackpointer - 4
+37 end func
+38 stackpointer - 0
+39 end class
