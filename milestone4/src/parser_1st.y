@@ -889,6 +889,7 @@ VARIABLEDECLARATORID    :   IDENTIFIER {$$ = new_temp(); generalmap[$$].vid.name
                         |   IDENTIFIER DIMS  {$$ = new_temp(); generalmap[$$].vid.name= chartostring($1);  generalmap[$$].vid.num = temp[$2];
                         int curr = chartonum($$);
                                     ds[curr]["var"] = chartostring($1);
+                                    ds[curr]["var_name"] = ds[curr]["var"];
                         /*TODO*/
                         }
 
@@ -2517,7 +2518,7 @@ CONSTRUCTORDECLARATOR: SIMPLETYPENAME OPENPARAN  CLOSEPARAN{
     method_det[curr_class][chartostring($1)].start = code.size(); 
     ds[curr]["start"] = numtostring(code.size());
     ds[curr]["method_name"] = chartostring($1);
-    code.push_back("begin func "+chartostring($1));
+    code.push_back("begin func "+chartostring($1)+"_"+chartostring($1));
 }
                     |   SIMPLETYPENAME OPENPARAN FORMALPARAMETERLIST CLOSEPARAN {
                         if(chartostring($1)!=curr_class){
@@ -2537,7 +2538,7 @@ CONSTRUCTORDECLARATOR: SIMPLETYPENAME OPENPARAN  CLOSEPARAN{
                         method_det[curr_class][chartostring($1)].start = code.size(); 
                         ds[curr]["start"] = numtostring(code.size());
                         ds[curr]["method_name"] = chartostring($1);
-                        code.push_back("begin func "+chartostring($1));
+                        code.push_back("begin func "+chartostring($1)+"_"+chartostring($1));
                         reverse(ds2[curr3]["param"].begin(),ds2[curr3]["param"].end());
                         for(auto i:ds2[curr3]["param"])
                         code.push_back("pop param, "+ i);
