@@ -2,286 +2,296 @@
 1 non V
 2 t1 = 10
 3 V = t1
-4 non 
+4 non graph
 5 t2 = V *int V
 6 t4 = 8
 7 t3 = t2 *int t4
 8 graph = array ( t3 )
-9 begin func Graph_addEdge
-10 pop param, weight
-11 pop param, dest
-12 pop param, src
-13 t5 = src *int V
-14 t6 = t5 + dest
-15 t7 = 8
-16 t8 = t6 *int t7
-17 graph [ t8 ] = weight
-18 t9 = dest *int V
-19 t10 = t9 + src
-20 t11 = 8
-21 t12 = t10 *int t11
-22 graph [ t12 ] = weight
-23 stackpointer - 0
-24 end func
-25 begin func Graph_printDistances
-26 pop param, dist
-27 print V
-28 t13 = 0
-29 i = t13
-30 stackpointer + 4
-31 t14 = i < V
-32 if t14 goto  34
-33 goto  43
-34 t17 = 8
-35 t18 = i *int t17
-36 t19 = dist [ t18 ]
-37 print t19
-38 stackpointer - 0
-39 t15 = i
-40 t16 = 1
-41 i = t15 +int t16
-42 goto 31
-43 stackpointer - 4
-44 stackpointer - 0
-45 end func
-46 begin func Graph_printGraph
-47 t20 = 0
-48 i = t20
-49 stackpointer + 4
-50 t21 = i < V
-51 if t21 goto  53
-52 goto  65
-53 t24 = 0
-54 t25 = i *int V
-55 t26 = t25 + t24
-56 t27 = 8
-57 t28 = t26 *int t27
-58 t29 = graph [ t28 ]
-59 print t29
-60 stackpointer - 0
-61 t22 = i
-62 t23 = 1
-63 i = t22 +int t23
-64 goto 50
-65 stackpointer - 4
-66 stackpointer - 0
-67 end func
-68 begin func Graph_dijkstra
-69 pop param, start
-70 t31 = 8
-71 t30 = V *int t31
-72 visited = array ( t30 )
-73 stackpointer + 0
-74 t33 = 8
-75 t32 = V *int t33
-76 dist = array ( t32 )
-77 stackpointer + 0
-78 t34 = 0
-79 i = t34
-80 stackpointer + 4
-81 t35 = i < V
-82 if t35 goto  84
-83 goto  93
-84 t38 = 8
-85 t39 = i *int t38
-86 t40 = 1000000000
-87 dist [ t39 ] = t40
-88 stackpointer - 0
-89 t36 = i
-90 t37 = 1
-91 i = t36 +int t37
-92 goto 81
-93 stackpointer - 4
-94 t41 = 8
-95 t42 = start *int t41
-96 t43 = 0
-97 dist [ t42 ] = t43
-98 t44 = 0
-99 i = t44
-100 stackpointer + 4
-101 t45 = 1
-102 t46 = V -int t45
-103 t47 = i < t46
-104 if t47 goto  106
-105 goto  220
-106 t50 = 1000000000
-107 minDist = t50
+9 non gg
+10 t5 = 0
+11 gg = t5
+12 begin func Graph_Graph
+13 pop param, g
+14 gg = g
+15 stackpointer - 0
+16 end func
+17 begin func Graph_addEdge
+18 pop param, weight
+19 pop param, dest
+20 pop param, src
+21 t6 = src *int V
+22 t7 = t6 + dest
+23 t8 = 8
+24 t9 = t7 *int t8
+25 graph [ t9 ] = weight
+26 t10 = dest *int V
+27 t11 = t10 + src
+28 t12 = 8
+29 t13 = t11 *int t12
+30 graph [ t13 ] = weight
+31 stackpointer - 0
+32 end func
+33 begin func Graph_printDistances
+34 pop param, dist
+35 print V
+36 t14 = 0
+37 i = t14
+38 stackpointer + 4
+39 t15 = i < V
+40 if t15 goto  42
+41 goto  51
+42 t18 = 8
+43 t19 = i *int t18
+44 t20 = dist [ t19 ]
+45 print t20
+46 stackpointer - 0
+47 t16 = i
+48 t17 = 1
+49 i = t16 +int t17
+50 goto 39
+51 stackpointer - 4
+52 stackpointer - 0
+53 end func
+54 begin func Graph_printGraph
+55 t21 = 0
+56 i = t21
+57 stackpointer + 4
+58 t22 = i < V
+59 if t22 goto  61
+60 goto  73
+61 t25 = 0
+62 t26 = i *int V
+63 t27 = t26 + t25
+64 t28 = 8
+65 t29 = t27 *int t28
+66 t30 = graph [ t29 ]
+67 print t30
+68 stackpointer - 0
+69 t23 = i
+70 t24 = 1
+71 i = t23 +int t24
+72 goto 58
+73 stackpointer - 4
+74 stackpointer - 0
+75 end func
+76 begin func Graph_dijkstra
+77 pop param, start
+78 t32 = 8
+79 t31 = V *int t32
+80 visited = array ( t31 )
+81 stackpointer + 0
+82 t34 = 8
+83 t33 = V *int t34
+84 dist = array ( t33 )
+85 stackpointer + 0
+86 t35 = 0
+87 i = t35
+88 stackpointer + 4
+89 t36 = i < V
+90 if t36 goto  92
+91 goto  101
+92 t39 = 8
+93 t40 = i *int t39
+94 t41 = 1000000000
+95 dist [ t40 ] = t41
+96 stackpointer - 0
+97 t37 = i
+98 t38 = 1
+99 i = t37 +int t38
+100 goto 89
+101 stackpointer - 4
+102 t42 = 8
+103 t43 = start *int t42
+104 t44 = 0
+105 dist [ t43 ] = t44
+106 t45 = 0
+107 i = t45
 108 stackpointer + 4
-109 t51 = 1
-110 t52 = - t51
-111 minIndex = t52
-112 stackpointer + 4
-113 t53 = 0
-114 j = t53
-115 stackpointer + 4
-116 t54 = j < V
-117 if t54 goto  119
-118 goto  142
-119 t57 = 8
-120 t58 = j *int t57
-121 t59 = visited [ t58 ]
-122 t60 = 0
-123 if t59 == t60 goto  125
-124 goto  137
-125 t62 = 8
-126 t63 = j *int t62
-127 t64 = dist [ t63 ]
-128 t65 = t64 < minDist
-129 if t65 goto  131
-130 goto  137
-131 t66 = 8
-132 t67 = j *int t66
-133 t68 = dist [ t67 ]
-134 minDist = t68
-135 minIndex = j
-136 stackpointer - 0
-137 stackpointer - 0
-138 t55 = j
-139 t56 = 1
-140 j = t55 +int t56
-141 goto 116
-142 stackpointer - 4
-143 t69 = 1
-144 t70 = - t69
-145 if minIndex == t70 goto  147
-146 goto  149
-147 goto  220
-148 stackpointer - 0
-149 t72 = 8
-150 t73 = minIndex *int t72
-151 t74 = 1
-152 visited [ t73 ] = t74
-153 t75 = 0
-154 k = t75
-155 stackpointer + 4
-156 t76 = k < V
-157 if t76 goto  159
-158 goto  214
-159 t79 = minIndex *int V
-160 t80 = t79 + k
-161 t81 = 8
-162 t82 = t80 *int t81
-163 t83 = graph [ t82 ]
-164 t84 = 0
-165 t85 = t83 != t84
-166 if t85 goto  168
-167 goto  209
-168 t86 = 8
-169 t87 = k *int t86
-170 t88 = visited [ t87 ]
-171 t89 = 0
-172 if t88 == t89 goto  174
-173 goto  209
-174 t91 = 8
-175 t92 = minIndex *int t91
-176 t93 = dist [ t92 ]
-177 t94 = 1000000000
-178 t95 = t93 != t94
-179 if t95 goto  181
-180 goto  209
-181 t96 = 8
-182 t97 = minIndex *int t96
-183 t98 = dist [ t97 ]
-184 t99 = minIndex *int V
-185 t100 = t99 + k
-186 t101 = 8
-187 t102 = t100 *int t101
-188 t103 = graph [ t102 ]
-189 t104 = t98 +int t103
-190 t105 = 8
-191 t106 = k *int t105
-192 t107 = dist [ t106 ]
-193 t108 = t104 < t107
-194 if t108 goto  196
-195 goto  209
-196 t109 = 8
-197 t110 = k *int t109
-198 t111 = 8
-199 t112 = minIndex *int t111
-200 t113 = dist [ t112 ]
-201 t114 = minIndex *int V
-202 t115 = t114 + k
-203 t116 = 8
-204 t117 = t115 *int t116
-205 t118 = graph [ t117 ]
-206 t119 = t113 +int t118
-207 dist [ t110 ] = t119
-208 stackpointer - 0
-209 stackpointer - 0
-210 t77 = k
-211 t78 = 1
-212 k = t77 +int t78
-213 goto 156
-214 stackpointer - 4
-215 stackpointer - 8
-216 t48 = i
-217 t49 = 1
-218 i = t48 +int t49
-219 goto 101
-220 stackpointer - 4
-221 t120 = 0
-222 t121 = 8
-223 t122 = t120 *int t121
-224 t123 = dist [ t122 ]
-225 print t123
-226 push param dist
-227 call, Graph_printDistances
-228 stackpointer - 0
-229 end func
-230 stackpointer - 0
-231 end class
-232 begin class Dijkstra
-233 begin func main
-234 pop param, args
-235 g = class ( Graph )
-236 stackpointer + 4
-237 t124 = 0
-238 t125 = 1
-239 t126 = 9
-240 push param t124
-241 push param t125
-242 push param t126
-243 call, g.addEdge
-244 t128 = 0
-245 t129 = 2
-246 t130 = 6
-247 push param t128
-248 push param t129
-249 push param t130
-250 call, g.addEdge
-251 t132 = 0
-252 t133 = 3
-253 t134 = 5
-254 push param t132
-255 push param t133
-256 push param t134
-257 call, g.addEdge
-258 t136 = 0
-259 t137 = 4
-260 t138 = 3
-261 push param t136
-262 push param t137
-263 push param t138
-264 call, g.addEdge
-265 t140 = 2
-266 t141 = 1
-267 t142 = 2
-268 push param t140
-269 push param t141
-270 push param t142
-271 call, g.addEdge
-272 t144 = 2
-273 t145 = 3
-274 t146 = 4
-275 push param t144
-276 push param t145
-277 push param t146
-278 call, g.addEdge
-279 t148 = 0
-280 push param t148
-281 call, g.dijkstra
-282 print g.V
-283 stackpointer - 4
-284 end func
-285 stackpointer - 0
-286 end class
+109 t46 = 1
+110 t47 = V -int t46
+111 t48 = i < t47
+112 if t48 goto  114
+113 goto  228
+114 t51 = 1000000000
+115 minDist = t51
+116 stackpointer + 4
+117 t52 = 1
+118 t53 = - t52
+119 minIndex = t53
+120 stackpointer + 4
+121 t54 = 0
+122 j = t54
+123 stackpointer + 4
+124 t55 = j < V
+125 if t55 goto  127
+126 goto  150
+127 t58 = 8
+128 t59 = j *int t58
+129 t60 = visited [ t59 ]
+130 t61 = 0
+131 if t60 == t61 goto  133
+132 goto  145
+133 t63 = 8
+134 t64 = j *int t63
+135 t65 = dist [ t64 ]
+136 t66 = t65 < minDist
+137 if t66 goto  139
+138 goto  145
+139 t67 = 8
+140 t68 = j *int t67
+141 t69 = dist [ t68 ]
+142 minDist = t69
+143 minIndex = j
+144 stackpointer - 0
+145 stackpointer - 0
+146 t56 = j
+147 t57 = 1
+148 j = t56 +int t57
+149 goto 124
+150 stackpointer - 4
+151 t70 = 1
+152 t71 = - t70
+153 if minIndex == t71 goto  155
+154 goto  157
+155 goto  228
+156 stackpointer - 0
+157 t73 = 8
+158 t74 = minIndex *int t73
+159 t75 = 1
+160 visited [ t74 ] = t75
+161 t76 = 0
+162 k = t76
+163 stackpointer + 4
+164 t77 = k < V
+165 if t77 goto  167
+166 goto  222
+167 t80 = minIndex *int V
+168 t81 = t80 + k
+169 t82 = 8
+170 t83 = t81 *int t82
+171 t84 = graph [ t83 ]
+172 t85 = 0
+173 t86 = t84 != t85
+174 if t86 goto  176
+175 goto  217
+176 t87 = 8
+177 t88 = k *int t87
+178 t89 = visited [ t88 ]
+179 t90 = 0
+180 if t89 == t90 goto  182
+181 goto  217
+182 t92 = 8
+183 t93 = minIndex *int t92
+184 t94 = dist [ t93 ]
+185 t95 = 1000000000
+186 t96 = t94 != t95
+187 if t96 goto  189
+188 goto  217
+189 t97 = 8
+190 t98 = minIndex *int t97
+191 t99 = dist [ t98 ]
+192 t100 = minIndex *int V
+193 t101 = t100 + k
+194 t102 = 8
+195 t103 = t101 *int t102
+196 t104 = graph [ t103 ]
+197 t105 = t99 +int t104
+198 t106 = 8
+199 t107 = k *int t106
+200 t108 = dist [ t107 ]
+201 t109 = t105 < t108
+202 if t109 goto  204
+203 goto  217
+204 t110 = 8
+205 t111 = k *int t110
+206 t112 = 8
+207 t113 = minIndex *int t112
+208 t114 = dist [ t113 ]
+209 t115 = minIndex *int V
+210 t116 = t115 + k
+211 t117 = 8
+212 t118 = t116 *int t117
+213 t119 = graph [ t118 ]
+214 t120 = t114 +int t119
+215 dist [ t111 ] = t120
+216 stackpointer - 0
+217 stackpointer - 0
+218 t78 = k
+219 t79 = 1
+220 k = t78 +int t79
+221 goto 164
+222 stackpointer - 4
+223 stackpointer - 8
+224 t49 = i
+225 t50 = 1
+226 i = t49 +int t50
+227 goto 109
+228 stackpointer - 4
+229 t121 = 0
+230 t122 = 8
+231 t123 = t121 *int t122
+232 t124 = dist [ t123 ]
+233 print t124
+234 push param dist
+235 call, Graph_printDistances
+236 stackpointer - 0
+237 end func
+238 stackpointer - 0
+239 end class
+240 begin class Dijkstra
+241 begin func main
+242 pop param, args
+243 t125 = 10
+244 g = class ( Graph )
+245 call, g.Graph
+246 stackpointer + 4
+247 t126 = 0
+248 t127 = 1
+249 t128 = 9
+250 push param t126
+251 push param t127
+252 push param t128
+253 call, g.addEdge
+254 t130 = 0
+255 t131 = 2
+256 t132 = 6
+257 push param t130
+258 push param t131
+259 push param t132
+260 call, g.addEdge
+261 t134 = 0
+262 t135 = 3
+263 t136 = 5
+264 push param t134
+265 push param t135
+266 push param t136
+267 call, g.addEdge
+268 t138 = 0
+269 t139 = 4
+270 t140 = 3
+271 push param t138
+272 push param t139
+273 push param t140
+274 call, g.addEdge
+275 t142 = 2
+276 t143 = 1
+277 t144 = 2
+278 push param t142
+279 push param t143
+280 push param t144
+281 call, g.addEdge
+282 t146 = 2
+283 t147 = 3
+284 t148 = 4
+285 push param t146
+286 push param t147
+287 push param t148
+288 call, g.addEdge
+289 t150 = 0
+290 push param t150
+291 call, g.dijkstra
+292 print g.V
+293 stackpointer - 4
+294 end func
+295 stackpointer - 0
+296 end class

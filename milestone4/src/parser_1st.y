@@ -2507,6 +2507,7 @@ CONSTRUCTORDECLARATION:     CONSTRUCTORDECLARATOR THROWS2 CONSTRUCTORBODY
 
 
 CONSTRUCTORDECLARATOR: SIMPLETYPENAME OPENPARAN  CLOSEPARAN{
+    tempnextscope();
     if(chartostring($1)!=curr_class){
         cout<<"Error: invalid method declaration; return type required at line number "<<yylineno<<"\n"; exit(0);
     }
@@ -2521,9 +2522,42 @@ CONSTRUCTORDECLARATOR: SIMPLETYPENAME OPENPARAN  CLOSEPARAN{
     code.push_back("begin func "+chartostring($1)+"_"+chartostring($1));
 }
                     |   SIMPLETYPENAME OPENPARAN FORMALPARAMETERLIST CLOSEPARAN {
+
+
+
+
+
+// METHODHEADER: TYPE METHODDECLARATOR  { $$ = $2;  
+tempnextscope(); 
+
+//     methods[generalmap[$2].name].rettype = generalmap[$2].typ;
+//     methods[generalmap[$2].name].lineno = yylineno;
+    
+//     vector <type> argtype;
+     
+
+//     for (auto x : generalmap[$2].farglist)
+//         {argtype.push_back(x.typ);
+//          }
+//     methods[generalmap[$2].name].argtype = argtype;
+//         classmethods[curr_class][generalmap[$2].name] = methods[generalmap[$2].name];
+
+    
+
+
+
+
+        
+
+
+
+
+
                         if(chartostring($1)!=curr_class){
                             cout<<"Error: invalid method declaration; return type required at line number "<<yylineno<<"\n"; exit(0);
                         } $$ = new_temp();
+
+                        generalmap[$$]= generalmap[$3];
 
                         auto  ttt = new constsig();
                         for (auto x : generalmap[$3].farglist){
@@ -2532,6 +2566,36 @@ CONSTRUCTORDECLARATOR: SIMPLETYPENAME OPENPARAN  CLOSEPARAN{
                         }
                         
                         constructors[chartostring($1)].push_back(*ttt);
+
+                        for (auto x : generalmap[$$].farglist){
+symboltable[x.vid.name].typ.dims= x.vid.num;
+        symboltable[x.vid.name].typ.name= x.typ.name;
+        symboltable[x.vid.name].scope = scope;
+        symboltable[x.vid.name].lineno = yylineno;
+        symboltable[x.vid.name].token = "IDENTIFIER";
+
+        // cout<<x.vid.name;
+        printvarentry(symboltable[x.vid.name]);
+        // preservedsymboltable[{x.vid.name, scope}]= symboltable[x.vid.name];
+        
+        }
+        //  in reverse
+        ll toffset=0;
+        for(int ii=generalmap[$$].farglist.size()-1 ; ii>=0; ii-- ){
+
+                toffset -=   gettypesize(symboltable[generalmap[$$].farglist[ii].vid.name].typ.name);
+                              
+        symboltable[generalmap[$$].farglist[ii].vid.name].offset= toffset;
+        preservedsymboltable[{generalmap[$$].farglist[ii].vid.name, scope}]= symboltable[generalmap[$$].farglist[ii].vid.name];
+
+        }
+        
+        
+
+
+
+
+
 
 
                         int curr = chartonum($$), curr3 = chartonum($3);
