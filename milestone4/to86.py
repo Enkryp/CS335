@@ -374,10 +374,12 @@ popstart =False
 
 out =[]
 out.append("""
-        .global main
+.section    .rodata
+.note0:
 
+        .string "%ld\\n"
         .text
-
+        .globl main
    """)
 
 
@@ -461,7 +463,7 @@ for line in data5:
                 
                 # use malloc 
                 out.append("mov $"+ str(class2size[i]) + ", %rdi")
-                out.append("call malloc")
+                out.append("call malloc@plt")
                 out.append("mov %rax, %r10")
                 out.append("mov %r10, " + str(retaddr("static@base" + i)) + "(%rbp)")
                 # print(var2offset)
@@ -573,8 +575,9 @@ for line in data5:
 
     if (elements[0]== 'print'):
         callnew()
+
         move(elements[1], "%rax")
-        out.append("""mov $format, %rdi\nmov %rax, %rsi\nxor     %rax, %rax\ncall printf   """)
+        out.append("""mov %rax, %rsi\n lea .note0(%rip), %rax\n mov %rax, %rdi\n xor     %rax, %rax\ncall printf@plt """)
 
     if(elements[0]== 'if'):
         if (len(elements)==6):
@@ -623,7 +626,7 @@ for line in data5:
 
             callnew()
             out.append("mov $"+ str(class2size[elements[4]]) + ", %rdi")
-            out.append("call malloc")
+            out.append("call malloc@plt")
             move2("%rax", elements[0])
 
             continue
@@ -632,7 +635,7 @@ for line in data5:
         if (elements[2]== 'array'):
             callnew()
             move(elements[4], "%rdi")
-            out.append("call malloc")
+            out.append("call malloc@plt")
             move2("%rax", elements[0])
             continue
 

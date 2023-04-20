@@ -1,8 +1,10 @@
 
-        .global main
+.section    .rodata
+.note0:
 
+        .string "%ld\n"
         .text
-
+        .globl main
    
 L0:
 L1:
@@ -52,11 +54,11 @@ add $1, %r9
 shl $4, %r9
 sub %r9, %rsp
 mov $16, %rdi
-call malloc
+call malloc@plt
 mov %rax, %r10
 mov %r10, -8(%rbp)
 mov $16, %rdi
-call malloc
+call malloc@plt
 mov %rax, %r10
 mov %r10, -16(%rbp)
 L78:
@@ -76,7 +78,7 @@ add $1, %r9
 shl $4, %r9
 sub %r9, %rsp
 mov $16, %rdi
-call malloc
+call malloc@plt
 mov %rax, -32(%rbp)
 L81:
 mov $0, %rax
@@ -94,7 +96,7 @@ add $1, %r9
 shl $4, %r9
 sub %r9, %rsp
 mov $16, %rdi
-call malloc
+call malloc@plt
 mov %rax, -48(%rbp)
 L83:
 mov $100, %rax
@@ -151,10 +153,11 @@ add $1, %r9
 shl $4, %r9
 sub %r9, %rsp
 mov -80(%rbp), %rax
-mov $format, %rdi
 mov %rax, %rsi
-xor     %rax, %rax
-call printf   
+ lea .note0(%rip), %rax
+ mov %rax, %rdi
+ xor     %rax, %rax
+call printf@plt 
 L35:
 L36:
 
