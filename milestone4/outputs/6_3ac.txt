@@ -9,20 +9,20 @@
 8 a = array ( t4 )
 9 stackpointer + 4000
 10 t6 = 0
-11 t7 = 8
-12 t8 = t6 *int t7
-13 t9 = 0
-14 t10 = t8 *int t2
-15 t11 = t10 + t9
+11 t7 = 0
+12 t8 = t6 *int t2
+13 t9 = t8 + t7
+14 t10 = 8
+15 t11 = t9 *int t10
 16 t12 = a [ t11 ]
 17 b = t12
 18 stackpointer + 4
 19 t13 = 4
-20 t14 = 8
-21 t15 = t13 *int t14
-22 t16 = 5
-23 t17 = t15 *int t2
-24 t18 = t17 + t16
+20 t14 = 5
+21 t15 = t13 *int t2
+22 t16 = t15 + t14
+23 t17 = 8
+24 t18 = t16 *int t17
 25 a [ t18 ] = b
 26 t19 = 0
 27 i = t19
@@ -38,10 +38,10 @@
 37 t26 = j < t25
 38 if t26 goto  40
 39 goto  51
-40 t29 = 8
-41 t30 = i *int t29
-42 t31 = t30 *int t2
-43 t32 = t31 + j
+40 t29 = i *int t2
+41 t30 = t29 + j
+42 t31 = 8
+43 t32 = t30 *int t31
 44 t33 = i +int j
 45 a [ t32 ] = t33
 46 stackpointer - 0

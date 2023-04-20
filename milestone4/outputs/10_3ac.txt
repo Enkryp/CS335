@@ -1,39 +1,65 @@
-0 begin class Rectangle
-1 non length
-2 non width
-3 begin func Rectangle_getLength
-4 return length
-5 stackpointer - 0
-6 end func
-7 begin func Rectangle_getWidth
-8 return width
-9 stackpointer - 0
-10 end func
-11 begin func Rectangle_getArea
-12 t1 = length *int width
-13 return t1
-14 stackpointer - 0
-15 end func
-16 stackpointer - 0
-17 end class
-18 begin class Main
-19 begin func main
-20 pop param, args
-21 t2 = 10
-22 length = t2
-23 stackpointer + 4
-24 t3 = 20
-25 width = t3
-26 stackpointer + 4
-27 rectangle1 = class ( Rectangle )
-28 stackpointer + 4
-29 rectangle1.length = length
-30 rectangle1.width = width
-31 t4 = call, rectangle1.getArea
-32 area = t4
-33 stackpointer + 4
-34 print area
-35 stackpointer - 16
-36 end func
-37 stackpointer - 0
-38 end class
+0 begin class Whileandnested
+1 begin func main
+2 pop param, args
+3 t1 = 5
+4 a = t1
+5 stackpointer + 4
+6 t2 = 0
+7 b = t2
+8 stackpointer + 4
+9 t3 = a > b
+10 if t3 goto  12
+11 goto  17
+12 t4 = b
+13 t5 = 1
+14 b = t4 +int t5
+15 stackpointer - 0
+16 goto 9
+17 t6 = 2
+18 t7 = t6 *int b
+19 t8 = a > t7
+20 if t8 goto  22
+21 goto  27
+22 t9 = 3
+23 t10 = b +int t9
+24 b = t10
+25 stackpointer - 0
+26 goto 17
+27 print b
+28 print a
+29 t11 = 4
+30 t12 = t11 *int b
+31 t13 = a > t12
+32 if t13 goto  34
+33 goto  61
+34 t14 = 0
+35 c = t14
+36 stackpointer + 4
+37 t15 = b > c
+38 if t15 goto  40
+39 goto  56
+40 t16 = 0
+41 d = t16
+42 stackpointer + 4
+43 t17 = d > b
+44 if t17 goto  46
+45 goto  51
+46 t18 = b
+47 t19 = 1
+48 b = t18 +int t19
+49 stackpointer - 0
+50 goto 43
+51 t20 = d
+52 t21 = 1
+53 d = t20 +int t21
+54 stackpointer - 4
+55 goto 37
+56 t22 = c
+57 t23 = 1
+58 c = t22 +int t23
+59 stackpointer - 4
+60 goto 29
+61 stackpointer - 8
+62 end func
+63 stackpointer - 0
+64 end class

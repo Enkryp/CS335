@@ -32,5 +32,7 @@ class scopes
   		int z=x+y;
     }  
 	int z=x+y;
+	System.out.println(z);
+	
 }}
 

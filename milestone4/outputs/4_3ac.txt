@@ -85,7 +85,8 @@
 84 t25 = x +int y
 85 z = t25
 86 stackpointer + 4
-87 stackpointer - 12
-88 end func
-89 stackpointer - 0
-90 end class
+87 print z
+88 stackpointer - 12
+89 end func
+90 stackpointer - 0
+91 end class

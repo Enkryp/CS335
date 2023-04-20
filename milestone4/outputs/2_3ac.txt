@@ -9,7 +9,7 @@
 8 stackpointer - 0
 9 t3 = 0
 10 t4 = b != t3
-11 if t4 goto  16
+11 if t4 goto  13
 12 goto  19
 13 t5 = a %int b
 14 push param b
