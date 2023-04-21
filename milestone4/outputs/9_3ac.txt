@@ -15,7 +15,7 @@
 14 t4 = 5
 15 t6 = 8
 16 t5 = t4 *int t6
-17 arr = array ( t5 )
+17 arr = array! ( t5 )
 18 stackpointer + 20
 19 t7 = 0
 20 t8 = 8

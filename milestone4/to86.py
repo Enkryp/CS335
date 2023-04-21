@@ -662,7 +662,7 @@ for line in data5:
             continue
 
 
-        if (elements[2]== 'array'):
+        if (elements[2]== 'array!'):
             callnew()
             move(elements[4], "%rdi")
             out.append("call malloc@plt")

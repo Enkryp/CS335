@@ -6,7 +6,7 @@
 5 t3 = t1 *byte t2
 6 t5 = 8
 7 t4 = t3 *int t5
-8 a = array ( t4 )
+8 a = array! ( t4 )
 9 stackpointer + 4000
 10 t6 = 0
 11 t7 = 0
