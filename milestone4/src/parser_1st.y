@@ -913,6 +913,7 @@ ASSIGNMENT  :   LEFTHANDSIDE ASSIGNMENTOPERATOR EXPRESSION {
     $$ = $1;
     int curr1 = chartonum($1), curr3 = chartonum($3), curr2 = chartonum($2);
     type_check(yylineno, ds[curr1]["type"],ds[curr3]["type"],ds[curr2]["op"]);
+    // cout<<ds[curr1]["type"]<<" "<<ds[curr3]["type"]<<"\n";
     type_conversion(ds[curr1]["type"],ds[curr3]["type"],ds[curr2]["op"]);
     // code.push_back("hello");
     code.push_back(ds[curr1]["var"]+" "+ds[curr2]["op"]+" "+ds[curr3]["var"]);
@@ -954,10 +955,10 @@ ASSIGNMENTOPERATOR  :  EQUALS {$$ = new_temp();int curr = chartonum($$);
                     
 FIELDACCESS: PRIMARY DOT IDENTIFIER {$$ = new_temp();
                                         int curr = chartonum($$), curr1 = chartonum($1);
-                                        ds[curr]["start"] = ds[curr1]["start"];
+                                        ds[curr]["start"] = numtostring(code.size());
                                         if(ds[curr1]["this"]==chartostring("YES")){
-                                            ds[curr]["var"] = chartostring("this.")+chartostring($3);
-                                        }else assert(0 && "unexpected type\n");
+                                            ds[curr]["var"] = chartostring($3);
+                                        }
                                         }
             |	SUPER DOT IDENTIFIER
             |	IDENTIFIER DOT SUPER DOT IDENTIFIER
@@ -2002,7 +2003,6 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                             ds[curr]["start"] = numtostring(code.size());
                             string t = chartostring($1);
                             for(auto t2:ds2[curr]["type"]){
-                                
                                 type_check(yylineno, t,t2,"=");
                             }
                             
