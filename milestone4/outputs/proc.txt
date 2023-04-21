@@ -1,0 +1,72 @@
+0 begin class MultiArrayAccess
+1 begin func main
+2 pop param, args
+3 t1 = 10
+4 t2 = 100
+5 t3 = t1 +byte t2
+6 t4 = 100
+7 t5 = t3 *byte t4
+8 t7 = 8
+9 t6 = t5 *int t7
+10 a = array! ( t6 )
+11 stackpointer + 0
+12 t8 = 0
+13 t9 = 0
+14 t10 = t8 *int t4
+15 t11 = t10 + t9
+16 t12 = 8
+17 t13 = t11 *int t12
+18 t14 = a [ t13 ]
+19 b = t14
+20 stackpointer + 4
+21 t15 = 4
+22 t16 = 5
+23 t17 = t15 *int t4
+24 t18 = t17 + t16
+25 t19 = 8
+26 t20 = t18 *int t19
+27 a [ t20 ] = b
+28 t21 = 0
+29 i = t21
+30 stackpointer + 4
+31 t22 = 10
+32 t23 = i < t22
+33 if t23 goto  35
+34 goto  59
+35 t26 = 0
+36 j = t26
+37 stackpointer + 4
+38 t27 = 100
+39 t28 = j < t27
+40 if t28 goto  42
+41 goto  53
+42 t31 = i *int t4
+43 t32 = t31 + j
+44 t33 = 8
+45 t34 = t32 *int t33
+46 t35 = i +int j
+47 a [ t34 ] = t35
+48 stackpointer - 0
+49 t29 = j
+50 t30 = 1
+51 j = t29 +int t30
+52 goto 38
+53 stackpointer - 4
+54 stackpointer - 0
+55 t24 = i
+56 t25 = 1
+57 i = t24 +int t25
+58 goto 31
+59 stackpointer - 4
+60 t36 = 4
+61 t37 = 5
+62 t38 = t36 *int t4
+63 t39 = t38 + t37
+64 t40 = 8
+65 t41 = t39 *int t40
+66 t42 = a [ t41 ]
+67 print t42
+68 stackpointer - 4
+69 end func
+70 stackpointer - 0
+71 end class

@@ -2,7 +2,8 @@ from copy import deepcopy
 
 
 data =None
-with open ("./outputs/10_3ac.txt", "r") as myfile:
+
+with open ("./outputs/proc.txt", "r") as myfile:
     data=myfile.readlines()
 
 sample = """
