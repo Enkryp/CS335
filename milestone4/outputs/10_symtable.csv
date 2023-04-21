@@ -1,52 +1,55 @@
 Token, Name(Lexeme), Type, Line Number, Scope, Dims(If array), ScopeINFO(Child), ScopeINFO(Parent), Offsets
 identifier - field ofGraph, V, int, 3, -1, 0, 0
-identifier - method ofGraph, addEdge, void, 8, -1, 0, 0
-identifier - method ofGraph, addEdge, void, 8, 0, 0, 0
-IDENTIFIER, args, String, 66, 23, 1, 0
-IDENTIFIER, dest, int, 8, 3, 0, 0
-identifier - method ofGraph, dijkstra, void, 26, -1, 0, 0
-IDENTIFIER, dist, int, 12, 4, 1, 0
-IDENTIFIER, dist, int, 28, 10, 1, 0
-IDENTIFIER, g, Graph, 67, 23, 0, 0
+identifier - method ofGraph, addEdge, void, 15, -1, 0, 0
+identifier - method ofGraph, addEdge, void, 15, 0, 0, 0
+IDENTIFIER, args, String, 73, 24, 1, 0
+IDENTIFIER, dest, int, 15, 4, 0, 0
+identifier - method ofGraph, dijkstra, void, 33, -1, 0, 0
+IDENTIFIER, dist, int, 19, 5, 1, 0
+IDENTIFIER, dist, int, 35, 11, 1, 0
+IDENTIFIER, g, int, 8, 3, 0, -4
+IDENTIFIER, g, Graph, 74, 24, 0, 0
+identifier - field ofGraph, gg, int, 5, -1, 0, 0
 identifier - field ofGraph, graph, int, 4, -1, 2, 0
-IDENTIFIER, i, int, 15, 5, 0, 0
-IDENTIFIER, i, int, 21, 8, 0, 0
-IDENTIFIER, i, int, 29, 11, 0, 0
-IDENTIFIER, i, int, 34, 13, 0, 0
-IDENTIFIER, j, int, 38, 15, 0, 12
-IDENTIFIER, k, int, 50, 19, 0, 12
-identifier - method ofDijkstra, main, void, 66, -1, 0, 0
-identifier - method ofDijkstra, main, void, 66, 0, 0, 0
-IDENTIFIER, minDist, int, 35, 14, 0, 4
-IDENTIFIER, minIndex, int, 36, 14, 0, 8
-identifier - method ofGraph, printDistances, void, 12, -2, 0, 0
-identifier - method ofGraph, printDistances, void, 12, -1, 0, 0
-identifier - method ofGraph, printGraph, void, 19, -3, 0, 0
-identifier - method ofGraph, printGraph, void, 19, -1, 0, 0
-IDENTIFIER, src, int, 8, 3, 0, 0
-IDENTIFIER, start, int, 26, 10, 0, 0
-IDENTIFIER, visited, int, 27, 10, 1, 0
-IDENTIFIER, weight, int, 8, 3, 0, 0
+IDENTIFIER, i, int, 22, 6, 0, 0
+IDENTIFIER, i, int, 28, 9, 0, 0
+IDENTIFIER, i, int, 36, 12, 0, 0
+IDENTIFIER, i, int, 41, 14, 0, 0
+IDENTIFIER, j, int, 45, 16, 0, 12
+IDENTIFIER, k, int, 57, 20, 0, 12
+identifier - method ofDijkstra, main, void, 73, -1, 0, 0
+identifier - method ofDijkstra, main, void, 73, 0, 0, 0
+IDENTIFIER, minDist, int, 42, 15, 0, 4
+IDENTIFIER, minIndex, int, 43, 15, 0, 8
+identifier - method ofGraph, printDistances, void, 19, -2, 0, 0
+identifier - method ofGraph, printDistances, void, 19, -1, 0, 0
+identifier - method ofGraph, printGraph, void, 26, -3, 0, 0
+identifier - method ofGraph, printGraph, void, 26, -1, 0, 0
+IDENTIFIER, src, int, 15, 4, 0, 0
+IDENTIFIER, start, int, 33, 11, 0, 0
+IDENTIFIER, visited, int, 34, 11, 1, 0
+IDENTIFIER, weight, int, 15, 4, 0, 0
 , , , , , , 1, 0, 
 , , , , , , 2, 1, 
 , , , , , , 3, 2, 
 , , , , , , 4, 2, 
-, , , , , , 5, 4, 
+, , , , , , 5, 2, 
 , , , , , , 6, 5, 
-, , , , , , 7, 2, 
-, , , , , , 8, 7, 
+, , , , , , 7, 6, 
+, , , , , , 8, 2, 
 , , , , , , 9, 8, 
-, , , , , , 10, 2, 
-, , , , , , 11, 10, 
+, , , , , , 10, 9, 
+, , , , , , 11, 2, 
 , , , , , , 12, 11, 
-, , , , , , 13, 10, 
-, , , , , , 14, 13, 
+, , , , , , 13, 12, 
+, , , , , , 14, 11, 
 , , , , , , 15, 14, 
 , , , , , , 16, 15, 
 , , , , , , 17, 16, 
-, , , , , , 18, 14, 
-, , , , , , 19, 14, 
-, , , , , , 20, 19, 
+, , , , , , 18, 17, 
+, , , , , , 19, 15, 
+, , , , , , 20, 15, 
 , , , , , , 21, 20, 
-, , , , , , 22, 0, 
-, , , , , , 23, 22, 
+, , , , , , 22, 21, 
+, , , , , , 23, 0, 
+, , , , , , 24, 23, 

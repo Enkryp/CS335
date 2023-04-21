@@ -2,6 +2,13 @@
 class Graph {
     int V=10;
     int graph[][] = new int[V][V];
+    int gg=0;
+
+
+    public Graph(int g) {
+        
+        gg=g;
+    }
 
     
 
@@ -64,7 +71,7 @@ class Graph {
 
 public class Dijkstra {
     public static void main(String args[]) {
-        Graph g = new Graph();
+        Graph g = new Graph(10);
         g.addEdge(0, 1, 9);
         g.addEdge(0, 2, 6);
         g.addEdge(0, 3, 5);
