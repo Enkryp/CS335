@@ -632,7 +632,7 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                                                                     if(flag){
                                                                         for(auto name:ds2[curr2]["var_name"])
                                                                         static_name.insert(name);
-                                                                    }
+                                                                    }else add_non_static(code,start,ds2[curr2]["var_name"]);
                                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
                                                                     // if(ds[curr2].find("start")!=ds[curr2].end())
                                                                     if(ds[curr2].find("start")!=ds[curr2].end())
@@ -699,7 +699,7 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                                                                     if(flag){
                                                                         for(auto name:ds2[curr2]["var_name"])
                                                                         static_name.insert(name);
-                                                                    }
+                                                                    }else add_non_static(code,start,ds2[curr2]["var_name"]);
                                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
                                                                     // if(ds[curr2].find("start")!=ds[curr2].end())
                                                                     if(ds[curr2].find("start")!=ds[curr2].end())
@@ -762,7 +762,7 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                                                                     if(flag){
                                                                         for(auto name:ds2[curr2]["var_name"])
                                                                         static_name.insert(name);
-                                                                    }
+                                                                    }else add_non_static(code,start,ds2[curr2]["var_name"]);
                                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
                                                                     // if(ds[curr2].find("start")!=ds[curr2].end())
                                                                     if(ds[curr2].find("start")!=ds[curr2].end())
