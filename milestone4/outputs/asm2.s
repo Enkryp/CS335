@@ -73,10 +73,17 @@ leave
 ret
 L18:
 L19:
+mov $0, %rax
+mov %rax, -48(%rbp)
 L20:
+mov -48(%rbp), %rax
 leave
 ret
 L21:
+L22:
+leave
+ret
+L23:
 main:
 sub $16, %rsp
 mov %rsp, %rbp
@@ -96,22 +103,22 @@ mov $0, %rdi
 call malloc@plt
 mov %rax, %r10
 mov %r10, -16(%rbp)
-L22:
-L23:
+L24:
+L25:
 mov $100, %rax
 mov %rax, -24(%rbp)
-L24:
+L26:
 mov -24(%rbp), %rax
 mov %rax, -32(%rbp)
-L25:
-L26:
+L27:
+L28:
 mov $134, %rax
 mov %rax, -40(%rbp)
-L27:
+L29:
 mov -40(%rbp), %rax
 mov %rax, -48(%rbp)
-L28:
-L29:
+L30:
+L31:
 mov %rbp, %rsp
 mov $64, %r9
 shr $4, %r9
@@ -120,19 +127,19 @@ shl $4, %r9
 sub %r9, %rsp
 mov -32(%rbp), %rax
 push %rax
-L30:
+L32:
 mov -48(%rbp), %rax
 push %rax
-L31:
+L33:
 push -8(%rbp)
 push -16(%rbp)
 call EuclidsAlgorithm_findGCD
 mov %rax, -56(%rbp)
-L32:
+L34:
 mov -56(%rbp), %rax
 mov %rax, -64(%rbp)
-L33:
-L34:
+L35:
+L36:
 mov %rbp, %rsp
 mov $80, %r9
 shr $4, %r9
@@ -145,8 +152,8 @@ mov %rax, %rsi
  mov %rax, %rdi
  xor     %rax, %rax
 call printf@plt 
-L35:
-L36:
+L37:
+L38:
 
   
         # exit(0)
@@ -155,8 +162,8 @@ L36:
         syscall                         # invoke operating system to exit
 leave
 ret
-L37:
-L38:
+L39:
+L40:
 
 
 format:

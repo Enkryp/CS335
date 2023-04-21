@@ -17,23 +17,25 @@
 16 t6 = call, EuclidsAlgorithm_findGCD
 17 return t6
 18 stackpointer - 0
-19 stackpointer - 0
-20 end func
-21 begin func main
-22 pop param, args
-23 t7 = 100
-24 num1 = t7
-25 stackpointer + 4
-26 t8 = 134
-27 num2 = t8
-28 stackpointer + 4
-29 push param num1
-30 push param num2
-31 t9 = call, EuclidsAlgorithm_findGCD
-32 gcd = t9
-33 stackpointer + 4
-34 print gcd
-35 stackpointer - 12
-36 end func
-37 stackpointer - 0
-38 end class
+19 t7 = 0
+20 return t7
+21 stackpointer - 0
+22 end func
+23 begin func main
+24 pop param, args
+25 t8 = 100
+26 num1 = t8
+27 stackpointer + 4
+28 t9 = 134
+29 num2 = t9
+30 stackpointer + 4
+31 push param num1
+32 push param num2
+33 t10 = call, EuclidsAlgorithm_findGCD
+34 gcd = t10
+35 stackpointer + 4
+36 print gcd
+37 stackpointer - 12
+38 end func
+39 stackpointer - 0
+40 end class

@@ -10,6 +10,7 @@ public class EuclidsAlgorithm {
         if(b!=0) {
             return findGCD(b, a % b);
         }
+        return 0;
     }
     public static void main(String args[]) {
         int num1 = 100;

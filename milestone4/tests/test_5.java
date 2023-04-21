@@ -13,7 +13,7 @@ public class Car {
         this.mileage = Mileage;
     }
 
-    public private int getModel() {
+    public  int getModel() {
         return model;
     }
     public int getYear() {
