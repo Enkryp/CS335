@@ -1,8 +1,12 @@
 // Implements djikstra algorithm, supoort for inter class interaction, field variables as both variables and arrays.
 
 class Graph {
-    int V=10;
+    int V=100;
     int graph[][] = new int[V][V];
+
+    Graph( int v) {
+        V = v;
+    }
 
     
 
@@ -11,9 +15,7 @@ class Graph {
         graph[dest][src] = weight;
     }
     private void printDistances(int dist[]) {
-        System.out.println(V);
-        System.out.println("hello");
-        
+                
         for (int i = 0; i < V; i++) {
             System.out.println(dist[i]);
         }
@@ -21,7 +23,10 @@ class Graph {
     void printGraph() {
         
         for (int i = 0; i < V; i++) {
-            System.out.println(graph[i][0]);
+            for (int j = 0; j < V; j++) {
+                System.out.println(graph[i][j]);
+            }
+          
         }
     }
 
@@ -71,7 +76,7 @@ public class Dijkstra {
     }
 
     public static void main(String args[]) {
-        Graph g = new Graph();
+        Graph g = new Graph(5);
         g.addEdge(0, 1, 9);
         g.addEdge(0, 2, 6);
         g.addEdge(0, 3, 5);
@@ -82,6 +87,5 @@ public class Dijkstra {
         g.dijkstra(0);
         // g.printGraph();
         System.out.println(g.V);
-        // System.out.println(g.graph[0][1]);
     }
 }

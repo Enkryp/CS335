@@ -1,65 +1,86 @@
-0 begin class Whileandnested
-1 begin func main
-2 pop param, args
-3 t1 = 5
-4 a = t1
-5 stackpointer + 4
-6 t2 = 0
-7 b = t2
-8 stackpointer + 4
-9 t3 = a > b
-10 if t3 goto  12
-11 goto  17
-12 t4 = b
-13 t5 = 1
-14 b = t4 +int t5
-15 stackpointer - 0
-16 goto 9
-17 t6 = 2
-18 t7 = t6 *int b
-19 t8 = a > t7
-20 if t8 goto  22
-21 goto  27
-22 t9 = 3
-23 t10 = b +int t9
-24 b = t10
-25 stackpointer - 0
-26 goto 17
-27 print b
-28 print a
-29 t11 = 4
-30 t12 = t11 *int b
-31 t13 = a > t12
-32 if t13 goto  34
-33 goto  61
-34 t14 = 0
-35 c = t14
-36 stackpointer + 4
-37 t15 = b > c
-38 if t15 goto  40
-39 goto  56
-40 t16 = 0
-41 d = t16
-42 stackpointer + 4
-43 t17 = d > b
-44 if t17 goto  46
-45 goto  51
-46 t18 = b
-47 t19 = 1
-48 b = t18 +int t19
-49 stackpointer - 0
-50 goto 43
-51 t20 = d
-52 t21 = 1
-53 d = t20 +int t21
-54 stackpointer - 4
-55 goto 37
-56 t22 = c
-57 t23 = 1
-58 c = t22 +int t23
-59 stackpointer - 4
-60 goto 29
-61 stackpointer - 8
-62 end func
-63 stackpointer - 0
-64 end class
+0 begin class Car
+1 static car_number
+2 t1 = 0
+3 car_number = t1
+4 non model
+5 t2 = 1
+6 model = t2
+7 non year
+8 non mileage
+9 begin func Car_Car
+10 pop param, Mileage
+11 pop param, Year
+12 pop param, Model
+13 t3 = car_number
+14 t4 = 1
+15 car_number = t3 +int t4
+16 model = Model
+17 year = Year
+18 mileage = Mileage
+19 stackpointer - 0
+20 end func
+21 begin func Car_getModel
+22 return model
+23 stackpointer - 0
+24 end func
+25 begin func Car_getYear
+26 return year
+27 stackpointer - 0
+28 end func
+29 begin func Car_getMileage
+30 return mileage
+31 stackpointer - 0
+32 end func
+33 begin func Car_setMileage
+34 pop param, Mileage
+35 mileage = Mileage
+36 stackpointer - 0
+37 end func
+38 begin func main
+39 pop param, args
+40 t5 = 1001
+41 t6 = 2015
+42 t7 = 50000
+43 myCar = class ( Car )
+44 push param t5
+45 push param t6
+46 push param t7
+47 call, myCar.Car
+48 stackpointer + 4
+49 print car_number
+50 t8 = call, myCar.getModel
+51 print t8
+52 t9 = call, myCar.getYear
+53 print t9
+54 t10 = call, myCar.getMileage
+55 print t10
+56 t11 = 55000
+57 push param t11
+58 call, myCar.setMileage
+59 t13 = call, myCar.getMileage
+60 print t13
+61 t14 = 1002
+62 t15 = 2020
+63 t16 = 15000
+64 myCar2 = class ( Car )
+65 push param t14
+66 push param t15
+67 push param t16
+68 call, myCar2.Car
+69 stackpointer + 4
+70 print car_number
+71 t17 = call, myCar2.getModel
+72 print t17
+73 t18 = call, myCar2.getYear
+74 print t18
+75 t19 = call, myCar2.getMileage
+76 print t19
+77 t20 = 20000
+78 push param t20
+79 call, myCar2.setMileage
+80 t22 = call, myCar2.getMileage
+81 print t22
+82 stackpointer - 8
+83 end func
+84 stackpointer - 0
+85 end class

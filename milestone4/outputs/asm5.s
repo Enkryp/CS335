@@ -8,6 +8,102 @@
    
 L0:
 L1:
+L2:
+L3:
+L4:
+L5:
+L6:
+L7:
+L8:
+L9:
+Car_Car:
+push %rbp
+mov %rsp, %rbp
+L10:
+L11:
+L12:
+L13:
+mov 24(%rbp), %r10
+mov 0(%r10), %rax
+mov %rax, -8(%rbp)
+L14:
+mov $1, %rax
+mov %rax, -16(%rbp)
+L15:
+mov -16(%rbp), %rax
+mov -8(%rbp), %rbx
+add %rbx, %rax
+mov 24(%rbp), %r10
+mov %rax, 0(%r10)
+L16:
+mov 48(%rbp), %rax
+mov 16(%rbp), %r10
+mov %rax, 8(%r10)
+L17:
+mov 40(%rbp), %rax
+mov 16(%rbp), %r10
+mov %rax, 16(%r10)
+L18:
+mov 32(%rbp), %rax
+mov 16(%rbp), %r10
+mov %rax, 24(%r10)
+L19:
+L20:
+leave
+ret
+L21:
+Car_getModel:
+push %rbp
+mov %rsp, %rbp
+L22:
+mov 16(%rbp), %r10
+mov 8(%r10), %rax
+leave
+ret
+L23:
+L24:
+leave
+ret
+L25:
+Car_getYear:
+push %rbp
+mov %rsp, %rbp
+L26:
+mov 16(%rbp), %r10
+mov 16(%r10), %rax
+leave
+ret
+L27:
+L28:
+leave
+ret
+L29:
+Car_getMileage:
+push %rbp
+mov %rsp, %rbp
+L30:
+mov 16(%rbp), %r10
+mov 24(%r10), %rax
+leave
+ret
+L31:
+L32:
+leave
+ret
+L33:
+Car_setMileage:
+push %rbp
+mov %rsp, %rbp
+L34:
+L35:
+mov 32(%rbp), %rax
+mov 16(%rbp), %r10
+mov %rax, 24(%r10)
+L36:
+L37:
+leave
+ret
+L38:
 main:
 sub $16, %rsp
 mov %rsp, %rbp
@@ -19,222 +115,368 @@ shr $4, %r9
 add $1, %r9
 shl $4, %r9
 sub %r9, %rsp
-mov $0, %rdi
+mov $32, %rdi
 call malloc@plt
 mov %rax, %r10
 mov %r10, -8(%rbp)
-mov $0, %rdi
+mov $32, %rdi
 call malloc@plt
 mov %rax, %r10
 mov %r10, -16(%rbp)
-L2:
-L3:
-mov $5, %rax
+L172:
+mov $0, %rax
 mov %rax, -24(%rbp)
-L4:
+L173:
 mov -24(%rbp), %rax
-mov %rax, -32(%rbp)
-L5:
-L6:
-mov $0, %rax
-mov %rax, -40(%rbp)
-L7:
-mov -40(%rbp), %rax
-mov %rax, -48(%rbp)
-L8:
-L9:
-mov -32(%rbp), %rax
-mov -48(%rbp), %rbx
-cmp %rbx, %rax
-setg %al
-movzb %al, %rax
-mov %rax, -56(%rbp)
-L10:
-mov -56(%rbp), %rax
-cmp $0, %rax
-jne L12
-L11:
-jmp L17
-L12:
-mov -48(%rbp), %rax
-mov %rax, -64(%rbp)
-L13:
-mov $1, %rax
-mov %rax, -72(%rbp)
-L14:
-mov -72(%rbp), %rax
-mov -64(%rbp), %rbx
-add %rbx, %rax
-mov %rax, -48(%rbp)
-L15:
-L16:
-jmp L9
-L17:
-mov $2, %rax
-mov %rax, -80(%rbp)
-L18:
-mov -48(%rbp), %rax
-mov -80(%rbp), %rbx
-imul %rbx, %rax
-mov %rax, -88(%rbp)
-L19:
-mov -32(%rbp), %rax
-mov -88(%rbp), %rbx
-cmp %rbx, %rax
-setg %al
-movzb %al, %rax
-mov %rax, -96(%rbp)
-L20:
-mov -96(%rbp), %rax
-cmp $0, %rax
-jne L22
-L21:
-jmp L27
-L22:
-mov $3, %rax
-mov %rax, -104(%rbp)
-L23:
-mov -104(%rbp), %rax
-mov -48(%rbp), %rbx
-add %rbx, %rax
-mov %rax, -112(%rbp)
-L24:
-mov -112(%rbp), %rax
-mov %rax, -48(%rbp)
-L25:
-L26:
-jmp L17
-L27:
-mov %rbp, %rsp
-mov $128, %r9
-shr $4, %r9
-add $1, %r9
-shl $4, %r9
-sub %r9, %rsp
-mov -48(%rbp), %rax
-mov %rax, %rsi
- lea .note0(%rip), %rax
- mov %rax, %rdi
- xor     %rax, %rax
-call printf@plt 
-L28:
-mov %rbp, %rsp
-mov $128, %r9
-shr $4, %r9
-add $1, %r9
-shl $4, %r9
-sub %r9, %rsp
-mov -32(%rbp), %rax
-mov %rax, %rsi
- lea .note0(%rip), %rax
- mov %rax, %rdi
- xor     %rax, %rax
-call printf@plt 
-L29:
-mov $4, %rax
-mov %rax, -120(%rbp)
-L30:
-mov -48(%rbp), %rax
-mov -120(%rbp), %rbx
-imul %rbx, %rax
-mov %rax, -128(%rbp)
-L31:
-mov -32(%rbp), %rax
-mov -128(%rbp), %rbx
-cmp %rbx, %rax
-setg %al
-movzb %al, %rax
-mov %rax, -136(%rbp)
-L32:
-mov -136(%rbp), %rax
-cmp $0, %rax
-jne L34
-L33:
-jmp L61
-L34:
-mov $0, %rax
-mov %rax, -144(%rbp)
-L35:
-mov -144(%rbp), %rax
-mov %rax, -152(%rbp)
-L36:
-L37:
-mov -48(%rbp), %rax
-mov -152(%rbp), %rbx
-cmp %rbx, %rax
-setg %al
-movzb %al, %rax
-mov %rax, -160(%rbp)
-L38:
-mov -160(%rbp), %rax
-cmp $0, %rax
-jne L40
+mov -8(%rbp), %r10
+mov %rax, 0(%r10)
 L39:
-jmp L56
 L40:
-mov $0, %rax
-mov %rax, -168(%rbp)
+mov $1001, %rax
+mov %rax, -32(%rbp)
 L41:
-mov -168(%rbp), %rax
-mov %rax, -176(%rbp)
+mov $2015, %rax
+mov %rax, -40(%rbp)
 L42:
+mov $50000, %rax
+mov %rax, -48(%rbp)
 L43:
-mov -176(%rbp), %rax
-mov -48(%rbp), %rbx
-cmp %rbx, %rax
-setg %al
-movzb %al, %rax
-mov %rax, -184(%rbp)
+mov %rbp, %rsp
+mov $64, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+mov $32, %rdi
+call malloc@plt
+mov %rax, -56(%rbp)
+L174:
+mov $1, %rax
+mov %rax, -64(%rbp)
+L175:
+mov -64(%rbp), %rax
+mov -56(%rbp), %r10
+mov %rax, 8(%r10)
 L44:
-mov -184(%rbp), %rax
-cmp $0, %rax
-jne L46
+mov %rbp, %rsp
+mov $80, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+mov -32(%rbp), %rax
+push %rax
 L45:
-jmp L51
+mov -40(%rbp), %rax
+push %rax
 L46:
 mov -48(%rbp), %rax
-mov %rax, -192(%rbp)
+push %rax
 L47:
-mov $1, %rax
-mov %rax, -200(%rbp)
+push -8(%rbp)
+push -56(%rbp)
+call Car_Car
 L48:
-mov -200(%rbp), %rax
-mov -192(%rbp), %rbx
-add %rbx, %rax
-mov %rax, -48(%rbp)
 L49:
+mov %rbp, %rsp
+mov $80, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+mov -8(%rbp), %r10
+mov 0(%r10), %rax
+mov %rax, %rsi
+ lea .note0(%rip), %rax
+ mov %rax, %rdi
+ xor     %rax, %rax
+call printf@plt 
 L50:
-jmp L43
+mov %rbp, %rsp
+mov $80, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+push -8(%rbp)
+push -56(%rbp)
+call Car_getModel
+mov %rax, -72(%rbp)
 L51:
-mov -176(%rbp), %rax
-mov %rax, -208(%rbp)
+mov %rbp, %rsp
+mov $88, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+mov -72(%rbp), %rax
+mov %rax, %rsi
+ lea .note0(%rip), %rax
+ mov %rax, %rdi
+ xor     %rax, %rax
+call printf@plt 
 L52:
-mov $1, %rax
-mov %rax, -216(%rbp)
+mov %rbp, %rsp
+mov $88, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+push -8(%rbp)
+push -56(%rbp)
+call Car_getYear
+mov %rax, -80(%rbp)
 L53:
-mov -216(%rbp), %rax
-mov -208(%rbp), %rbx
-add %rbx, %rax
-mov %rax, -176(%rbp)
+mov %rbp, %rsp
+mov $96, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+mov -80(%rbp), %rax
+mov %rax, %rsi
+ lea .note0(%rip), %rax
+ mov %rax, %rdi
+ xor     %rax, %rax
+call printf@plt 
 L54:
+mov %rbp, %rsp
+mov $96, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+push -8(%rbp)
+push -56(%rbp)
+call Car_getMileage
+mov %rax, -88(%rbp)
 L55:
-jmp L37
+mov %rbp, %rsp
+mov $104, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+mov -88(%rbp), %rax
+mov %rax, %rsi
+ lea .note0(%rip), %rax
+ mov %rax, %rdi
+ xor     %rax, %rax
+call printf@plt 
 L56:
-mov -152(%rbp), %rax
-mov %rax, -224(%rbp)
+mov $55000, %rax
+mov %rax, -96(%rbp)
 L57:
-mov $1, %rax
-mov %rax, -232(%rbp)
+mov %rbp, %rsp
+mov $112, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+mov -96(%rbp), %rax
+push %rax
 L58:
-mov -232(%rbp), %rax
-mov -224(%rbp), %rbx
-add %rbx, %rax
-mov %rax, -152(%rbp)
+push -8(%rbp)
+push -56(%rbp)
+call Car_setMileage
 L59:
+mov %rbp, %rsp
+mov $112, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+push -8(%rbp)
+push -56(%rbp)
+call Car_getMileage
+mov %rax, -104(%rbp)
 L60:
-jmp L29
+mov %rbp, %rsp
+mov $120, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+mov -104(%rbp), %rax
+mov %rax, %rsi
+ lea .note0(%rip), %rax
+ mov %rax, %rdi
+ xor     %rax, %rax
+call printf@plt 
 L61:
+mov $1002, %rax
+mov %rax, -112(%rbp)
 L62:
+mov $2020, %rax
+mov %rax, -120(%rbp)
+L63:
+mov $15000, %rax
+mov %rax, -128(%rbp)
+L64:
+mov %rbp, %rsp
+mov $144, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+mov $32, %rdi
+call malloc@plt
+mov %rax, -136(%rbp)
+L176:
+mov $1, %rax
+mov %rax, -64(%rbp)
+L177:
+mov -64(%rbp), %rax
+mov -136(%rbp), %r10
+mov %rax, 8(%r10)
+L65:
+mov %rbp, %rsp
+mov $152, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+mov -112(%rbp), %rax
+push %rax
+L66:
+mov -120(%rbp), %rax
+push %rax
+L67:
+mov -128(%rbp), %rax
+push %rax
+L68:
+push -8(%rbp)
+push -136(%rbp)
+call Car_Car
+L69:
+L70:
+mov %rbp, %rsp
+mov $152, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+mov -8(%rbp), %r10
+mov 0(%r10), %rax
+mov %rax, %rsi
+ lea .note0(%rip), %rax
+ mov %rax, %rdi
+ xor     %rax, %rax
+call printf@plt 
+L71:
+mov %rbp, %rsp
+mov $152, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+push -8(%rbp)
+push -136(%rbp)
+call Car_getModel
+mov %rax, -144(%rbp)
+L72:
+mov %rbp, %rsp
+mov $160, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+mov -144(%rbp), %rax
+mov %rax, %rsi
+ lea .note0(%rip), %rax
+ mov %rax, %rdi
+ xor     %rax, %rax
+call printf@plt 
+L73:
+mov %rbp, %rsp
+mov $160, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+push -8(%rbp)
+push -136(%rbp)
+call Car_getYear
+mov %rax, -152(%rbp)
+L74:
+mov %rbp, %rsp
+mov $168, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+mov -152(%rbp), %rax
+mov %rax, %rsi
+ lea .note0(%rip), %rax
+ mov %rax, %rdi
+ xor     %rax, %rax
+call printf@plt 
+L75:
+mov %rbp, %rsp
+mov $168, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+push -8(%rbp)
+push -136(%rbp)
+call Car_getMileage
+mov %rax, -160(%rbp)
+L76:
+mov %rbp, %rsp
+mov $176, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+mov -160(%rbp), %rax
+mov %rax, %rsi
+ lea .note0(%rip), %rax
+ mov %rax, %rdi
+ xor     %rax, %rax
+call printf@plt 
+L77:
+mov $20000, %rax
+mov %rax, -168(%rbp)
+L78:
+mov %rbp, %rsp
+mov $184, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+mov -168(%rbp), %rax
+push %rax
+L79:
+push -8(%rbp)
+push -136(%rbp)
+call Car_setMileage
+L80:
+mov %rbp, %rsp
+mov $184, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+push -8(%rbp)
+push -136(%rbp)
+call Car_getMileage
+mov %rax, -176(%rbp)
+L81:
+mov %rbp, %rsp
+mov $192, %r9
+shr $4, %r9
+add $1, %r9
+shl $4, %r9
+sub %r9, %rsp
+mov -176(%rbp), %rax
+mov %rax, %rsi
+ lea .note0(%rip), %rax
+ mov %rax, %rdi
+ xor     %rax, %rax
+call printf@plt 
+L82:
+L83:
 
   
         # exit(0)
@@ -243,8 +485,8 @@ L62:
         syscall                         # invoke operating system to exit
 leave
 ret
-L63:
-L64:
+L84:
+L85:
 
 
 format:

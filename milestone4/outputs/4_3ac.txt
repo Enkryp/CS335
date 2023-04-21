@@ -1,92 +1,104 @@
-0 begin class scopes
+0 begin class BubbleSort
 1 begin func main
 2 pop param, args
-3 t1 = 20
-4 x = t1
+3 t1 = 13
+4 n = t1
 5 stackpointer + 4
-6 t2 = 18
-7 y = t2
-8 stackpointer + 4
-9 t3 = x > y
-10 if t3 goto  12
-11 goto  16
-12 t4 = x +int y
-13 z = t4
-14 stackpointer + 4
-15 stackpointer - 4
-16 t5 = x +int y
-17 z = t5
-18 stackpointer + 4
-19 stackpointer - 12
-20 t6 = 20
-21 x = t6
-22 stackpointer + 4
-23 t7 = 18
-24 y = t7
-25 stackpointer + 4
-26 t8 = x > y
-27 if t8 goto  29
-28 goto  33
-29 t9 = x +int y
-30 z = t9
-31 stackpointer + 4
-32 stackpointer - 4
-33 t10 = x +int y
-34 z = t10
+6 t3 = 8
+7 t2 = n *int t3
+8 array = array! ( t2 )
+9 stackpointer + 0
+10 t4 = 0
+11 i = t4
+12 stackpointer + 4
+13 t5 = i < n
+14 if t5 goto  16
+15 goto  24
+16 t8 = 8
+17 t9 = i *int t8
+18 t10 = n -int i
+19 array [ t9 ] = t10
+20 t6 = i
+21 t7 = 1
+22 i = t6 +int t7
+23 goto 13
+24 stackpointer - 4
+25 t11 = 0
+26 i = t11
+27 stackpointer + 4
+28 t12 = 1
+29 t13 = n -int t12
+30 t14 = i < t13
+31 if t14 goto  33
+32 goto  83
+33 t17 = 0
+34 j = t17
 35 stackpointer + 4
-36 stackpointer - 12
-37 t11 = 20
-38 x = t11
-39 stackpointer + 4
-40 t12 = 18
-41 y = t12
-42 stackpointer + 4
-43 t13 = x > y
-44 if t13 goto  46
-45 goto  50
-46 t14 = x +int y
-47 z = t14
-48 stackpointer + 4
-49 stackpointer - 4
-50 t15 = x +int y
-51 z = t15
-52 stackpointer + 4
-53 stackpointer - 12
-54 t16 = 20
-55 x = t16
-56 stackpointer + 4
-57 t17 = 18
-58 y = t17
-59 stackpointer + 4
-60 t18 = x > y
-61 if t18 goto  63
-62 goto  67
-63 t19 = x +int y
-64 z = t19
-65 stackpointer + 4
-66 stackpointer - 4
-67 t20 = x +int y
-68 z = t20
-69 stackpointer + 4
-70 stackpointer - 12
-71 t21 = 20
-72 x = t21
-73 stackpointer + 4
-74 t22 = 18
-75 y = t22
-76 stackpointer + 4
-77 t23 = x > y
-78 if t23 goto  80
-79 goto  84
-80 t24 = x +int y
-81 z = t24
-82 stackpointer + 4
+36 t18 = n -int i
+37 t19 = 1
+38 t20 = t18 -int t19
+39 t21 = j < t20
+40 if t21 goto  42
+41 goto  77
+42 t24 = 8
+43 t25 = j *int t24
+44 t26 = array [ t25 ]
+45 t27 = 1
+46 t28 = j +int t27
+47 t29 = 8
+48 t30 = t28 *int t29
+49 t31 = array [ t30 ]
+50 t32 = t26 > t31
+51 if t32 goto  53
+52 goto  72
+53 t33 = 8
+54 t34 = j *int t33
+55 t35 = array [ t34 ]
+56 temp = t35
+57 stackpointer + 4
+58 t36 = 8
+59 t37 = j *int t36
+60 t38 = 1
+61 t39 = j +int t38
+62 t40 = 8
+63 t41 = t39 *int t40
+64 t42 = array [ t41 ]
+65 array [ t37 ] = t42
+66 t43 = 1
+67 t44 = j +int t43
+68 t45 = 8
+69 t46 = t44 *int t45
+70 array [ t46 ] = temp
+71 stackpointer - 4
+72 stackpointer - 0
+73 t22 = j
+74 t23 = 1
+75 j = t22 +int t23
+76 goto 36
+77 stackpointer - 4
+78 stackpointer - 0
+79 t15 = i
+80 t16 = 1
+81 i = t15 +int t16
+82 goto 28
 83 stackpointer - 4
-84 t25 = x +int y
-85 z = t25
+84 t47 = 0
+85 i = t47
 86 stackpointer + 4
-87 print z
-88 stackpointer - 12
-89 end func
-90 stackpointer - 0
-91 end class
+87 t48 = i < n
+88 if t48 goto  90
+89 goto  99
+90 t51 = 8
+91 t52 = i *int t51
+92 t53 = array [ t52 ]
+93 print t53
+94 stackpointer - 0
+95 t49 = i
+96 t50 = 1
+97 i = t49 +int t50
+98 goto 87
+99 stackpointer - 4
+100 stackpointer - 4
+101 end func
+102 stackpointer - 0
+103 end class

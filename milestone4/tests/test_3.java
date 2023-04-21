@@ -1,4 +1,4 @@
-// Demonstartes inter class interaction between two classes, Same variable names as field names and local names works correctly
+// Demonstartes inter class interaction between two classes
 
 class Rectangle {
     int length;

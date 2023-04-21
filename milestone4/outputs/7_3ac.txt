@@ -1,34 +1,110 @@
-0 begin class EuclidsAlgorithm
-1 non a1
-2 t1 = 100
-3 a1 = t1
-4 non b1
-5 t2 = 134
-6 b1 = t2
-7 begin func EuclidsAlgorithm_f1
-8 pop param, b
-9 pop param, a
-10 t3 = a +int b
-11 return t3
-12 stackpointer - 0
-13 end func
-14 stackpointer - 0
-15 end class
-16 begin class E2
-17 non aa
-18 t4 = 0
-19 aa = t4
-20 begin func main
-21 pop param, args
-22 e2 = class ( E2 )
-23 stackpointer + 4
-24 euclidsAlgorithm = class ( EuclidsAlgorithm )
-25 stackpointer + 4
-26 push param euclidsAlgorithm.a1
-27 push param euclidsAlgorithm.b1
-28 t5 = call, euclidsAlgorithm.f1
-29 e2.aa = t5
-30 stackpointer - 8
-31 end func
+0 begin class BinarySearchExample
+1 begin func BinarySearchExample_binarySearch
+2 pop param, key
+3 pop param, last
+4 pop param, first
+5 pop param, arr
+6 t1 = first +int last
+7 t2 = 2
+8 t3 = t1 /int t2
+9 mid = t3
+10 stackpointer + 4
+11 t4 = first <= last
+12 if t4 goto  14
+13 goto  44
+14 t5 = 8
+15 t6 = mid *int t5
+16 t7 = arr [ t6 ]
+17 t8 = t7 < key
+18 if t8 goto  20
+19 goto  25
+20 t9 = 1
+21 t10 = mid +int t9
+22 first = t10
+23 stackpointer - 0
+24 goto  38
+25 t11 = 8
+26 t12 = mid *int t11
+27 t13 = arr [ t12 ]
+28 if t13 == key goto  30
+29 goto  34
+30 print mid
+31 goto  44
 32 stackpointer - 0
-33 end class
+33 goto  38
+34 t15 = 1
+35 t16 = mid -int t15
+36 last = t16
+37 stackpointer - 0
+38 t17 = first +int last
+39 t18 = 2
+40 t19 = t17 /int t18
+41 mid = t19
+42 stackpointer - 0
+43 goto 11
+44 t20 = first > last
+45 if t20 goto  47
+46 goto  51
+47 t21 = 1
+48 t22 = - t21
+49 print t22
+50 stackpointer - 0
+51 stackpointer - 4
+52 end func
+53 begin func main
+54 pop param, args
+55 t23 = 10
+56 t25 = 8
+57 t24 = t23 *int t25
+58 arr = array! ( t24 )
+59 stackpointer + 40
+60 t26 = 0
+61 i = t26
+62 stackpointer + 4
+63 t27 = 10
+64 t28 = i < t27
+65 if t28 goto  67
+66 goto  77
+67 t31 = 8
+68 t32 = i *int t31
+69 t33 = 10
+70 t34 = t33 *int i
+71 arr [ t32 ] = t34
+72 stackpointer - 0
+73 t29 = i
+74 t30 = 1
+75 i = t29 +int t30
+76 goto 63
+77 stackpointer - 4
+78 t35 = 30
+79 key = t35
+80 stackpointer + 4
+81 t36 = 10
+82 t37 = 1
+83 t38 = t36 -byte t37
+84 last = t38
+85 stackpointer + 4
+86 t39 = 0
+87 push param arr
+88 push param t39
+89 push param last
+90 push param key
+91 call, BinarySearchExample_binarySearch
+92 t40 = 0
+93 t41 = 50
+94 push param arr
+95 push param t40
+96 push param last
+97 push param t41
+98 call, BinarySearchExample_binarySearch
+99 t42 = 0
+100 t43 = 100
+101 push param arr
+102 push param t42
+103 push param last
+104 push param t43
+105 call, BinarySearchExample_binarySearch
+106 stackpointer - 48
+107 end func
+108 stackpointer - 0
+109 end class

@@ -4,59 +4,94 @@
 3 t1 = 10
 4 t2 = 100
 5 t3 = t1 *byte t2
-6 t5 = 8
-7 t4 = t3 *int t5
-8 a = array! ( t4 )
-9 stackpointer + 4000
-10 t6 = 0
-11 t7 = 0
-12 t8 = t6 *int t2
-13 t9 = t8 + t7
-14 t10 = 8
-15 t11 = t9 *int t10
-16 t12 = a [ t11 ]
-17 b = t12
-18 stackpointer + 4
-19 t13 = 4
-20 t14 = 5
-21 t15 = t13 *int t2
-22 t16 = t15 + t14
-23 t17 = 8
-24 t18 = t16 *int t17
-25 a [ t18 ] = b
-26 t19 = 0
-27 i = t19
-28 stackpointer + 4
-29 t20 = 10
-30 t21 = i < t20
-31 if t21 goto  33
-32 goto  57
-33 t24 = 0
-34 j = t24
-35 stackpointer + 4
-36 t25 = 100
-37 t26 = j < t25
-38 if t26 goto  40
-39 goto  51
-40 t29 = i *int t2
-41 t30 = t29 + j
-42 t31 = 8
-43 t32 = t30 *int t31
-44 t33 = i +int j
-45 a [ t32 ] = t33
-46 stackpointer - 0
-47 t27 = j
-48 t28 = 1
-49 j = t27 +int t28
-50 goto 36
-51 stackpointer - 4
-52 stackpointer - 0
-53 t22 = i
-54 t23 = 1
-55 i = t22 +int t23
-56 goto 29
-57 stackpointer - 4
-58 stackpointer - 4004
-59 end func
-60 stackpointer - 0
-61 end class
+6 t4 = 20
+7 t5 = t3 *byte t4
+8 t7 = 8
+9 t6 = t5 *int t7
+10 a = array! ( t6 )
+11 stackpointer + 80000
+12 t8 = 0
+13 t9 = 0
+14 t10 = t8 *int t2
+15 t11 = t10 + t9
+16 t12 = 0
+17 t13 = t11 *int t4
+18 t14 = t13 + t12
+19 t15 = 8
+20 t16 = t14 *int t15
+21 t17 = a [ t16 ]
+22 b = t17
+23 stackpointer + 4
+24 t18 = 4
+25 t19 = 5
+26 t20 = t18 *int t2
+27 t21 = t20 + t19
+28 t22 = 2
+29 t23 = t21 *int t4
+30 t24 = t23 + t22
+31 t25 = 8
+32 t26 = t24 *int t25
+33 t27 = 20
+34 a [ t26 ] = t27
+35 t28 = 0
+36 i = t28
+37 stackpointer + 4
+38 t29 = 10
+39 t30 = i < t29
+40 if t30 goto  42
+41 goto  81
+42 t33 = 0
+43 j = t33
+44 stackpointer + 4
+45 t34 = 100
+46 t35 = j < t34
+47 if t35 goto  49
+48 goto  75
+49 t38 = 0
+50 k = t38
+51 stackpointer + 4
+52 t39 = 20
+53 t40 = k < t39
+54 if t40 goto  56
+55 goto  69
+56 t43 = i *int t2
+57 t44 = t43 + j
+58 t45 = t44 *int t4
+59 t46 = t45 + k
+60 t47 = 8
+61 t48 = t46 *int t47
+62 t49 = j *int k
+63 t50 = i +int t49
+64 a [ t48 ] = t50
+65 t41 = k
+66 t42 = 1
+67 k = t41 +int t42
+68 goto 52
+69 stackpointer - 4
+70 stackpointer - 0
+71 t36 = j
+72 t37 = 1
+73 j = t36 +int t37
+74 goto 45
+75 stackpointer - 4
+76 stackpointer - 0
+77 t31 = i
+78 t32 = 1
+79 i = t31 +int t32
+80 goto 38
+81 stackpointer - 4
+82 t51 = 4
+83 t52 = 5
+84 t53 = t51 *int t2
+85 t54 = t53 + t52
+86 t55 = 2
+87 t56 = t54 *int t4
+88 t57 = t56 + t55
+89 t58 = 8
+90 t59 = t57 *int t58
+91 t60 = a [ t59 ]
+92 print t60
+93 stackpointer - 80004
+94 end func
+95 stackpointer - 0
+96 end class

@@ -1,37 +1,16 @@
-public class functionandIfElse
+public class ReverseNumberExample
 {  
-    public static int function1(){
-        int j=0;
-        int k=j;
-        return k+j;
-    }
-    
-    public static void main(String args[])   
-    {  
-        
-        function1();
-        int arr[] = new int [5];
-        
-		// Outer loop
-		int a=arr[0];
-		int b=arr[1];
-		int d=a+b;
-		{
-            int e=d;
-		}
-		{
-            int e=d;
-		}
-		{int f=d;}
-		int e=d;
-        int n=a+5;
-        a+=10;
-        System.out.println(a);
-        if(n<2){
-            n=5;
-        }
-        else {
-            n=10;
-        }
-    }  
+public static void main(String args[])   
+{  
+int number = 9876541, reverse = 0;  
+while(number != 0)   
+{  
+int remainder = number % 10;  
+reverse = reverse * 10 + remainder;  
+number = number/10;  
+}  
+System.out.println(reverse);  
+System.out.println(reverse<<2);  
+
+}  
 }  

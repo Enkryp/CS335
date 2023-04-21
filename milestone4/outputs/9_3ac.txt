@@ -1,64 +1,34 @@
-0 begin class functionandIfElse
-1 begin func functionandIfElse_function1
-2 t1 = 0
-3 j = t1
-4 stackpointer + 4
-5 k = j
-6 stackpointer + 4
-7 t2 = k +int j
-8 return t2
-9 stackpointer - 8
-10 end func
-11 begin func main
-12 pop param, args
-13 t3 = call, functionandIfElse_function1
-14 t4 = 5
-15 t6 = 8
-16 t5 = t4 *int t6
-17 arr = array! ( t5 )
-18 stackpointer + 20
-19 t7 = 0
-20 t8 = 8
-21 t9 = t7 *int t8
-22 t10 = arr [ t9 ]
-23 a = t10
-24 stackpointer + 4
-25 t11 = 1
-26 t12 = 8
-27 t13 = t11 *int t12
-28 t14 = arr [ t13 ]
-29 b = t14
-30 stackpointer + 4
-31 t15 = a +int b
-32 d = t15
-33 stackpointer + 4
-34 e = d
-35 stackpointer + 4
-36 stackpointer - 4
-37 e = d
-38 stackpointer + 4
-39 stackpointer - 4
-40 f = d
-41 stackpointer + 4
-42 stackpointer - 4
-43 e = d
-44 stackpointer + 4
-45 t16 = 5
-46 t17 = a +int t16
-47 n = t17
-48 stackpointer + 4
-49 t18 = 2
-50 t19 = n < t18
-51 if t19 goto  53
-52 goto  57
-53 t20 = 5
-54 n = t20
-55 stackpointer - 0
-56 goto  60
-57 t21 = 10
-58 n = t21
-59 stackpointer - 0
-60 stackpointer - 40
-61 end func
-62 stackpointer - 0
-63 end class
+0 begin class ReverseNumberExample
+1 begin func main
+2 pop param, args
+3 t1 = 9876541
+4 number = t1
+5 t2 = 0
+6 reverse = t2
+7 stackpointer + 4
+8 stackpointer + 4
+9 t3 = 0
+10 t4 = number != t3
+11 if t4 goto  13
+12 goto  26
+13 t5 = 10
+14 t6 = number %int t5
+15 remainder = t6
+16 stackpointer + 4
+17 t7 = 10
+18 t8 = reverse *int t7
+19 t9 = t8 +int remainder
+20 reverse = t9
+21 t10 = 10
+22 t11 = number /int t10
+23 number = t11
+24 stackpointer - 4
+25 goto 9
+26 print reverse
+27 t12 = 2
+28 t13 = reverse << t12
+29 print t13
+30 stackpointer - 8
+31 end func
+32 stackpointer - 0
+33 end class

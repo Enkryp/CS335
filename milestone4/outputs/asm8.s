@@ -29,7 +29,7 @@ mov %rax, %r10
 mov %r10, -16(%rbp)
 L2:
 L3:
-mov $1000, %rax
+mov $100, %rax
 mov %rax, -24(%rbp)
 L4:
 mov -24(%rbp), %rax

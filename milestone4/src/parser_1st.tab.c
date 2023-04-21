@@ -3808,7 +3808,7 @@ yyreduce:
                                                                     if(flag){
                                                                         for(auto name:ds2[curr2]["var_name"])
                                                                         static_name.insert(name);
-                                                                    }
+                                                                    }else add_non_static(code,start,ds2[curr2]["var_name"]);
                                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
                                                                     // if(ds[curr2].find("start")!=ds[curr2].end())
                                                                     if(ds[curr2].find("start")!=ds[curr2].end())
@@ -3880,7 +3880,7 @@ yyreduce:
                                                                     if(flag){
                                                                         for(auto name:ds2[curr2]["var_name"])
                                                                         static_name.insert(name);
-                                                                    }
+                                                                    }else add_non_static(code,start,ds2[curr2]["var_name"]);
                                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
                                                                     // if(ds[curr2].find("start")!=ds[curr2].end())
                                                                     if(ds[curr2].find("start")!=ds[curr2].end())
@@ -3948,7 +3948,7 @@ yyreduce:
                                                                     if(flag){
                                                                         for(auto name:ds2[curr2]["var_name"])
                                                                         static_name.insert(name);
-                                                                    }
+                                                                    }else add_non_static(code,start,ds2[curr2]["var_name"]);
                                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
                                                                     // if(ds[curr2].find("start")!=ds[curr2].end())
                                                                     if(ds[curr2].find("start")!=ds[curr2].end())
@@ -5276,8 +5276,8 @@ yyreduce:
                                                     assert(0 && "Not an identifier");
                                                 }
                                                 string t = new_var();
-                                                code.push_back(t+" = -1");
-                                                code.push_back(ds[curr]["var"]+" = "+ds[curr2]["var"]+" +int "+t);
+                                                code.push_back(t+" = 1");
+                                                code.push_back(ds[curr]["var"]+" = "+ds[curr2]["var"]+" -int "+t);
                                                 code.push_back(ds[curr2]["var"]+ " = "+ ds[curr]["var"]);
                                                 ds[curr]["type"] = ds[curr2]["type"];
                                                 ds[curr]["start"] = ds[curr2]["start"];
@@ -5393,8 +5393,8 @@ yyreduce:
                                                 }
                                                 code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]);
                                                 string t = new_var();
-                                                code.push_back(t+" = -1");
-                                                code.push_back(ds[curr1]["var"]+ " = "+ ds[curr]["var"]+" +int "+t);
+                                                code.push_back(t+" = 1");
+                                                code.push_back(ds[curr1]["var"]+ " = "+ ds[curr]["var"]+" -int "+t);
                                                 ds[curr]["type"] = ds[curr1]["type"];
                                                 ds[curr]["start"] = ds[curr1]["start"];
                                                 // ds[curr]["val"] = numtostring(stringtonum(ds[curr1]["val"]));
