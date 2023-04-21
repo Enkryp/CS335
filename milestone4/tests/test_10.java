@@ -1,7 +1,7 @@
 public class  MultiArrayAccess{
   public static void main(String args[]) {
 
-      int a [][]= new int [10][100];
+      int a [][]= new int [10+100][100];
       int b = a[0][0];
       a[4][5] = b;
 

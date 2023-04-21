@@ -126,7 +126,7 @@ struct formalarg
         }
     };
     void printvarentry(varentry v){
-        if(v.dims.size() && v.typ.dims && v.dims.size()!=v.typ.dims)  assert(0 && "array init error");
+        if(v.dims.size() && v.typ.dims && v.dims.size()!=v.typ.dims)  {cout<< "array init error at line "<< yylineno; assert(0 && "array init error");}
         if(v.typ.dims && v.dims.size()==0) {for(int i=0; i<v.typ.dims; i++) v.dims.push_back(1000);}
         // cout<<" type: "<<v.typ.name<<" type dims: "<<v.typ.dims<<" bounds: "<<v.dims.size()<<" scope: "<<v.scope<<" offset "<<v.offset<<endl;
         for (ll i=0;i<v.dims.size();i++){
@@ -724,9 +724,18 @@ void add_func(vector<string> &code, string pref, int start, int end){
 ll getdim(string s, ll dim){
 
     if(symboltable.find(s)!=symboltable.end()){
+        if(symboltable[s].dims.size()<dim+1){
+            cout<<"Array to be accesed not initialized properly at line "<<yylineno<<" "<<s<<endl;
+            assert(0 && "Array to be accesed not initialized properly");
+        }
+
         return symboltable[s].dims[dim];
     }
     else if(fields.find(s)!=fields.end()){
+        if(fields[s].dims.size()<dim+1){
+            cout<<"Array to be accesed not initialized properly at line "<<yylineno<<" "<<s<<endl;
+            assert(0 && "Array to be accesed not initialized properly");
+        }
         // cout<<fields[s].dims.size()<<endl;
         return fields[s].dims[dim];
     }

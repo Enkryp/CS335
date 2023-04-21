@@ -3,68 +3,70 @@
 2 pop param, args
 3 t1 = 10
 4 t2 = 100
-5 t3 = t1 *byte t2
-6 t5 = 8
-7 t4 = t3 *int t5
-8 a = array! ( t4 )
-9 stackpointer + 4000
-10 t6 = 0
-11 t7 = 0
-12 t8 = t6 *int t2
-13 t9 = t8 + t7
-14 t10 = 8
-15 t11 = t9 *int t10
-16 t12 = a [ t11 ]
-17 b = t12
-18 stackpointer + 4
-19 t13 = 4
-20 t14 = 5
-21 t15 = t13 *int t2
-22 t16 = t15 + t14
-23 t17 = 8
-24 t18 = t16 *int t17
-25 a [ t18 ] = b
-26 t19 = 0
-27 i = t19
-28 stackpointer + 4
-29 t20 = 10
-30 t21 = i < t20
-31 if t21 goto  33
-32 goto  57
-33 t24 = 0
-34 j = t24
-35 stackpointer + 4
-36 t25 = 100
-37 t26 = j < t25
-38 if t26 goto  40
-39 goto  51
-40 t29 = i *int t2
-41 t30 = t29 + j
-42 t31 = 8
-43 t32 = t30 *int t31
-44 t33 = i +int j
-45 a [ t32 ] = t33
-46 stackpointer - 0
-47 t27 = j
-48 t28 = 1
-49 j = t27 +int t28
-50 goto 36
-51 stackpointer - 4
-52 stackpointer - 0
-53 t22 = i
-54 t23 = 1
-55 i = t22 +int t23
-56 goto 29
-57 stackpointer - 4
-58 t34 = 4
-59 t35 = 5
-60 t36 = t34 *int t2
-61 t37 = t36 + t35
-62 t38 = 8
-63 t39 = t37 *int t38
-64 t40 = a [ t39 ]
-65 print t40
-66 stackpointer - 4004
-67 end func
-68 stackpointer - 0
-69 end class
+5 t3 = t1 +byte t2
+6 t4 = 100
+7 t5 = t3 *byte t4
+8 t7 = 8
+9 t6 = t5 *int t7
+10 a = array! ( t6 )
+11 stackpointer + 0
+12 t8 = 0
+13 t9 = 0
+14 t10 = t8 *int t4
+15 t11 = t10 + t9
+16 t12 = 8
+17 t13 = t11 *int t12
+18 t14 = a [ t13 ]
+19 b = t14
+20 stackpointer + 4
+21 t15 = 4
+22 t16 = 5
+23 t17 = t15 *int t4
+24 t18 = t17 + t16
+25 t19 = 8
+26 t20 = t18 *int t19
+27 a [ t20 ] = b
+28 t21 = 0
+29 i = t21
+30 stackpointer + 4
+31 t22 = 10
+32 t23 = i < t22
+33 if t23 goto  35
+34 goto  59
+35 t26 = 0
+36 j = t26
+37 stackpointer + 4
+38 t27 = 100
+39 t28 = j < t27
+40 if t28 goto  42
+41 goto  53
+42 t31 = i *int t4
+43 t32 = t31 + j
+44 t33 = 8
+45 t34 = t32 *int t33
+46 t35 = i +int j
+47 a [ t34 ] = t35
+48 stackpointer - 0
+49 t29 = j
+50 t30 = 1
+51 j = t29 +int t30
+52 goto 38
+53 stackpointer - 4
+54 stackpointer - 0
+55 t24 = i
+56 t25 = 1
+57 i = t24 +int t25
+58 goto 31
+59 stackpointer - 4
+60 t36 = 4
+61 t37 = 5
+62 t38 = t36 *int t4
+63 t39 = t38 + t37
+64 t40 = 8
+65 t41 = t39 *int t40
+66 t42 = a [ t41 ]
+67 print t42
+68 stackpointer - 4
+69 end func
+70 stackpointer - 0
+71 end class

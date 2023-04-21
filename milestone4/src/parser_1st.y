@@ -138,6 +138,10 @@
         parentscope[scope] = prev;
     }
      void tempnextscope(){
+        if(tempincscope){
+            cout<<"Invalid grammer at line "<< yylineno<<endl;
+            assert(0 && "Invalid grammer");
+        }
         assert(tempincscope==false);
         newscope();
         tempincscope = true;
@@ -162,6 +166,7 @@
             r = fields[a].typ.name;
         }
         else {
+            cout<<"Variable not found in symtable at line"<<yylineno<<endl;
             assert(0 && "not found in symtable");
         }
         return r;
@@ -309,6 +314,11 @@ TOPLEVELCLASSORINTERFACEDECLARATION :   CLASSDECLARATION  {
 
     // assert(classfields.find(chartostring($1))==classfields.end());
     // assert(classmethods.find(chartostring($1))==classmethods.end());
+    if(listofclasses.find(chartostring($1))!=listofclasses.end()){
+        cout<<"Error: Class already defined at line "<<yylineno<<endl;
+        assert(0 && "Class already defined");
+    }
+
     assert(listofclasses.find(chartostring($1))==listofclasses.end());
     listofclasses.insert(chartostring($1));
 
@@ -589,7 +599,15 @@ CLASSMEMBERDECLARATION:     FIELDDECLARATION
                             |   INTERFACEDECLARATION
 
 FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
+                                // cout error at line 
+
+                                if(generalmap[$3].typ.name != "" && chartostring($2)!= generalmap[$3].typ.name){
+                                cout <<"inconsistent type at line "<<yylineno<<endl;
+                               }
+
+
                                 if(generalmap[$3].typ.name != "")assert(chartostring($2)== generalmap[$3].typ.name);
+
 
                     {   $$ = new_temp();
                         // TYPE CHECK
@@ -628,7 +646,14 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                     }
                         
                         for (auto x: generalmap[$3].vlist){
+                            
+                            if(fields.find(x.first.name) != fields.end()){
+                                cout<<"redeclaration of variable at line "<<yylineno<<endl;
+                            }
+                            
                             assert(fields.find(x.first.name) == fields.end());
+                            
+                            
                             fields[x.first.name].typ.dims= x.first.num;
                             fields[x.first.name].typ.name= chartostring($2);
 
@@ -643,7 +668,13 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                         }
                     }
                     |   SUPER1 TYPE VARIABLEDECLARATORLIST SEMICOLON{
-                                                    if(generalmap[$3].typ.name != "")assert(chartostring($2)== generalmap[$3].typ.name);
+                                                    if(generalmap[$3].typ.name != "" && chartostring($2)!= generalmap[$3].typ.name){
+                                cout <<"inconsistent type at line "<<yylineno<<endl;
+                               }
+
+
+                                if(generalmap[$3].typ.name != "")assert(chartostring($2)== generalmap[$3].typ.name);
+
 
                         {   $$ = new_temp();
                         // TYPE CHECK
@@ -681,7 +712,12 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                                                                     
                     }
                         for (auto x: generalmap[$3].vlist){
+                            if(fields.find(x.first.name) != fields.end()){
+                                cout<<"redeclaration of variable at line "<<yylineno<<endl;
+                            }
+                            
                             assert(fields.find(x.first.name) == fields.end());
+                            
 
                             fields[x.first.name].typ.dims= x.first.num;
                             fields[x.first.name].typ.name= chartostring($2);
@@ -695,7 +731,13 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                         }
                     }
                     |   SUPER2 TYPE VARIABLEDECLARATORLIST SEMICOLON{
-                                                    if(generalmap[$3].typ.name != "")assert(chartostring($2)== generalmap[$3].typ.name);
+                                                    if(generalmap[$3].typ.name != "" && chartostring($2)!= generalmap[$3].typ.name){
+                                cout <<"inconsistent type at line "<<yylineno<<endl;
+                               }
+
+
+                                if(generalmap[$3].typ.name != "")assert(chartostring($2)== generalmap[$3].typ.name);
+
 
                         {   $$ = new_temp();
                         // TYPE CHECK
@@ -732,7 +774,12 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                                                                     
                     }
                         for (auto x: generalmap[$3].vlist){
+                            if(fields.find(x.first.name) != fields.end()){
+                                cout<<"redeclaration of variable at line "<<yylineno<<endl;
+                            }
+                            
                             assert(fields.find(x.first.name) == fields.end());
+                            
 
                             fields[x.first.name].typ.dims= x.first.num;
                             fields[x.first.name].typ.name= chartostring($2);
@@ -746,6 +793,12 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                         }
                     }
                     |   TYPE  VARIABLEDECLARATORLIST SEMICOLON {
+                        if(generalmap[$2].typ.name != "" && chartostring($1)!= generalmap[$2].typ.name){
+                                cout <<"inconsistent type at line "<<yylineno<<endl;
+                               }
+
+
+
                         if(generalmap[$2].typ.name != "")assert(chartostring($1)== generalmap[$2].typ.name);
 
 
@@ -775,7 +828,12 @@ FIELDDECLARATION    :   FIELDMODIFIERS TYPE VARIABLEDECLARATORLIST SEMICOLON {
                         
                         for (auto x: generalmap[$2].vlist){
                             
+                            if(fields.find(x.first.name) != fields.end()){
+                                cout<<"redeclaration of variable at line "<<yylineno<<endl;
+                            }
+                            
                             assert(fields.find(x.first.name) == fields.end());
+                            
 
                            fields[x.first.name].typ.dims= x.first.num;
                             fields[x.first.name].typ.name= chartostring($1);
@@ -803,7 +861,9 @@ VARIABLEDECLARATORLIST  :   VARIABLEDECLARATOR {$$ = new_temp(); generalmap[$$].
                                                     // ds[curr]["lineno"] = ds[curr1]["lineno"];
 }
 }
-                        |   VARIABLEDECLARATORLIST COMMA VARIABLEDECLARATOR {$$ = $1; if(generalmap[$3].typ.name != "" && generalmap[$$].typ.name != "" )assert(generalmap[$3].typ.name == generalmap[$$].typ.name); else generalmap[$$].typ.name = max(generalmap[$3].typ.name, generalmap[$$].typ.name );  generalmap[$$].vlist.push_back({generalmap[$3].vid, generalmap[$3].vinit});
+                        |   VARIABLEDECLARATORLIST COMMA VARIABLEDECLARATOR {$$ = $1; 
+                        
+                        if(generalmap[$3].typ.name != "" && generalmap[$$].typ.name != "" )assert(generalmap[$3].typ.name == generalmap[$$].typ.name); else generalmap[$$].typ.name = max(generalmap[$3].typ.name, generalmap[$$].typ.name );  generalmap[$$].vlist.push_back({generalmap[$3].vid, generalmap[$3].vinit});
                         {                           
 
                                                     int curr = chartonum($$), curr1 = chartonum($1),curr3 = chartonum($3);
@@ -1200,7 +1260,7 @@ METHODREFERENCE:    PRIMARY DOUBLECOLON TYPEARGUMENTS IDENTIFIER
 
 ARRAYCREATIONEXPRESSION: NEW PRIMITIVETYPE DIMEXPRS DIMS {/*NOT SUPPORTED*/}
                         |	NEW CLASSORINTERFACETYPE DIMEXPRS DIMS {/*NOT SUPPORTED*/}
-                        |	NEW PRIMITIVETYPE DIMS ARRAYINITIALIZER { $$ = new_temp();  generalmap[$$].typ.name= chartostring($2);  generalmap[$$].vinit = generalmap[$4].vinit; assert (generalmap[$4].vinit.dims.size() == temp[$3]); }
+                        |	NEW PRIMITIVETYPE DIMS ARRAYINITIALIZER { $$ = new_temp();  generalmap[$$].typ.name= chartostring($2);  generalmap[$$].vinit = generalmap[$4].vinit; if (generalmap[$4].vinit.dims.size() != temp[$3]) {cout <<"dimension inconsistency at line "<< yylineno; }; assert (generalmap[$4].vinit.dims.size() == temp[$3]); }
                         |	NEW CLASSORINTERFACETYPE DIMS ARRAYINITIALIZER {/*NOT SUPPORTED*/}
                         |   NEW PRIMITIVETYPE DIMEXPRS  { $$ = new_temp();  generalmap[$$].typ.name= chartostring($2);  generalmap[$$].vinit = generalmap[$3].vinit; reverse(all(generalmap[$$].vinit.dims)); ds[chartonum($$)]["arr"] = "true"; ds[chartonum($$)]["var"] = new_var(); string t = new_var(); 
                         code.push_back(t+" = 8"); 
@@ -1227,7 +1287,12 @@ DIMEXPRS: DIMEXPR {$$ = new_temp(); generalmap[$$].vinit.dims.push_back(generalm
 DIMEXPR: OPENSQUARE EXPRESSION CLOSESQUARE  {$$ = new_temp(); generalmap[$$].num = varaddrstoint(ds[chartonum($2)]["var"]); ds[ chartonum($$)] = ds[ chartonum($2)];}
        
 VARIABLEINITIALIZERLIST :   VARIABLEINITIALIZER {$$=$1; generalmap[$$].num=1;}
-                        |   VARIABLEINITIALIZERLIST COMMA VARIABLEINITIALIZER {$$=$1; generalmap[$$].num++; assert(generalmap[$$].vinit.dims == generalmap[$3].vinit.dims);}
+                        |   VARIABLEINITIALIZERLIST COMMA VARIABLEINITIALIZER {$$=$1; generalmap[$$].num++; 
+                        if(generalmap[$$].vinit.dims != generalmap[$3].vinit.dims){
+                            cout<<"Array dimension error at line "<<yylineno<<"\n";
+                        }
+
+                        assert(generalmap[$$].vinit.dims == generalmap[$3].vinit.dims);}
 
 
 
@@ -1534,6 +1599,7 @@ PREINCREMENTEXPRESSION: PLUSPLUS UNARYEXPRESSION    {   $$ = new_temp();
                                                 type_check_unary(ds[curr2]["type"],"++");
                                                 ds[curr]["var"] = new_var();
                                                 if(ds[curr2].find("identifier")==ds[curr2].end()){
+                                                    cout<< "Not an identifier at line "<<yylineno<<endl;
                                                     assert(0&& "Not an identifier");
                                                 }
                                                 string t = new_var();
@@ -1550,6 +1616,7 @@ PREDECREMENTEXPRESSION: MINUSMINUS UNARYEXPRESSION  {   $$ = new_temp();
                                                 type_check_unary(ds[curr2]["type"],"--");
                                                 ds[curr]["var"] = new_var();
                                                 if(ds[curr2].find("identifier")==ds[curr2].end()){
+                                                    cout<< "Not an identifier at line "<<yylineno<<endl;
                                                     assert(0 && "Not an identifier");
                                                 }
                                                 string t = new_var();
@@ -1603,6 +1670,7 @@ POSTINCREMENTEXPRESSION: POSTFIXEXPRESSION PLUSPLUS {   $$ = new_temp();
                                                 type_check_unary(ds[curr1]["type"],"++");
                                                 ds[curr]["var"] = new_var();
                                                 if(ds[curr1].find("identifier")==ds[curr1].end()){
+                                                    cout<< "Not an identifier at line "<<yylineno<<endl;
                                                     assert(0 && "Not an identifier");
                                                 }
                                                 code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]);
@@ -1618,6 +1686,7 @@ POSTDECREMENTEXPRESSION: POSTFIXEXPRESSION MINUSMINUS   {   $$ = new_temp();
                                                 type_check_unary(ds[curr1]["type"],"--");
                                                 ds[curr]["var"] = new_var();
                                                 if(ds[curr1].find("identifier")==ds[curr1].end()){
+                                                    cout<< "Not an identifier at line "<<yylineno<<endl;
                                                     assert(0 && "Not an identifier");
                                                 }
                                                 code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]);
@@ -1806,7 +1875,9 @@ symboltable[x.vid.name].typ.dims= x.vid.num;
         }
             |   VOID METHODDECLARATOR { $$ = $2;  generalmap[$$].typ.name = chartostring($1); 
             tempnextscope();
-
+            if(methods.find(generalmap[$2].name) != methods.end()){
+                cout<<"error: method  already declared at line "<< yylineno<<endl;
+            }
             assert(methods.find(generalmap[$2].name) == methods.end());
     methods[generalmap[$2].name].rettype = generalmap[$2].typ;
     methods[generalmap[$2].name].lineno = yylineno;
@@ -1941,7 +2012,13 @@ LOCALVARIABLEDECLARATIONSTATEMENT: LOCALVARIABLEDECLARATION SEMICOLON   {$$ = $1
 
 LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                             
-                            if(generalmap[$3].typ.name != "")assert(chartostring($2)== generalmap[$3].typ.name);
+                            if(generalmap[$3].typ.name != "" && chartostring($2)!= generalmap[$3].typ.name){
+                                cout <<"inconsistent type at line "<<yylineno<<endl;
+                               }
+
+
+                                if(generalmap[$3].typ.name != "")assert(chartostring($2)== generalmap[$3].typ.name);
+
                             $$ = $3;
                             int curr = chartonum($$);
                                                     // assert(ds[curr].find("start")!=ds[curr].end());
@@ -1957,6 +2034,10 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                             for (auto x: generalmap[$3].vlist){
                             
                             // cout<<x.first.name<<endl;
+                            if(symboltable.find(x.first.name) != symboltable.end()){
+                                cout<<"redeclaration of variable at line "<<yylineno<<endl;
+                            }
+
                             assert(symboltable.find(x.first.name) == symboltable.end());
                             /*ADD SIMILAR FOR FILEDS AND METHODS*/
 
@@ -1973,6 +2054,7 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                                 ll ft = x;
                                  if(x<0){
                                     auto g = numtostring(tempinitval[dimtoid[-x]]);
+
                                     assert(isnum(g) && "only constant direct expressions supported");
                                     ft = stringtonum(g);
 
@@ -1994,6 +2076,9 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                         }
                         }
                         |   LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
+                            if(generalmap[$2].typ.name != "" && chartostring($1)!= generalmap[$2].typ.name){
+                                cout <<"inconsistent type at line "<<yylineno<<endl;
+                               }
                             if(generalmap[$2].typ.name != "")assert(chartostring($1)== generalmap[$2].typ.name);
                             $$ = $2;
                             int curr = chartonum($$);
@@ -2009,6 +2094,9 @@ LOCALVARIABLEDECLARATION: FINAL LOCALVARIABLETYPE VARIABLEDECLARATORLIST {
                             for (auto x: generalmap[$2].vlist){
                             
                             // cout<<x.first.name<<endl;
+                            if(symboltable.find(x.first.name) != symboltable.end()){
+                                cout<<"redeclaration of variable at line "<<yylineno<<endl;
+                            }
                             assert(symboltable.find(x.first.name) == symboltable.end());
                             /*ADD SIMILAR FOR FILEDS AND METHODS*/
 

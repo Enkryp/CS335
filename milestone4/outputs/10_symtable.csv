@@ -1,9 +1,9 @@
 Token, Name(Lexeme), Type, Line Number, Scope, Dims(If array), ScopeINFO(Child), ScopeINFO(Parent), Offsets
 IDENTIFIER, a, int, 4, 3, 2, 0
 IDENTIFIER, args, String, 2, 3, 1, 0
-IDENTIFIER, b, int, 5, 3, 0, 4000
-IDENTIFIER, i, int, 8, 4, 0, 4004
-IDENTIFIER, j, int, 9, 6, 0, 4008
+IDENTIFIER, b, int, 5, 3, 0, 0
+IDENTIFIER, i, int, 8, 4, 0, 4
+IDENTIFIER, j, int, 9, 6, 0, 8
 identifier - method ofMultiArrayAccess, main, void, 2, -1, 0, 0
 identifier - method ofMultiArrayAccess, main, void, 2, 0, 0, 0
 , , , , , , 1, 0, 
