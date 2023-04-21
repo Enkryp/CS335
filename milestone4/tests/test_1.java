@@ -1,3 +1,4 @@
+// Demonstrates printing, common operators like +, *, % use of break.
 
 public class PrimeDetector {
     public static void main(String args[]) {

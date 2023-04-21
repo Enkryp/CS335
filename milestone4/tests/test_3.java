@@ -1,3 +1,5 @@
+// Demonstartes inter class interaction between two classes, Same variable names as field names and local names works correctly
+
 class Rectangle {
     int length;
     int width;

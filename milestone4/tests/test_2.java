@@ -1,3 +1,5 @@
+// Demonstrates support for recursion
+
 public class EuclidsAlgorithm {
 
 	public static int findGCD(int a, int b) {

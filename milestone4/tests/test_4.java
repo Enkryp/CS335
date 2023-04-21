@@ -1,7 +1,7 @@
 public class BubbleSort {
 
     public static void main(String args[]) {
-        int n = 100;
+        int n = 13;
         int array[] = new int[n];
         for(int i=0;i<n;i++)
         array[i] = n-i;

@@ -25,6 +25,8 @@ public class functionandIfElse
 		{int f=d;}
 		int e=d;
         int n=a+5;
+        a+=10;
+        System.out.println(a);
         if(n<2){
             n=5;
         }

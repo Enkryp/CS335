@@ -1625,8 +1625,8 @@ PREDECREMENTEXPRESSION: MINUSMINUS UNARYEXPRESSION  {   $$ = new_temp();
                                                     assert(0 && "Not an identifier");
                                                 }
                                                 string t = new_var();
-                                                code.push_back(t+" = -1");
-                                                code.push_back(ds[curr]["var"]+" = "+ds[curr2]["var"]+" +int "+t);
+                                                code.push_back(t+" = 1");
+                                                code.push_back(ds[curr]["var"]+" = "+ds[curr2]["var"]+" -int "+t);
                                                 code.push_back(ds[curr2]["var"]+ " = "+ ds[curr]["var"]);
                                                 ds[curr]["type"] = ds[curr2]["type"];
                                                 ds[curr]["start"] = ds[curr2]["start"];
@@ -1696,8 +1696,8 @@ POSTDECREMENTEXPRESSION: POSTFIXEXPRESSION MINUSMINUS   {   $$ = new_temp();
                                                 }
                                                 code.push_back(ds[curr]["var"]+" = "+ds[curr1]["var"]);
                                                 string t = new_var();
-                                                code.push_back(t+" = -1");
-                                                code.push_back(ds[curr1]["var"]+ " = "+ ds[curr]["var"]+" +int "+t);
+                                                code.push_back(t+" = 1");
+                                                code.push_back(ds[curr1]["var"]+ " = "+ ds[curr]["var"]+" -int "+t);
                                                 ds[curr]["type"] = ds[curr1]["type"];
                                                 ds[curr]["start"] = ds[curr1]["start"];
                                                 // ds[curr]["val"] = numtostring(stringtonum(ds[curr1]["val"]));
