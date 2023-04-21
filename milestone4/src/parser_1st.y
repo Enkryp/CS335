@@ -1346,7 +1346,16 @@ ARRAYACCESS: EXPRESSIONNAME OPENSQUARE EXPRESSION CLOSESQUARE
             }
 
 CONDITIONALEXPRESSION: CONDITIONALOREXPRESSION  {$$ = $1;}
-                      |	CONDITIONALOREXPRESSION QUESTIONMARK EXPRESSION COLON CONDITIONALEXPRESSION {}
+                      |	CONDITIONALOREXPRESSION QUESTIONMARK EXPRESSION COLON CONDITIONALEXPRESSION {$$ = new_temp();
+                      ds[chartonum($$)] = ds[chartonum($1)];
+                      ds[chartonum($$)]["var"] = new_var();
+                      ds2[chartonum($$)] = ds2[chartonum($1)];
+                      ds3[chartonum($$)] = ds3[chartonum($1)];
+                      code.push_back("if "+ds[chartonum($1)]["var"]+" goto "+numtostring(code.size()+1));
+                      code.push_back(ds[chartonum($$)]["var"]+" = "+ds[chartonum($3)]["var"]);
+                      code.push_back("goto "+numtostring(code.size()+2));
+                      code.push_back(ds[chartonum($$)]["var"]+" = "+ds[chartonum($5)]["var"]);
+                      }
 
 CONDITIONALOREXPRESSION: CONDITIONALANDEXPRESSION   {$$ = $1; } /*TODO if(false || false) case not handled */
                         |	CONDITIONALOREXPRESSION OROR CONDITIONALANDEXPRESSION   {   $$ = new_temp();
