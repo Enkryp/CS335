@@ -776,8 +776,11 @@ ll gettypesize(string s){
  void type_check_function(string name, vector<string> types, int yylineno){
 
 if(methods.find(name)==methods.end()){
+
     // to_check_functions.push_back({name,types});
-    return;
+    cout<<"Error: Line number: "<<yylineno<<"; function named "<<name<<" not found \n";
+                                                            exit(0);
+    // return;
 }
 
     methodsig m=methods[name];

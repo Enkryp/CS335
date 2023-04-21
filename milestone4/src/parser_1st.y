@@ -282,6 +282,11 @@ DIMS    :   OPENSQUARE CLOSESQUARE {$$=new_temp(); temp[$$]= 1;}
 
 METHODNAME  :   IDENTIFIER  {    $$ = new_temp();
                                 ll curr1 = chartonum($$);
+                                string name = chartostring($1);
+                                if(methods.find(chartostring($1))==methods.end()){
+                                                            cout<<"Error: Line number: "<<yylineno<<"; function named "<<name<<" not found \n";
+                                                            exit(0);
+                                                        }
                                 ds[curr1]["type"] = methods[chartostring($1)].rettype.name;
                                 // ds[curr]["lineno"] = get_symbol_table(chartostring($1),"lineno");
                                 ds[curr1]["var"] = chartostring($1);
