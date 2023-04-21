@@ -359,7 +359,8 @@ for line in data4:
 
 
         continue
-
+    if(len(elements)<3):
+        continue
     if (elements[1]== '='):
         if (elements[2]== 'class'):
             temp = nonstaticinit(elements[0], elements[4])
