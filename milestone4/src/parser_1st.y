@@ -853,7 +853,7 @@ VARIABLEDECLARATOR  :   VARIABLEDECLARATORID EQUALS VARIABLEINITIALIZER {$$ = ne
                                                                                 ds[curr]["start"] = numtostring(code.size());
                                                                                 else ds[curr]["start"] = ds[curr3]["start"];
                                                                                 ds[curr]["type"] = ds[curr3]["type"];
-                                                                                code.push_back(ds[curr1]["var"]+" = array ( "+ds[curr3]["var"]+" )");
+                                                                                code.push_back(ds[curr1]["var"]+" = array! ( "+ds[curr3]["var"]+" )");
 
                                                                                
                                                                                }
@@ -894,7 +894,7 @@ VARIABLEDECLARATORID    :   IDENTIFIER {$$ = new_temp(); generalmap[$$].vid.name
                         }
 
 
-VARIABLEINITIALIZER :    EXPRESSION {$$ = new_temp(); generalmap[$$]= generalmap[$1]; ds[chartonum($$)] = ds[chartonum($1)]; }
+VARIABLEINITIALIZER :    EXPRESSION {$$ = new_temp();ds2[chartonum($$)] = ds2[chartonum($1)]; generalmap[$$]= generalmap[$1]; ds[chartonum($$)] = ds[chartonum($1)]; }
                     |   ARRAYINITIALIZER {$$ = $1;}
 
 EXPRESSION  :  ASSIGNMENTEXPRESSION {$$ = $1; }
