@@ -1,0 +1,386 @@
+0 begin class Car
+1 static car_number
+2 t1 = 0
+3 car_number = t1
+4 non model
+5 t2 = 1
+6 model = t2
+7 non year
+8 non mileage
+9 begin func Car_Car
+10 pop param, Mileage
+11 pop param, Year
+12 pop param, Model
+13 t3 = car_number
+14 t4 = 1
+15 car_number = t3 +int t4
+16 model = Model
+17 year = Year
+18 mileage = Mileage
+19 stackpointer - 0
+20 end func
+21 begin func Car_getModel
+22 return model
+23 stackpointer - 0
+24 end func
+25 begin func Car_getYear
+26 return year
+27 stackpointer - 0
+28 end func
+29 begin func Car_getMileage
+30 return mileage
+31 stackpointer - 0
+32 end func
+33 begin func Car_setMileage
+34 pop param, Mileage
+35 mileage = Mileage
+36 stackpointer - 0
+37 end func
+38 begin func Car_fn
+39 pop param, a
+40 t5 = 2
+41 t6 = a *int t5
+42 t7 = 5
+43 t8 = t6 +int t7
+44 return t8
+45 stackpointer - 0
+46 end func
+47 begin func Car_pr
+48 pop param, a
+49 print a
+50 stackpointer - 0
+51 end func
+52 begin func Car_wert
+53 pop param, a
+54 t9 = 0
+55 if a == t9 goto  57
+56 goto  59
+57 t11 = 0
+58 return t11
+59 push param a
+60 call, Car_pr
+61 t12 = 1
+62 t13 = a -int t12
+63 push param t13
+64 t14 = call, Car_wert
+65 t15 = 1
+66 t16 = t14 +int t15
+67 return t16
+68 stackpointer - 0
+69 end func
+70 begin func main
+71 pop param, args
+72 t17 = 0
+73 a = t17
+74 stackpointer + 4
+75 t18 = 2
+76 t19 = a +int t18
+77 a = t19
+78 push param a
+79 call, Car_pr
+80 t20 = 3
+81 t21 = a -int t20
+82 b = t21
+83 stackpointer + 4
+84 push param b
+85 call, Car_pr
+86 t22 = b *int a
+87 c = t22
+88 stackpointer + 4
+89 push param c
+90 call, Car_pr
+91 t23 = 2
+92 t24 = a /int t23
+93 c = t24
+94 t25 = 100
+95 t26 = a +int t25
+96 a = t26
+97 t27 = 12
+98 e = t27
+99 stackpointer + 4
+100 t28 = a /int e
+101 a = t28
+102 push param a
+103 call, Car_pr
+104 t29 = - a
+105 a = t29
+106 t30 = b *int c
+107 t31 = t30 /int a
+108 t32 = a +int t31
+109 t33 = t32 +int e
+110 t34 = t33 -int a
+111 a = t34
+112 push param a
+113 call, Car_pr
+114 t35 = a
+115 t36 = 1
+116 a = t35 +int t36
+117 push param a
+118 call, Car_pr
+119 t37 = a
+120 t38 = 1
+121 a = t37 -int t38
+122 push param a
+123 call, Car_pr
+124 t40 = 1
+125 t39 = a +int t40
+126 a = t39
+127 push param a
+128 call, Car_pr
+129 t42 = 1
+130 t41 = a -int t42
+131 a = t41
+132 push param a
+133 call, Car_pr
+134 if a == b goto  136
+135 goto  140
+136 t44 = 1
+137 push param t44
+138 call, Car_pr
+139 goto  143
+140 t45 = 0
+141 push param t45
+142 call, Car_pr
+143 t46 = a != b
+144 if t46 goto  146
+145 goto  150
+146 t47 = 1
+147 push param t47
+148 call, Car_pr
+149 goto  153
+150 t48 = 0
+151 push param t48
+152 call, Car_pr
+153 t49 = a > b
+154 if t49 goto  156
+155 goto  160
+156 t50 = 1
+157 push param t50
+158 call, Car_pr
+159 goto  163
+160 t51 = 0
+161 push param t51
+162 call, Car_pr
+163 t52 = a < b
+164 if t52 goto  166
+165 goto  170
+166 t53 = 1
+167 push param t53
+168 call, Car_pr
+169 goto  173
+170 t54 = 0
+171 push param t54
+172 call, Car_pr
+173 t55 = a >= b
+174 if t55 goto  176
+175 goto  180
+176 t56 = 1
+177 push param t56
+178 call, Car_pr
+179 goto  183
+180 t57 = 0
+181 push param t57
+182 call, Car_pr
+183 t58 = a <= b
+184 if t58 goto  186
+185 goto  190
+186 t59 = 1
+187 push param t59
+188 call, Car_pr
+189 goto  193
+190 t60 = 0
+191 push param t60
+192 call, Car_pr
+193 t61 = a & b
+194 bit = t61
+195 stackpointer + 4
+196 t62 = a | b
+197 bit = t62
+198 t63 = a ^ b
+199 bit = t63
+200 t64 = ~ a
+201 bit = t64
+202 t65 = 2
+203 t66 = a << t65
+204 bit = t66
+205 t67 = 2
+206 t68 = a >> t67
+207 bit = t68
+208 t69 = 2
+209 t70 = a >>> t69
+210 bit = t70
+211 if a == b goto  213
+212 goto  220
+213 if b == c goto  215
+214 goto  220
+215 t73 = 1
+216 push param t73
+217 call, Car_pr
+218 stackpointer - 0
+219 goto  223
+220 t74 = 0
+221 push param t74
+222 call, Car_pr
+223 if a == b goto  227
+224 goto  225
+225 if b == c goto  227
+226 goto  231
+227 t77 = 1
+228 push param t77
+229 call, Car_pr
+230 goto  234
+231 t78 = 0
+232 push param t78
+233 call, Car_pr
+234 t79 = 0
+235 if a == t79 goto 
+236 goto 
+237 t81 = ! t80
+238 t82 = 1
+239 push param t82
+240 call, Car_pr
+241 goto  245
+242 t83 = 0
+243 push param t83
+244 call, Car_pr
+245 a = b
+246 a += b
+247 push param a
+248 call, Car_pr
+249 a -= b
+250 a *= b
+251 a /= b
+252 push param a
+253 call, Car_pr
+254 if a == b goto 
+255 goto 
+256 t85 = 1
+257 t86 = 2
+258 if t84 goto 259
+259 t87 = t85
+260 goto 262
+261 t87 = t86
+262 a = t87
+263 push param a
+264 call, Car_pr
+265 t88 = 0
+266 i = t88
+267 stackpointer + 4
+268 t89 = 2
+269 t90 = i < t89
+270 if t90 goto  272
+271 goto  317
+272 if a == b goto  274
+273 goto  293
+274 t94 = 0
+275 j = t94
+276 stackpointer + 4
+277 t95 = 20
+278 t96 = j < t95
+279 if t96 goto  281
+280 goto  291
+281 t97 = a
+282 t98 = 1
+283 a = t97 +int t98
+284 t99 = j
+285 t100 = 1
+286 j = t99 +int t100
+287 push param j
+288 call, Car_pr
+289 stackpointer - 0
+290 goto 277
+291 stackpointer - 4
+292 goto  312
+293 t101 = 0
+294 l = t101
+295 stackpointer + 4
+296 t102 = 23
+297 t103 = l < t102
+298 if t103 goto  300
+299 goto  310
+300 t106 = a
+301 t107 = 1
+302 a = t106 -int t107
+303 push param l
+304 call, Car_pr
+305 stackpointer - 0
+306 t104 = l
+307 t105 = 1
+308 l = t104 +int t105
+309 goto 296
+310 stackpointer - 4
+311 stackpointer - 0
+312 stackpointer - 0
+313 t91 = i
+314 t92 = 1
+315 i = t91 +int t92
+316 goto 268
+317 stackpointer - 4
+318 push param a
+319 t108 = call, Car_fn
+320 a = t108
+321 push param a
+322 call, Car_pr
+323 t109 = 3
+324 push param t109
+325 t110 = call, Car_wert
+326 y = t110
+327 stackpointer + 4
+328 push param y
+329 call, Car_pr
+330 t111 = 1001
+331 t112 = 2015
+332 t113 = 50000
+333 myCar = class ( Car )
+334 push param t111
+335 push param t112
+336 push param t113
+337 call, myCar.Car
+338 stackpointer + 4
+339 push param car_number
+340 call, Car_pr
+341 t114 = call, myCar.getModel
+342 push param t114
+343 call, Car_pr
+344 t115 = call, myCar.getYear
+345 push param t115
+346 call, Car_pr
+347 t116 = call, myCar.getMileage
+348 push param t116
+349 call, Car_pr
+350 t117 = 55000
+351 push param t117
+352 call, myCar.setMileage
+353 t119 = call, myCar.getMileage
+354 push param t119
+355 call, Car_pr
+356 t120 = 1002
+357 t121 = 2020
+358 t122 = 15000
+359 myCar2 = class ( Car )
+360 push param t120
+361 push param t121
+362 push param t122
+363 call, myCar2.Car
+364 stackpointer + 4
+365 push param car_number
+366 call, Car_pr
+367 t123 = call, myCar2.getModel
+368 push param t123
+369 call, Car_pr
+370 t124 = call, myCar2.getYear
+371 push param t124
+372 call, Car_pr
+373 t125 = call, myCar2.getMileage
+374 push param t125
+375 call, Car_pr
+376 t126 = 20000
+377 push param t126
+378 call, myCar2.setMileage
+379 t128 = call, myCar2.getMileage
+380 push param t128
+381 call, Car_pr
+382 stackpointer - 32
+383 end func
+384 stackpointer - 0
+385 end class

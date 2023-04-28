@@ -7,7 +7,7 @@ print("All test cases parsed, check above if any errors were found")
 
 print ()
 
-for i in range(1, 11):
+for i in range(1, 13):
     print("Test case " + str(i) + ":")
 
 
