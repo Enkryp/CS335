@@ -2,7 +2,7 @@
 
 
 
-This is the repo for the Course Project of CS335. This includes a complete implementation of Java 17 Compiler  from scratch. The Compiler supports most of the features of Java 17. The compiler is written in C++ and uses flex and bison for lexical and syntax analysis. The compiler generates assembly code for the x86-64 architecture. The compiler is tested on Fedora 34. Please refer to milestone4/doc/doc.pdf for detailed documentation.
+This is the repo for the Course Project of CS335. This includes a complete implementation of Java 17 Compiler  from scratch. The Compiler supports most of the features of Java 17. The compiler is written in C++ and uses flex and bison for lexical and syntax analysis. The compiler generates assembly code for the x86-64 architecture. The compiler is tested on Fedora 34 and GCC 12.2.1. Please refer to milestone4/doc/doc.pdf for detailed documentation.
 
 List of features supported by the compiler:
 -  All primitive data types
@@ -23,6 +23,7 @@ List of features supported by the compiler:
 
 ## Installation and Execution
 
+This is step by step execution section, check next section for end to end compilation. 
 ```cd milestone4/src```
 
 ```make```
